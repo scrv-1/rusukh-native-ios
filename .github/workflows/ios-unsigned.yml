@@ -1,6 +1,11 @@
 name: iOS - SwiftUI build and simulator preview
 on:
   workflow_dispatch:
+    inputs:
+      evaluate_local_ai:
+        description: 'Run bounded Arabic model feasibility test instead of iOS builds'
+        type: boolean
+        default: false
 permissions:
   contents: read
 concurrency:
@@ -8,6 +13,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   build:
+    if: ${{ !inputs.evaluate_local_ai }}
     name: Test, build and launch SwiftUI
     runs-on: xcode-27
     timeout-minutes: 30
@@ -119,6 +125,49 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: RusukhNative-build-evidence
+          path: evidence/
+          if-no-files-found: error
+          retention-days: 7
+
+  local-ai-evaluation:
+    if: ${{ inputs.evaluate_local_ai }}
+    name: Evaluate Arabic model offline on cloud Mac
+    runs-on: xcode-27
+    timeout-minutes: 12
+    env:
+      HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+      HF_HUB_DISABLE_TELEMETRY: '1'
+      DO_NOT_TRACK: '1'
+      TOKENIZERS_PARALLELISM: 'false'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Record Mac and Metal availability
+        run: |
+          mkdir -p evidence
+          { echo "Commit: $GITHUB_SHA"; date -u; sw_vers; uname -m; python --version; xcodebuild -version; } | tee evidence/ai-environment.txt
+          swift -e 'import Metal; print(MTLCreateSystemDefaultDevice()?.name ?? "NO_METAL_DEVICE")' | tee evidence/metal-device.txt
+      - name: Install pinned model runtime
+        run: |
+          python -m venv "$RUNNER_TEMP/ai-venv"
+          "$RUNNER_TEMP/ai-venv/bin/python" -m pip install 'mlx-lm==0.32.2' 'mlx==0.32.4'
+          "$RUNNER_TEMP/ai-venv/bin/python" -m pip freeze > evidence/ai-dependencies.txt
+      - name: Download public Apache-2.0 model at pinned revision
+        timeout-minutes: 4
+        run: '"$RUNNER_TEMP/ai-venv/bin/python" scripts/evaluate-local-ai.py download "$RUNNER_TEMP/qwen-model"'
+      - name: Generate Arabic with network denied by macOS sandbox
+        timeout-minutes: 5
+        run: |
+          set -o pipefail
+          export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1
+          sandbox-exec -p '(version 1)(allow default)(deny network*)' "$RUNNER_TEMP/ai-venv/bin/python" scripts/evaluate-local-ai.py evaluate "$RUNNER_TEMP/qwen-model" | tee evidence/ai-inference.log
+      - name: Upload evaluation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: RusukhNative-local-ai-evaluation
           path: evidence/
           if-no-files-found: error
           retention-days: 7
