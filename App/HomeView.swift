@@ -83,13 +83,14 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack {
             Form {
+                ReviewReminderView()
                 Section("النسخ الاحتياطي") {
-                    Button("تجهيز نسخة JSON شاملة مع الصور") { shareURL = library.exportToTemporaryFile() }
+                    Button("تجهيز نسخة JSON شاملة مع المرفقات") { shareURL = library.exportToTemporaryFile() }
                     if let shareURL {
                         ShareLink(item: shareURL) { Label("حفظ النسخة في الملفات", systemImage: "square.and.arrow.up") }
                     }
                     Button("استيراد نسخة — يستبدل كل البيانات") { confirmImport = true }
-                    Text("الصور المحفوظة داخل الملاحظات موجودة في النسخة. النسخة غير مشفّرة؛ احفظها بمكان آمن.")
+                    Text("الصور والتسجيلات المحفوظة داخل الملاحظات موجودة في النسخة. النسخة غير مشفّرة؛ احفظها بمكان آمن.")
                         .font(.footnote).foregroundStyle(.secondary)
                 }
                 Section("الأمان") {

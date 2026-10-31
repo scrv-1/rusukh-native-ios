@@ -7,14 +7,16 @@ public struct StudyNote: Codable, Identifiable, Equatable, Sendable {
     public var createdAt: Date
     public var updatedAt: Date
     public var imageJPEG: Data?
+    public var audioM4A: Data?
 
-    public init(id: UUID = UUID(), title: String, body: String, createdAt: Date = .now, updatedAt: Date = .now, imageJPEG: Data? = nil) {
+    public init(id: UUID = UUID(), title: String, body: String, createdAt: Date = .now, updatedAt: Date = .now, imageJPEG: Data? = nil, audioM4A: Data? = nil) {
         self.id = id
         self.title = title
         self.body = body
         self.createdAt = createdAt
         self.updatedAt = updatedAt
         self.imageJPEG = imageJPEG
+        self.audioM4A = audioM4A
     }
 }
 
@@ -91,7 +93,8 @@ public struct StudySnapshot: Codable, Equatable, Sendable {
         for note in notes {
             if note.title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
                 note.title.count > 500 || note.body.count > 1_000_000 ||
-                (note.imageJPEG?.count ?? 0) > 4_000_000 { return false }
+                (note.imageJPEG?.count ?? 0) > 4_000_000 ||
+                (note.audioM4A?.count ?? 0) > 2_000_000 { return false }
         }
         for card in cards {
             // Preserve v1 backup compatibility; the composer trims new cards.

@@ -56,4 +56,15 @@ final class ReliabilityTests: XCTestCase {
         let notes = (0..<1000).map { StudyNote(title: "ملاحظة \($0)", body: "تَعَلُّم رُسُوخ يبقى") }
         measure { XCTAssertEqual(notes.filter { StudyEngine.matches($0, query: "تعلم رسوخ") }.count, 1000) }
     }
+    #if os(macOS)
+    func testThousandNoteBackupMemory() {
+        let snapshot = StudySnapshot(notes: (0..<1000).map { StudyNote(title: "ملاحظة \($0)", body: String(repeating: "معرفة محلية ", count: 100)) })
+        measure(metrics: [XCTMemoryMetric()]) {
+            do {
+                let data = try StudyRepository.encode(snapshot)
+                XCTAssertEqual(try StudyRepository.decode(data).notes.count, 1000)
+            } catch { XCTFail("Backup failed: \(error)") }
+        }
+    }
+    #endif
 }

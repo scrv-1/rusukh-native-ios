@@ -52,6 +52,7 @@ targets:
         UIApplicationSupportsDocumentBrowser: false
         UIFileSharingEnabled: false
         CFBundleDisplayName: "رُسوخ"
+        NSMicrophoneUsageDescription: "تسجيل صوت وإرفاقه بملاحظاتك محليًا داخل رُسوخ."
         NSCameraUsageDescription: "التقاط صورة وإرفاقها بملاحظة داخل رُسوخ."
         UIRequiredDeviceCapabilities: [arm64]
         UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
