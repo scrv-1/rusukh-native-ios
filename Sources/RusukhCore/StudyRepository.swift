@@ -11,21 +11,34 @@ public enum StudyStorageError: Error, LocalizedError {
 }
 
 public struct StudyRepository {
+    public static let maximumFileBytes = 80_000_000
     public let fileURL: URL
 
     public init(fileURL: URL) { self.fileURL = fileURL }
 
     public func load() throws -> StudySnapshot {
         guard FileManager.default.fileExists(atPath: fileURL.path) else { return .empty }
-        let bytes = try Data(contentsOf: fileURL)
-        return try Self.decode(bytes)
+        return try Self.read(from: fileURL)
+    }
+
+    public static func read(from url: URL) throws -> StudySnapshot {
+        let size = try url.resourceValues(forKeys: [.fileSizeKey]).fileSize ?? 0
+        guard size < maximumFileBytes else { throw StudyStorageError.invalidBackup }
+        let handle = try FileHandle(forReadingFrom: url)
+        defer { try? handle.close() }
+        let bytes = try handle.read(upToCount: maximumFileBytes) ?? Data()
+        return try decode(bytes)
     }
 
     public func save(_ snapshot: StudySnapshot) throws {
         guard snapshot.isValid() else { throw StudyStorageError.invalidBackup }
         let bytes = try Self.encode(snapshot)
         try FileManager.default.createDirectory(at: fileURL.deletingLastPathComponent(), withIntermediateDirectories: true)
+        #if os(iOS)
+        try bytes.write(to: fileURL, options: [.atomic, .completeFileProtectionUntilFirstUserAuthentication])
+        #else
         try bytes.write(to: fileURL, options: .atomic)
+        #endif
     }
 
     public static func encode(_ snapshot: StudySnapshot) throws -> Data {
@@ -33,12 +46,14 @@ public struct StudyRepository {
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .deferredToDate
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
-        return try encoder.encode(snapshot)
+        let bytes = try encoder.encode(snapshot)
+        guard bytes.count < maximumFileBytes else { throw StudyStorageError.invalidBackup }
+        return bytes
     }
 
     public static func decode(_ data: Data) throws -> StudySnapshot {
         // Cap import size to protect against oversized files on a phone.
-        guard data.count < 80_000_000 else { throw StudyStorageError.invalidBackup }
+        guard data.count < maximumFileBytes else { throw StudyStorageError.invalidBackup }
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .deferredToDate
         if let snapshot = try? decoder.decode(StudySnapshot.self, from: data), snapshot.isValid() {
