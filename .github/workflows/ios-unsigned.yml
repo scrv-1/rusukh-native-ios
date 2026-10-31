@@ -31,6 +31,7 @@ jobs:
           xcodegen generate --spec project.yml
           xcodebuild -list -project RusukhNative.xcodeproj | tee evidence/project.txt
       - name: Build simulator app
+        id: simulator
         run: |
           set -o pipefail
           xcodebuild -project RusukhNative.xcodeproj -scheme RusukhNative \
@@ -43,6 +44,7 @@ jobs:
             "$RUNNER_TEMP/simulator-build/Build/Products/Debug-iphonesimulator/RusukhNative.app" \
             RusukhNative-simulator.zip
       - name: Build unsigned device app
+        id: device
         run: |
           set -o pipefail
           xcodebuild -project RusukhNative.xcodeproj -scheme RusukhNative \
@@ -61,7 +63,7 @@ jobs:
           shasum -a 256 RusukhNative-simulator.zip RusukhNative-unsigned.ipa evidence/simulator-home.png | tee evidence/SHA256SUMS.txt
           { echo '## Verified build outputs'; echo "Source commit: $GITHUB_SHA"; echo '- Core tests passed'; echo '- Simulator and unsigned device builds passed'; echo '- App launched on a cloud iOS simulator'; echo '- Screenshot, logs and checksums are in the evidence artifact'; echo '- Neither artifact installs itself on an iPhone'; } >> "$GITHUB_STEP_SUMMARY"
       - name: Upload simulator app
-        if: success()
+        if: always() && steps.simulator.outcome == 'success'
         uses: actions/upload-artifact@v4
         with:
           name: RusukhNative-simulator
@@ -69,7 +71,7 @@ jobs:
           if-no-files-found: error
           retention-days: 7
       - name: Upload unsigned device IPA
-        if: success()
+        if: always() && steps.device.outcome == 'success'
         uses: actions/upload-artifact@v4
         with:
           name: RusukhNative-unsigned-ipa
