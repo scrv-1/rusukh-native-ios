@@ -3,7 +3,10 @@ import Foundation
 public enum StudyEngine {
     public static func matches(_ note: StudyNote, query: String) -> Bool {
         func searchText(_ text: String) -> String {
-            normalized(text.folding(options: [.diacriticInsensitive, .caseInsensitive], locale: Locale(identifier: "ar"))
+            let withoutMarks = String(String.UnicodeScalarView(text.unicodeScalars.filter {
+                $0.properties.generalCategory != .nonspacingMark
+            }))
+            return normalized(withoutMarks.folding(options: [.diacriticInsensitive, .caseInsensitive], locale: Locale(identifier: "ar"))
                 .replacingOccurrences(of: "ـ", with: ""))
         }
         let terms = searchText(query).split(separator: " ")
