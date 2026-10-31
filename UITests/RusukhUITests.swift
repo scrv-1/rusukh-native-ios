@@ -63,10 +63,50 @@ final class RusukhUITests: XCTestCase {
         let editor = app.textViews["note.body"]
         XCTAssertTrue(editor.waitForExistence(timeout: 5))
         XCTAssertTrue((editor.value as? String ?? "").contains("[[التعلم]]"))
-        app.swipeUp()
+        reveal(app.buttons["التقاط صورة"], in: app)
         app.buttons["التقاط صورة"].tap()
         XCTAssertTrue(app.alerts["الكاميرا غير متاحة"].waitForExistence(timeout: 5))
         capture("08-simulator-camera-unavailable")
+    }
+    @MainActor
+    func testSimulatorAudioAttachmentSurvivesRelaunch() throws {
+        let app = XCUIApplication()
+        app.launchArguments = ["-ui-testing", "-reset-test-data", "-AppleLanguages", "(ar)", "-AppleLocale", "ar_SA"]
+        app.launch()
+        XCTAssertTrue(app.buttons["ملاحظاتي"].waitForExistence(timeout: 10))
+        app.buttons["ملاحظاتي"].tap()
+        app.buttons["notes.add"].tap()
+        let title = app.textFields["note.title"]
+        XCTAssertTrue(title.waitForExistence(timeout: 5))
+        title.tap(); title.typeText("تسجيل تجريبي")
+        reveal(app.buttons["voice.record"], in: app)
+        app.buttons["voice.record"].tap()
+        XCTAssertTrue(app.buttons["voice.stop"].waitForExistence(timeout: 10))
+        // This records the simulator's audio input, not a real iPhone microphone.
+        Thread.sleep(forTimeInterval: 3)
+        app.buttons["voice.stop"].tap()
+        XCTAssertTrue(app.buttons["تشغيل التسجيل"].waitForExistence(timeout: 5))
+        XCTAssertFalse(app.staticTexts["voice.error"].exists)
+        capture("09-simulator-audio-recorded")
+        app.buttons["note.save"].tap()
+        XCTAssertTrue(app.buttons["notes.add"].waitForExistence(timeout: 5))
+        app.terminate()
+        app.launchArguments.removeAll { $0 == "-reset-test-data" }
+        app.launch()
+        app.buttons["ملاحظاتي"].tap()
+        app.staticTexts["تسجيل تجريبي"].tap()
+        reveal(app.buttons["تشغيل التسجيل"], in: app)
+        app.buttons["تشغيل التسجيل"].tap()
+        XCTAssertTrue(app.buttons["إيقاف التشغيل"].waitForExistence(timeout: 2))
+        XCTAssertFalse(app.staticTexts["voice.error"].exists)
+        capture("10-simulator-audio-reopened")
+    }
+    @MainActor private func reveal(_ element: XCUIElement, in app: XCUIApplication) {
+        for _ in 0..<4 {
+            if element.isHittable { return }
+            app.swipeUp()
+        }
+        XCTAssertTrue(element.isHittable)
     }
     @MainActor private func addNote(_ app: XCUIApplication, title: String, body: String) {
         app.buttons["notes.add"].tap()
