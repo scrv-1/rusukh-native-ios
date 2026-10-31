@@ -4,3 +4,7 @@
 DerivedData/
 *.ipa
 Package.resolved
+xtool/
+evidence/
+*.xcresult/
+.sourcekit-lsp/

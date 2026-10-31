@@ -12,6 +12,18 @@ settings:
     TARGETED_DEVICE_FAMILY: "1"
     DEVELOPMENT_TEAM: ""
 targets:
+  RusukhUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources: [UITests]
+    dependencies:
+      - target: RusukhNative
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_BUNDLE_IDENTIFIER: com.scrv1.rusukhnative.uitests
+        TEST_TARGET_NAME: RusukhNative
+        CODE_SIGNING_ALLOWED: NO
   RusukhNative:
     type: application
     platform: iOS
@@ -43,3 +55,12 @@ targets:
         NSCameraUsageDescription: "التقاط صورة وإرفاقها بملاحظة داخل رُسوخ."
         UIRequiredDeviceCapabilities: [arm64]
         UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+
+schemes:
+  RusukhNative:
+    build:
+      targets:
+        RusukhNative: all
+        RusukhUITests: [test]
+    test:
+      targets: [RusukhUITests]
