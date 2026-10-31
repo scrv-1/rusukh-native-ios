@@ -54,7 +54,10 @@ struct HomeView: View {
                 .padding(18)
             }
             .navigationTitle("الرئيسية")
-            .toolbar { Button { showingSettings = true } label: { Image(systemName: "gearshape") } }
+            .toolbar {
+                Button { showingSettings = true } label: { Image(systemName: "gearshape") }
+                    .accessibilityLabel("الإعدادات")
+            }
             .sheet(isPresented: $showingSettings) { SettingsView() }
         }
     }

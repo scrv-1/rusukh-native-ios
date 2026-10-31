@@ -17,19 +17,20 @@ struct GraphView: View {
                     let size = geometry.size
                     let notes = library.snapshot.notes
                     let edges = StudyEngine.graphEdges(notes)
+                    let positions = Dictionary(uniqueKeysWithValues: notes.enumerated().map {
+                        ($0.element.id, position(for: $0.offset, total: notes.count, size: size))
+                    })
                     ZStack {
                         Canvas { context, _ in
                             for edge in edges {
-                                guard let start = notes.firstIndex(where: { $0.id == edge.from }),
-                                      let end = notes.firstIndex(where: { $0.id == edge.to }) else { continue }
+                                guard let start = positions[edge.from], let end = positions[edge.to] else { continue }
                                 var path = Path()
-                                path.move(to: position(for: start, total: notes.count, size: size))
-                                path.addLine(to: position(for: end, total: notes.count, size: size))
+                                path.move(to: start)
+                                path.addLine(to: end)
                                 context.stroke(path, with: .color(.secondary.opacity(0.65)), lineWidth: 1.5)
                             }
                         }
-                        ForEach(notes.indices, id: \.self) { index in
-                            let note = notes[index]
+                        ForEach(notes) { note in
                             Button { selectedNote = note } label: {
                                 VStack(spacing: 6) {
                                     Image(systemName: "circle.hexagongrid.fill")
@@ -42,7 +43,8 @@ struct GraphView: View {
                                 }
                             }
                             .buttonStyle(.plain)
-                            .position(position(for: index, total: notes.count, size: size))
+                            .accessibilityLabel("فتح ملاحظة \(note.title)")
+                            .position(positions[note.id] ?? .zero)
                         }
                     }
                     .scaleEffect(zoom)
@@ -62,7 +64,7 @@ struct GraphView: View {
                 HStack {
                     Label("\(library.snapshot.notes.count) عقدة", systemImage: "circle.fill")
                     Spacer()
-                    Text("\(StudyEngine.graphEdges(library.snapshot.notes).count) علاقة")
+                    Text("\(StudyEngine.graphEdges(library.snapshot.notes).count) علاقة").accessibilityIdentifier("graph.edge-count")
                     Spacer()
                     Button("توسيط") { zoom = 1; zoomStart = 1; pan = .zero; panStart = .zero }
                 }
