@@ -31,5 +31,7 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>تسجيل صوت وإرفاقه بملاحظاتك محليًا داخل رُسوخ.</string>
 </dict>
 </plist>
