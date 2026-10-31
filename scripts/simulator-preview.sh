@@ -23,6 +23,6 @@ xcrun simctl status_bar "$SIMULATOR_ID" override --time '9:41' --batteryState ch
 xcrun simctl install "$SIMULATOR_ID" "$APP_PATH"
 xcrun simctl launch "$SIMULATOR_ID" com.scrv1.rusukhnative | tee evidence/simulator-launch.txt
 sleep 5
-xcrun simctl io "$SIMULATOR_ID" screenshot evidence/simulator-home.png
+xcrun simctl io "$SIMULATOR_ID" screenshot --display=1 evidence/simulator-home.png
 xcrun simctl terminate "$SIMULATOR_ID" com.scrv1.rusukhnative
 xcrun simctl shutdown "$SIMULATOR_ID"
