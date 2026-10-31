@@ -9,13 +9,14 @@ with open('evidence/simulators.json') as f:
 for runtime in sorted(devices, reverse=True):
     if '.iOS-' not in runtime:
         continue
-    for device in devices[runtime]:
+    for device in sorted(devices[runtime], key=lambda d: ('Duo' in d['name'], d['name'])):
         if device.get('isAvailable') and device['name'].startswith('iPhone'):
             print(device['udid'])
             raise SystemExit(0)
 raise SystemExit('No available iPhone simulator')
 PY
 )
+printf "%s\n" "$SIMULATOR_ID" > evidence/simulator-id.txt
 APP_PATH="$RUNNER_TEMP/simulator-build/Build/Products/Debug-iphonesimulator/RusukhNative.app"
 xcrun simctl boot "$SIMULATOR_ID"
 xcrun simctl bootstatus "$SIMULATOR_ID" -b

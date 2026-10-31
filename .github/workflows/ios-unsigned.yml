@@ -19,7 +19,7 @@ jobs:
       - name: Record toolchain and source
         run: |
           mkdir -p evidence
-          { echo "Commit: $GITHUB_SHA"; date -u; sw_vers; xcodebuild -version; swift --version; } | tee evidence/environment.txt
+          { echo "Commit: $GITHUB_SHA"; date -u; sw_vers; xcodebuild -version; swift --version; uname -m; xcode-select -p; xcodebuild -showsdks; ls -d /Applications/Xcode*; xcrun --find simctl; xcrun lldb --version; python3 --version; git --version; } | tee evidence/environment.txt
       - name: Install XcodeGen
         run: brew install xcodegen
       - name: Test core logic
@@ -58,10 +58,25 @@ jobs:
       - name: Launch simulator and capture preview
         timeout-minutes: 7
         run: bash scripts/simulator-preview.sh
+      - name: Build xtool 1.24.0 unsigned IPA
+        id: xtool
+        timeout-minutes: 8
+        run: |
+          set -o pipefail
+          curl -fL --retry 2 https://github.com/xtool-org/xtool/releases/download/1.24.0/xtool.app.zip -o "$RUNNER_TEMP/xtool.app.zip"
+          echo "a56e98d69dea02a97a17e609f0ae8771c57ffaab23f1d62513fd9ada222026b3  $RUNNER_TEMP/xtool.app.zip" | shasum -a 256 -c -
+          ditto -x -k "$RUNNER_TEMP/xtool.app.zip" "$RUNNER_TEMP/xtool-cli"
+          export PATH="$RUNNER_TEMP/xtool-cli/xtool.app/Contents/Resources/bin:$PATH"
+          xtool --version | tee evidence/xtool-version.txt
+          bash scripts/build-xtool.sh 2>&1 | tee evidence/xtool-build.log
+          cp xtool/RusukhNative.ipa RusukhNative-xtool-unsigned.ipa
+      - name: Test Arabic UI and persistence
+        timeout-minutes: 8
+        run: bash scripts/ui-tests.sh
       - name: Record artifact checksums
         run: |
-          shasum -a 256 RusukhNative-simulator.zip RusukhNative-unsigned.ipa evidence/simulator-home.png | tee evidence/SHA256SUMS.txt
-          { echo '## Verified build outputs'; echo "Source commit: $GITHUB_SHA"; echo '- Core tests passed'; echo '- Simulator and unsigned device builds passed'; echo '- App launched on a cloud iOS simulator'; echo '- Screenshot, logs and checksums are in the evidence artifact'; echo '- Neither artifact installs itself on an iPhone'; } >> "$GITHUB_STEP_SUMMARY"
+          shasum -a 256 RusukhNative-simulator.zip RusukhNative-unsigned.ipa RusukhNative-xtool-unsigned.ipa evidence/simulator-home.png | tee evidence/SHA256SUMS.txt
+          { echo '## Verified build outputs'; echo "Source commit: $GITHUB_SHA"; echo '- Core and Arabic UI journey tests passed'; echo '- xtool unsigned IPA build passed'; echo '- Simulator and unsigned device builds passed'; echo '- App launched on a cloud iOS simulator'; echo '- Screenshot, logs and checksums are in the evidence artifact'; echo '- Neither artifact installs itself on an iPhone'; } >> "$GITHUB_STEP_SUMMARY"
       - name: Upload simulator app
         if: always() && steps.simulator.outcome == 'success'
         uses: actions/upload-artifact@v4
@@ -76,6 +91,27 @@ jobs:
         with:
           name: RusukhNative-unsigned-ipa
           path: RusukhNative-unsigned.ipa
+          if-no-files-found: error
+          retention-days: 7
+      - name: Package source with xtool configuration
+        if: always()
+        run: |
+          git archive --format=zip --prefix=RusukhNative-xtool/ HEAD -o RusukhNative-xtool-project.zip
+          shasum -a 256 RusukhNative-xtool-project.zip | tee evidence/source-SHA256.txt
+      - name: Upload xtool project
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: RusukhNative-xtool-project
+          path: RusukhNative-xtool-project.zip
+          if-no-files-found: error
+          retention-days: 7
+      - name: Upload xtool IPA
+        if: always() && steps.xtool.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: RusukhNative-xtool-unsigned-ipa
+          path: RusukhNative-xtool-unsigned.ipa
           if-no-files-found: error
           retention-days: 7
       - name: Upload build evidence

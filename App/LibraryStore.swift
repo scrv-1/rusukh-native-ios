@@ -10,7 +10,16 @@ final class LibraryStore: ObservableObject {
 
     init() {
         let directory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
-        repository = StudyRepository(fileURL: directory.appendingPathComponent("RusukhNative/study.json"))
+        var relativePath = "RusukhNative/study.json"
+        #if DEBUG
+        if ProcessInfo.processInfo.arguments.contains("-ui-testing") {
+            relativePath = "RusukhNativeUITests/study.json"
+            if ProcessInfo.processInfo.arguments.contains("-reset-test-data") {
+                try? FileManager.default.removeItem(at: directory.appendingPathComponent(relativePath))
+            }
+        }
+        #endif
+        repository = StudyRepository(fileURL: directory.appendingPathComponent(relativePath))
         do {
             snapshot = try repository.load()
         } catch {
@@ -63,13 +72,13 @@ final class LibraryStore: ObservableObject {
         _ = commit(draft)
     }
 
-    func addCard(noteID: UUID, question: String, answer: String) {
+    func addCard(noteID: UUID, question: String, answer: String) -> Bool {
         let q = question.trimmingCharacters(in: .whitespacesAndNewlines)
         let a = answer.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard snapshot.notes.contains(where: { $0.id == noteID }), !q.isEmpty, !a.isEmpty else { return }
+        guard snapshot.notes.contains(where: { $0.id == noteID }), !q.isEmpty, !a.isEmpty else { return false }
         var draft = snapshot
         draft.cards.append(StudyCard(noteID: noteID, question: q, answer: a))
-        _ = commit(draft)
+        return commit(draft)
     }
 
     func importQACards(for noteID: UUID) -> Int {
@@ -83,7 +92,7 @@ final class LibraryStore: ObservableObject {
                 added += 1
             }
         }
-        if added > 0 { _ = commit(draft) }
+        if added > 0 && !commit(draft) { return 0 }
         return added
     }
 
@@ -113,8 +122,7 @@ final class LibraryStore: ObservableObject {
         let access = url.startAccessingSecurityScopedResource()
         defer { if access { url.stopAccessingSecurityScopedResource() } }
         do {
-            let data = try Data(contentsOf: url)
-            let imported = try StudyRepository.decode(data)
+            let imported = try StudyRepository.read(from: url)
             _ = commit(imported)
         } catch {
             message = "لم يتم تغيير بياناتك؛ فشل الاستيراد: \(error.localizedDescription)"

@@ -1,0 +1,6 @@
+version: 1
+bundleID: com.scrv1.rusukhnative
+product: RusukhNative
+infoPath: Info-xtool.plist
+iconPath: App/Assets.xcassets/AppIcon.appiconset/AppIcon.png
+skipLSP: true

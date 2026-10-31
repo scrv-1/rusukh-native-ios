@@ -23,6 +23,8 @@ public enum ReviewGrade: String, Codable, CaseIterable, Sendable {
 }
 
 public struct StudyCard: Codable, Identifiable, Equatable, Sendable {
+    public static let maximumIntervalDays = 365_000
+    public static let maximumRepetitions = 100_000
     public var id: UUID
     public var noteID: UUID
     public var question: String
@@ -92,11 +94,12 @@ public struct StudySnapshot: Codable, Equatable, Sendable {
                 (note.imageJPEG?.count ?? 0) > 4_000_000 { return false }
         }
         for card in cards {
+            // Preserve v1 backup compatibility; the composer trims new cards.
             if !noteIDs.contains(card.noteID) || card.question.isEmpty || card.answer.isEmpty ||
                 card.question.count > 10_000 || card.answer.count > 100_000 ||
-                card.intervalDays < 0 || card.intervalDays > 365_000 ||
+                card.intervalDays < 0 || card.intervalDays > StudyCard.maximumIntervalDays ||
                 !card.ease.isFinite || card.ease < 1 || card.ease > 5 ||
-                card.repetitions < 0 || card.repetitions > 100_000 { return false }
+                card.repetitions < 0 || card.repetitions > StudyCard.maximumRepetitions { return false }
         }
         return reviews.allSatisfy { cardIDs.contains($0.cardID) }
     }

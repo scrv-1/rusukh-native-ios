@@ -89,7 +89,7 @@ struct CardComposerView: View {
                 ToolbarItem(placement: .cancellationAction) { Button("إلغاء") { dismiss() } }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("إضافة") {
-                        if let noteID { library.addCard(noteID: noteID, question: question, answer: answer); dismiss() }
+                        if let noteID, library.addCard(noteID: noteID, question: question, answer: answer) { dismiss() }
                     }
                     .disabled(noteID == nil || question.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || answer.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                 }

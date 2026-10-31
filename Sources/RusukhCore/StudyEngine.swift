@@ -1,6 +1,19 @@
 import Foundation
 
 public enum StudyEngine {
+    public static func matches(_ note: StudyNote, query: String) -> Bool {
+        func searchText(_ text: String) -> String {
+            let withoutMarks = String(String.UnicodeScalarView(text.unicodeScalars.filter {
+                $0.properties.generalCategory != .nonspacingMark
+            }))
+            return normalized(withoutMarks.folding(options: [.diacriticInsensitive, .caseInsensitive], locale: Locale(identifier: "ar"))
+                .replacingOccurrences(of: "ـ", with: ""))
+        }
+        let terms = searchText(query).split(separator: " ")
+        let text = searchText(note.title + "\n" + note.body)
+        return terms.allSatisfy { text.contains($0) }
+    }
+
     public static func normalized(_ title: String) -> String {
         title.split(whereSeparator: \.isWhitespace).joined(separator: " ").lowercased()
     }
@@ -19,7 +32,8 @@ public enum StudyEngine {
     }
 
     public static func graphEdges(_ notes: [StudyNote]) -> [GraphEdge] {
-        let lookup = Dictionary(notes.map { (normalized($0.title), $0.id) }, uniquingKeysWith: { first, _ in first })
+        let groups = Dictionary(grouping: notes, by: { normalized($0.title) })
+        let lookup = groups.compactMapValues { $0.count == 1 ? $0.first?.id : nil }
         var result: [GraphEdge] = []
         var seen = Set<GraphEdge>()
         for note in notes {
@@ -60,22 +74,27 @@ public enum StudyEngine {
         case .easy: 0.15
         }
         result.ease = min(3, max(1.3, card.ease + easeChange))
+        let interval = Double(min(StudyCard.maximumIntervalDays, max(0, card.intervalDays)))
+        let nextRepetition = min(max(0, card.repetitions), StudyCard.maximumRepetitions - 1) + 1
+        func days(_ proposed: Double, minimum: Int) -> Int {
+            min(StudyCard.maximumIntervalDays, max(minimum, Int(ceil(proposed))))
+        }
         switch grade {
         case .again:
             result.repetitions = 0
             result.intervalDays = 0
             result.dueAt = now.addingTimeInterval(600)
         case .hard:
-            result.repetitions += 1
-            result.intervalDays = max(1, Int(ceil(Double(card.intervalDays) * 1.2)))
+            result.repetitions = nextRepetition
+            result.intervalDays = days(interval * 1.2, minimum: 1)
             result.dueAt = now.addingTimeInterval(Double(result.intervalDays) * 86_400)
         case .good:
-            result.repetitions += 1
-            result.intervalDays = card.repetitions == 0 ? 1 : (card.repetitions == 1 ? 3 : max(1, Int(ceil(Double(card.intervalDays) * result.ease))))
+            result.repetitions = nextRepetition
+            result.intervalDays = card.repetitions == 0 ? 1 : (card.repetitions == 1 ? 3 : days(interval * result.ease, minimum: 1))
             result.dueAt = now.addingTimeInterval(Double(result.intervalDays) * 86_400)
         case .easy:
-            result.repetitions += 1
-            result.intervalDays = card.repetitions == 0 ? 4 : max(4, Int(ceil(Double(card.intervalDays) * result.ease * 1.3)))
+            result.repetitions = nextRepetition
+            result.intervalDays = card.repetitions == 0 ? 4 : days(interval * result.ease * 1.3, minimum: 4)
             result.dueAt = now.addingTimeInterval(Double(result.intervalDays) * 86_400)
         }
         result.updatedAt = now

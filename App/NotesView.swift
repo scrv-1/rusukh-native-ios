@@ -15,7 +15,7 @@ struct NotesView: View {
         let query = search.trimmingCharacters(in: .whitespacesAndNewlines)
         let notes = library.snapshot.notes.sorted { $0.updatedAt > $1.updatedAt }
         if query.isEmpty { return notes }
-        return notes.filter { $0.title.localizedCaseInsensitiveContains(query) || $0.body.localizedCaseInsensitiveContains(query) }
+        return notes.filter { StudyEngine.matches($0, query: query) }
     }
 
     var body: some View {
@@ -48,7 +48,10 @@ struct NotesView: View {
             }
             .searchable(text: $search, prompt: "ابحث في ملاحظاتك")
             .navigationTitle("ملاحظاتي")
-            .toolbar { Button { editing = EditingNote(note: nil) } label: { Image(systemName: "plus") } }
+            .toolbar {
+                Button { editing = EditingNote(note: nil) } label: { Image(systemName: "plus") }
+                    .accessibilityLabel("ملاحظة جديدة").accessibilityIdentifier("notes.add")
+            }
             .sheet(item: $editing) { route in NoteEditorView(note: route.note) }
         }
     }
@@ -75,10 +78,10 @@ struct NoteEditorView: View {
         NavigationStack {
             Form {
                 Section("العنوان") {
-                    TextField("مثال: التعلّم النشط", text: $title)
+                    TextField("مثال: التعلّم النشط", text: $title).accessibilityIdentifier("note.title")
                 }
                 Section("المحتوى") {
-                    TextEditor(text: $noteBody)
+                    TextEditor(text: $noteBody).accessibilityLabel("محتوى الملاحظة").accessibilityIdentifier("note.body")
                         .frame(minHeight: 220)
                         .autocorrectionDisabled(false)
                     Text("اربط ملاحظة: [[عنوان آخر]]  ·  بطاقة: س: السؤال ثم ج: الإجابة")
@@ -106,6 +109,7 @@ struct NoteEditorView: View {
                         }
                     }
                     .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                    .accessibilityIdentifier("note.save")
                 }
             }
             .sheet(isPresented: $cameraOpen) {
