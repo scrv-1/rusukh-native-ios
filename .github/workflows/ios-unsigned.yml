@@ -1,0 +1,86 @@
+name: iOS - SwiftUI build and simulator preview
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: rusukh-native-build
+  cancel-in-progress: false
+jobs:
+  build:
+    name: Test, build and launch SwiftUI
+    runs-on: xcode-27
+    timeout-minutes: 30
+    env:
+      HOMEBREW_NO_AUTO_UPDATE: '1'
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+      - name: Record toolchain and source
+        run: |
+          mkdir -p evidence
+          { echo "Commit: $GITHUB_SHA"; date -u; sw_vers; xcodebuild -version; swift --version; } | tee evidence/environment.txt
+      - name: Install XcodeGen
+        run: brew install xcodegen
+      - name: Test core logic
+        run: |
+          set -o pipefail
+          swift test 2>&1 | tee evidence/core-tests.log
+      - name: Generate Xcode project
+        run: |
+          xcodegen generate --spec project.yml
+          xcodebuild -list -project RusukhNative.xcodeproj | tee evidence/project.txt
+      - name: Build simulator app
+        run: |
+          set -o pipefail
+          xcodebuild -project RusukhNative.xcodeproj -scheme RusukhNative \
+            -configuration Debug -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath "$RUNNER_TEMP/simulator-build" \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO \
+            build 2>&1 | tee evidence/simulator-build.log
+          ditto -c -k --sequesterRsrc --keepParent \
+            "$RUNNER_TEMP/simulator-build/Build/Products/Debug-iphonesimulator/RusukhNative.app" \
+            RusukhNative-simulator.zip
+      - name: Build unsigned device app
+        run: |
+          set -o pipefail
+          xcodebuild -project RusukhNative.xcodeproj -scheme RusukhNative \
+            -configuration Release -sdk iphoneos -destination 'generic/platform=iOS' \
+            -derivedDataPath "$RUNNER_TEMP/device-build" \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO \
+            build 2>&1 | tee evidence/device-build.log
+          mkdir -p "$RUNNER_TEMP/package/Payload"
+          cp -R "$RUNNER_TEMP/device-build/Build/Products/Release-iphoneos/RusukhNative.app" "$RUNNER_TEMP/package/Payload/"
+          (cd "$RUNNER_TEMP/package" && zip -qyr "$GITHUB_WORKSPACE/RusukhNative-unsigned.ipa" Payload)
+      - name: Launch simulator and capture preview
+        timeout-minutes: 7
+        run: bash scripts/simulator-preview.sh
+      - name: Record artifact checksums
+        run: |
+          shasum -a 256 RusukhNative-simulator.zip RusukhNative-unsigned.ipa evidence/simulator-home.png | tee evidence/SHA256SUMS.txt
+          { echo '## Verified build outputs'; echo "Source commit: $GITHUB_SHA"; echo '- Core tests passed'; echo '- Simulator and unsigned device builds passed'; echo '- App launched on a cloud iOS simulator'; echo '- Screenshot, logs and checksums are in the evidence artifact'; echo '- Neither artifact installs itself on an iPhone'; } >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload simulator app
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: RusukhNative-simulator
+          path: RusukhNative-simulator.zip
+          if-no-files-found: error
+          retention-days: 7
+      - name: Upload unsigned device IPA
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: RusukhNative-unsigned-ipa
+          path: RusukhNative-unsigned.ipa
+          if-no-files-found: error
+          retention-days: 7
+      - name: Upload build evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: RusukhNative-build-evidence
+          path: evidence/
+          if-no-files-found: error
+          retention-days: 7
