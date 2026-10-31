@@ -4,6 +4,7 @@ SIMULATOR_ID=$(cat evidence/simulator-id.txt)
 xcrun simctl boot "$SIMULATOR_ID"
 xcrun simctl bootstatus "$SIMULATOR_ID" -b
 trap 'xcrun simctl shutdown "$SIMULATOR_ID" || true' EXIT
+xcrun simctl privacy "$SIMULATOR_ID" grant microphone com.scrv1.rusukhnative
 set +e
 xcodebuild -project RusukhNative.xcodeproj -scheme RusukhNative \
   -configuration Debug -destination "platform=iOS Simulator,id=$SIMULATOR_ID" \

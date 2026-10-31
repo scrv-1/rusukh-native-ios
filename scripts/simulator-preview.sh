@@ -6,13 +6,17 @@ SIMULATOR_ID=$(python3 - <<'PY'
 import json
 with open('evidence/simulators.json') as f:
     devices=json.load(f)['devices']
-for runtime in sorted(devices, reverse=True):
-    if '.iOS-' not in runtime:
-        continue
-    for device in sorted(devices[runtime], key=lambda d: ('Duo' in d['name'], d['name'])):
-        if device.get('isAvailable') and device['name'].startswith('iPhone'):
-            print(device['udid'])
-            raise SystemExit(0)
+# Prefer a conventional iPhone across all installed runtimes before using Duo.
+for allow_duo in (False, True):
+    for runtime in sorted(devices, reverse=True):
+        if '.iOS-' not in runtime:
+            continue
+        for device in sorted(devices[runtime], key=lambda d: d['name']):
+            if not allow_duo and 'Duo' in device['name']:
+                continue
+            if device.get('isAvailable') and device['name'].startswith('iPhone'):
+                print(device['udid'])
+                raise SystemExit(0)
 raise SystemExit('No available iPhone simulator')
 PY
 )
