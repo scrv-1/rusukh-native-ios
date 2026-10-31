@@ -9,8 +9,12 @@ import socket
 import sys
 import time
 
-MODEL = "Qwen/Qwen3-0.6B-MLX-4bit"
-REVISION = "173234aa840d113125e9f2271100ddbaf16c9620"
+VARIANTS = {
+    "0.6B": ("Qwen/Qwen3-0.6B-MLX-4bit", "173234aa840d113125e9f2271100ddbaf16c9620"),
+    "1.7B": ("Qwen/Qwen3-1.7B-MLX-4bit", "21457c6f51ed54a7c16e988c0844db973815c137"),
+    "4B": ("Qwen/Qwen3-4B-MLX-4bit", "52a5ab34fa604bc8af6d3ce0cac0cab10b7eb495"),
+}
+MODEL, REVISION = VARIANTS[os.environ.get("MODEL_VARIANT", "0.6B")]
 EVIDENCE = Path("evidence")
 
 
@@ -37,7 +41,8 @@ def download(folder):
                                      "total_bytes": sum(f["bytes"] for f in files)})
     # Preserve the actual upstream license, not only the model card label.
     (EVIDENCE / "model-LICENSE.txt").write_bytes((folder / "LICENSE").read_bytes())
-    print(json.dumps({"model": MODEL, "revision": REVISION, "downloaded_bytes": sum(f["bytes"] for f in files)}), flush=True)
+    print(json.dumps({"model": MODEL, "revision": REVISION, "files": files,
+                      "downloaded_bytes": sum(f["bytes"] for f in files)}), flush=True)
 
 
 def evaluate(folder):
@@ -68,6 +73,7 @@ def evaluate(folder):
         "scope": "cloud Mac Python MLX; not Swift/iOS/iPhone/Neural Engine",
         "network_denied": True, "load_seconds": time.perf_counter() - start,
         "quality_status": "Human review required; execution success is not accuracy",
+        "memory_scope": "Cumulative process peaks, not isolated per-case allocations",
         "cases": [],
     }
     cases = [
@@ -75,6 +81,10 @@ def evaluate(folder):
         ("grounded_answer", "الملاحظة: عاصمة فرنسا باريس. أجب بكلمة واحدة اعتمادًا على الملاحظة فقط: ما عاصمة فرنسا؟"),
         ("flashcard", "حوّل هذه المعلومة إلى بطاقة عربية بصيغة س: ثم ج: فقط: الماء يتكون من الهيدروجين والأكسجين."),
         ("unknown", "الملاحظة: أحمد يراجع دروسه يوميًا. كم عمر أحمد؟ إذا لم يذكر العمر، قل غير مذكور. لا تخمّن."),
+        ("negation", "الملاحظة: الضوء موجة كهرومغناطيسية، وليس موجة صوتية. هل الضوء موجة صوتية؟ أجب بالعربية باختصار وفق الملاحظة."),
+        ("schedule", "الملاحظة: راجع الدرس بعد يوم ثم ثلاثة أيام ثم سبعة أيام. استخرج مواعيد المراجعة الثلاثة كما وردت، دون إضافة موعد."),
+        ("explain", "اشرح لطالب بالعربية في جملتين معنى الاسترجاع النشط، واذكر مثالًا عمليًا واحدًا."),
+        ("faithfulness", "اعتمد على النص التالي فقط: يتجمد الماء النقي عند صفر درجة مئوية في الضغط الجوي العادي. أنشئ سؤالًا وجوابًا عربيين عن درجة التجمد. لا تضف معلومات."),
     ]
     for name, prompt in cases:
         text = tokenizer.apply_chat_template(
@@ -101,7 +111,7 @@ def evaluate(folder):
     with Path(os.environ["GITHUB_STEP_SUMMARY"]).open("a") as handle:
         handle.write("## Local Arabic model feasibility\n\n")
         handle.write(f"{MODEL} at `{REVISION}`; backend: {report['backend']}.\n\n")
-        handle.write("Four synthetic prompts generated with process network access denied by macOS sandbox. See raw answers and metrics in the artifact. This is a cloud Mac Python evaluation, not an iOS integration, iPhone installation, accuracy certification or Neural Engine test.\n")
+        handle.write(f"{len(cases)} synthetic prompts generated with process network access denied by macOS sandbox. See raw answers and cumulative process memory peaks in the artifact. This is a cloud Mac Python evaluation, not an iOS integration, iPhone installation, accuracy certification or Neural Engine test.\n")
 
 
 if __name__ == "__main__":
