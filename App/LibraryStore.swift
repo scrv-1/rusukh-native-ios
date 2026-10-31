@@ -44,7 +44,7 @@ final class LibraryStore: ObservableObject {
     }
 
     @discardableResult
-    func saveNote(id: UUID? = nil, title: String, body: String, imageJPEG: Data?) -> StudyNote? {
+    func saveNote(id: UUID? = nil, title: String, body: String, imageJPEG: Data?, audioM4A: Data? = nil) -> StudyNote? {
         let cleaned = title.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !cleaned.isEmpty else { message = "أدخل عنوانًا للملاحظة."; return nil }
         var draft = snapshot
@@ -54,10 +54,11 @@ final class LibraryStore: ObservableObject {
             draft.notes[index].title = cleaned
             draft.notes[index].body = body
             draft.notes[index].imageJPEG = imageJPEG
+            draft.notes[index].audioM4A = audioM4A
             draft.notes[index].updatedAt = now
             saved = draft.notes[index]
         } else {
-            saved = StudyNote(title: cleaned, body: body, createdAt: now, updatedAt: now, imageJPEG: imageJPEG)
+            saved = StudyNote(title: cleaned, body: body, createdAt: now, updatedAt: now, imageJPEG: imageJPEG, audioM4A: audioM4A)
             draft.notes.insert(saved, at: 0)
         }
         return commit(draft) ? saved : nil

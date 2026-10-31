@@ -1,5 +1,7 @@
 import SwiftUI
 import UIKit
+import UniformTypeIdentifiers
+import AVFoundation
 
 private struct EditingNote: Identifiable {
     let id = UUID()
@@ -10,6 +12,8 @@ struct NotesView: View {
     @EnvironmentObject private var library: LibraryStore
     @State private var editing: EditingNote?
     @State private var search = ""
+    @State private var choosingPDF = false
+    @State private var importingPDF = false
 
     private var results: [StudyNote] {
         let query = search.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -49,10 +53,39 @@ struct NotesView: View {
             .searchable(text: $search, prompt: "ابحث في ملاحظاتك")
             .navigationTitle("ملاحظاتي")
             .toolbar {
+                Button { choosingPDF = true } label: { Image(systemName: "doc.badge.plus") }
+                    .accessibilityLabel("استيراد نص PDF").accessibilityIdentifier("notes.import-pdf")
+                    .disabled(importingPDF)
+                if importingPDF { ProgressView("استخراج النص") }
                 Button { editing = EditingNote(note: nil) } label: { Image(systemName: "plus") }
                     .accessibilityLabel("ملاحظة جديدة").accessibilityIdentifier("notes.add")
             }
             .sheet(item: $editing) { route in NoteEditorView(note: route.note) }
+            .fileImporter(isPresented: $choosingPDF, allowedContentTypes: [.pdf]) { result in
+                switch result {
+                case .success(let url): importPDF(url)
+                case .failure(let error): library.message = error.localizedDescription
+                }
+            }
+        }
+    }
+
+    private func importPDF(_ url: URL) {
+        guard !importingPDF else { return }
+        importingPDF = true
+        let access = url.startAccessingSecurityScopedResource()
+        let name = String(url.deletingPathExtension().lastPathComponent.prefix(500))
+        Task {
+            defer {
+                if access { url.stopAccessingSecurityScopedResource() }
+                importingPDF = false
+            }
+            do {
+                let text = try await Task.detached(priority: .userInitiated) { try PDFTextImport.read(from: url) }.value
+                if let note = library.saveNote(title: name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? "ملف PDF" : name, body: text, imageJPEG: nil) {
+                    _ = library.importQACards(for: note.id)
+                }
+            } catch { library.message = error.localizedDescription }
         }
     }
 }
@@ -60,6 +93,8 @@ struct NotesView: View {
 struct NoteEditorView: View {
     @EnvironmentObject private var library: LibraryStore
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.scenePhase) private var scenePhase
+    @StateObject private var voice: VoiceAttachment
     let note: StudyNote?
     @State private var title: String
     @State private var noteBody: String
@@ -72,6 +107,7 @@ struct NoteEditorView: View {
         _title = State(initialValue: note?.title ?? "")
         _noteBody = State(initialValue: note?.body ?? "")
         _imageJPEG = State(initialValue: note?.imageJPEG)
+        _voice = StateObject(wrappedValue: VoiceAttachment(data: note?.audioM4A))
     }
 
     var body: some View {
@@ -86,6 +122,23 @@ struct NoteEditorView: View {
                         .autocorrectionDisabled(false)
                     Text("اربط ملاحظة: [[عنوان آخر]]  ·  بطاقة: س: السؤال ثم ج: الإجابة")
                         .font(.caption).foregroundStyle(.secondary)
+                }
+                Section("مرفق صوتي") {
+                    Text("تسجيل محلي حتى 3 دقائق. يتوقف عند مغادرة التطبيق؛ اضغط حفظ للاحتفاظ به.")
+                        .font(.footnote).foregroundStyle(.secondary)
+                    if voice.recording {
+                        Button("إيقاف التسجيل") { voice.finish() }.accessibilityIdentifier("voice.stop")
+                    } else {
+                        Button(voice.data == nil ? "تسجيل صوت" : "استبدال التسجيل") { Task { await voice.start() } }
+                            .disabled(voice.requestingPermission).accessibilityIdentifier("voice.record")
+                    }
+                    if voice.data != nil && !voice.recording {
+                        Button(voice.playing ? "إيقاف التشغيل" : "تشغيل التسجيل") {
+                            if voice.playing { voice.stopPlayback() } else { voice.play() }
+                        }
+                        Button("حذف التسجيل", role: .destructive) { voice.remove() }
+                    }
+                    if let error = voice.error { Text(error).foregroundStyle(.secondary).accessibilityIdentifier("voice.error") }
                 }
                 Section("الكاميرا الأصلية") {
                     if let bytes = imageJPEG, let image = UIImage(data: bytes) {
@@ -103,12 +156,13 @@ struct NoteEditorView: View {
                 ToolbarItem(placement: .cancellationAction) { Button("إلغاء") { dismiss() } }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("حفظ") {
-                        if let saved = library.saveNote(id: note?.id, title: title, body: noteBody, imageJPEG: imageJPEG) {
+                        guard voice.finish() else { return }
+                        if let saved = library.saveNote(id: note?.id, title: title, body: noteBody, imageJPEG: imageJPEG, audioM4A: voice.data) {
                             _ = library.importQACards(for: saved.id)
                             dismiss()
                         }
                     }
-                    .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                    .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || voice.requestingPermission)
                     .accessibilityIdentifier("note.save")
                 }
             }
@@ -120,6 +174,12 @@ struct NoteEditorView: View {
             .alert("الكاميرا غير متاحة", isPresented: $photoError) {
                 Button("حسنًا", role: .cancel) { }
             } message: { Text("استخدم آيفون حقيقيًا يدعم التصوير.") }
+            .onChange(of: scenePhase) { _, phase in
+                if phase == .background { voice.pauseForBackground() }
+            }
+            .onReceive(NotificationCenter.default.publisher(for: AVAudioSession.interruptionNotification)) { _ in voice.pauseForBackground() }
+            .onAppear { voice.open() }
+            .onDisappear { voice.close() }
         }
     }
 }
