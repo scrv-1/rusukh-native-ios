@@ -13,6 +13,7 @@ VARIANTS = {
     "0.6B": ("Qwen/Qwen3-0.6B-MLX-4bit", "173234aa840d113125e9f2271100ddbaf16c9620"),
     "1.7B": ("Qwen/Qwen3-1.7B-MLX-4bit", "21457c6f51ed54a7c16e988c0844db973815c137"),
     "4B": ("Qwen/Qwen3-4B-MLX-4bit", "52a5ab34fa604bc8af6d3ce0cac0cab10b7eb495"),
+    "4B-Instruct-2507": ("mlx-community/Qwen3-4B-Instruct-2507-4bit", "50d427756c6b1b2fe0c0a10f67fbda1fc8e82c1b"),
 }
 MODEL, REVISION = VARIANTS[os.environ.get("MODEL_VARIANT", "0.6B")]
 EVIDENCE = Path("evidence")
@@ -24,12 +25,19 @@ def write(name, value):
 
 
 def download(folder):
-    from huggingface_hub import snapshot_download
+    from huggingface_hub import snapshot_download, hf_hub_download
 
     snapshot_download(
         MODEL, revision=REVISION, local_dir=folder, token=False,
         allow_patterns=["*.json", "*.safetensors", "*.txt", "*.jinja", "LICENSE", "README.md"],
     )
+    if "Instruct-2507" in MODEL:
+        # The community conversion omits LICENSE; preserve the pinned upstream license.
+        license_path = hf_hub_download("Qwen/Qwen3-4B-Instruct-2507", "LICENSE",
+                                      revision="cdbee75f17c01a7cc42f958dc650907174af0554", token=False)
+        (folder / "LICENSE").write_bytes(Path(license_path).read_bytes())
+        write("ai-license-origin.json", {"model": "Qwen/Qwen3-4B-Instruct-2507",
+                                        "revision": "cdbee75f17c01a7cc42f958dc650907174af0554"})
     files = []
     for path in sorted(folder.iterdir()):
         if not path.is_file():
@@ -97,10 +105,15 @@ def evaluate(folder):
         )
         # The official 1.7B MLX snapshot predates enable_thinking support.
         # Match the current Qwen3 non-thinking assistant prefill explicitly.
-        if text.endswith("<|im_start|>assistant\n"):
-            text += "<think>\n\n</think>\n\n"
-        if not text.endswith("<think>\n\n</think>\n\n"):
-            raise RuntimeError("Unrecognized non-thinking prompt template")
+        if "Instruct-2507" in MODEL:
+            # This model is non-thinking only; an empty think block is incorrect here.
+            if not text.endswith("<|im_start|>assistant\n"):
+                raise RuntimeError("Unrecognized Instruct-2507 prompt template")
+        else:
+            if text.endswith("<|im_start|>assistant\n"):
+                text += "<think>\n\n</think>\n\n"
+            if not text.endswith("<think>\n\n</think>\n\n"):
+                raise RuntimeError("Unrecognized non-thinking prompt template")
         begin = time.perf_counter()
         output, final = "", None
         for response in stream_generate(model, tokenizer, text, max_tokens=128,
