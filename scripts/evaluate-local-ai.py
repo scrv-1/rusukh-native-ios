@@ -68,12 +68,16 @@ def evaluate(folder):
 
     start = time.perf_counter()
     model, tokenizer = load(str(folder), trust_remote_code=False)
+    mx.random.seed(42)
+    system_prompt = "أنت مساعد تعلّم. أجب بالعربية بوضوح واختصار. عند وجود نص مرجعي التزم بمعلوماته، وإذا لم يذكر الجواب فصرّح بذلك."
     report = {
         "model": MODEL, "revision": REVISION, "backend": "Metal GPU" if metal else "CPU",
         "scope": "cloud Mac Python MLX; not Swift/iOS/iPhone/Neural Engine",
         "network_denied": True, "load_seconds": time.perf_counter() - start,
         "quality_status": "Human review required; execution success is not accuracy",
         "memory_scope": "Cumulative process peaks, not isolated per-case allocations",
+        "system_prompt": system_prompt,
+        "sampling": {"temperature": 0.7, "top_p": 0.8, "top_k": 20, "seed": 42},
         "cases": [],
     }
     cases = [
@@ -88,13 +92,19 @@ def evaluate(folder):
     ]
     for name, prompt in cases:
         text = tokenizer.apply_chat_template(
-            [{"role": "user", "content": prompt}], tokenize=False,
+            [{"role": "system", "content": system_prompt}, {"role": "user", "content": prompt}], tokenize=False,
             add_generation_prompt=True, enable_thinking=False,
         )
+        # The official 1.7B MLX snapshot predates enable_thinking support.
+        # Match the current Qwen3 non-thinking assistant prefill explicitly.
+        if text.endswith("<|im_start|>assistant\n"):
+            text += "<think>\n\n</think>\n\n"
+        if not text.endswith("<think>\n\n</think>\n\n"):
+            raise RuntimeError("Unrecognized non-thinking prompt template")
         begin = time.perf_counter()
         output, final = "", None
         for response in stream_generate(model, tokenizer, text, max_tokens=128,
-                                        max_kv_size=1024, sampler=make_sampler(temp=0)):
+                                        max_kv_size=1024, sampler=make_sampler(temp=0.7, top_p=0.8, top_k=20)):
             output += response.text
             final = response
         if final is None or not output.strip():
