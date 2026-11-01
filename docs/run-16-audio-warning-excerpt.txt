@@ -1,0 +1,134 @@
+Source: https://github.com/scrv-1/rusukh-native-ios/actions/runs/41298596567/job/124824649359
+Commit: 6611c7fe67ad393b2c0a3dca31c87a0cb84b9bc7
+Browser-rendered log excerpt; preceding compile/test output omitted.
+
+Skipped export for VoiceAttachmentTests/testBackgroundDuringActivationNeverCreatesRecorderAndReleasesSession(): no matching attachments
+
+1418
+
+
+1419
+Skipped export for VoiceAttachmentTests/testCloseDuringPlaybackActivationNeverCreatesPlayer(): no matching attachments
+
+1420
+
+
+1421
+Skipped export for VoiceAttachmentTests/testClosingDuringPermissionNeverCreatesRecorder(): no matching attachments
+
+1422
+
+
+1423
+Skipped export for VoiceAttachmentTests/testPermissionDeniedPreservesPreviousAttachmentAndAllowsRetry(): no matching attachments
+
+1424
+
+
+1425
+Exported 8 attachments for: RusukhUITests/testArabicStudyJourneyAndPersistence():
+
+1426
+File: 16996B3B-4D17-4B61-BDA5-858737A16139.png, suggested name: "08-simulator-camera-unavailable_0_38202F9F-FD20-4EBA-9CA7-4DC729DFBF2A.png"
+
+1427
+File: A032C0E1-441E-4553-A8E5-4EC4CC1B1A99.png, suggested name: "07-local-ai-availability_0_0DD58420-F0D1-4A8C-BD80-C57F818DCBDF.png"
+
+1428
+File: E68EBC1B-E610-46F5-9B69-55148C04573C.png, suggested name: "06-quiz_0_C3AC785D-39B1-4D79-A0F7-B3A6F757635E.png"
+
+1429
+File: 285B0600-4CFF-4395-B314-AD177628D048.png, suggested name: "05-review_0_BA2C421A-FD60-4552-AB40-1E1CB88D877B.png"
+
+1430
+File: 33AC6532-0FE9-4CB9-A8A3-9B7CF1645516.png, suggested name: "04-graph_0_E50E97FF-A17A-45D2-BED8-2AF894FFB56B.png"
+
+1431
+File: 890D5551-62C5-42E0-A81A-FBC5E7C7C6F3.png, suggested name: "03-arabic-search_0_72D0229E-AB00-4230-9AAD-BBF0EE674794.png"
+
+1432
+File: 8A1E750B-2C54-453A-80C5-336722FD8BE9.png, suggested name: "02-notes_0_613021DC-F029-48A5-9FC2-614683E3E658.png"
+
+1433
+File: C26A09D3-D6BB-4284-B1A5-1051FD6C9220.png, suggested name: "01-home_0_2E60AB81-EE29-4BC8-B9D2-1E4A4901CDFE.png"
+
+1434
+
+
+1435
+Exported 1 attachment for: RusukhUITests/testAudioStopsOnBackgroundAndCanRecordAgain():
+
+1436
+File: 2E868CF2-057A-4CFA-9150-9EC25EF33AC3.png, suggested name: "13-audio-background-and-reopen_0_710540FD-A3E3-41D1-8D50-E6EB32DF2562.png"
+
+1437
+
+
+1438
+Exported 2 attachments for: RusukhUITests/testSimulatorAudioAttachmentSurvivesRelaunch():
+
+1439
+File: B4B0D883-9780-4AB3-8C05-FC809102B5E4.png, suggested name: "10-simulator-audio-reopened_0_28DA3312-E663-43CC-95E4-A5BFEFA951C0.png"
+
+1440
+File: E98B1AE2-FFA9-4DCD-9616-F09B7E54E16A.png, suggested name: "09-simulator-audio-recorded_0_1F3CF9BD-E9E5-4421-BF54-A683A4896450.png"
+
+1441
+
+
+1442
+Exported 1 attachment for: RusukhUITests/testSimulatorModelAvailabilityDoesNotStartUnsupportedGPU():
+
+1443
+File: F871446F-C542-49B0-8F56-89796F56114F.png, suggested name: "11-simulator-model-unavailable_0_B5FCD18A-3A70-4C80-A1E6-7DF68CBCBF98.png"
+
+1444
+
+
+1445
+Exported 1 attachment for: RusukhUITests/testZModelDownloadCancellationAndIntegrityThroughUI():
+
+1446
+File: 85C92BDB-D423-416F-AB0D-89B92DE8AD28.png, suggested name: "12-native-model-download-verified_0_B289CB96-371B-4566-94D4-4E84C21EDAFF.png"
+
+1447
+
+
+1448
+Generated manifest file with attachment details: /Users/runner/work/rusukh-native-ios/rusukh-native-ios/evidence/ui-attachments/manifest.json
+
+1449
+getpwuid_r did not find a match for uid 501
+
+1450
+Audio session still blocks the UI thread; inspect xcresult runtime warnings.
+
+1451
+UI_TEST_SUMMARY {"devicesAndConfigurations": [{"device": {"architecture": "arm64", "deviceId": "F82EF267-78B0-4334-8AE6-2C58E00EE70F", "deviceName": "iPhone 17", "modelName": "iPhone 17", "osBuildNumber": "24A434", "osVersion": "27.0", "platform": "iOS Simulator"}, "expectedFailures": 0, "failedTests": 0, "passedTests": 9, "skippedTests": 0, "testPlanConfiguration": {"configurationId": "1", "configurationName": "Test Scheme Action"}}], "environmentDescription": "RusukhNative · Built with macOS 27.0.1", "expectedFailures": 0, "failedTests": 0, "finishTime": 1793530515.508, "passedTests": 9, "result": "Passed", "runtimeWarnings": [{"issueType": "Runtime Warning", "message": "    AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread."}, {"issueType": "Runtime Warning", "message": "    AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread."}], "skippedTests": 0, "startTime": 1793530249.356, "statistics": [], "testFailures": [], "title": "Test - RusukhNative", "topInsights": [], "totalTestCount": 9}
+
+1452
+AV_AUDIO_MAIN_THREAD_WARNING_COUNT 2
+
+1453
+Error: Process completed with exit code 1.
+
+Verify current Swift runtime offline on Mac (not Simulator)
+0s
+Record artifact checksums
+0s
+Upload simulator app
+3s
+Upload unsigned device IPA
+1s
+Package source with xtool configuration
+0s
+Upload xtool project
+2s
+Upload xtool IPA
+1s
+Upload build evidence
+3s
+Post Checkout source
+0s
+Complete job
+3s

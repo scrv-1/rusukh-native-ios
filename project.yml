@@ -1,5 +1,8 @@
 name: RusukhNative
 packages:
+  FSRS:
+    url: https://github.com/open-spaced-repetition/swift-fsrs
+    revision: 4fbaf20184d62f82a9f44f343337c61a2c5483e9
   MLX:
     url: https://github.com/ml-explore/mlx-swift
     exactVersion: 0.32.3
@@ -22,6 +25,19 @@ settings:
     TARGETED_DEVICE_FAMILY: "1"
     DEVELOPMENT_TEAM: ""
 targets:
+  RusukhAppTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: [AppTests]
+    dependencies:
+      - target: RusukhNative
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_BUNDLE_IDENTIFIER: com.scrv1.rusukhnative.apptests
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/RusukhNative.app/RusukhNative"
+        BUNDLE_LOADER: "$(TEST_HOST)"
+        CODE_SIGNING_ALLOWED: NO
   RusukhUITests:
     type: bundle.ui-testing
     platform: iOS
@@ -38,6 +54,8 @@ targets:
     type: application
     platform: iOS
     dependencies:
+      - package: FSRS
+        product: FSRS
       - package: MLX
         product: MLX
       - package: MLXLM
@@ -82,5 +100,6 @@ schemes:
       targets:
         RusukhNative: all
         RusukhUITests: [test]
+        RusukhAppTests: [test]
     test:
-      targets: [RusukhUITests]
+      targets: [RusukhAppTests, RusukhUITests]

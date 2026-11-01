@@ -44,7 +44,7 @@ struct ReviewView: View {
                     Button("اختبار اختيار من متعدد") { takingQuiz = true }
                         .buttonStyle(.bordered)
                         .disabled(StudyEngine.quiz(from: library.snapshot.cards).isEmpty)
-                    Text("الجدولة الحالية مبسّطة وقريبة من SM-2، وليست FSRS.")
+                    Text("البطاقات الجديدة تستخدم FSRS-6. البطاقات القديمة تحتفظ بجدولتها الحالية.")
                         .font(.footnote).foregroundStyle(.secondary)
                 }
                 .padding(18)

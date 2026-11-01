@@ -1,0 +1,45 @@
+Test Case '-[RusukhAppTests.LibraryStoreTests testAddingFSRSCardDoesNotRewriteLegacySchedule]' passed (0.010 seconds).
+Test Case '-[RusukhAppTests.LibraryStoreTests testFailedSaveDoesNotPublishUnsavedNote]' passed (0.007 seconds).
+Test Case '-[RusukhAppTests.LibraryStoreTests testMalformedFSRSImportLeavesActualStoreBytesUntouched]' passed (0.005 seconds).
+Test Case '-[RusukhAppTests.LibraryStoreTests testNewCardReviewAndReopenPreserveFSRSState]' passed (0.029 seconds).
+Test Suite 'LibraryStoreTests' passed at 2026-11-01 11:32:09.123.
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.051 (0.054) seconds
+Test Case '-[RusukhAppTests.VoiceAttachmentTests testBackgroundDuringActivationNeverCreatesRecorderAndReleasesSession]' passed (0.003 seconds).
+Test Case '-[RusukhAppTests.VoiceAttachmentTests testCloseDuringPlaybackActivationNeverCreatesPlayer]' passed (0.002 seconds).
+Test Case '-[RusukhAppTests.VoiceAttachmentTests testCloseDuringRecorderInitializationCleansPendingFileOffMain]' passed (0.002 seconds).
+Test Case '-[RusukhAppTests.VoiceAttachmentTests testClosingDuringPermissionNeverCreatesRecorder]' passed (0.002 seconds).
+Test Case '-[RusukhAppTests.VoiceAttachmentTests testPermissionDeniedPreservesPreviousAttachmentAndAllowsRetry]' passed (0.001 seconds).
+Test Case '-[RusukhAppTests.VoiceAttachmentTests testPlaybackEndedBeforeHandoffDoesNotRemainPlaying]' passed (0.041 seconds).
+Test Case '-[RusukhAppTests.VoiceAttachmentTests testSuccessfulRecorderFactoryReturningAfterCloseNeverStarts]' passed (0.038 seconds).
+Test Suite 'VoiceAttachmentTests' passed at 2026-11-01 11:32:09.229.
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.091 (0.106) seconds
+Test Suite 'RusukhAppTests.xctest' passed at 2026-11-01 11:32:09.230.
+	 Executed 11 tests, with 0 failures (0 unexpected) in 0.142 (0.161) seconds
+Test Suite 'All tests' passed at 2026-11-01 11:32:09.230.
+	 Executed 11 tests, with 0 failures (0 unexpected) in 0.142 (0.162) seconds
+    t =     7.57s Added attachment named '01-home'
+    t =    25.49s Added attachment named '02-notes'
+    t =    28.58s Added attachment named '03-arabic-search'
+    t =    43.47s Added attachment named '04-graph'
+    t =    46.10s Added attachment named '05-review'
+    t =    58.16s Added attachment named '06-quiz'
+    t =    64.06s Added attachment named '07-local-ai-availability'
+    t =    73.71s Added attachment named '08-simulator-camera-unavailable'
+Test Case '-[RusukhUITests.RusukhUITests testArabicStudyJourneyAndPersistence]' passed (74.019 seconds).
+    t =    46.46s Added attachment named '13-audio-background-and-reopen'
+Test Case '-[RusukhUITests.RusukhUITests testAudioStopsOnBackgroundAndCanRecordAgain]' passed (46.725 seconds).
+    t =    20.90s Added attachment named '09-simulator-audio-recorded'
+    t =    33.50s Added attachment named '10-simulator-audio-reopened'
+Test Case '-[RusukhUITests.RusukhUITests testSimulatorAudioAttachmentSurvivesRelaunch]' passed (33.770 seconds).
+    t =    10.80s Added attachment named '11-simulator-model-unavailable'
+Test Case '-[RusukhUITests.RusukhUITests testSimulatorModelAvailabilityDoesNotStartUnsupportedGPU]' passed (16.554 seconds).
+    t =    52.44s Added attachment named '12-native-model-download-verified'
+Test Case '-[RusukhUITests.RusukhUITests testZModelDownloadCancellationAndIntegrityThroughUI]' passed (52.715 seconds).
+Test Suite 'RusukhUITests' passed at 2026-11-01 11:35:59.070.
+	 Executed 5 tests, with 0 failures (0 unexpected) in 223.784 (223.789) seconds
+Test Suite 'RusukhUITests.xctest' passed at 2026-11-01 11:35:59.070.
+	 Executed 5 tests, with 0 failures (0 unexpected) in 223.784 (223.790) seconds
+Test Suite 'All tests' passed at 2026-11-01 11:35:59.071.
+	 Executed 5 tests, with 0 failures (0 unexpected) in 223.784 (223.791) seconds
+AV_AUDIO_MAIN_THREAD_WARNING_COUNT 0
+POST_UI_MODEL_DIRECTORY_VERIFIED

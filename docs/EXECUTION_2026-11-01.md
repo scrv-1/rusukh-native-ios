@@ -1,6 +1,6 @@
 # تقرير تنفيذ رُسوخ — 1 نوفمبر 2026 (الرياض)
 
-**آخر تحقق مكتمل: [Run 15](https://github.com/scrv-1/rusukh-native-ios/actions/runs/41260299774) نجح خلال 18m19s على `4ad47e97401996ea451d527e675e7eff7046c722`: 40 وحدة + 4 رحلات UI، بناء المحاكي والجهاز وxtool، و8 إجابات Swift على Mac مع حظر الشبكة.**
+**آخر تحقق مكتمل: [Run 18](https://github.com/scrv-1/rusukh-native-ios/actions/runs/41301469379) نجح خلال 20m02s على `07784236eb9d13fc77092fc8713f4ca31727f666`: 57 محرك + 11 تطبيق + 5 UI؛ runtimeWarnings فارغة. بُني Xcode وxtool، وشُغّل المحاكي، ووُلّدت 8 إجابات Swift على Mac دون شبكة. [تقرير الدفعة والبصمات والنواقص](DELIVERY_AUDIO_FSRS_2026-11-01.md).**
 
 هذا سجل مرحلي؛ معيار النجاح النهائي — تطبيق مستقل على آيفون المستخدم مع ذكاء عربي محلي مختبر — لم يتحقق بعد. لا يوجد ادعاء بتثبيت التطبيق على هاتف.
 
@@ -38,8 +38,8 @@
 | xcodebuild، تابع Xcode 27.1، CLI | بناء المحاكي والجهاز والاختبار | غير متاح | مثبت | نعم، Run 2 | GitHub | ضمن CI | نعم |
 | xcrun/simctl، تابع Xcode، CLI | اختيار SDK وتشغيل المحاكي | غير متاح | مثبت | نعم، boot/install/launch/screenshot | GitHub | ضمن CI | نعم |
 | iOS Simulator، إصدار runtime في artifact، تطبيق | تشغيل SwiftUI | غير متاح | مثبت | نعم، صورة حقيقية Run 2 | لا جهاز فعلي | ضمن CI | نعم؛ لا يعمل على الآيفون |
-| XCTest / XCUITest، إطار اختبار | المنطق ورحلة الواجهة | XCTest Linux تعطل | XCTest وXCUITest مثبتان | 40 اختبار محرك و4 رحلات واجهة ناجحة في Run 15 | لا | ضمن CI | نعم |
-| Swift Compiler/SPM: Apple 6.4 في CI؛ Linux 6.2.1 جُرّب، CLI | تجميع Swift والحزم | شُغّل --version وdump-package؛ لم تبقَ الحزمة بعد الاستئناف | مثبت Apple 6.4 | Linux swift test تعطل Signal 4، ليس نجاحًا | لا | مجاني + CI | Mac للاختبارات؛ لا إعادة تنزيل Linux الكبيرة |
+| XCTest / XCUITest، إطار اختبار | المنطق ورحلة الواجهة | XCTest Linux مثبت: 52 اختبارًا ناجحًا في الدفعة الجديدة | XCTest وXCUITest مثبتان | 40 اختبار محرك و4 رحلات واجهة ناجحة في Run 15 | لا | ضمن CI | نعم |
+| Swift Compiler/SPM: Apple 6.4 في CI؛ Linux 6.4.2، CLI | تجميع Swift والحزم | مثبت محليًا بعد توفير libncurses داخل toolchain | مثبت Apple 6.4 | Linux swift test: 52 اختبارًا ناجحًا؛ التجربة القديمة 6.2.1 كانت متعطلة | لا | مجاني + CI | Linux للتحقق السريع وMac لأطر Apple؛ راجع WORK_SWIFT_RUNTIME.md |
 | Instruments / xctrace، برنامج وCLI | الذاكرة والطاقة والأداء | غير متاح | مستنتج مع Xcode؛ لم يُشغّل | لا | جهاز حقيقي للبطارية والحرارة | الأداة مجانية؛ تشغيل CI محدود | لاحقًا بعد اتصال جهاز |
 | LLDB 2103.0.34.103، CLI debugger | تشخيص الانهيار | غير متاح | مثبت في Run 15 | --version فقط؛ لا جلسة debugging | لا | ضمن CI | عند وجود انهيار |
 | Accessibility Inspector، تطبيق | تدقيق الوصول | غير متاح | مستنتج مع Xcode؛ GUI غير موصول | لا | Mac تفاعلي | مجاني مع Xcode | لا ادعاء تدقيق VoiceOver كامل |
@@ -290,3 +290,8 @@ Run 13 بدأ على `443da1b14351edaeef305e8299203e9cec6bb6f6`: https://github.
 - حدود Expo Go: https://docs.expo.dev/develop/development-builds/faq/ ؛ بناء iOS: https://docs.expo.dev/tutorial/eas/ios-development-build-for-devices/
 
 نجاح بناء سابق لا يثبت صحة تعديلات لاحقة. لا يزال اختبار الآيفون والتوقيع وتقييم النموذج على الجهاز ضمن العمل غير المكتمل.
+
+
+## تحديث إصلاح الصوت وFSRS — Runs 16–18
+
+الدليل الحالي الكامل في [تقرير الدفعة](DELIVERY_AUDIO_FSRS_2026-11-01.md). نجح Run 18 بعد كشف بقاء تحذير الصوت في Run 16 وخطأ تصنيف مورد xtool في Run 17. السجل التفصيلي وخريطة المصادر ومصفوفة الاختبار حُدثت. أضيف اختبار ضغط Linux مستقل بعد تشغيل CI: ألف بطاقة و32000 مراجعة و32 دورة نسخ. ما بعد الالتزام المختبر يتضمن هذا الاختبار والتوثيق وفحص SwiftPM المبكر فقط، دون تعديل كود التطبيق.

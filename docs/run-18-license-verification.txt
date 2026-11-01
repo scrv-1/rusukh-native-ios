@@ -1,0 +1,3 @@
+FSRS_LICENSE_VERIFIED RusukhNative-simulator.zip dbae7360c54f48e7cbec4c7522c70cbac712af7967b5e4b0d0ac24837b8c4c48 ['RusukhNative.app/FSRS-LICENSE.txt']
+FSRS_LICENSE_VERIFIED RusukhNative-unsigned.ipa dbae7360c54f48e7cbec4c7522c70cbac712af7967b5e4b0d0ac24837b8c4c48 ['Payload/RusukhNative.app/FSRS-LICENSE.txt']
+FSRS_LICENSE_VERIFIED RusukhNative-xtool-unsigned.ipa dbae7360c54f48e7cbec4c7522c70cbac712af7967b5e4b0d0ac24837b8c4c48 ['Payload/RusukhNative.app/RusukhNative_RusukhNative.bundle/FSRS-LICENSE.txt']

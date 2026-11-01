@@ -36,10 +36,11 @@ public struct StudyCard: Codable, Identifiable, Equatable, Sendable {
     public var ease: Double
     public var repetitions: Int
     public var updatedAt: Date
+    public var fsrs: FSRSSchedule?
 
     public init(id: UUID = UUID(), noteID: UUID, question: String, answer: String,
                 dueAt: Date = .now, intervalDays: Int = 0, ease: Double = 2.5,
-                repetitions: Int = 0, updatedAt: Date = .now) {
+                repetitions: Int = 0, updatedAt: Date = .now, fsrs: FSRSSchedule? = nil) {
         self.id = id
         self.noteID = noteID
         self.question = question
@@ -48,6 +49,7 @@ public struct StudyCard: Codable, Identifiable, Equatable, Sendable {
         self.intervalDays = intervalDays
         self.ease = ease
         self.repetitions = repetitions
+        self.fsrs = fsrs
         self.updatedAt = updatedAt
     }
 }
@@ -75,7 +77,7 @@ public struct StudySnapshot: Codable, Equatable, Sendable {
 
     public init(notes: [StudyNote] = [], cards: [StudyCard] = [], reviews: [ReviewEvent] = []) {
         format = "rusukh-native-backup"
-        version = 1
+        version = cards.contains { $0.fsrs != nil } ? 2 : 1
         self.notes = notes
         self.cards = cards
         self.reviews = reviews
@@ -84,7 +86,7 @@ public struct StudySnapshot: Codable, Equatable, Sendable {
     public static let empty = StudySnapshot()
 
     public func isValid() -> Bool {
-        guard format == "rusukh-native-backup", version == 1,
+        guard format == "rusukh-native-backup", (version == 1 || version == 2),
               notes.count <= 10_000, cards.count <= 50_000, reviews.count <= 100_000 else { return false }
         let noteIDs = Set(notes.map(\.id))
         let cardIDs = Set(cards.map(\.id))
@@ -97,6 +99,7 @@ public struct StudySnapshot: Codable, Equatable, Sendable {
                 (note.audioM4A?.count ?? 0) > 2_000_000 { return false }
         }
         for card in cards {
+            if let state = card.fsrs, (version < 2 || !state.isValid(for: card)) { return false }
             // Preserve v1 backup compatibility; the composer trims new cards.
             if !noteIDs.contains(card.noteID) || card.question.isEmpty || card.answer.isEmpty ||
                 card.question.count > 10_000 || card.answer.count > 100_000 ||

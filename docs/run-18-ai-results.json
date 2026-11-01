@@ -1,0 +1,98 @@
+[
+  {
+    "macMLXActiveBytes": 2317454332,
+    "name": "summary",
+    "result": {
+      "answer": "الاسترجاع النشط هو تذكر المعلومات دون النظر إلى المصدر، بينما المراجعة المتباعدة تُقسّم جلسات التعلم على أيام مختلفة.",
+      "generatedTokens": 37,
+      "tokensPerSecond": 56.95303562912417,
+      "seconds": 6.84483802318573,
+      "truncated": false
+    },
+    "macMLXPeakBytes": 2536361572
+  },
+  {
+    "macMLXActiveBytes": 2294189052,
+    "name": "grounded_answer",
+    "result": {
+      "answer": "باريس",
+      "generatedTokens": 2,
+      "tokensPerSecond": 66.96796340499588,
+      "seconds": 0.3928520679473877,
+      "truncated": false
+    },
+    "macMLXPeakBytes": 2536361572
+  },
+  {
+    "macMLXActiveBytes": 2298055676,
+    "name": "flashcard",
+    "result": {
+      "answer": "س: ما المكونان الأساسيان للماء؟  \nج: الهيدروجين والأكسجين.",
+      "generatedTokens": 23,
+      "tokensPerSecond": 65.19404130913868,
+      "seconds": 0.7204190492630005,
+      "truncated": false
+    },
+    "macMLXPeakBytes": 2545864368
+  },
+  {
+    "macMLXActiveBytes": 2302184444,
+    "name": "unknown",
+    "result": {
+      "answer": "غير مذكور.",
+      "generatedTokens": 5,
+      "tokensPerSecond": 68.32749860308576,
+      "seconds": 0.34083807468414307,
+      "truncated": false
+    },
+    "macMLXPeakBytes": 2545864368
+  },
+  {
+    "macMLXActiveBytes": 2306903036,
+    "name": "negation",
+    "result": {
+      "answer": "لا، الضوء ليس موجة صوتية.  \nالضوء موجة كهرومغناطيسية، كما ورد في الملاحظة.",
+      "generatedTokens": 36,
+      "tokensPerSecond": 64.5670321240293,
+      "seconds": 0.9168329238891602,
+      "truncated": false
+    },
+    "macMLXPeakBytes": 2545864368
+  },
+  {
+    "macMLXActiveBytes": 2305543164,
+    "name": "schedule",
+    "result": {
+      "answer": "مواعيد المراجعة:  \nبعد يوم  \nبعد ثلاثة أيام  \nبعد سبعة أيام",
+      "generatedTokens": 20,
+      "tokensPerSecond": 63.01197651569326,
+      "seconds": 0.6789830923080444,
+      "truncated": false
+    },
+    "macMLXPeakBytes": 2545864368
+  },
+  {
+    "macMLXActiveBytes": 2300087292,
+    "name": "explain",
+    "result": {
+      "answer": "الاسترجاع النشط هو عملية تعلم الطالب لاسترجاع المعلومات من ذاكرته دون تكليف معلّم.  \nمثلاً: طالب يُعيد تلخيص محتوى درس \"الجذب الكهربائي\" بذاته دون تذكير، ثم يُفسرها لصديق.",
+      "generatedTokens": 81,
+      "tokensPerSecond": 62.987035916234355,
+      "seconds": 1.56228506565094,
+      "truncated": false
+    },
+    "macMLXPeakBytes": 2545864368
+  },
+  {
+    "macMLXActiveBytes": 2315521020,
+    "name": "faithfulness",
+    "result": {
+      "answer": "سؤال: ما درجة تجمد الماء النقي في الضغط الجوي العادي؟  \nجواب: صفر درجة مئوية.",
+      "generatedTokens": 33,
+      "tokensPerSecond": 64.39225992300118,
+      "seconds": 0.8649330139160156,
+      "truncated": false
+    },
+    "macMLXPeakBytes": 2564247224
+  }
+]

@@ -130,14 +130,16 @@ struct NoteEditorView: View {
                         Button("إيقاف التسجيل") { voice.finish() }.accessibilityIdentifier("voice.stop")
                     } else {
                         Button(voice.data == nil ? "تسجيل صوت" : "استبدال التسجيل") { Task { await voice.start() } }
-                            .disabled(voice.requestingPermission).accessibilityIdentifier("voice.record")
+                            .disabled(voice.busy).accessibilityIdentifier("voice.record")
                     }
                     if voice.data != nil && !voice.recording {
                         Button(voice.playing ? "إيقاف التشغيل" : "تشغيل التسجيل") {
-                            if voice.playing { voice.stopPlayback() } else { voice.play() }
+                            if voice.playing { voice.stopPlayback() } else { Task { await voice.play() } }
                         }
+                        .disabled(voice.busy)
                         Button("حذف التسجيل", role: .destructive) { voice.remove() }
                     }
+                    if voice.preparing { ProgressView("تهيئة الصوت") }
                     if let error = voice.error { Text(error).foregroundStyle(.secondary).accessibilityIdentifier("voice.error") }
                 }
                 Section("الكاميرا الأصلية") {
@@ -162,7 +164,7 @@ struct NoteEditorView: View {
                             dismiss()
                         }
                     }
-                    .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || voice.requestingPermission)
+                    .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || voice.busy)
                     .accessibilityIdentifier("note.save")
                 }
             }

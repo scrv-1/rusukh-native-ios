@@ -8,7 +8,10 @@ final class LibraryStore: ObservableObject {
     @Published private(set) var storageLocked = false
     private let repository: StudyRepository
 
-    init() {
+    init(repository override: StudyRepository? = nil) {
+        if let override {
+            repository = override
+        } else {
         let directory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
         var relativePath = "RusukhNative/study.json"
         #if DEBUG
@@ -20,6 +23,7 @@ final class LibraryStore: ObservableObject {
         }
         #endif
         repository = StudyRepository(fileURL: directory.appendingPathComponent(relativePath))
+        }
         do {
             snapshot = try repository.load()
         } catch {
@@ -31,6 +35,8 @@ final class LibraryStore: ObservableObject {
     var due: [StudyCard] { StudyEngine.dueCards(snapshot.cards) }
 
     private func commit(_ updated: StudySnapshot) -> Bool {
+        var updated = updated
+        if updated.cards.contains(where: { $0.fsrs != nil }) { updated.version = 2 }
         guard !storageLocked else { message = "البيانات مقفلة للحفاظ على نسخة الملف المعطوبة."; return false }
         do {
             try repository.save(updated)
@@ -78,7 +84,7 @@ final class LibraryStore: ObservableObject {
         let a = answer.trimmingCharacters(in: .whitespacesAndNewlines)
         guard snapshot.notes.contains(where: { $0.id == noteID }), !q.isEmpty, !a.isEmpty else { return false }
         var draft = snapshot
-        draft.cards.append(StudyCard(noteID: noteID, question: q, answer: a))
+        draft.cards.append(ReviewScheduler.newCard(noteID: noteID, question: q, answer: a))
         return commit(draft)
     }
 
@@ -89,7 +95,7 @@ final class LibraryStore: ObservableObject {
         var added = 0
         for pair in pairs {
             if !draft.cards.contains(where: { $0.noteID == noteID && $0.question == pair.question && $0.answer == pair.answer }) {
-                draft.cards.append(StudyCard(noteID: noteID, question: pair.question, answer: pair.answer))
+                draft.cards.append(ReviewScheduler.newCard(noteID: noteID, question: pair.question, answer: pair.answer))
                 added += 1
             }
         }
@@ -101,9 +107,13 @@ final class LibraryStore: ObservableObject {
         guard let index = snapshot.cards.firstIndex(where: { $0.id == card.id }) else { return }
         var draft = snapshot
         let now = Date()
-        draft.cards[index] = StudyEngine.scheduled(card, grade: grade, now: now)
-        draft.reviews.append(ReviewEvent(cardID: card.id, grade: grade, at: now))
-        _ = commit(draft)
+        do {
+            draft.cards[index] = try ReviewScheduler.scheduled(draft.cards[index], grade: grade, now: now)
+            draft.reviews.append(ReviewEvent(cardID: card.id, grade: grade, at: now))
+            _ = commit(draft)
+        } catch {
+            message = "تعذّر تحديث موعد المراجعة؛ لم تتغير البطاقة."
+        }
     }
 
     func exportToTemporaryFile() -> URL? {

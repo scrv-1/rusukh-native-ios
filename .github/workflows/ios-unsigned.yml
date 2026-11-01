@@ -40,6 +40,7 @@ jobs:
       - name: Test core logic
         run: |
           set -o pipefail
+          RUSUKH_XTOOL=1 swift package describe --type json > evidence/xtool-package-description.json
           swift test 2>&1 | tee evidence/core-tests.log
       - name: Generate Xcode project
         run: |
@@ -85,6 +86,10 @@ jobs:
           xtool --version | tee evidence/xtool-version.txt
           bash scripts/build-xtool.sh 2>&1 | tee evidence/xtool-build.log
           cp xtool/RusukhNative.ipa RusukhNative-xtool-unsigned.ipa
+      - name: Verify bundled open-source notice
+        run: |
+          set -o pipefail
+          python3 scripts/verify-fsrs-license.py | tee evidence/fsrs-license-verification.txt
       - name: Provision verified local model for simulator test
         timeout-minutes: 5
         run: |
