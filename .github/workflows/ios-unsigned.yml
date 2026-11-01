@@ -40,6 +40,7 @@ jobs:
       - name: Test core logic
         run: |
           set -o pipefail
+          RUSUKH_XTOOL=1 swift package describe --type json > evidence/xtool-package-description.json
           swift test 2>&1 | tee evidence/core-tests.log
       - name: Generate Xcode project
         run: |
