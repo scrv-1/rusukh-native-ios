@@ -31,4 +31,14 @@ if log.exists():
              if any(term in line.lower() for term in ['mlx', 'metal', 'fatal', 'abort', 'exception'])]
     print('APP_DIAGNOSTIC_EXCERPT\n' + '\n'.join(lines[-80:]))
 PYLOG
+# XCTest can reinstall the app and change its data-container UUID. Resolve the
+# current container after the final download test, while Simulator is booted.
+if [[ "$TEST_RESULT" == 0 ]]; then
+  APP_DATA=$(xcrun simctl get_app_container "$SIMULATOR_ID" com.scrv1.rusukhnative data)
+  MODEL_DIRECTORY="$APP_DATA/Library/Application Support/RusukhTestModels/Qwen3-Instruct-2507"
+  test -s "$MODEL_DIRECTORY/config.json"
+  test -s "$MODEL_DIRECTORY/model.safetensors"
+  printf '%s\n' "$MODEL_DIRECTORY" > evidence/ai-simulator-model-directory.txt
+  echo 'POST_UI_MODEL_DIRECTORY_VERIFIED'
+fi
 exit "$TEST_RESULT"
