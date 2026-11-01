@@ -37,6 +37,29 @@ private final class RecordingAudioDriver: AudioSessionDriver, @unchecked Sendabl
 }
 
 final class AudioSessionCoordinatorTests: XCTestCase {
+    @MainActor
+    func testMediaInitializationRunsOffMainThread() async throws {
+        let coordinator = AudioSessionCoordinator(driver: RecordingAudioDriver())
+        let owner = UUID()
+        try await activate(coordinator, owner, .recording)
+        let onMain = try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Bool, Error>) in
+            coordinator.perform(owner: owner, operation: { Thread.isMainThread }) { continuation.resume(with: $0) }
+        }
+        XCTAssertFalse(onMain)
+        await release(coordinator, owner)
+    }
+
+    @MainActor
+    func testMediaCannotStartAfterSessionWasReleased() async throws {
+        let coordinator = AudioSessionCoordinator(driver: RecordingAudioDriver())
+        let owner = UUID()
+        try await activate(coordinator, owner, .recording)
+        await release(coordinator, owner)
+        let result = await withCheckedContinuation { (continuation: CheckedContinuation<Result<Void, Error>, Never>) in
+            coordinator.perform(owner: owner, operation: { XCTFail("Released media operation executed") }) { continuation.resume(returning: $0) }
+        }
+        if case .success = result { XCTFail("Expected stale owner rejection") }
+    }
     func testCleanupFailureIsReported() async {
         let failure = expectation(description: "Cleanup error reported")
         let released = expectation(description: "Cleanup attempt finished")
