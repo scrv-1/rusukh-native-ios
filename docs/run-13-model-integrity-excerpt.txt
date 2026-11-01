@@ -1,0 +1,88 @@
+Source: https://github.com/scrv-1/rusukh-native-ios/actions/runs/41257552332/job/124703839158
+Visible GitHub log excerpt.
+
+Provision verified local model for simulator test
+2m 12s
+1
+Run set -o pipefail
+
+14
+Monitoring boot status for iPhone 17 (F82EF267-78B0-4334-8AE6-2C58E00EE70F).
+
+15
+Device already booted, nothing to do.
+
+17
+VERIFIED added_tokens.json 707 c0284b582e14987fbd3d5a2cb2bd139084371ed9acbae488829a1c900833c680
+
+18
+VERIFIED chat_template.jinja 4040 40c21f34cf67d8c760ef72f8ad3ae5afad514299d4b06e91dd9a8d705af7b541
+
+19
+VERIFIED config.json 938 574349e5a343236546fda55e4744a76e181f534182d7dc60ff1bad7e7a502849
+
+20
+VERIFIED generation_config.json 238 835fffe355c9438e7a25be099b3fccaa98350b83451f9fd2d99512e74f1ade48
+
+21
+VERIFIED merges.txt 1671853 8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5
+
+22
+VERIFIED model.safetensors 2263022417 2a73c6c248601ab904e035548abd8e6abb65ea27dcb5f342fb0a8910eb44173f
+
+23
+VERIFIED model.safetensors.index.json 63964 388d811b8b7c2608dd04cce1bcb04a8bf715d19b42790894e6d3427ff429a777
+
+24
+VERIFIED special_tokens_map.json 613 76862e765266b85aa9459767e33cbaf13970f327a0e88d1c65846c2ddd3a1ecd
+
+25
+VERIFIED tokenizer.json 11422654 aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4
+
+26
+VERIFIED tokenizer_config.json 5440 4397cc477eb6d79715ccd2000accd6b3531928f30029665832fa1b255f24d2b9
+
+27
+VERIFIED vocab.json 2776833 ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910
+
+28
+VERIFIED LICENSE 11343 832dd9e00a68dd83b3c3fb9f5588dad7dcf337a0db50f7d9483f310cd292e92e
+
+29
+SWIFT_SHA256_VERIFIED added_tokens.json
+
+30
+SWIFT_SHA256_VERIFIED chat_template.jinja
+
+31
+SWIFT_SHA256_VERIFIED config.json
+
+32
+SWIFT_SHA256_VERIFIED generation_config.json
+
+33
+SWIFT_SHA256_VERIFIED merges.txt
+
+34
+SWIFT_SHA256_VERIFIED model.safetensors
+
+35
+SWIFT_SHA256_VERIFIED model.safetensors.index.json
+
+36
+SWIFT_SHA256_VERIFIED special_tokens_map.json
+
+37
+SWIFT_SHA256_VERIFIED tokenizer.json
+
+38
+SWIFT_SHA256_VERIFIED tokenizer_config.json
+
+39
+SWIFT_SHA256_VERIFIED vocab.json
+
+40
+SWIFT_SHA256_VERIFIED LICENSE
+
+41
+MODEL_INTEGRITY_TESTS_PASSED valid, corruption, truncation, oversize
