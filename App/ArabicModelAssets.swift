@@ -40,9 +40,13 @@ actor ArabicModelAssets {
     }
 
     static func directory() throws -> URL {
-        try FileManager.default.url(for: .applicationSupportDirectory, in: .userDomainMask,
+        var root = "RusukhModels"
+        #if DEBUG
+        if ProcessInfo.processInfo.arguments.contains("-ui-testing") { root = "RusukhTestModels" }
+        #endif
+        return try FileManager.default.url(for: .applicationSupportDirectory, in: .userDomainMask,
                                     appropriateFor: nil, create: true)
-            .appendingPathComponent("RusukhModels/Qwen3-Instruct-2507", isDirectory: true)
+            .appendingPathComponent(root + "/Qwen3-Instruct-2507", isDirectory: true)
     }
 
     func ready() -> Bool {
