@@ -22,6 +22,19 @@ settings:
     TARGETED_DEVICE_FAMILY: "1"
     DEVELOPMENT_TEAM: ""
 targets:
+  RusukhAppTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: [AppTests]
+    dependencies:
+      - target: RusukhNative
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_BUNDLE_IDENTIFIER: com.scrv1.rusukhnative.apptests
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/RusukhNative.app/RusukhNative"
+        BUNDLE_LOADER: "$(TEST_HOST)"
+        CODE_SIGNING_ALLOWED: NO
   RusukhUITests:
     type: bundle.ui-testing
     platform: iOS
@@ -82,5 +95,6 @@ schemes:
       targets:
         RusukhNative: all
         RusukhUITests: [test]
+        RusukhAppTests: [test]
     test:
-      targets: [RusukhUITests]
+      targets: [RusukhAppTests, RusukhUITests]

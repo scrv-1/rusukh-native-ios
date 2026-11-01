@@ -10,7 +10,7 @@ let package = isApp ? Package(
     platforms: [.iOS(.v26)],
     products: [.library(name: "RusukhNative", targets: ["RusukhNative"])],
     targets: [.target(name: "RusukhNative", path: ".",
-        exclude: ["App/Assets.xcassets", "App/Info.plist", "App/PrivacyInfo.xcprivacy", "Tests", "UITests", "docs", "scripts", "project.yml", "xtool.yml", "README.md", "Info-xtool.plist"],
+        exclude: ["App/Assets.xcassets", "App/Info.plist", "App/PrivacyInfo.xcprivacy", "Tests", "AppTests", "UITests", "docs", "scripts", "project.yml", "xtool.yml", "README.md", "Info-xtool.plist"],
         sources: ["App", "Sources/RusukhCore"],
         swiftSettings: [.swiftLanguageMode(.v5)])]
 ) : Package(
