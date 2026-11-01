@@ -1,0 +1,72 @@
+Run: https://github.com/scrv-1/rusukh-native-ios/actions/runs/41260299774
+Commit: 4ad47e97401996ea451d527e675e7eff7046c722
+Visible GitHub Actions log excerpt.
+
+Verify current Swift runtime offline on Mac (not Simulator)
+4m 19s
+1
+Run set -o pipefail
+
+12
+⚙️  Generating plists...
+
+13
+⚙️  Generating project...
+
+14
+⚙️  Writing project...
+
+15
+Created project at /Users/runner/work/rusukh-native-ios/rusukh-native-ios/RusukhAIProbe.xcodeproj
+
+16
+NETWORK_DENIAL_CONFIRMED Swift process received EPERM/EACCES
+
+17
+METAL_DEVICE Apple Paravirtual device
+
+18
+{"macMLXPeakBytes":2536361572,"name":"summary","macMLXActiveBytes":2317454332,"result":{"generatedTokens":37,"answer":"الاسترجاع النشط هو تذكر المعلومات دون النظر إلى المصدر، بينما المراجعة المتباعدة تُقسّم جلسات التعلم على أيام مختلفة.","seconds":7.59998095035553,"truncated":false,"tokensPerSecond":56.94629577577457}}
+
+19
+{"macMLXPeakBytes":2536361572,"name":"grounded_answer","macMLXActiveBytes":2305264636,"result":{"generatedTokens":2,"answer":"باريس","seconds":0.39221394062042236,"truncated":false,"tokensPerSecond":69.36488760444703}}
+
+20
+{"macMLXPeakBytes":2545978972,"name":"flashcard","macMLXActiveBytes":2308819964,"result":{"generatedTokens":23,"answer":"س: ما المكونان الأساسيان للماء؟  \nج: الهيدروجين والأكسجين.","seconds":0.7235360145568848,"truncated":false,"tokensPerSecond":63.5882428744269}}
+
+21
+{"macMLXPeakBytes":2545978972,"name":"unknown","macMLXActiveBytes":2311556092,"result":{"generatedTokens":5,"answer":"غير مذكور.","seconds":0.34116697311401367,"truncated":false,"tokensPerSecond":63.09150011206428}}
+
+22
+{"macMLXPeakBytes":2545978972,"name":"negation","macMLXActiveBytes":2314439676,"result":{"generatedTokens":36,"answer":"لا، الضوء ليس موجة صوتية.  \nالضوء موجة كهرومغناطيسية، كما ورد في الملاحظة.","seconds":0.9281729459762573,"truncated":false,"tokensPerSecond":62.244331196275105}}
+
+23
+{"macMLXPeakBytes":2545978972,"name":"schedule","macMLXActiveBytes":2314439676,"result":{"generatedTokens":20,"answer":"مواعيد المراجعة:  \nبعد يوم  \nبعد ثلاثة أيام  \nبعد سبعة أيام","seconds":0.6748220920562744,"truncated":false,"tokensPerSecond":63.242114627448544}}
+
+24
+{"macMLXPeakBytes":2545978972,"name":"explain","macMLXActiveBytes":2310999036,"result":{"generatedTokens":81,"answer":"الاسترجاع النشط هو عملية تعلم الطالب لاسترجاع المعلومات من ذاكرته دون تكليف معلّم.  \nمثلاً: طالب يُعيد تلخيص محتوى درس \"الجذب الكهربائي\" بذاته دون تذكير، ثم يُفسرها لصديق.","seconds":1.546612024307251,"truncated":false,"tokensPerSecond":63.78183946789052}}
+
+25
+{"macMLXPeakBytes":2564247224,"name":"faithfulness","macMLXActiveBytes":2316291068,"result":{"generatedTokens":33,"answer":"سؤال: ما درجة تجمد الماء النقي في الضغط الجوي العادي؟  \nجواب: صفر درجة مئوية.","seconds":0.8773210048675537,"truncated":false,"tokensPerSecond":64.02135833279563}}
+
+26
+MAC_MLX_MEMORY_AFTER_UNLOAD active=4064 cache=0; peaks above are cumulative Mac pool bytes, not iPhone RSS
+Record artifact checksums
+0s
+1
+Run shasum -a 256 RusukhNative-simulator.zip RusukhNative-unsigned.ipa RusukhNative-xtool-unsigned.ipa evidence/simulator-home.png | tee evidence/SHA256SUMS.txt
+
+9
+cfe9e2f9b1682b3b66c21cfd441d5a60983eee03f3bae1bf1c92340f2c09c637  RusukhNative-simulator.zip
+
+10
+1a502ed2e0e3b458e26544ac542e362661b9e8f806fe5631e68bf5f2bbbe8d60  RusukhNative-unsigned.ipa
+
+11
+2c809d6749684742a9a749aa9bad1076daf3ff027f0c4486ec117a463e77aba7  RusukhNative-xtool-unsigned.ipa
+
+12
+969b7c75f4a7ea7322542c8ea9afb466041df910472cd92e181db7af0c2647ff  evidence/simulator-home.png
+
+13
+/Users/runner/work/_temp/device-build/Build/Products/Release-iphoneos/RusukhNative.app/PrivacyInfo.xcprivacy: OK

@@ -1,0 +1,145 @@
+Visible GitHub Actions UI log excerpt; not a replacement for complete xcresult.
+Run: https://github.com/scrv-1/rusukh-native-ios/actions/runs/41258893107
+Commit: 34583b5d94d05bb83ffe1387868feb137ccc744d
+
+Test Case '-[RusukhUITests.RusukhUITests testZModelDownloadCancellationAndIntegrityThroughUI]' passed (52.901 seconds).
+
+1102
+Test Suite 'RusukhUITests' passed at 2026-11-01 01:08:47.965.
+
+1103
+	 Executed 4 tests, with 0 failures (0 unexpected) in 178.099 (178.104) seconds
+
+1104
+Test Suite 'RusukhUITests.xctest' passed at 2026-11-01 01:08:47.966.
+
+1105
+	 Executed 4 tests, with 0 failures (0 unexpected) in 178.099 (178.105) seconds
+
+1106
+Test Suite 'All tests' passed at 2026-11-01 01:08:47.966.
+
+1107
+	 Executed 4 tests, with 0 failures (0 unexpected) in 178.099 (178.107) seconds
+
+1108
+2026-11-01 01:08:48.024 xcodebuild[55014:142730] [MT] IDESchemeActionSDKRecord: operatingSystemBuild = <DVTBuildVersion 24A94232>, error = invalidDigitCount(94232).
+
+1109
+2026-11-01 01:08:48.025 xcodebuild[55014:142730] [MT] IDESchemeActionSDKRecord: operatingSystemBuild = <DVTBuildVersion 24A94232>, error = invalidDigitCount(94232).
+
+1110
+2026-11-01 01:08:48.029 xcodebuild[55014:142730] [MT] IDESchemeActionSDKRecord: operatingSystemBuild = <DVTBuildVersion 24A94232>, error = invalidDigitCount(94232).
+
+1111
+2026-11-01 01:08:48.071 xcodebuild[55014:142730] [MT] IDESchemeActionSDKRecord: operatingSystemBuild = <DVTBuildVersion 24A94232>, error = invalidDigitCount(94232).
+
+1112
+2026-11-01 01:08:48.072 xcodebuild[55014:142730] [MT] IDESchemeActionSDKRecord: operatingSystemBuild = <DVTBuildVersion 24A94232>, error = invalidDigitCount(94232).
+
+1113
+2026-11-01 01:08:48.072 xcodebuild[55014:142730] [MT] IDESchemeActionSDKRecord: operatingSystemBuild = <DVTBuildVersion 24A94232>, error = invalidDigitCount(94232).
+
+1114
+2026-11-01 01:09:01.284 xcodebuild[55014:142730] [MT] IDETestOperationsObserverDebug: 203.754 elapsed -- Testing started completed.
+
+1115
+2026-11-01 01:09:01.284 xcodebuild[55014:142730] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
+
+1116
+2026-11-01 01:09:01.284 xcodebuild[55014:142730] [MT] IDETestOperationsObserverDebug: 203.754 sec, +203.754 sec -- end
+
+1117
+Test session results, code coverage, and logs:
+
+1118
+	/Users/runner/work/rusukh-native-ios/rusukh-native-ios/evidence/RusukhUI.xcresult
+
+1119
+** TEST SUCCEEDED **
+
+1123
+Testing started
+
+1124
+Exported 8 attachments for: RusukhUITests/testArabicStudyJourneyAndPersistence():
+
+1125
+File: 400B1293-8288-4061-AD0A-AF3AF60B3BE7.png, suggested name: "08-simulator-camera-unavailable_0_DF57089E-BDB6-4B97-ABD5-61C3D2B8AB33.png"
+
+1126
+File: 28F2EF19-1C06-4190-8472-9865C3564765.png, suggested name: "07-local-ai-availability_0_5AFC8C8C-26B0-41F3-B063-0B9886B0171A.png"
+
+1127
+File: 8087CA63-CA74-4453-81DF-A3167FBB16BE.png, suggested name: "06-quiz_0_A2E79269-48D2-4D73-9254-670BBD5D975F.png"
+
+1128
+File: 02359BBC-EAFA-416A-9FB8-6FA88DC245DF.png, suggested name: "05-review_0_736DE67E-1E5C-4F4D-8B02-F71A7BAEFA7F.png"
+
+1129
+File: 8A6A35C2-3106-452D-9653-3ABCE9F7B60F.png, suggested name: "04-graph_0_1F18D368-D598-4821-9074-C14C071D5288.png"
+
+1130
+File: 020AB99E-48BF-47C4-A560-CE35675579F5.png, suggested name: "03-arabic-search_0_711641E0-ED42-4049-AE86-FD23E496D04C.png"
+
+1131
+File: 8835CD2B-57BC-421F-B533-5030942ACA0B.png, suggested name: "02-notes_0_A3C9249A-BB67-4077-95A3-9138D4B20F9D.png"
+
+1132
+File: 7A8BE2BE-CF7C-43F0-ABAB-DA601F48C125.png, suggested name: "01-home_0_28EDCFD3-7326-4A0B-859B-4A9AB1A45868.png"
+
+1133
+Exported 2 attachments for: RusukhUITests/testSimulatorAudioAttachmentSurvivesRelaunch():
+
+1134
+File: 79932FBE-0CDB-4B33-9EDA-31B3FB514D6D.png, suggested name: "10-simulator-audio-reopened_0_FFAB5B6A-10EC-47BA-87EA-6AD54F1A6C41.png"
+
+1135
+File: 4C01BD9B-3840-48C6-A5AC-D80ABE7AD5B1.png, suggested name: "09-simulator-audio-recorded_0_1ED6C8C2-6F5A-4416-8F99-6474348B9B5B.png"
+
+1136
+Exported 1 attachment for: RusukhUITests/testSimulatorModelAvailabilityDoesNotStartUnsupportedGPU():
+
+1137
+File: 0D68FEA1-EADA-44AD-8DE3-CC98E3B0D54B.png, suggested name: "11-simulator-model-unavailable_0_C518A57F-2676-46FE-AC55-82C3F0E21E03.png"
+
+1138
+Exported 1 attachment for: RusukhUITests/testZModelDownloadCancellationAndIntegrityThroughUI():
+
+1139
+File: 378114FB-3D3F-4C02-8B6D-E1BDD94DC7F3.png, suggested name: "12-native-model-download-verified_0_423F615F-89CC-471A-9AFE-B097D19D1969.png"
+
+1140
+Generated manifest file with attachment details: /Users/runner/work/rusukh-native-ios/rusukh-native-ios/evidence/ui-attachments/manifest.json
+
+1145
+getpwuid_r did not find a match for uid 501
+
+1146
+UI_TEST_SUMMARY {"devicesAndConfigurations": [{"device": {"architecture": "arm64", "deviceId": "F82EF267-78B0-4334-8AE6-2C58E00EE70F", "deviceName": "iPhone 17", "modelName": "iPhone 17", "osBuildNumber": "24A434", "osVersion": "27.0", "platform": "iOS Simulator"}, "expectedFailures": 0, "failedTests": 0, "passedTests": 4, "skippedTests": 0, "testPlanConfiguration": {"configurationId": "1", "configurationName": "Test Scheme Action"}}], "environmentDescription": "RusukhNative · Built with macOS 27.0.1", "expectedFailures": 0, "failedTests": 0, "finishTime": 1793495341.297, "passedTests": 4, "result": "Passed", "runtimeWarnings": [{"issueType": "Runtime Warning", "message": "    AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread."}, {"issueType": "Runtime Warning", "message": "    AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the
+
+1147
+APP_DIAGNOSTIC_EXCERPT
+Verify current Swift runtime offline on Mac (not Simulator)
+1
+Run set -o pipefail
+
+10
+⚙️  Generating plists...
+
+11
+⚙️  Generating project...
+
+12
+⚙️  Writing project...
+
+13
+Created project at /Users/runner/work/rusukh-native-ios/rusukh-native-ios/RusukhAIProbe.xcodeproj
+Record artifact checksums
+Upload simulator app
+Upload unsigned device IPA
+Package source with xtool configuration
+Upload xtool project
+Upload xtool IPA
+Upload build evidence
+Post Checkout source

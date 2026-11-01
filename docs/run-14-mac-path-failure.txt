@@ -1,0 +1,349 @@
+Run14; app builds and 4 UI tests passed, separate Mac probe failed before generation.
+Verify current Swift runtime offline on Mac (not Simulator)
+4m 4s
+1
+Run set -o pipefail
+
+10
+⚙️  Generating plists...
+
+11
+⚙️  Generating project...
+
+12
+⚙️  Writing project...
+
+13
+Created project at /Users/runner/work/rusukh-native-ios/rusukh-native-ios/RusukhAIProbe.xcodeproj
+
+14
+Swift/ErrorType.swift:254: Fatal error: Error raised at top level: MLXLMCommon.ModelFactoryError.configurationFileError("config.json", "RusukhTestModels/Qwen3-Instruct-2507", Error Domain=NSCocoaErrorDomain Code=260 "The file “config.json” couldn’t be opened because there is no such file." UserInfo={NSFilePath=/Users/runner/Library/Developer/CoreSimulator/Devices/F82EF267-78B0-4334-8AE6-2C58E00EE70F/data/Containers/Data/Application/27139AAE-C6CB-46FA-AC98-14027F1CCD95/Library/Application Support/RusukhTestModels/Qwen3-Instruct-2507/config.json, NSURL=file:///Users/runner/Library/Developer/CoreSimulator/Devices/F82EF267-78B0-4334-8AE6-2C58E00EE70F/data/Containers/Data/Application/27139AAE-C6CB-46FA-AC98-14027F1CCD95/Library/Application%20Support/RusukhTestModels/Qwen3-Instruct-2507/config.json, NSUnderlyingError=0x7bfd044330 {Error Domain=NSPOSIXErrorDomain Code=2 "No such file or directory"}})
+
+15
+/Users/runner/work/_temp/669af5ca-f04c-4064-9dc9-59075dd07e29.sh: line 5: 83213 Trace/BPT trap: 5       sandbox-exec -p '(version 1)(allow default)(deny network*)' "$RUNNER_TEMP/ai-swift-build/Build/Products/Release/RusukhAIProbe" "$MODEL_DIRECTORY" docs/arabic-eval-cases.json
+
+16
+     83214 Done                    | tee evidence/ai-swift-inference.log
+
+17
+Error: Process completed with exit code 133.
+Record artifact checksums
+0s
+Upload simulator app
+2s
+1
+Run actions/upload-artifact@v4
+
+12
+  
+
+12
+(node:83216) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+
+13
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+14
+With the provided path, there will be 1 file uploaded
+
+15
+Artifact name is valid!
+
+16
+Root directory input is valid!
+
+17
+Beginning upload of artifact content to blob storage
+
+18
+(node:83216) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+
+19
+Uploaded bytes 8388608
+
+20
+Uploaded bytes 16384247
+
+21
+Finished uploading artifact content to blob storage!
+
+22
+SHA256 digest of uploaded artifact zip is 39280ebe933a4429ce0fa888d61267fdd1ed14490e0eea322b7bcc94bbe22c0a
+
+23
+Finalizing artifact upload
+
+24
+Artifact RusukhNative-simulator.zip successfully finalized. Artifact ID 13065002063
+
+25
+Artifact RusukhNative-simulator has been successfully uploaded! Final size is 16384247 bytes. Artifact ID is 13065002063
+
+26
+Artifact download URL: https://github.com/scrv-1/rusukh-native-ios/actions/runs/41258893107/artifacts/13065002063
+Upload unsigned device IPA
+2s
+1
+Run actions/upload-artifact@v4
+
+12
+  
+
+12
+(node:83226) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+
+13
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+14
+With the provided path, there will be 1 file uploaded
+
+15
+Artifact name is valid!
+
+16
+Root directory input is valid!
+
+17
+Beginning upload of artifact content to blob storage
+
+18
+(node:83226) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+
+19
+Uploaded bytes 8388608
+
+20
+Uploaded bytes 9166511
+
+21
+Finished uploading artifact content to blob storage!
+
+22
+SHA256 digest of uploaded artifact zip is 6375643fdacff98783a2ffd13ee4acf55b417a4da8f0d1aaab4d8f20e343b850
+
+23
+Finalizing artifact upload
+
+24
+Artifact RusukhNative-unsigned-ipa.zip successfully finalized. Artifact ID 13064802558
+
+25
+Artifact RusukhNative-unsigned-ipa has been successfully uploaded! Final size is 9166511 bytes. Artifact ID is 13064802558
+
+26
+Artifact download URL: https://github.com/scrv-1/rusukh-native-ios/actions/runs/41258893107/artifacts/13064802558
+Package source with xtool configuration
+0s
+1
+Run git archive --format=zip --prefix=RusukhNative-xtool/ HEAD -o RusukhNative-xtool-project.zip
+
+7
+  
+
+7
+532d8fceb4d270febf8ea23004ce83a44ddece06ba0be960bc410ef2210943e6  RusukhNative-xtool-project.zip
+Upload xtool project
+2s
+1
+Run actions/upload-artifact@v4
+
+12
+(node:83593) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+
+13
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+14
+With the provided path, there will be 1 file uploaded
+
+15
+Artifact name is valid!
+
+16
+Root directory input is valid!
+
+17
+Beginning upload of artifact content to blob storage
+
+18
+(node:83593) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+
+19
+Uploaded bytes 96887
+
+20
+Finished uploading artifact content to blob storage!
+
+21
+SHA256 digest of uploaded artifact zip is e83477867bcf98a52b45c6b3962b6fde49802cadec3eec55861a2b769a269455
+
+22
+Finalizing artifact upload
+
+23
+Artifact RusukhNative-xtool-project.zip successfully finalized. Artifact ID 13064384089
+
+24
+Artifact RusukhNative-xtool-project has been successfully uploaded! Final size is 96887 bytes. Artifact ID is 13064384089
+
+25
+Artifact download URL: https://github.com/scrv-1/rusukh-native-ios/actions/runs/41258893107/artifacts/13064384089
+Upload xtool IPA
+1s
+1
+Run actions/upload-artifact@v4
+
+12
+(node:83598) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+
+13
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+14
+With the provided path, there will be 1 file uploaded
+
+15
+Artifact name is valid!
+
+16
+Root directory input is valid!
+
+17
+Beginning upload of artifact content to blob storage
+
+18
+(node:83598) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+
+19
+Uploaded bytes 415121
+
+20
+Finished uploading artifact content to blob storage!
+
+21
+SHA256 digest of uploaded artifact zip is b97f6947a99f8f7b82edf9340887ac579eff40c4fd28c937ea4271f9a2eccbbf
+
+22
+Finalizing artifact upload
+
+23
+Artifact RusukhNative-xtool-unsigned-ipa.zip successfully finalized. Artifact ID 13064528350
+
+24
+Artifact RusukhNative-xtool-unsigned-ipa has been successfully uploaded! Final size is 415121 bytes. Artifact ID is 13064528350
+
+25
+Artifact download URL: https://github.com/scrv-1/rusukh-native-ios/actions/runs/41258893107/artifacts/13064528350
+Upload build evidence
+4s
+1
+Run actions/upload-artifact@v4
+
+12
+(node:83602) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+
+13
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+14
+With the provided path, there will be 1629 files uploaded
+
+15
+Artifact name is valid!
+
+16
+Root directory input is valid!
+
+17
+Beginning upload of artifact content to blob storage
+
+18
+(node:83602) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+
+19
+Uploaded bytes 8388608
+
+20
+Uploaded bytes 16777216
+
+21
+Uploaded bytes 25165824
+
+22
+Uploaded bytes 33554432
+
+23
+Uploaded bytes 41943040
+
+24
+Uploaded bytes 50331648
+
+25
+Uploaded bytes 55583508
+
+26
+Finished uploading artifact content to blob storage!
+
+27
+SHA256 digest of uploaded artifact zip is 78cd3c1efb7cfdb7544987141057ecaf1bd7847551443bcda9f5e95ec634f1f8
+
+28
+Finalizing artifact upload
+
+29
+Artifact RusukhNative-build-evidence.zip successfully finalized. Artifact ID 13064418785
+
+30
+Artifact RusukhNative-build-evidence has been successfully uploaded! Final size is 55583508 bytes. Artifact ID is 13064418785
+
+31
+Artifact download URL: https://github.com/scrv-1/rusukh-native-ios/actions/runs/41258893107/artifacts/13064418785
+Post Checkout source
+1s
+1
+Post job cleanup.
+
+2
+/opt/homebrew/bin/git version
+
+3
+git version 2.56.0
+
+4
+Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/55ed91e3-a61c-4409-8671-64eeaf03c468/.gitconfig'
+
+5
+Temporarily overriding HOME='/Users/runner/work/_temp/55ed91e3-a61c-4409-8671-64eeaf03c468' before making global git config changes
+
+6
+Adding repository directory to the temporary git global config as a safe directory
+
+7
+/opt/homebrew/bin/git config --global --add safe.directory /Users/runner/work/rusukh-native-ios/rusukh-native-ios
+
+8
+/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+
+9
+/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+
+10
+/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+
+11
+http.https://github.com/.extraheader
+
+12
+/opt/homebrew/bin/git config --local --unset-all http.https://github.com/.extraheader
+
+13
+/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+
+14
+/opt/homebrew/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+
+15
+/opt/homebrew/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Complete job
+1s
