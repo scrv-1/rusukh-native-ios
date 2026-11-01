@@ -35,3 +35,5 @@ for item in manifest['files']:
     print('VERIFIED', name, count, digest.hexdigest(), flush=True)
 (folder / 'verified.txt').write_text(manifest['revision'])
 Path('evidence/ai-simulator-model.json').write_text(json.dumps(manifest, indent=2))
+
+Path("evidence/ai-simulator-model-directory.txt").write_text(str(folder))

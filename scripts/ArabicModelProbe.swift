@@ -1,12 +1,18 @@
 import Foundation
 import Darwin
 import Metal
+import MLX
 
 @main
 struct ArabicModelProbe {
     struct Input: Decodable { let cases: [Case] }
     struct Case: Decodable { let name: String; let prompt: String }
-    struct Output: Encodable { let name: String; let result: ArabicModelRuntime.Result }
+    struct Output: Encodable {
+        let name: String
+        let result: ArabicModelRuntime.Result
+        let macMLXPeakBytes: Int
+        let macMLXActiveBytes: Int
+    }
 
     static func main() async throws {
         guard CommandLine.arguments.count == 3 else { fatalError("Expected model directory and test cases JSON") }
@@ -16,12 +22,15 @@ struct ArabicModelProbe {
         let data = try Data(contentsOf: URL(fileURLWithPath: CommandLine.arguments[2]))
         let cases = try JSONDecoder().decode(Input.self, from: data).cases
         let runtime = ArabicModelRuntime()
+        // Regression: cleaning an unused runtime must not initialize MLX.
+        await runtime.unload()
         for item in cases {
             let result = try await runtime.generate(directory: directory, prompt: item.prompt)
-            let encoded = try JSONEncoder().encode(Output(name: item.name, result: result))
+            let encoded = try JSONEncoder().encode(Output(name: item.name, result: result, macMLXPeakBytes: MLX.Memory.peakMemory, macMLXActiveBytes: MLX.Memory.activeMemory))
             print(String(decoding: encoded, as: UTF8.self))
         }
         await runtime.unload()
+        print("MAC_MLX_MEMORY_AFTER_UNLOAD active=\(MLX.Memory.activeMemory) cache=\(MLX.Memory.cacheMemory); peaks above are cumulative Mac pool bytes, not iPhone RSS")
     }
 
     static func proveNetworkDenied() throws {

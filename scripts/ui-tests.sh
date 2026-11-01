@@ -19,4 +19,16 @@ xcrun xcresulttool help export attachments > evidence/xcresult-help.txt
 xcrun xcresulttool export attachments --path evidence/RusukhUI.xcresult --output-path evidence/ui-attachments
 xcrun xcresulttool get test-results summary --path evidence/RusukhUI.xcresult > evidence/ui-summary.json
 xcrun simctl spawn "$SIMULATOR_ID" log show --last 10m --style compact --predicate 'process == "RusukhNative"' > evidence/app-system.log || true
+# Keep simulator failures visible in Actions even if artifact downloads are unavailable.
+python3 - <<'PYLOG'
+import json
+from pathlib import Path
+summary = json.loads(Path('evidence/ui-summary.json').read_text())
+print('UI_TEST_SUMMARY', json.dumps(summary, ensure_ascii=False))
+log = Path('evidence/app-system.log')
+if log.exists():
+    lines = [line for line in log.read_text(errors='replace').splitlines()
+             if any(term in line.lower() for term in ['mlx', 'metal', 'fatal', 'abort', 'exception'])]
+    print('APP_DIAGNOSTIC_EXCERPT\n' + '\n'.join(lines[-80:]))
+PYLOG
 exit "$TEST_RESULT"
