@@ -1,0 +1,96 @@
+Skip to content
+scrv-1
+rusukh-native-ios
+Type / to search
+Repository navigation
+Code
+Issues
+Pull requests
+Agents
+Actions
+Projects
+Security and quality
+Insights
+Settings
+iOS - SwiftUI build and simulator preview
+iOS - SwiftUI build and simulator preview #18
+Re-run all jobs
+Summary
+All jobs
+Test, build and launch SwiftUI
+Evaluate Arabic model offline on cloud Mac
+Run details
+Usage
+Workflow file
+Lockfile
+Manually triggered 
+scrv-1
+⁠
+ 0778423
+work/fsrs-integration-20261101
+Status
+Success
+Total duration
+20m 2s
+Artifacts
+5
+ios-unsigned.yml
+on: workflow_dispatch
+Test, build and launch SwiftUI
+19m 58s
+Evaluate Arabic model offline on cloud Mac
+
+Oh hello! Nice to see you.
+
+Made with ❤️ by humans.txt
+
+Test, build and launch SwiftUI summary
+Verified build outputs
+
+Source commit: 07784236eb9d13fc77092fc8713f4ca31727f666
+
+Core and Arabic UI/download tests passed
+MLX inference is unavailable in iOS Simulator; Swift inference verified separately on Mac with network denied
+xtool unsigned IPA build passed
+Simulator and unsigned device builds passed
+App launched on a cloud iOS simulator
+Screenshot, logs and checksums are in the evidence artifact
+Neither artifact installs itself on an iPhone
+Job summary generated at run-time
+Annotations
+1 warning
+Test, build and launch SwiftUI
+Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+Show more
+Artifacts
+Produced during runtime
+Name	Size	Digest	
+
+RusukhNative-build-evidence
+	9.74 MB	
+sha256:19a0c36c0f5b6138b8ad7130d54bf2284ed1fb3600d8fffdcaa76ded668da55a
+	
+
+
+RusukhNative-simulator
+	15.8 MB	
+sha256:225395c7fa4aaa8ea8a6fec3d761fb481a99f894f70ca0275073978eb5fb061d
+	
+
+
+RusukhNative-unsigned-ipa
+	8.86 MB	
+sha256:0fc9dd8bec5568e9916472746678722f0abce6b8b930fc80dd8cb43d86b2d4e3
+	
+
+
+RusukhNative-xtool-project
+	288 KB	
+sha256:0ac6694cab5dd776cac4ab09a35d27e3060e067f9d3af8417275a2ac318c2e66
+	
+
+
+RusukhNative-xtool-unsigned-ipa
+	550 KB	
+sha256:17ec502ce45b5f83963a74532299eb1fd4fa9d08a0fda8f776e6e76faabc51f2
+	
