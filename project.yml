@@ -66,6 +66,7 @@ targets:
         product: Tokenizers
     sources:
       - path: App
+        excludes: [Info.plist]
       - path: Sources/RusukhCore
     settings:
       base:
