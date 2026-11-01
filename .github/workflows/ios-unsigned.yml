@@ -100,10 +100,20 @@ jobs:
       - name: Test Arabic UI and persistence
         timeout-minutes: 10
         run: bash scripts/ui-tests.sh
+      - name: Verify current Swift runtime offline on Mac (not Simulator)
+        timeout-minutes: 10
+        run: |
+          set -o pipefail
+          xcodegen generate --spec ai-probe.yml
+          xcodebuild -project RusukhAIProbe.xcodeproj -scheme RusukhAIProbe -configuration Release -destination 'platform=macOS,arch=arm64' -derivedDataPath "$RUNNER_TEMP/ai-swift-build" CODE_SIGNING_ALLOWED=NO build > evidence/ai-swift-build.log 2>&1 || { tail -n 100 evidence/ai-swift-build.log; exit 1; }
+          MODEL_DIRECTORY=$(cat evidence/ai-simulator-model-directory.txt)
+          sandbox-exec -p '(version 1)(allow default)(deny network*)' "$RUNNER_TEMP/ai-swift-build/Build/Products/Release/RusukhAIProbe" "$MODEL_DIRECTORY" docs/arabic-eval-cases.json | tee evidence/ai-swift-inference.log
       - name: Record artifact checksums
         run: |
           shasum -a 256 RusukhNative-simulator.zip RusukhNative-unsigned.ipa RusukhNative-xtool-unsigned.ipa evidence/simulator-home.png | tee evidence/SHA256SUMS.txt
-          { echo '## Verified build outputs'; echo "Source commit: $GITHUB_SHA"; echo '- Core and Arabic UI journey tests passed'; echo '- xtool unsigned IPA build passed'; echo '- Simulator and unsigned device builds passed'; echo '- App launched on a cloud iOS simulator'; echo '- Screenshot, logs and checksums are in the evidence artifact'; echo '- Neither artifact installs itself on an iPhone'; } >> "$GITHUB_STEP_SUMMARY"
+          plutil -lint "$RUNNER_TEMP/device-build/Build/Products/Release-iphoneos/RusukhNative.app/PrivacyInfo.xcprivacy" | tee evidence/privacy-manifest-validation.txt
+          cp "$RUNNER_TEMP/device-build/Build/Products/Release-iphoneos/RusukhNative.app/PrivacyInfo.xcprivacy" evidence/PrivacyInfo.xcprivacy
+          { echo '## Verified build outputs'; echo "Source commit: $GITHUB_SHA"; echo '- Core and Arabic UI/download tests passed'; echo '- MLX inference is unavailable in iOS Simulator; Swift inference verified separately on Mac with network denied'; echo '- xtool unsigned IPA build passed'; echo '- Simulator and unsigned device builds passed'; echo '- App launched on a cloud iOS simulator'; echo '- Screenshot, logs and checksums are in the evidence artifact'; echo '- Neither artifact installs itself on an iPhone'; } >> "$GITHUB_STEP_SUMMARY"
       - name: Upload simulator app
         if: always() && steps.simulator.outcome == 'success'
         uses: actions/upload-artifact@v4
