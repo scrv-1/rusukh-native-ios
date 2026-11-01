@@ -1,0 +1,27 @@
+{
+  "expo": {
+    "name": "رُسوخ",
+    "slug": "rusukh-ios",
+    "scheme": "rusukh",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "backgroundColor": "#101011",
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "app.rusukh.study",
+      "buildNumber": "1",
+      "infoPlist": {
+        "CFBundleAllowMixedLocalizations": true
+      }
+    },
+    "plugins": [
+      "expo-document-picker",
+      "expo-font"
+    ],
+    "extra": {
+      "appVersion": "0.1.0"
+    }
+  }
+}
