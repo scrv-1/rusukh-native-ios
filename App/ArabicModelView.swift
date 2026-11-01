@@ -103,6 +103,7 @@ struct ArabicModelView: View {
     let prompt: String
     let context: String?
     @ObservedObject var gate: LocalInferenceGate
+    @State private var isExpanded = false
     #if canImport(MLXLLM)
     @StateObject private var model = ArabicModelController()
     @Environment(\.scenePhase) private var scenePhase
@@ -110,46 +111,64 @@ struct ArabicModelView: View {
     #endif
 
     var body: some View {
-        DisclosureGroup("نموذج عربي تجريبي — Qwen") {
-            VStack(alignment: .leading, spacing: 12) {
-                Text("Qwen3-4B-Instruct-2507 • Apache-2.0")
-                    .font(.caption).textSelection(.enabled)
-                Text("تنزيل اختياري بحجم 2.28GB عبر Wi-Fi. بعد اكتماله تعمل الإجابات على الجهاز دون إرسال ملاحظاتك. قد يخطئ النموذج؛ راجع الإجابات، ولن تُضاف إلى بطاقاتك تلقائيًا.")
-                    .font(.footnote)
-                #if canImport(MLXLLM)
-                Text("يتطلب هذا الإصدار التجريبي ذاكرة جهاز 8GB على الأقل ومساحة 5GB قبل التنزيل. لم يعتمد أداؤه على آيفون حقيقي بعد.")
-                    .font(.caption).foregroundStyle(.secondary)
-                if !model.sufficientMemory {
-                    Text("ذاكرة هذا الجهاز أقل من الحد المسموح لهذه التجربة.").font(.footnote)
-                } else if model.ready {
-                    Button("توليد إجابة عربية على الجهاز") { model.generate(prompt: prompt, context: context, gate: gate) }
-                        .accessibilityIdentifier("arabic-model-generate")
-                        .disabled(model.busy || gate.busy || prompt.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-                    Button("حذف أوزان النموذج", role: .destructive) { confirmDelete = true }
-                        .disabled(model.busy || gate.busy)
-                } else {
-                    Button("تنزيل النموذج — 2.28GB") { model.download(gate: gate) }
-                        .accessibilityIdentifier("arabic-model-download")
-                        .disabled(model.busy || gate.busy)
-                    Button("حذف ملفات التنزيل الجزئي", role: .destructive) { confirmDelete = true }
-                        .disabled(model.busy || gate.busy)
+        VStack(alignment: .leading, spacing: 12) {
+            Button { isExpanded.toggle() } label: {
+                HStack {
+                    Text("نموذج عربي تجريبي — Qwen")
+                    Spacer()
+                    Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
                 }
-                if model.busy {
-                    ProgressView()
-                    Button("إلغاء") { model.stop() }.accessibilityIdentifier("arabic-model-cancel")
-                }
-                if !model.status.isEmpty { Text(model.status).font(.footnote).accessibilityIdentifier("arabic-model-status") }
-                if !model.answer.isEmpty {
-                    Text(model.answer).textSelection(.enabled).accessibilityIdentifier("arabic-model-answer")
-                }
-                #else
-                Text("هذا المحرك متاح في بناء Xcode التجريبي. نسخة xtool الحالية تحتفظ بمحرك Apple والميزات الأخرى.")
-                    .font(.footnote)
-                #endif
             }
-            .padding(.top, 12)
+            .accessibilityIdentifier("arabic-model-section")
+            .accessibilityValue(isExpanded ? "مفتوح" : "مطوي")
+            if isExpanded {
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Qwen3-4B-Instruct-2507 • Apache-2.0")
+                        .font(.caption).textSelection(.enabled)
+                    Text("تنزيل اختياري بحجم 2.28GB عبر Wi-Fi. على آيفون فعلي متوافق تعمل الإجابات دون إرسال ملاحظاتك بعد اكتمال التنزيل. قد يخطئ النموذج؛ راجع الإجابات، ولن تُضاف إلى بطاقاتك تلقائيًا.")
+                        .font(.footnote)
+                    #if canImport(MLXLLM)
+                    Text("يتطلب هذا الإصدار التجريبي ذاكرة جهاز 8GB على الأقل ومساحة 5GB قبل التنزيل. لم يعتمد أداؤه على آيفون حقيقي بعد.")
+                        .font(.caption).foregroundStyle(.secondary)
+                    #if targetEnvironment(simulator)
+                    Text("تشغيل النموذج غير متاح في محاكي iOS. يلزم جهاز فعلي متوافق. التنزيل هنا لاختبار الملفات فقط.")
+                        .font(.footnote).accessibilityIdentifier("arabic-model-simulator-unavailable")
+                    #endif
+                    if !model.sufficientMemory {
+                        Text("ذاكرة هذا الجهاز أقل من الحد المسموح لهذه التجربة.").font(.footnote)
+                    } else if model.ready {
+                        #if !targetEnvironment(simulator)
+                        Button("توليد إجابة عربية على الجهاز") { model.generate(prompt: prompt, context: context, gate: gate) }
+                            .accessibilityIdentifier("arabic-model-generate")
+                            .disabled(model.busy || gate.busy || prompt.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                        #endif
+                        Text("ملفات النموذج جاهزة.").font(.caption).accessibilityIdentifier("arabic-model-ready")
+                        Button("حذف أوزان النموذج", role: .destructive) { confirmDelete = true }
+                            .disabled(model.busy || gate.busy)
+                    } else {
+                        Button("تنزيل النموذج — 2.28GB") { model.download(gate: gate) }
+                            .accessibilityIdentifier("arabic-model-download")
+                            .disabled(model.busy || gate.busy)
+                        Button("حذف ملفات التنزيل الجزئي", role: .destructive) { confirmDelete = true }
+                            .disabled(model.busy || gate.busy)
+                    }
+                    if model.busy {
+                        ProgressView()
+                        Button("إلغاء") { model.stop() }.accessibilityIdentifier("arabic-model-cancel")
+                    }
+                    if !model.status.isEmpty { Text(model.status).font(.footnote).accessibilityIdentifier("arabic-model-status") }
+                    if !model.answer.isEmpty {
+                        Text(model.answer).textSelection(.enabled).accessibilityIdentifier("arabic-model-answer")
+                    }
+                    #else
+                    Text("هذا المحرك متاح في بناء Xcode التجريبي. نسخة xtool الحالية تحتفظ بمحرك Apple والميزات الأخرى.")
+                        .font(.footnote)
+                    #endif
+                }
+                .padding(.top, 12)
+            }
         }
-        .accessibilityIdentifier("arabic-model-section")
+        .buttonStyle(.borderless)
         #if canImport(MLXLLM)
         .task { await model.refresh() }
         .onChange(of: scenePhase) { _, phase in if phase == .background { model.stop() } }

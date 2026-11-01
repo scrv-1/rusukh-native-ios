@@ -7,11 +7,12 @@ import MLXLMCommon
 import Tokenizers
 
 /// Loads only local files. Downloads and user consent belong to a separate layer.
-/// This runtime is shared by the Mac offline probe and the future iOS integration.
+/// Shared by the Mac offline probe and the opt-in iOS integration.
 actor ArabicModelRuntime {
     private var container: ModelContainer?
     private var loadedDirectory: URL?
     private var busy = false
+    private var memoryInitialized = false
 
     struct Result: Codable, Sendable {
         let answer: String
@@ -22,9 +23,10 @@ actor ArabicModelRuntime {
     }
 
     enum Failure: LocalizedError {
-        case busy, promptTooLong, noOutput
+        case busy, promptTooLong, noOutput, unsupportedSimulator
         var errorDescription: String? {
             switch self {
+            case .unsupportedSimulator: return "تشغيل النموذج غير متاح في محاكي iOS. يلزم جهاز فعلي متوافق."
             case .busy: return "انتظر انتهاء الطلب الحالي."
             case .promptTooLong: return "النص طويل لهذه التجربة. اختصره ثم أعد المحاولة."
             case .noOutput: return "لم ينتج النموذج إجابة قابلة للعرض."
@@ -33,12 +35,16 @@ actor ArabicModelRuntime {
     }
 
     func generate(directory: URL, prompt: String) async throws -> Result {
+        #if targetEnvironment(simulator)
+        throw Failure.unsupportedSimulator
+        #else
         guard !busy else { throw Failure.busy }
         guard prompt.count <= 4_000 else { throw Failure.promptTooLong }
         busy = true
         defer { busy = false }
         try Task.checkCancellation()
         let start = Date()
+        memoryInitialized = true
         MLX.Memory.cacheLimit = 64 * 1_024 * 1_024
         if loadedDirectory != directory.standardizedFileURL { container = nil }
         if container == nil {
@@ -83,13 +89,19 @@ actor ArabicModelRuntime {
         return Result(answer: answer, seconds: Date().timeIntervalSince(start),
                       generatedTokens: count, tokensPerSecond: rate.isFinite ? rate : 0,
                       truncated: truncated)
+        #endif
     }
 
     func unload() {
         guard !busy else { return }
         container = nil
         loadedDirectory = nil
-        MLX.Memory.clearCache()
+        #if !targetEnvironment(simulator)
+        if memoryInitialized {
+            MLX.Memory.clearCache()
+            memoryInitialized = false
+        }
+        #endif
     }
 }
 
