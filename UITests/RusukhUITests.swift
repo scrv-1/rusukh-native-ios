@@ -101,6 +101,35 @@ final class RusukhUITests: XCTestCase {
         XCTAssertFalse(app.staticTexts["voice.error"].exists)
         capture("10-simulator-audio-reopened")
     }
+    @MainActor
+    func testProvisionedArabicModelGeneratesInSimulator() throws {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchArguments = ["-ui-testing", "-reset-test-data", "-AppleLanguages", "(ar)", "-AppleLocale", "ar_SA"]
+        app.launch()
+        XCTAssertTrue(app.buttons["ذكاء محلي"].waitForExistence(timeout: 10))
+        app.buttons["ذكاء محلي"].tap()
+        let input = app.textFields["ai.prompt"].exists ? app.textFields["ai.prompt"] : app.textViews["ai.prompt"]
+        XCTAssertTrue(input.waitForExistence(timeout: 10))
+        input.tap()
+        input.typeText("الملاحظة: عاصمة فرنسا باريس. ما عاصمة فرنسا؟ أجب وفق الملاحظة بكلمة واحدة.")
+        let section = app.buttons["arabic-model-section"]
+        reveal(section, in: app)
+        section.tap()
+        let generate = app.buttons["arabic-model-generate"]
+        XCTAssertTrue(generate.waitForExistence(timeout: 15), "CI must provision verified model weights before this test")
+        reveal(generate, in: app)
+        generate.tap()
+        let answer = app.staticTexts["arabic-model-answer"]
+        XCTAssertTrue(answer.waitForExistence(timeout: 90))
+        XCTAssertTrue(answer.label.contains("باريس"))
+        capture("11-native-arabic-model-generated")
+        XCUIDevice.shared.press(.home)
+        app.activate()
+        XCTAssertTrue(answer.waitForExistence(timeout: 10))
+        // The Mac probe proves process network denial; this test proves iOS runtime execution.
+    }
+
     @MainActor private func reveal(_ element: XCUIElement, in app: XCUIApplication) {
         for _ in 0..<4 {
             if element.isHittable { return }
