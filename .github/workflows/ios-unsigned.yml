@@ -142,7 +142,7 @@ jobs:
     if: ${{ inputs.evaluate_local_ai }}
     name: Evaluate Arabic model offline on cloud Mac
     runs-on: xcode-27
-    timeout-minutes: 12
+    timeout-minutes: 20
     env:
       HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
       HF_HUB_DISABLE_TELEMETRY: '1'
@@ -173,6 +173,20 @@ jobs:
           set -o pipefail
           export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1
           sandbox-exec -p '(version 1)(allow default)(deny network*)' "$RUNNER_TEMP/ai-venv/bin/python" scripts/evaluate-local-ai.py evaluate "$RUNNER_TEMP/qwen-model" | tee evidence/ai-inference.log
+      - name: Build shared Swift MLX runtime probe
+        if: inputs.model_variant == '4B-Instruct-2507'
+        timeout-minutes: 12
+        run: |
+          set -o pipefail
+          HOMEBREW_NO_AUTO_UPDATE=1 brew install xcodegen
+          xcodegen generate --spec ai-probe.yml
+          xcodebuild -project RusukhAIProbe.xcodeproj -scheme RusukhAIProbe -configuration Release -destination 'platform=macOS,arch=arm64' -derivedDataPath "$RUNNER_TEMP/ai-swift-build" CODE_SIGNING_ALLOWED=NO build 2>&1 | tee evidence/ai-swift-build.log
+      - name: Evaluate shared Swift runtime with network denied
+        if: inputs.model_variant == '4B-Instruct-2507'
+        timeout-minutes: 4
+        run: |
+          set -o pipefail
+          sandbox-exec -p '(version 1)(allow default)(deny network*)' "$RUNNER_TEMP/ai-swift-build/Build/Products/Release/RusukhAIProbe" "$RUNNER_TEMP/qwen-model" evidence/ai-results.json | tee evidence/ai-swift-inference.log
       - name: Upload evaluation evidence
         if: always()
         uses: actions/upload-artifact@v4
