@@ -102,32 +102,27 @@ final class RusukhUITests: XCTestCase {
         capture("10-simulator-audio-reopened")
     }
     @MainActor
-    func testProvisionedArabicModelGeneratesInSimulator() throws {
+    func testSimulatorModelAvailabilityDoesNotStartUnsupportedGPU() throws {
         continueAfterFailure = false
         let app = XCUIApplication()
         app.launchArguments = ["-ui-testing", "-reset-test-data", "-AppleLanguages", "(ar)", "-AppleLocale", "ar_SA"]
         app.launch()
         XCTAssertTrue(app.buttons["ذكاء محلي"].waitForExistence(timeout: 10))
         app.buttons["ذكاء محلي"].tap()
-        let input = app.textFields["ai.prompt"].exists ? app.textFields["ai.prompt"] : app.textViews["ai.prompt"]
-        XCTAssertTrue(input.waitForExistence(timeout: 10))
-        input.tap()
-        input.typeText("الملاحظة: عاصمة فرنسا باريس. ما عاصمة فرنسا؟ أجب وفق الملاحظة بكلمة واحدة.")
         let section = app.buttons["arabic-model-section"]
         reveal(section, in: app)
         section.tap()
-        let generate = app.buttons["arabic-model-generate"]
-        XCTAssertTrue(generate.waitForExistence(timeout: 15), "CI must provision verified model weights before this test")
-        reveal(generate, in: app)
-        generate.tap()
-        let answer = app.staticTexts["arabic-model-answer"]
-        XCTAssertTrue(answer.waitForExistence(timeout: 90))
-        XCTAssertTrue(answer.label.contains("باريس"))
-        capture("11-native-arabic-model-generated")
+        let unavailable = app.staticTexts["arabic-model-simulator-unavailable"]
+        XCTAssertTrue(unavailable.waitForExistence(timeout: 15), app.debugDescription)
+        XCTAssertTrue(app.staticTexts["arabic-model-ready"].exists)
+        XCTAssertFalse(app.buttons["arabic-model-generate"].exists)
+        capture("11-simulator-model-unavailable")
         XCUIDevice.shared.press(.home)
         app.activate()
-        XCTAssertTrue(answer.waitForExistence(timeout: 10))
-        // The Mac probe proves process network denial; this test proves iOS runtime execution.
+        XCTAssertTrue(unavailable.waitForExistence(timeout: 10))
+        app.buttons["ملاحظاتي"].tap()
+        XCTAssertTrue(app.buttons["notes.add"].waitForExistence(timeout: 10))
+        // MLX explicitly does not support Simulator GPU; never treat this as inference.
     }
 
     @MainActor
@@ -161,7 +156,7 @@ final class RusukhUITests: XCTestCase {
         reveal(download, in: app)
         download.tap()
         // This exercises the app's URLSession path and SHA-256 checks, not CI provisioning.
-        XCTAssertTrue(app.buttons["arabic-model-generate"].waitForExistence(timeout: 240))
+        XCTAssertTrue(app.staticTexts["arabic-model-ready"].waitForExistence(timeout: 240), app.debugDescription)
         XCTAssertTrue(app.staticTexts["arabic-model-status"].label.contains("اكتمل التنزيل"))
         capture("12-native-model-download-verified")
     }
