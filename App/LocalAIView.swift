@@ -2,6 +2,7 @@ import SwiftUI
 
 struct LocalAIView: View {
     @EnvironmentObject private var library: LibraryStore
+    @StateObject private var inferenceGate = LocalInferenceGate()
     @State private var prompt = ""
     @State private var answer = ""
     @State private var busy = false
@@ -42,20 +43,22 @@ struct LocalAIView: View {
                         }
                     }
                     TextField("اكتب سؤالك هنا...", text: $prompt, axis: .vertical)
+                        .accessibilityIdentifier("ai.prompt")
                         .lineLimit(3...6)
                         .textFieldStyle(.roundedBorder)
+                    ArabicModelView(prompt: prompt, context: selectedNote?.body, gate: inferenceGate)
                     Button {
                         Task { await perform() }
                     } label: {
                         HStack {
                             if busy { ProgressView() }
-                            Text("تشغيل النموذج المحلي")
+                            Text("تشغيل محرك Apple")
                             Image(systemName: "sparkles")
                         }
                         .frame(maxWidth: .infinity)
                     }
                     .buttonStyle(.borderedProminent).tint(.primary)
-                    .disabled(busy || prompt.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                    .disabled(busy || inferenceGate.busy || prompt.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                     if let errorText {
                         Text(errorText).foregroundStyle(.red).font(.footnote)
                     }
@@ -87,6 +90,8 @@ struct LocalAIView: View {
 
     @MainActor
     private func perform() async {
+        guard inferenceGate.acquire() else { return }
+        defer { inferenceGate.release() }
         busy = true
         answer = ""
         errorText = nil
