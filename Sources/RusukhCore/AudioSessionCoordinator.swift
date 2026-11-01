@@ -7,10 +7,10 @@ public protocol AudioSessionDriver: Sendable {
     func deactivate() throws
 }
 
-/// The driver and owner are accessed only on this serial queue. Callbacks must
-/// hop to the UI actor before touching recorder/player or published state.
+/// The driver, lease owner, and media initialization use one serial queue.
+/// Callbacks must hop to the UI actor before changing published state.
 public final class AudioSessionCoordinator: @unchecked Sendable {
-    public enum Failure: Error { case alreadyOwned }
+    public enum Failure: Error { case alreadyOwned, notOwned }
     private let queue = DispatchQueue(label: "com.scrv1.rusukh.audio-session", qos: .userInitiated)
     private let driver: any AudioSessionDriver
     private let onCleanupError: @Sendable (Error) -> Void
@@ -48,6 +48,16 @@ public final class AudioSessionCoordinator: @unchecked Sendable {
             guard self.owner == owner else { return }
             self.owner = nil
             self.deactivate()
+        }
+    }
+
+    /// Run media initialization on the same queue as activation and release.
+    public func perform<T: Sendable>(owner: UUID, operation: @escaping @Sendable () throws -> T,
+                                     completion: @escaping @Sendable (Result<T, Error>) -> Void) {
+        queue.async {
+            guard self.owner == owner else { completion(.failure(Failure.notOwned)); return }
+            do { completion(.success(try operation())) }
+            catch { completion(.failure(error)) }
         }
     }
     private func deactivate() {
