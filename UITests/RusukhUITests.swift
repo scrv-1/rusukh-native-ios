@@ -102,6 +102,48 @@ final class RusukhUITests: XCTestCase {
         capture("10-simulator-audio-reopened")
     }
     @MainActor
+    func testAudioStopsOnBackgroundAndCanRecordAgain() throws {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchArguments = ["-ui-testing", "-reset-test-data", "-AppleLanguages", "(ar)", "-AppleLocale", "ar_SA"]
+        app.launch()
+        XCTAssertTrue(app.buttons["ملاحظاتي"].waitForExistence(timeout: 10))
+        app.buttons["ملاحظاتي"].tap()
+        app.buttons["notes.add"].tap()
+        reveal(app.buttons["voice.record"], in: app)
+        app.buttons["voice.record"].tap()
+        XCTAssertTrue(app.buttons["voice.stop"].waitForExistence(timeout: 10))
+        // Long enough to distinguish background cancellation from natural end.
+        Thread.sleep(forTimeInterval: 20)
+        XCUIDevice.shared.press(.home)
+        app.activate()
+        XCTAssertTrue(app.buttons["تشغيل التسجيل"].waitForExistence(timeout: 10))
+        XCTAssertFalse(app.buttons["voice.stop"].exists)
+        XCTAssertFalse(app.staticTexts["voice.error"].exists)
+        let playbackStarted = Date()
+        app.buttons["تشغيل التسجيل"].tap()
+        XCTAssertTrue(app.buttons["إيقاف التشغيل"].waitForExistence(timeout: 5))
+        XCUIDevice.shared.press(.home)
+        app.activate()
+        XCTAssertTrue(app.buttons["تشغيل التسجيل"].waitForExistence(timeout: 10))
+        XCTAssertLessThan(Date().timeIntervalSince(playbackStarted), 15,
+                          "Background check must finish before the 20-second clip ends naturally")
+        XCTAssertFalse(app.buttons["إيقاف التشغيل"].exists)
+        // Closing an editor must release the singleton session for the next one.
+        app.buttons["إلغاء"].tap()
+        XCTAssertTrue(app.buttons["notes.add"].waitForExistence(timeout: 5))
+        app.buttons["notes.add"].tap()
+        reveal(app.buttons["voice.record"], in: app)
+        app.buttons["voice.record"].tap()
+        XCTAssertTrue(app.buttons["voice.stop"].waitForExistence(timeout: 10))
+        Thread.sleep(forTimeInterval: 2)
+        app.buttons["voice.stop"].tap()
+        XCTAssertTrue(app.buttons["تشغيل التسجيل"].waitForExistence(timeout: 5))
+        XCTAssertFalse(app.staticTexts["voice.error"].exists)
+        capture("13-audio-background-and-reopen")
+    }
+
+    @MainActor
     func testSimulatorModelAvailabilityDoesNotStartUnsupportedGPU() throws {
         continueAfterFailure = false
         let app = XCUIApplication()
