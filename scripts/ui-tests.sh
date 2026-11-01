@@ -25,6 +25,12 @@ import json
 from pathlib import Path
 summary = json.loads(Path('evidence/ui-summary.json').read_text())
 print('UI_TEST_SUMMARY', json.dumps(summary, ensure_ascii=False))
+audio_warnings = [warning for warning in summary.get('runtimeWarnings', [])
+                  if 'avaudiosession' in str(warning).lower()
+                  and 'main thread' in str(warning).lower()]
+print('AV_AUDIO_MAIN_THREAD_WARNING_COUNT', len(audio_warnings))
+if audio_warnings:
+    raise SystemExit('Audio session still blocks the UI thread; inspect xcresult runtime warnings.')
 log = Path('evidence/app-system.log')
 if log.exists():
     lines = [line for line in log.read_text(errors='replace').splitlines()
