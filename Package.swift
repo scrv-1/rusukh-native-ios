@@ -12,8 +12,9 @@ let package = isApp ? Package(
     products: [.library(name: "RusukhNative", targets: ["RusukhNative"])],
     dependencies: [fsrsDependency],
     targets: [.target(name: "RusukhNative", dependencies: [.product(name: "FSRS", package: "swift-fsrs")], path: ".",
-        exclude: ["App/Assets.xcassets", "App/Info.plist", "App/PrivacyInfo.xcprivacy", "Tests", "AppTests", "UITests", "docs", "scripts", "project.yml", "xtool.yml", "README.md", "Info-xtool.plist"],
-        sources: ["App", "Sources/RusukhCore"],
+        exclude: ["App/Assets.xcassets", "App/PrivacyInfo.xcprivacy", "Tests", "AppTests", "UITests", "docs", "scripts", "project.yml", "ai-probe.yml", "xtool.yml", "README.md", "Info-xtool.plist"],
+        // Let SwiftPM classify valid source files; listing App as explicit
+        // sources also classifies its license as a source and duplicates its rule.
         resources: [.copy("App/Resources/FSRS-LICENSE.txt")],
         swiftSettings: [.swiftLanguageMode(.v5)])]
 ) : Package(
