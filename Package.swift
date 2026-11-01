@@ -6,6 +6,14 @@ import Foundation
 // Default mode remains the portable core library and its tests.
 let isApp = ProcessInfo.processInfo.environment["RUSUKH_XTOOL"] == "1"
 let fsrsDependency: Package.Dependency = .package(url: "https://github.com/open-spaced-repetition/swift-fsrs.git", revision: "4fbaf20184d62f82a9f44f343337c61a2c5483e9")
+var corePackages: [Package.Dependency] = [fsrsDependency]
+var coreDependencies: [Target.Dependency] = [.product(name: "FSRS", package: "swift-fsrs")]
+// CryptoKit is part of the Apple SDK. Use Apple's implementation on Linux
+// solely to test the same deterministic legacy import identities there.
+#if os(Linux)
+corePackages.append(.package(url: "https://github.com/apple/swift-crypto.git", revision: "95ba0316a9b733e92bb6b071255ff46263bbe7dc"))
+coreDependencies.append(.product(name: "Crypto", package: "swift-crypto"))
+#endif
 let package = isApp ? Package(
     name: "RusukhNative",
     platforms: [.iOS(.v26)],
@@ -21,9 +29,9 @@ let package = isApp ? Package(
     name: "RusukhCore",
     platforms: [.iOS(.v26)],
     products: [.library(name: "RusukhCore", targets: ["RusukhCore"])],
-    dependencies: [fsrsDependency],
+    dependencies: corePackages,
     targets: [
-        .target(name: "RusukhCore", dependencies: [.product(name: "FSRS", package: "swift-fsrs")], path: "Sources/RusukhCore"),
+        .target(name: "RusukhCore", dependencies: coreDependencies, path: "Sources/RusukhCore"),
         .testTarget(name: "RusukhCoreTests", dependencies: ["RusukhCore"], path: "Tests")
     ]
 )
