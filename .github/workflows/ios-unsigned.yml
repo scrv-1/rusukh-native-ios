@@ -89,11 +89,14 @@ jobs:
         timeout-minutes: 5
         run: |
           set -o pipefail
+          SIMULATOR_ID=$(cat evidence/simulator-id.txt)
+          xcrun simctl boot "$SIMULATOR_ID"
+          xcrun simctl bootstatus "$SIMULATOR_ID" -b
           python3 scripts/prepare-simulator-model.py | tee evidence/ai-simulator-provision.log
           swiftc App/ArabicModelAssets.swift scripts/VerifyModelAssets.swift -o "$RUNNER_TEMP/verify-model-assets"
           SIMULATOR_ID=$(cat evidence/simulator-id.txt)
           APP_DATA=$(xcrun simctl get_app_container "$SIMULATOR_ID" com.scrv1.rusukhnative data)
-          "$RUNNER_TEMP/verify-model-assets" "$APP_DATA/Library/Application Support/RusukhModels/Qwen3-Instruct-2507" | tee evidence/ai-swift-integrity.log
+          "$RUNNER_TEMP/verify-model-assets" "$APP_DATA/Library/Application Support/RusukhTestModels/Qwen3-Instruct-2507" | tee evidence/ai-swift-integrity.log
       - name: Test Arabic UI and persistence
         timeout-minutes: 10
         run: bash scripts/ui-tests.sh
