@@ -1,0 +1,125 @@
+Run: https://github.com/scrv-1/rusukh-native-ios/actions/runs/41260299774
+Commit: 4ad47e97401996ea451d527e675e7eff7046c722
+Visible partial log excerpt; full xcresult/log in artifact.
+
+Test Case '-[RusukhUITests.RusukhUITests testZModelDownloadCancellationAndIntegrityThroughUI]' passed (53.008 seconds).
+
+1102
+Test Suite 'RusukhUITests' passed at 2026-11-01 01:28:35.201.
+
+1103
+	 Executed 4 tests, with 0 failures (0 unexpected) in 178.184 (178.189) seconds
+
+1104
+Test Suite 'RusukhUITests.xctest' passed at 2026-11-01 01:28:35.202.
+
+1105
+	 Executed 4 tests, with 0 failures (0 unexpected) in 178.184 (178.190) seconds
+
+1106
+Test Suite 'All tests' passed at 2026-11-01 01:28:35.203.
+
+1107
+	 Executed 4 tests, with 0 failures (0 unexpected) in 178.184 (178.191) seconds
+
+1108
+2026-11-01 01:28:35.254 xcodebuild[13407:269866] [MT] IDESchemeActionSDKRecord: operatingSystemBuild = <DVTBuildVersion 24A94232>, error = invalidDigitCount(94232).
+
+1109
+2026-11-01 01:28:35.254 xcodebuild[13407:269866] [MT] IDESchemeActionSDKRecord: operatingSystemBuild = <DVTBuildVersion 24A94232>, error = invalidDigitCount(94232).
+
+1110
+2026-11-01 01:28:35.255 xcodebuild[13407:269866] [MT] IDESchemeActionSDKRecord: operatingSystemBuild = <DVTBuildVersion 24A94232>, error = invalidDigitCount(94232).
+
+1111
+2026-11-01 01:28:35.289 xcodebuild[13407:269866] [MT] IDESchemeActionSDKRecord: operatingSystemBuild = <DVTBuildVersion 24A94232>, error = invalidDigitCount(94232).
+
+1112
+2026-11-01 01:28:35.289 xcodebuild[13407:269866] [MT] IDESchemeActionSDKRecord: operatingSystemBuild = <DVTBuildVersion 24A94232>, error = invalidDigitCount(94232).
+
+1113
+2026-11-01 01:28:35.290 xcodebuild[13407:269866] [MT] IDESchemeActionSDKRecord: operatingSystemBuild = <DVTBuildVersion 24A94232>, error = invalidDigitCount(94232).
+
+1114
+2026-11-01 01:28:48.645 xcodebuild[13407:269866] [MT] IDETestOperationsObserverDebug: 205.066 elapsed -- Testing started completed.
+
+1115
+2026-11-01 01:28:48.645 xcodebuild[13407:269866] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
+
+1116
+2026-11-01 01:28:48.645 xcodebuild[13407:269866] [MT] IDETestOperationsObserverDebug: 205.066 sec, +205.066 sec -- end
+
+1117
+Test session results, code coverage, and logs:
+
+1118
+	/Users/runner/work/rusukh-native-ios/rusukh-native-ios/evidence/RusukhUI.xcresult
+
+1119
+** TEST SUCCEEDED **
+
+1123
+Testing started
+
+1124
+Exported 8 attachments for: RusukhUITests/testArabicStudyJourneyAndPersistence():
+
+1125
+File: 2DEDACB2-1665-41F6-B921-04D401FC2865.png, suggested name: "08-simulator-camera-unavailable_0_0D849F0A-5CF5-4E72-B1EE-339D7D82E338.png"
+
+1126
+File: C6DA6F93-5A57-439F-9844-3B0935EFB619.png, suggested name: "07-local-ai-availability_0_42124A8E-C927-43C8-A59C-871DE91F2E97.png"
+
+1127
+File: 0679FE14-AF3A-42F6-BF14-804F14AB33C9.png, suggested name: "06-quiz_0_5C3F92E5-2481-478F-9916-DF46B0FBF9AB.png"
+
+1128
+File: 9B18246C-B48F-4013-B899-9DCAFF1CDD51.png, suggested name: "05-review_0_46364546-B0F5-418B-8327-04850B2B7D8D.png"
+
+1129
+File: 566AA900-2536-4DB8-B184-ECB7D1734C43.png, suggested name: "04-graph_0_98C0BD6D-9C52-4CBE-A409-ECC7B4E8B446.png"
+
+1130
+File: 2958B8EE-DBC1-4AF9-A0EF-75A6037BC7DB.png, suggested name: "03-arabic-search_0_1971ADAE-1C6B-48B6-AE80-24E4A939A887.png"
+
+1131
+File: 26031F4E-4432-4E46-A09C-6112D7ABF77E.png, suggested name: "02-notes_0_48B31112-5398-4DE3-A20F-ED8A17AF9859.png"
+
+1132
+File: 0666D950-FAF9-4A4F-A943-CC2AA79EE90C.png, suggested name: "01-home_0_FFE6E594-A058-40F6-99A7-B40D17082846.png"
+
+1133
+Exported 2 attachments for: RusukhUITests/testSimulatorAudioAttachmentSurvivesRelaunch():
+
+1134
+File: D04E373F-FCF4-4E72-9474-A874FCB0B892.png, suggested name: "10-simulator-audio-reopened_0_1A266FB7-F99C-4FFB-9057-5C3242FE0CFA.png"
+
+1135
+File: 771C782D-1F07-408C-8456-42ED43A67C56.png, suggested name: "09-simulator-audio-recorded_0_891F40D4-0B82-4B6C-8D9A-79429887DA39.png"
+
+1136
+Exported 1 attachment for: RusukhUITests/testSimulatorModelAvailabilityDoesNotStartUnsupportedGPU():
+
+1137
+File: F9C0DA10-1262-4472-AD23-FC221F1B89C3.png, suggested name: "11-simulator-model-unavailable_0_82645DA0-4153-443C-BAD1-373BB41C0AA9.png"
+
+1138
+Exported 1 attachment for: RusukhUITests/testZModelDownloadCancellationAndIntegrityThroughUI():
+
+1139
+File: 009FA516-3DA4-4644-B2CA-4772F25E7904.png, suggested name: "12-native-model-download-verified_0_789EBB1F-D08E-4205-A04B-5C41CB155733.png"
+
+1140
+Generated manifest file with attachment details: /Users/runner/work/rusukh-native-ios/rusukh-native-ios/evidence/ui-attachments/manifest.json
+
+1145
+getpwuid_r did not find a match for uid 501
+
+1146
+UI_TEST_SUMMARY {"devicesAndConfigurations": [{"device": {"architecture": "arm64", "deviceId": "F82EF267-78B0-4334-8AE6-2C58E00EE70F", "deviceName": "iPhone 17", "modelName": "iPhone 17", "osBuildNumber": "24A434", "osVersion": "27.0", "platform": "iOS Simulator"}, "expectedFailures": 0, "failedTests": 0, "passedTests": 4, "skippedTests": 0, "testPlanConfiguration": {"configurationId": "1", "configurationName": "Test Scheme Action"}}], "environmentDescription": "RusukhNative · Built with macOS 27.0.1", "expectedFailures": 0, "failedTests": 0, "finishTime": 1793496528.661, "passedTests": 4, "result": "Passed", "runtimeWarnings": [{"issueType": "Runtime Warning", "message": "    AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread."}, {"issueType": "Runtime Warning", "message": "    AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the
+
+1147
+APP_DIAGNOSTIC_EXCERPT
+
+1148
+POST_UI_MODEL_DIRECTORY_VERIFIED

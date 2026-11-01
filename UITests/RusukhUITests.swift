@@ -101,6 +101,66 @@ final class RusukhUITests: XCTestCase {
         XCTAssertFalse(app.staticTexts["voice.error"].exists)
         capture("10-simulator-audio-reopened")
     }
+    @MainActor
+    func testSimulatorModelAvailabilityDoesNotStartUnsupportedGPU() throws {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchArguments = ["-ui-testing", "-reset-test-data", "-AppleLanguages", "(ar)", "-AppleLocale", "ar_SA"]
+        app.launch()
+        XCTAssertTrue(app.buttons["ذكاء محلي"].waitForExistence(timeout: 10))
+        app.buttons["ذكاء محلي"].tap()
+        let section = app.buttons["arabic-model-section"]
+        reveal(section, in: app)
+        section.tap()
+        let unavailable = app.staticTexts["arabic-model-simulator-unavailable"]
+        XCTAssertTrue(unavailable.waitForExistence(timeout: 15), app.debugDescription)
+        XCTAssertTrue(app.staticTexts["arabic-model-ready"].exists)
+        XCTAssertFalse(app.buttons["arabic-model-generate"].exists)
+        capture("11-simulator-model-unavailable")
+        XCUIDevice.shared.press(.home)
+        app.activate()
+        XCTAssertTrue(unavailable.waitForExistence(timeout: 10))
+        app.buttons["ملاحظاتي"].tap()
+        XCTAssertTrue(app.buttons["notes.add"].waitForExistence(timeout: 10))
+        // MLX explicitly does not support Simulator GPU; never treat this as inference.
+    }
+
+    @MainActor
+    func testZModelDownloadCancellationAndIntegrityThroughUI() throws {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchArguments = ["-ui-testing", "-AppleLanguages", "(ar)", "-AppleLocale", "ar_SA"]
+        app.launch()
+        XCTAssertTrue(app.buttons["ذكاء محلي"].waitForExistence(timeout: 10))
+        app.buttons["ذكاء محلي"].tap()
+        let section = app.buttons["arabic-model-section"]
+        reveal(section, in: app)
+        section.tap()
+        let remove = app.buttons["حذف أوزان النموذج"]
+        XCTAssertTrue(remove.waitForExistence(timeout: 15))
+        reveal(remove, in: app)
+        remove.tap()
+        app.buttons["حذف النموذج"].tap()
+        let download = app.buttons["arabic-model-download"]
+        XCTAssertTrue(download.waitForExistence(timeout: 15))
+        reveal(download, in: app)
+        download.tap()
+        let cancel = app.buttons["arabic-model-cancel"]
+        XCTAssertTrue(cancel.waitForExistence(timeout: 10))
+        reveal(cancel, in: app)
+        cancel.tap()
+        let enabled = NSPredicate(format: "enabled == true")
+        expectation(for: enabled, evaluatedWith: download)
+        waitForExpectations(timeout: 20)
+        XCTAssertTrue(app.staticTexts["arabic-model-status"].label.contains("أوقفت"))
+        reveal(download, in: app)
+        download.tap()
+        // This exercises the app's URLSession path and SHA-256 checks, not CI provisioning.
+        XCTAssertTrue(app.staticTexts["arabic-model-ready"].waitForExistence(timeout: 240), app.debugDescription)
+        XCTAssertTrue(app.staticTexts["arabic-model-status"].label.contains("اكتمل التنزيل"))
+        capture("12-native-model-download-verified")
+    }
+
     @MainActor private func reveal(_ element: XCUIElement, in app: XCUIApplication) {
         for _ in 0..<4 {
             if element.isHittable { return }

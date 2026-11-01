@@ -1,0 +1,194 @@
+Source: https://github.com/scrv-1/rusukh-native-ios/actions/runs/41257552332/job/124703839158
+Visible GitHub log excerpt.
+
+Record toolchain and source
+5s
+1
+Run mkdir -p evidence
+
+2
+  mkdir -p evidence
+
+3
+  { echo "Commit: $GITHUB_SHA"; date -u; sw_vers; xcodebuild -version; swift --version; uname -m; xcode-select -p; xcodebuild -showsdks; ls -d /Applications/Xcode*; xcrun --find simctl; xcrun lldb --version; python3 --version; git --version; } | tee evidence/environment.txt
+
+4
+  shell: /bin/bash -e {0}
+
+5
+  env:
+
+6
+    HOMEBREW_NO_AUTO_UPDATE: 1
+
+7
+Commit: 443da1b14351edaeef305e8299203e9cec6bb6f6
+
+8
+Sun Nov  1 00:37:42 UTC 2026
+
+9
+ProductName:		macOS
+
+10
+ProductVersion:		27.0.1
+
+11
+BuildVersion:		26A434
+
+12
+Xcode 27.1
+
+13
+Build version 27A9275
+
+14
+Apple Swift version 6.4 (swiftlang-6.4.0.34.1 clang-2100.3.34.1)
+
+15
+Target: arm64-apple-macosx27.0.0
+
+16
+arm64
+
+17
+/Applications/Xcode_27.1.app/Contents/Developer
+
+18
+DriverKit SDKs:
+
+19
+	DriverKit 27.0                	-sdk driverkit27.0
+
+20
+
+
+21
+iOS SDKs:
+
+22
+	iOS 27.1                      	-sdk iphoneos27.1
+
+23
+
+
+24
+iOS Simulator SDKs:
+
+25
+	Simulator - iOS 27.1          	-sdk iphonesimulator27.1
+
+26
+
+
+27
+macOS SDKs:
+
+28
+	macOS 27.0                    	-sdk macosx27.0
+
+29
+	macOS 27.0                    	-sdk macosx27.0
+
+30
+
+
+31
+tvOS SDKs:
+
+32
+	tvOS 27.0                     	-sdk appletvos27.0
+
+33
+
+
+34
+tvOS Simulator SDKs:
+
+35
+	Simulator - tvOS 27.0         	-sdk appletvsimulator27.0
+
+36
+
+
+37
+visionOS SDKs:
+
+38
+	visionOS 27.0                 	-sdk xros27.0
+
+39
+
+
+40
+visionOS Simulator SDKs:
+
+41
+	Simulator - visionOS 27.0     	-sdk xrsimulator27.0
+
+42
+
+
+43
+watchOS SDKs:
+
+44
+	watchOS 27.0                  	-sdk watchos27.0
+
+45
+
+
+46
+watchOS Simulator SDKs:
+
+47
+	Simulator - watchOS 27.0      	-sdk watchsimulator27.0
+
+48
+
+
+49
+/Applications/Xcode_27.0.0.app
+
+50
+/Applications/Xcode_27.0.app
+
+51
+/Applications/Xcode_27.1.0.app
+
+52
+/Applications/Xcode_27.1.app
+
+53
+/Applications/Xcode_27.2_Release_Candidate.app
+
+54
+/Applications/Xcode_27.2.0.app
+
+55
+/Applications/Xcode_27.2.app
+
+56
+/Applications/Xcode_27.app
+
+57
+/Applications/Xcode.app
+
+58
+/Applications/Xcode_27.1.app/Contents/Developer/usr/bin/simctl
+
+59
+lldb-2103.0.34.103
+
+60
+Apple Swift version 6.4 (swiftlang-6.4.0.34.1 clang-2100.3.34.1)
+
+61
+Python 3.15.1
+
+62
+git version 2.56.0
+
+63
+swift-driver version: 1.168.6 
+
