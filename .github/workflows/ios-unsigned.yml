@@ -104,9 +104,11 @@ jobs:
         timeout-minutes: 10
         run: |
           set -o pipefail
+          MODEL_DIRECTORY=$(cat evidence/ai-simulator-model-directory.txt)
+          test -s "$MODEL_DIRECTORY/config.json"
+          test -s "$MODEL_DIRECTORY/model.safetensors"
           xcodegen generate --spec ai-probe.yml
           xcodebuild -project RusukhAIProbe.xcodeproj -scheme RusukhAIProbe -configuration Release -destination 'platform=macOS,arch=arm64' -derivedDataPath "$RUNNER_TEMP/ai-swift-build" CODE_SIGNING_ALLOWED=NO build > evidence/ai-swift-build.log 2>&1 || { tail -n 100 evidence/ai-swift-build.log; exit 1; }
-          MODEL_DIRECTORY=$(cat evidence/ai-simulator-model-directory.txt)
           sandbox-exec -p '(version 1)(allow default)(deny network*)' "$RUNNER_TEMP/ai-swift-build/Build/Products/Release/RusukhAIProbe" "$MODEL_DIRECTORY" docs/arabic-eval-cases.json | tee evidence/ai-swift-inference.log
       - name: Record artifact checksums
         run: |
