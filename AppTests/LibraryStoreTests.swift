@@ -42,7 +42,7 @@ final class LibraryStoreTests: XCTestCase {
         XCTAssertEqual(reopened.version, 2)
     }
 
-    func testMalformedFSRSImportLeavesActualStoreBytesUntouched() throws {
+    func testMalformedFSRSImportLeavesActualStoreBytesUntouched() async throws {
         let repository = try temporaryRepository()
         let library = LibraryStore(repository: repository)
         let note = try XCTUnwrap(library.saveNote(title: "محفوظ", body: "لا يستبدل", imageJPEG: nil))
@@ -57,8 +57,10 @@ final class LibraryStoreTests: XCTestCase {
         memory["card"] = state; cards[0]["fsrs"] = memory; json["cards"] = cards
         let badURL = repository.fileURL.deletingLastPathComponent().appendingPathComponent("bad.json")
         try JSONSerialization.data(withJSONObject: json).write(to: badURL)
-        library.importFromFile(badURL)
-        XCTAssertNotNil(library.message)
+        do {
+            _ = try await library.prepareImport(from: badURL)
+            XCTFail("Malformed FSRS must not reach an import preview")
+        } catch { /* Expected validation failure before writing. */ }
         XCTAssertEqual(library.snapshot, originalSnapshot)
         XCTAssertEqual(try Data(contentsOf: repository.fileURL), originalBytes)
     }
