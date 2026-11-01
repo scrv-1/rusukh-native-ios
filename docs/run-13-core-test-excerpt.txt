@@ -1,0 +1,328 @@
+Source: https://github.com/scrv-1/rusukh-native-ios/actions/runs/41257552332/job/124703839158
+Visible GitHub log excerpt; line numbers are UI text.
+
+Test Suite 'All tests' started at 2026-11-01 00:38:18.492.
+
+40
+Test Suite 'RusukhCoreTests.xctest' started at 2026-11-01 00:38:18.494.
+
+41
+Test Suite 'AudioStorageTests' started at 2026-11-01 00:38:18.494.
+
+42
+Test Case '-[RusukhCoreTests.AudioStorageTests testAudioBytesSurviveSaveReopenAndExport]' started.
+
+43
+Test Case '-[RusukhCoreTests.AudioStorageTests testAudioBytesSurviveSaveReopenAndExport]' passed (0.003 seconds).
+
+44
+Test Case '-[RusukhCoreTests.AudioStorageTests testOldBackupWithoutAudioFieldStillLoads]' started.
+
+45
+Test Case '-[RusukhCoreTests.AudioStorageTests testOldBackupWithoutAudioFieldStillLoads]' passed (0.000 seconds).
+
+46
+Test Case '-[RusukhCoreTests.AudioStorageTests testOversizedAudioCannotReplaceExistingStore]' started.
+
+47
+Test Case '-[RusukhCoreTests.AudioStorageTests testOversizedAudioCannotReplaceExistingStore]' passed (0.001 seconds).
+
+48
+Test Suite 'AudioStorageTests' passed at 2026-11-01 00:38:18.499.
+
+49
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.004 (0.005) seconds
+
+50
+Test Suite 'LocalModelRequestTests' started at 2026-11-01 00:38:18.499.
+
+51
+Test Case '-[RusukhCoreTests.LocalModelRequestTests testFactBeyondLimitRejectsReferenceInsteadOfDroppingFact]' started.
+
+52
+Test Case '-[RusukhCoreTests.LocalModelRequestTests testFactBeyondLimitRejectsReferenceInsteadOfDroppingFact]' passed (0.000 seconds).
+
+53
+Test Case '-[RusukhCoreTests.LocalModelRequestTests testFullReferenceAtBoundaryIsPreserved]' started.
+
+54
+Test Case '-[RusukhCoreTests.LocalModelRequestTests testFullReferenceAtBoundaryIsPreserved]' passed (0.000 seconds).
+
+55
+Test Case '-[RusukhCoreTests.LocalModelRequestTests testInvalidPromptsAreRejectedBeforeLoadingModel]' started.
+
+56
+Test Case '-[RusukhCoreTests.LocalModelRequestTests testInvalidPromptsAreRejectedBeforeLoadingModel]' passed (0.000 seconds).
+
+57
+Test Suite 'LocalModelRequestTests' passed at 2026-11-01 00:38:18.500.
+
+58
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
+
+59
+Test Suite 'PDFImportTests' started at 2026-11-01 00:38:18.500.
+
+60
+Test Case '-[RusukhCoreTests.PDFImportTests testExtractsTextFromRealPDFPages]' started.
+
+61
+Test Case '-[RusukhCoreTests.PDFImportTests testExtractsTextFromRealPDFPages]' passed (0.035 seconds).
+
+62
+Test Case '-[RusukhCoreTests.PDFImportTests testRejectsMalformedAndImageOnlyPDF]' started.
+
+63
+CoreGraphics PDF has logged an error. Set environment variable "CG_PDF_VERBOSE" to learn more.
+
+64
+Test Case '-[RusukhCoreTests.PDFImportTests testRejectsMalformedAndImageOnlyPDF]' passed (0.001 seconds).
+
+65
+Test Case '-[RusukhCoreTests.PDFImportTests testRejectsOversizedPDFBeforeParsing]' started.
+
+66
+Test Case '-[RusukhCoreTests.PDFImportTests testRejectsOversizedPDFBeforeParsing]' passed (0.000 seconds).
+
+67
+Test Case '-[RusukhCoreTests.PDFImportTests testRejectsTooManyPagesWithoutTruncation]' started.
+
+68
+Test Case '-[RusukhCoreTests.PDFImportTests testRejectsTooManyPagesWithoutTruncation]' passed (0.003 seconds).
+
+69
+Test Suite 'PDFImportTests' passed at 2026-11-01 00:38:18.540.
+
+70
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.039 (0.040) seconds
+
+71
+Test Suite 'ReliabilityTests' started at 2026-11-01 00:38:18.540.
+
+72
+Test Case '-[RusukhCoreTests.ReliabilityTests testAmbiguousLinkDoesNotChooseAnArbitraryNote]' started.
+
+73
+Test Case '-[RusukhCoreTests.ReliabilityTests testAmbiguousLinkDoesNotChooseAnArbitraryNote]' passed (0.001 seconds).
+
+74
+Test Case '-[RusukhCoreTests.ReliabilityTests testArabicSearchIgnoresDiacriticsAndTatweel]' started.
+
+75
+Test Case '-[RusukhCoreTests.ReliabilityTests testArabicSearchIgnoresDiacriticsAndTatweel]' passed (0.001 seconds).
+
+76
+Test Case '-[RusukhCoreTests.ReliabilityTests testMaximumImportedScheduleRemainsSaveable]' started.
+
+77
+Test Case '-[RusukhCoreTests.ReliabilityTests testMaximumImportedScheduleRemainsSaveable]' passed (0.000 seconds).
+
+78
+Test Case '-[RusukhCoreTests.ReliabilityTests testOversizedFileRejectedBeforeDecoding]' started.
+
+79
+Test Case '-[RusukhCoreTests.ReliabilityTests testOversizedFileRejectedBeforeDecoding]' passed (0.001 seconds).
+
+80
+Test Case '-[RusukhCoreTests.ReliabilityTests testOversizedSavePreservesReadableData]' started.
+
+81
+Test Case '-[RusukhCoreTests.ReliabilityTests testOversizedSavePreservesReadableData]' passed (0.223 seconds).
+
+82
+Test Case '-[RusukhCoreTests.ReliabilityTests testPreviouslyValidVersionOneCardsRemainReadable]' started.
+
+83
+Test Case '-[RusukhCoreTests.ReliabilityTests testPreviouslyValidVersionOneCardsRemainReadable]' passed (0.000 seconds).
+
+84
+Test Case '-[RusukhCoreTests.ReliabilityTests testSearchPerformanceForThousandNotes]' started.
+
+85
+/Users/runner/work/rusukh-native-ios/rusukh-native-ios/Tests/ReliabilityTests.swift:57: Test Case '-[RusukhCoreTests.ReliabilityTests testSearchPerformanceForThousandNotes]' measured [Time, seconds] average: 0.024, relative standard deviation: 41.290%, values: [0.052559, 0.029310, 0.022184, 0.019358, 0.019311, 0.019366, 0.019393, 0.019287, 0.019340, 0.020663], performanceMetricID:com.apple.XCTPerformanceMetric_WallClockTime, baselineName: "", baselineAverage: , polarity: prefers smaller, maxPercentRegression: 10.000%, maxPercentRelativeStandardDeviation: 10.000%, maxRegression: 0.100, maxStandardDeviation: 0.100
+
+86
+Test Case '-[RusukhCoreTests.ReliabilityTests testSearchPerformanceForThousandNotes]' passed (0.667 seconds).
+
+87
+Test Case '-[RusukhCoreTests.ReliabilityTests testThousandNoteBackupMemory]' started.
+
+88
+/Users/runner/work/rusukh-native-ios/rusukh-native-ios/Tests/ReliabilityTests.swift:62: Test Case '-[RusukhCoreTests.ReliabilityTests testThousandNoteBackupMemory]' measured [Memory Physical, kB] average: 9.830, relative standard deviation: 81.650%, values: [16.384000, 16.384000, 16.384000, 0.000000, 0.000000], performanceMetricID:com.apple.dt.XCTMetric_Memory.physical, baselineName: "", baselineAverage: , polarity: prefers smaller, maxPercentRegression: 10.000%, maxPercentRelativeStandardDeviation: 10.000%, maxRegression: 0.000, maxStandardDeviation: 0.000
+
+89
+/Users/runner/work/rusukh-native-ios/rusukh-native-ios/Tests/ReliabilityTests.swift:62: Test Case '-[RusukhCoreTests.ReliabilityTests testThousandNoteBackupMemory]' measured [Memory Peak Physical, kB] average: 388300.595, relative standard deviation: 0.005%, values: [388271.104000, 388287.488000, 388303.872000, 388320.256000, 388320.256000], performanceMetricID:com.apple.dt.XCTMetric_Memory.physical_peak, baselineName: "", baselineAverage: , polarity: prefers smaller, maxPercentRegression: 10.000%, maxPercentRelativeStandardDeviation: 10.000%, maxRegression: 0.000, maxStandardDeviation: 0.000
+
+90
+Test Case '-[RusukhCoreTests.ReliabilityTests testThousandNoteBackupMemory]' passed (0.191 seconds).
+
+91
+Test Suite 'ReliabilityTests' passed at 2026-11-01 00:38:19.625.
+
+92
+	 Executed 8 tests, with 0 failures (0 unexpected) in 1.085 (1.086) seconds
+
+93
+Test Suite 'StudyEngineTests' started at 2026-11-01 00:38:19.625.
+
+94
+Test Case '-[RusukhCoreTests.StudyEngineTests testAgainTenMinutes]' started.
+
+95
+Test Case '-[RusukhCoreTests.StudyEngineTests testAgainTenMinutes]' passed (0.000 seconds).
+
+96
+Test Case '-[RusukhCoreTests.StudyEngineTests testAtomicSaveAndLoad]' started.
+
+97
+Test Case '-[RusukhCoreTests.StudyEngineTests testAtomicSaveAndLoad]' passed (0.001 seconds).
+
+98
+Test Case '-[RusukhCoreTests.StudyEngineTests testBackupRoundTrip]' started.
+
+99
+Test Case '-[RusukhCoreTests.StudyEngineTests testBackupRoundTrip]' passed (0.000 seconds).
+
+100
+Test Case '-[RusukhCoreTests.StudyEngineTests testBadReferenceRejected]' started.
+
+101
+Test Case '-[RusukhCoreTests.StudyEngineTests testBadReferenceRejected]' passed (0.000 seconds).
+
+102
+Test Case '-[RusukhCoreTests.StudyEngineTests testCardDueNow]' started.
+
+103
+Test Case '-[RusukhCoreTests.StudyEngineTests testCardDueNow]' passed (0.000 seconds).
+
+104
+Test Case '-[RusukhCoreTests.StudyEngineTests testDuplicateNoteRejected]' started.
+
+105
+Test Case '-[RusukhCoreTests.StudyEngineTests testDuplicateNoteRejected]' passed (0.000 seconds).
+
+106
+Test Case '-[RusukhCoreTests.StudyEngineTests testEaseLowerBound]' started.
+
+107
+Test Case '-[RusukhCoreTests.StudyEngineTests testEaseLowerBound]' passed (0.000 seconds).
+
+108
+Test Case '-[RusukhCoreTests.StudyEngineTests testEasyInitialFourDays]' started.
+
+109
+Test Case '-[RusukhCoreTests.StudyEngineTests testEasyInitialFourDays]' passed (0.000 seconds).
+
+110
+Test Case '-[RusukhCoreTests.StudyEngineTests testEmptyTitleRejected]' started.
+
+111
+Test Case '-[RusukhCoreTests.StudyEngineTests testEmptyTitleRejected]' passed (0.000 seconds).
+
+112
+Test Case '-[RusukhCoreTests.StudyEngineTests testGoodInitialDay]' started.
+
+113
+Test Case '-[RusukhCoreTests.StudyEngineTests testGoodInitialDay]' passed (0.000 seconds).
+
+114
+Test Case '-[RusukhCoreTests.StudyEngineTests testHugeImageRejected]' started.
+
+115
+Test Case '-[RusukhCoreTests.StudyEngineTests testHugeImageRejected]' passed (0.000 seconds).
+
+116
+Test Case '-[RusukhCoreTests.StudyEngineTests testInvalidAndSelfLinks]' started.
+
+117
+Test Case '-[RusukhCoreTests.StudyEngineTests testInvalidAndSelfLinks]' passed (0.000 seconds).
+
+118
+Test Case '-[RusukhCoreTests.StudyEngineTests testLegacyExpoBackupMigration]' started.
+
+119
+Test Case '-[RusukhCoreTests.StudyEngineTests testLegacyExpoBackupMigration]' passed (0.000 seconds).
+
+120
+Test Case '-[RusukhCoreTests.StudyEngineTests testLegacyRejectsDanglingReferences]' started.
+
+121
+Test Case '-[RusukhCoreTests.StudyEngineTests testLegacyRejectsDanglingReferences]' passed (0.000 seconds).
+
+122
+Test Case '-[RusukhCoreTests.StudyEngineTests testNormalizeArabicTitle]' started.
+
+123
+Test Case '-[RusukhCoreTests.StudyEngineTests testNormalizeArabicTitle]' passed (0.000 seconds).
+
+124
+Test Case '-[RusukhCoreTests.StudyEngineTests testQuestionAnswerArabicEnglish]' started.
+
+125
+Test Case '-[RusukhCoreTests.StudyEngineTests testQuestionAnswerArabicEnglish]' passed (0.000 seconds).
+
+126
+Test Case '-[RusukhCoreTests.StudyEngineTests testQuestionAnswerMissingAnswer]' started.
+
+127
+Test Case '-[RusukhCoreTests.StudyEngineTests testQuestionAnswerMissingAnswer]' passed (0.000 seconds).
+
+128
+Test Case '-[RusukhCoreTests.StudyEngineTests testQuizDistinctChoices]' started.
+
+129
+Test Case '-[RusukhCoreTests.StudyEngineTests testQuizDistinctChoices]' passed (0.000 seconds).
+
+130
+Test Case '-[RusukhCoreTests.StudyEngineTests testQuizWithSingleCardUnavailable]' started.
+
+131
+Test Case '-[RusukhCoreTests.StudyEngineTests testQuizWithSingleCardUnavailable]' passed (0.000 seconds).
+
+132
+Test Case '-[RusukhCoreTests.StudyEngineTests testRejectCorruptedJSON]' started.
+
+133
+Test Case '-[RusukhCoreTests.StudyEngineTests testRejectCorruptedJSON]' passed (0.000 seconds).
+
+134
+Test Case '-[RusukhCoreTests.StudyEngineTests testReviewEventRequiresCard]' started.
+
+135
+Test Case '-[RusukhCoreTests.StudyEngineTests testReviewEventRequiresCard]' passed (0.000 seconds).
+
+136
+Test Case '-[RusukhCoreTests.StudyEngineTests testWikiLinksAliasAndDuplicates]' started.
+
+137
+Test Case '-[RusukhCoreTests.StudyEngineTests testWikiLinksAliasAndDuplicates]' passed (0.000 seconds).
+
+138
+Test Suite 'StudyEngineTests' passed at 2026-11-01 00:38:19.633.
+
+139
+	 Executed 22 tests, with 0 failures (0 unexpected) in 0.005 (0.008) seconds
+
+140
+Test Suite 'RusukhCoreTests.xctest' passed at 2026-11-01 00:38:19.633.
+
+141
+	 Executed 40 tests, with 0 failures (0 unexpected) in 1.134 (1.139) seconds
+
+142
+Test Suite 'All tests' passed at 2026-11-01 00:38:19.633.
+
+143
+	 Executed 40 tests, with 0 failures (0 unexpected) in 1.134 (1.141) seconds
+
+144
+◇ Test run started.
+
+145
+↳ Testing Library Version: 2084
+
+146
+↳ Target Platform: arm64e-apple-macos14.0
+
+147
+✔ Test run with 0 tests in 0 suites passed after 0.001 seconds.

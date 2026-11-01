@@ -1,6 +1,6 @@
 # رُسوخ مع xtool
 
-مسار إضافي لنفس ملفات SwiftUI وRusukhCore. يظل مشروع XcodeGen واختبار `swift test` كما هو. هذا ليس مشروع Expo ولا WebView.
+مسار إضافي لنفس ملفات SwiftUI وRusukhCore. يظل مشروع XcodeGen واختبار `swift test` كما هو. هذا ليس مشروع Expo ولا WebView. اعتماديات MLX التجريبية مثبتة في XcodeGen فقط؛ بناء xtool الحالي يحافظ على وظائف الدراسة والوسائط ومحرك Apple، ويعرض رسالة واضحة بعدم توفر محرك Qwen في هذه النسخة. لتنفيذ Qwen استخدم IPA الناتج من Xcode.
 
 ```bash
 bash scripts/build-xtool.sh

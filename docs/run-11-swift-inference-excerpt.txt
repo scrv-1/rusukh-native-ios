@@ -1,0 +1,32 @@
+Source: https://github.com/scrv-1/rusukh-native-ios/actions/runs/41255301711/job/124697093041
+Visible GitHub log excerpt; Mac Swift, not physical iPhone.
+
+NETWORK_DENIAL_CONFIRMED Swift process received EPERM/EACCES
+
+17
+METAL_DEVICE Apple Paravirtual device
+
+18
+{"result":{"tokensPerSecond":56.545956975456185,"answer":"الاسترجاع النشط هو تذكر المعلومات دون النظر إلى المصدر، بينما المراجعة المتباعدة تُقسّم جلسات التعلم على أيام مختلفة.","truncated":false,"generatedTokens":37,"seconds":7.82362699508667},"name":"summary"}
+
+19
+{"result":{"truncated":false,"generatedTokens":2,"seconds":0.3801180124282837,"tokensPerSecond":72.09309200914419,"answer":"باريس"},"name":"grounded_answer"}
+
+20
+{"result":{"seconds":0.7504260540008545,"generatedTokens":23,"tokensPerSecond":63.7110169631447,"answer":"س: ما المكونان الأساسيان للماء؟  \nج: الهيدروجين والأكسجين.","truncated":false},"name":"flashcard"}
+
+21
+{"result":{"seconds":0.348099946975708,"generatedTokens":5,"tokensPerSecond":65.12702264995288,"answer":"غير مذكور.","truncated":false},"name":"unknown"}
+
+22
+{"result":{"seconds":0.948646068572998,"generatedTokens":36,"tokensPerSecond":62.30313263213142,"answer":"لا، الضوء ليس موجة صوتية.  \nالضوء موجة كهرومغناطيسية، كما ورد في الملاحظة.","truncated":false},"name":"negation"}
+
+23
+{"result":{"seconds":0.6629890203475952,"generatedTokens":20,"tokensPerSecond":64.01882877997946,"answer":"مواعيد المراجعة:  \nبعد يوم  \nبعد ثلاثة أيام  \nبعد سبعة أيام","truncated":false},"name":"schedule"}
+
+24
+{"result":{"seconds":1.5577319860458374,"generatedTokens":81,"tokensPerSecond":63.66087768944594,"answer":"الاسترجاع النشط هو عملية تعلم الطالب لاسترجاع المعلومات من ذاكرته دون تكليف معلّم.  \nمثلاً: طالب يُعيد تلخيص محتوى درس \"الجذب الكهربائي\" بذاته دون تذكير، ثم يُفسرها لصديق.","truncated":false},"name":"explain"}
+
+25
+{"result":{"seconds":0.8976950645446777,"generatedTokens":33,"tokensPerSecond":62.252532612274194,"answer":"سؤال: ما درجة تجمد الماء النقي في الضغط الجوي العادي؟  \nجواب: صفر درجة مئوية.","truncated":false},"name":"faithfulness"}
+
