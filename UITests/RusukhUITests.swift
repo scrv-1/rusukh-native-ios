@@ -130,6 +130,42 @@ final class RusukhUITests: XCTestCase {
         // The Mac probe proves process network denial; this test proves iOS runtime execution.
     }
 
+    @MainActor
+    func testZModelDownloadCancellationAndIntegrityThroughUI() throws {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchArguments = ["-ui-testing", "-AppleLanguages", "(ar)", "-AppleLocale", "ar_SA"]
+        app.launch()
+        XCTAssertTrue(app.buttons["ذكاء محلي"].waitForExistence(timeout: 10))
+        app.buttons["ذكاء محلي"].tap()
+        let section = app.buttons["arabic-model-section"]
+        reveal(section, in: app)
+        section.tap()
+        let remove = app.buttons["حذف أوزان النموذج"]
+        XCTAssertTrue(remove.waitForExistence(timeout: 15))
+        reveal(remove, in: app)
+        remove.tap()
+        app.buttons["حذف النموذج"].tap()
+        let download = app.buttons["arabic-model-download"]
+        XCTAssertTrue(download.waitForExistence(timeout: 15))
+        reveal(download, in: app)
+        download.tap()
+        let cancel = app.buttons["arabic-model-cancel"]
+        XCTAssertTrue(cancel.waitForExistence(timeout: 10))
+        reveal(cancel, in: app)
+        cancel.tap()
+        let enabled = NSPredicate(format: "enabled == true")
+        expectation(for: enabled, evaluatedWith: download)
+        waitForExpectations(timeout: 20)
+        XCTAssertTrue(app.staticTexts["arabic-model-status"].label.contains("أوقفت"))
+        reveal(download, in: app)
+        download.tap()
+        // This exercises the app's URLSession path and SHA-256 checks, not CI provisioning.
+        XCTAssertTrue(app.buttons["arabic-model-generate"].waitForExistence(timeout: 240))
+        XCTAssertTrue(app.staticTexts["arabic-model-status"].label.contains("اكتمل التنزيل"))
+        capture("12-native-model-download-verified")
+    }
+
     @MainActor private func reveal(_ element: XCUIElement, in app: XCUIApplication) {
         for _ in 0..<4 {
             if element.isHittable { return }
