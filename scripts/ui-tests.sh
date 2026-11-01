@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 SIMULATOR_ID=$(cat evidence/simulator-id.txt)
-xcrun simctl boot "$SIMULATOR_ID"
+if ! xcrun simctl list devices booted -j | python3 -c 'import json,sys; target=sys.argv[1]; devices=json.load(sys.stdin)["devices"]; sys.exit(0 if any(d["udid"] == target and d["state"] == "Booted" for group in devices.values() for d in group) else 1)' "$SIMULATOR_ID"; then
+  xcrun simctl boot "$SIMULATOR_ID"
+fi
 xcrun simctl bootstatus "$SIMULATOR_ID" -b
 trap 'xcrun simctl shutdown "$SIMULATOR_ID" || true' EXIT
 xcrun simctl privacy "$SIMULATOR_ID" grant microphone com.scrv1.rusukhnative

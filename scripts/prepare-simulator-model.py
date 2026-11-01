@@ -10,7 +10,7 @@ manifest = json.loads(Path('docs/qwen-model-manifest.json').read_text())
 simulator = Path('evidence/simulator-id.txt').read_text().strip()
 container = subprocess.check_output(['xcrun', 'simctl', 'get_app_container', simulator,
                                      'com.scrv1.rusukhnative', 'data'], text=True).strip()
-folder = Path(container) / 'Library/Application Support/RusukhModels/Qwen3-Instruct-2507'
+folder = Path(container) / 'Library/Application Support/RusukhTestModels/Qwen3-Instruct-2507'
 folder.mkdir(parents=True, exist_ok=True)
 if shutil.disk_usage(folder).free < 5_000_000_000:
     raise RuntimeError('Insufficient disk for model test')
