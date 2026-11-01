@@ -1,0 +1,202 @@
+Skip to content
+scrv-1
+rusukh-native-ios
+Type / to search
+Repository navigation
+Code
+Issues
+Pull requests
+Agents
+Actions
+Projects
+Security and quality
+Insights
+Settings
+iOS - SwiftUI build and simulator preview
+iOS - SwiftUI build and simulator preview #17
+Re-run jobs
+Summary
+All jobs
+Test, build and launch SwiftUI
+Evaluate Arabic model offline on cloud Mac
+Run details
+Usage
+Workflow file
+Lockfile
+Test, build and launch SwiftUI
+failed  in 7m 26s
+Set up job
+1s
+Checkout source
+1s
+Record toolchain and source
+4s
+Install XcodeGen
+4s
+Test core logic
+31s
+Generate Xcode project
+33s
+Build simulator app
+1m 22s
+Build unsigned device app
+2m 42s
+Launch simulator and capture preview
+1m 49s
+123
+	Waiting on Data Migration
+
+124
+		Reason:Running plugin com.apple.managedconfiguration.migrator (MCProfile.migrator, user-agnostic)
+
+125
+		Migration Elapsed:00:24 seconds
+
+127
+[2026-11-01 11:15:42 +0000] Status=2, isTerminal=NO, Elapsed=00:31.
+
+128
+	Waiting on Data Migration
+
+129
+		Reason:Running plugin com.apple.managedconfiguration.migrator (MCProfile.migrator, user-agnostic)
+
+130
+		Migration Elapsed:00:26 seconds
+
+132
+[2026-11-01 11:15:49 +0000] Status=2, isTerminal=NO, Elapsed=00:38.
+
+133
+	Waiting on Data Migration
+
+134
+		Reason:Running plugin com.apple.managedconfiguration.migrator (MCProfile.migrator, user-agnostic)
+
+135
+		Migration Elapsed:00:27 seconds
+
+137
+[2026-11-01 11:15:50 +0000] Status=4294967295, isTerminal=YES, Elapsed=00:39.
+
+138
+	Finished
+
+140
+com.scrv1.rusukhnative: 30114
+
+141
+Detected file type from extension: PNG
+
+142
+Wrote screenshot to: /Users/runner/work/rusukh-native-ios/rusukh-native-ios/evidence/simulator-home.png
+Build xtool 1.24.0 unsigned IPA
+8s
+1
+Run set -o pipefail
+
+13
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+
+14
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+16
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+
+17
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+
+18
+100 20.9M  100 20.9M    0     0  33.3M      0 --:--:-- --:--:-- --:--:-- 33.3M
+
+20
+/Users/runner/work/_temp/xtool.app.zip: OK
+
+21
+xtool 1.24.0
+
+22
+error: 'rusukh-native-ios': duplicate rule found for file at '/Users/runner/work/rusukh-native-ios/rusukh-native-ios/App/Resources/FSRS-LICENSE.txt'
+
+23
+Error: exited(1)
+
+24
+Planning...
+
+25
+Error: Process completed with exit code 1.
+Verify bundled open-source notice
+0s
+Provision verified local model for simulator test
+0s
+Test Arabic UI and persistence
+0s
+Verify current Swift runtime offline on Mac (not Simulator)
+0s
+Record artifact checksums
+0s
+Upload simulator app
+2s
+1
+Run actions/upload-artifact@v4
+
+12
+(node:30750) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+
+13
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+14
+With the provided path, there will be 1 file uploaded
+
+15
+Artifact name is valid!
+
+16
+Root directory input is valid!
+
+17
+Beginning upload of artifact content to blob storage
+
+18
+(node:30750) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+
+19
+Uploaded bytes 8388608
+
+20
+Uploaded bytes 16594657
+
+21
+Finished uploading artifact content to blob storage!
+
+22
+SHA256 digest of uploaded artifact zip is 661503dea8a6fbad42b365067e310bcaaf5e750296a79c2332acd6521d12fb56
+
+23
+Finalizing artifact upload
+
+24
+Artifact RusukhNative-simulator.zip successfully finalized. Artifact ID 13080869837
+
+25
+Artifact RusukhNative-simulator has been successfully uploaded! Final size is 16594657 bytes. Artifact ID is 13080869837
+
+26
+Artifact download URL: https://github.com/scrv-1/rusukh-native-ios/actions/runs/41300650330/artifacts/13080869837
+Upload unsigned device IPA
+2s
+Package source with xtool configuration
+0s
+Upload xtool project
+1s
+Upload xtool IPA
+0s
+Upload build evidence
+1s
+Post Checkout source
+0s
+Complete job
+1s

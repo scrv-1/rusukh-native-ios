@@ -1,0 +1,18 @@
+Building for debugging...
+[Pre-planning 1 / 154]
+[Starting]
+[7 / 17] RusukhCoreTests-product
+[10 / 16] RusukhCoreTests-product
+[13 / 17] RusukhCoreTests-product
+[14 / 17] RusukhCoreTests-product
+[18 / 20] RusukhCoreTests-test-runner
+[22 / 22] RusukhCoreTests-test-runner
+Build complete! (1.53 secs)
+Test Suite 'Selected tests' started at 2026-11-01 12:25:41.882
+Test Suite 'ReviewSchedulerStressTests' started at 2026-11-01 12:25:41.883
+Test Case 'ReviewSchedulerStressTests.testMixedReviewsAndRepeatedBackupsPreserveThousandCards' started at 2026-11-01 12:25:41.883
+Test Case 'ReviewSchedulerStressTests.testMixedReviewsAndRepeatedBackupsPreserveThousandCards' passed (7.877 seconds)
+Test Suite 'ReviewSchedulerStressTests' passed at 2026-11-01 12:25:49.760
+	 Executed 1 test, with 0 failures (0 unexpected) in 7.877 (7.877) seconds
+Test Suite 'Selected tests' passed at 2026-11-01 12:25:49.760
+	 Executed 1 test, with 0 failures (0 unexpected) in 7.877 (7.877) seconds

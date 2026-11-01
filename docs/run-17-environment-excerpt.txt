@@ -1,0 +1,190 @@
+Skip to content
+scrv-1
+rusukh-native-ios
+Type / to search
+Repository navigation
+Code
+Issues
+Pull requests
+Agents
+Actions
+Projects
+Security and quality
+Insights
+Settings
+iOS - SwiftUI build and simulator preview
+iOS - SwiftUI build and simulator preview #17
+Cancel workflow
+Summary
+All jobs
+Test, build and launch SwiftUI
+Evaluate Arabic model offline on cloud Mac
+Run details
+Usage
+Workflow file
+Lockfile
+Test, build and launch SwiftUI
+Started  ago
+Set up job
+1s
+Checkout source
+1s
+Record toolchain and source
+4s
+1
+Run mkdir -p evidence
+
+7
+Commit: 2bd00c312ece278ae2dac19dc5cce31984f73781
+
+8
+Sun Nov  1 11:09:53 UTC 2026
+
+9
+ProductName:		macOS
+
+10
+ProductVersion:		27.0.1
+
+11
+BuildVersion:		26A434
+
+12
+Xcode 27.1
+
+13
+Build version 27A9275
+
+14
+Apple Swift version 6.4 (swiftlang-6.4.0.34.1 clang-2100.3.34.1)
+
+15
+Target: arm64-apple-macosx27.0.0
+
+16
+arm64
+
+17
+/Applications/Xcode_27.1.app/Contents/Developer
+
+18
+DriverKit SDKs:
+
+19
+	DriverKit 27.0                	-sdk driverkit27.0
+
+20
+
+
+21
+iOS SDKs:
+
+22
+	iOS 27.1                      	-sdk iphoneos27.1
+
+23
+
+
+24
+iOS Simulator SDKs:
+
+25
+	Simulator - iOS 27.1          	-sdk iphonesimulator27.1
+
+26
+
+
+27
+macOS SDKs:
+
+28
+	macOS 27.0                    	-sdk macosx27.0
+
+29
+	macOS 27.0                    	-sdk macosx27.0
+
+30
+
+
+31
+tvOS SDKs:
+
+32
+	tvOS 27.0                     	-sdk appletvos27.0
+
+33
+
+
+34
+tvOS Simulator SDKs:
+
+35
+	Simulator - tvOS 27.0         	-sdk appletvsimulator27.0
+
+36
+
+
+37
+visionOS SDKs:
+
+38
+	visionOS 27.0                 	-sdk xros27.0
+
+39
+
+
+40
+visionOS Simulator SDKs:
+
+41
+	Simulator - visionOS 27.0     	-sdk xrsimulator27.0
+
+42
+
+
+43
+watchOS SDKs:
+
+44
+	watchOS 27.0                  	-sdk watchos27.0
+
+45
+
+
+46
+watchOS Simulator SDKs:
+
+47
+	Simulator - watchOS 27.0      	-sdk watchsimulator27.0
+
+48
+
+
+49
+/Applications/Xcode_27.0.0.app
+
+Install XcodeGen
+4s
+Test core logic
+31s
+Generate Xcode project
+33s
+Build simulator app
+1m 22s
+Build unsigned device app
+2m 42s
+Launch simulator and capture preview
+1m 49s
+Build xtool 1.24.0 unsigned IPA
+Verify bundled open-source notice
+Provision verified local model for simulator test
+Test Arabic UI and persistence
+Verify current Swift runtime offline on Mac (not Simulator)
+Record artifact checksums
+Upload simulator app
+Upload unsigned device IPA
+Package source with xtool configuration
+Upload xtool project
+Upload xtool IPA
+Upload build evidence
+Post Checkout source

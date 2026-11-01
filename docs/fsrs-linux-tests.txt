@@ -1,141 +1,140 @@
 Building for debugging...
-[Starting]
+[Using on-disk description]
 [2 / 9] RusukhCore
-[9 / 14] RusukhCoreTests-product
-[13 / 19] RusukhCore
-[17 / 20] RusukhCoreTests-product
-[24 / 26] RusukhCoreTests-test-runner
-[28 / 28] RusukhCoreTests-test-runner
-Build complete! (1.84 secs)
-Test Suite 'All tests' started at 2026-11-01 12:03:17.331
-Test Suite 'Debug-linux-x86_64.xctest' started at 2026-11-01 12:03:17.332
-Test Suite 'AudioSessionCoordinatorTests' started at 2026-11-01 12:03:17.332
-Test Case 'AudioSessionCoordinatorTests.testActivationFailureDoesNotPoisonNextRequest' started at 2026-11-01 12:03:17.332
+[6 / 12] RusukhCore
+[10 / 13] RusukhCoreTests-product
+[14 / 16] RusukhCoreTests-test-runner
+[17 / 17] RusukhCoreTests-test-runner
+Build complete! (1.19 secs)
+Test Suite 'All tests' started at 2026-11-01 12:19:37.967
+Test Suite 'Debug-linux-x86_64.xctest' started at 2026-11-01 12:19:37.969
+Test Suite 'AudioSessionCoordinatorTests' started at 2026-11-01 12:19:37.969
+Test Case 'AudioSessionCoordinatorTests.testActivationFailureDoesNotPoisonNextRequest' started at 2026-11-01 12:19:37.969
 Test Case 'AudioSessionCoordinatorTests.testActivationFailureDoesNotPoisonNextRequest' passed (0.001 seconds)
-Test Case 'AudioSessionCoordinatorTests.testCleanupFailureIsReported' started at 2026-11-01 12:03:17.334
+Test Case 'AudioSessionCoordinatorTests.testCleanupFailureIsReported' started at 2026-11-01 12:19:37.970
 Test Case 'AudioSessionCoordinatorTests.testCleanupFailureIsReported' passed (0.001 seconds)
-Test Case 'AudioSessionCoordinatorTests.testCloseQueuedDuringBlockedActivationReleasesAfterIt' started at 2026-11-01 12:03:17.334
+Test Case 'AudioSessionCoordinatorTests.testCloseQueuedDuringBlockedActivationReleasesAfterIt' started at 2026-11-01 12:19:37.970
 Test Case 'AudioSessionCoordinatorTests.testCloseQueuedDuringBlockedActivationReleasesAfterIt' passed (0.001 seconds)
-Test Case 'AudioSessionCoordinatorTests.testDriverNeverRunsOnUIThread' started at 2026-11-01 12:03:17.335
+Test Case 'AudioSessionCoordinatorTests.testDriverNeverRunsOnUIThread' started at 2026-11-01 12:19:37.971
 Test Case 'AudioSessionCoordinatorTests.testDriverNeverRunsOnUIThread' passed (0.0 seconds)
-Test Case 'AudioSessionCoordinatorTests.testLateReleaseCannotStopNewPlayback' started at 2026-11-01 12:03:17.336
+Test Case 'AudioSessionCoordinatorTests.testLateReleaseCannotStopNewPlayback' started at 2026-11-01 12:19:37.971
 Test Case 'AudioSessionCoordinatorTests.testLateReleaseCannotStopNewPlayback' passed (0.0 seconds)
-Test Case 'AudioSessionCoordinatorTests.testMediaCannotStartAfterSessionWasReleased' started at 2026-11-01 12:03:17.336
-Test Case 'AudioSessionCoordinatorTests.testMediaCannotStartAfterSessionWasReleased' passed (0.001 seconds)
-Test Case 'AudioSessionCoordinatorTests.testMediaInitializationRunsOffMainThread' started at 2026-11-01 12:03:17.337
-Test Case 'AudioSessionCoordinatorTests.testMediaInitializationRunsOffMainThread' passed (0.003 seconds)
-Test Case 'AudioSessionCoordinatorTests.testSecondOwnerCannotStealAnActiveSession' started at 2026-11-01 12:03:17.340
-Test Case 'AudioSessionCoordinatorTests.testSecondOwnerCannotStealAnActiveSession' passed (0.001 seconds)
-Test Suite 'AudioSessionCoordinatorTests' passed at 2026-11-01 12:03:17.341
-	 Executed 8 tests, with 0 failures (0 unexpected) in 0.008 (0.008) seconds
-Test Suite 'AudioStorageTests' started at 2026-11-01 12:03:17.341
-Test Case 'AudioStorageTests.testAudioBytesSurviveSaveReopenAndExport' started at 2026-11-01 12:03:17.341
-Test Case 'AudioStorageTests.testAudioBytesSurviveSaveReopenAndExport' passed (0.003 seconds)
-Test Case 'AudioStorageTests.testOldBackupWithoutAudioFieldStillLoads' started at 2026-11-01 12:03:17.344
+Test Case 'AudioSessionCoordinatorTests.testMediaCannotStartAfterSessionWasReleased' started at 2026-11-01 12:19:37.972
+Test Case 'AudioSessionCoordinatorTests.testMediaCannotStartAfterSessionWasReleased' passed (0.0 seconds)
+Test Case 'AudioSessionCoordinatorTests.testMediaInitializationRunsOffMainThread' started at 2026-11-01 12:19:37.972
+Test Case 'AudioSessionCoordinatorTests.testMediaInitializationRunsOffMainThread' passed (0.0 seconds)
+Test Case 'AudioSessionCoordinatorTests.testSecondOwnerCannotStealAnActiveSession' started at 2026-11-01 12:19:37.972
+Test Case 'AudioSessionCoordinatorTests.testSecondOwnerCannotStealAnActiveSession' passed (0.0 seconds)
+Test Suite 'AudioSessionCoordinatorTests' passed at 2026-11-01 12:19:37.972
+	 Executed 8 tests, with 0 failures (0 unexpected) in 0.004 (0.004) seconds
+Test Suite 'AudioStorageTests' started at 2026-11-01 12:19:37.973
+Test Case 'AudioStorageTests.testAudioBytesSurviveSaveReopenAndExport' started at 2026-11-01 12:19:37.973
+Test Case 'AudioStorageTests.testAudioBytesSurviveSaveReopenAndExport' passed (0.002 seconds)
+Test Case 'AudioStorageTests.testOldBackupWithoutAudioFieldStillLoads' started at 2026-11-01 12:19:37.975
 Test Case 'AudioStorageTests.testOldBackupWithoutAudioFieldStillLoads' passed (0.0 seconds)
-Test Case 'AudioStorageTests.testOversizedAudioCannotReplaceExistingStore' started at 2026-11-01 12:03:17.344
+Test Case 'AudioStorageTests.testOversizedAudioCannotReplaceExistingStore' started at 2026-11-01 12:19:37.975
 Test Case 'AudioStorageTests.testOversizedAudioCannotReplaceExistingStore' passed (0.001 seconds)
-Test Suite 'AudioStorageTests' passed at 2026-11-01 12:03:17.346
-	 Executed 3 tests, with 0 failures (0 unexpected) in 0.005 (0.005) seconds
-Test Suite 'LocalModelRequestTests' started at 2026-11-01 12:03:17.346
-Test Case 'LocalModelRequestTests.testFactBeyondLimitRejectsReferenceInsteadOfDroppingFact' started at 2026-11-01 12:03:17.346
+Test Suite 'AudioStorageTests' passed at 2026-11-01 12:19:37.976
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.004 (0.004) seconds
+Test Suite 'LocalModelRequestTests' started at 2026-11-01 12:19:37.976
+Test Case 'LocalModelRequestTests.testFactBeyondLimitRejectsReferenceInsteadOfDroppingFact' started at 2026-11-01 12:19:37.976
 Test Case 'LocalModelRequestTests.testFactBeyondLimitRejectsReferenceInsteadOfDroppingFact' passed (0.0 seconds)
-Test Case 'LocalModelRequestTests.testFullReferenceAtBoundaryIsPreserved' started at 2026-11-01 12:03:17.346
+Test Case 'LocalModelRequestTests.testFullReferenceAtBoundaryIsPreserved' started at 2026-11-01 12:19:37.977
 Test Case 'LocalModelRequestTests.testFullReferenceAtBoundaryIsPreserved' passed (0.0 seconds)
-Test Case 'LocalModelRequestTests.testInvalidPromptsAreRejectedBeforeLoadingModel' started at 2026-11-01 12:03:17.346
-Test Case 'LocalModelRequestTests.testInvalidPromptsAreRejectedBeforeLoadingModel' passed (0.0 seconds)
-Test Suite 'LocalModelRequestTests' passed at 2026-11-01 12:03:17.346
-	 Executed 3 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
-Test Suite 'ReliabilityTests' started at 2026-11-01 12:03:17.346
-Test Case 'ReliabilityTests.testAmbiguousLinkDoesNotChooseAnArbitraryNote' started at 2026-11-01 12:03:17.346
+Test Case 'LocalModelRequestTests.testInvalidPromptsAreRejectedBeforeLoadingModel' started at 2026-11-01 12:19:37.977
+Test Case 'LocalModelRequestTests.testInvalidPromptsAreRejectedBeforeLoadingModel' passed (0.1 seconds)
+Test Suite 'LocalModelRequestTests' passed at 2026-11-01 12:19:38.077
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.101 (0.101) seconds
+Test Suite 'ReliabilityTests' started at 2026-11-01 12:19:38.077
+Test Case 'ReliabilityTests.testAmbiguousLinkDoesNotChooseAnArbitraryNote' started at 2026-11-01 12:19:38.077
 Test Case 'ReliabilityTests.testAmbiguousLinkDoesNotChooseAnArbitraryNote' passed (0.002 seconds)
-Test Case 'ReliabilityTests.testArabicSearchIgnoresDiacriticsAndTatweel' started at 2026-11-01 12:03:17.348
+Test Case 'ReliabilityTests.testArabicSearchIgnoresDiacriticsAndTatweel' started at 2026-11-01 12:19:38.079
 Test Case 'ReliabilityTests.testArabicSearchIgnoresDiacriticsAndTatweel' passed (0.001 seconds)
-Test Case 'ReliabilityTests.testMaximumImportedScheduleRemainsSaveable' started at 2026-11-01 12:03:17.349
+Test Case 'ReliabilityTests.testMaximumImportedScheduleRemainsSaveable' started at 2026-11-01 12:19:38.080
 Test Case 'ReliabilityTests.testMaximumImportedScheduleRemainsSaveable' passed (0.0 seconds)
-Test Case 'ReliabilityTests.testOversizedFileRejectedBeforeDecoding' started at 2026-11-01 12:03:17.349
+Test Case 'ReliabilityTests.testOversizedFileRejectedBeforeDecoding' started at 2026-11-01 12:19:38.080
 Test Case 'ReliabilityTests.testOversizedFileRejectedBeforeDecoding' passed (0.0 seconds)
-Test Case 'ReliabilityTests.testOversizedSavePreservesReadableData' started at 2026-11-01 12:03:17.349
-Test Case 'ReliabilityTests.testOversizedSavePreservesReadableData' passed (0.383 seconds)
-Test Case 'ReliabilityTests.testPreviouslyValidVersionOneCardsRemainReadable' started at 2026-11-01 12:03:17.732
+Test Case 'ReliabilityTests.testOversizedSavePreservesReadableData' started at 2026-11-01 12:19:38.081
+Test Case 'ReliabilityTests.testOversizedSavePreservesReadableData' passed (0.455 seconds)
+Test Case 'ReliabilityTests.testPreviouslyValidVersionOneCardsRemainReadable' started at 2026-11-01 12:19:38.536
 Test Case 'ReliabilityTests.testPreviouslyValidVersionOneCardsRemainReadable' passed (0.001 seconds)
-Test Case 'ReliabilityTests.testSearchPerformanceForThousandNotes' started at 2026-11-01 12:03:17.733
-/workspace/scratch/4555e7a855cf/fsrs-integration-20261101/Tests/ReliabilityTests.swift:57: Test Case 'ReliabilityTests.testSearchPerformanceForThousandNotes' measured [Time, seconds] average: 0.024, relative standard deviation: 2.430%, values: [0.024225, 0.023964, 0.023855, 0.025223, 0.023187, 0.023587, 0.023606, 0.023592, 0.023368, 0.023497], performanceMetricID:org.swift.XCTPerformanceMetric_WallClockTime, maxPercentRelativeStandardDeviation: 10.000%, maxStandardDeviation: 0.100
-Test Case 'ReliabilityTests.testSearchPerformanceForThousandNotes' passed (0.24 seconds)
-Test Suite 'ReliabilityTests' passed at 2026-11-01 12:03:17.973
-	 Executed 7 tests, with 0 failures (0 unexpected) in 0.627 (0.627) seconds
-Test Suite 'ReviewSchedulerTests' started at 2026-11-01 12:03:17.973
-Test Case 'ReviewSchedulerTests.testClockRollbackDoesNotOverwriteMemoryState' started at 2026-11-01 12:03:17.973
+Test Case 'ReliabilityTests.testSearchPerformanceForThousandNotes' started at 2026-11-01 12:19:38.536
+/workspace/scratch/4555e7a855cf/fsrs-integration-20261101/Tests/ReliabilityTests.swift:57: Test Case 'ReliabilityTests.testSearchPerformanceForThousandNotes' measured [Time, seconds] average: 0.022, relative standard deviation: 2.106%, values: [0.022570, 0.022014, 0.021980, 0.021781, 0.022237, 0.021729, 0.022717, 0.023228, 0.022599, 0.022435], performanceMetricID:org.swift.XCTPerformanceMetric_WallClockTime, maxPercentRelativeStandardDeviation: 10.000%, maxStandardDeviation: 0.100
+Test Case 'ReliabilityTests.testSearchPerformanceForThousandNotes' passed (0.225 seconds)
+Test Suite 'ReliabilityTests' passed at 2026-11-01 12:19:38.762
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.684 (0.684) seconds
+Test Suite 'ReviewSchedulerTests' started at 2026-11-01 12:19:38.762
+Test Case 'ReviewSchedulerTests.testClockRollbackDoesNotOverwriteMemoryState' started at 2026-11-01 12:19:38.762
 Test Case 'ReviewSchedulerTests.testClockRollbackDoesNotOverwriteMemoryState' passed (0.0 seconds)
-Test Case 'ReviewSchedulerTests.testConflictingRepetitionCountAndInvalidRelearningStepRejected' started at 2026-11-01 12:03:17.974
+Test Case 'ReviewSchedulerTests.testConflictingRepetitionCountAndInvalidRelearningStepRejected' started at 2026-11-01 12:19:38.762
 Test Case 'ReviewSchedulerTests.testConflictingRepetitionCountAndInvalidRelearningStepRejected' passed (0.0 seconds)
-Test Case 'ReviewSchedulerTests.testInitialGradesUseVersionSixReferenceValues' started at 2026-11-01 12:03:17.974
+Test Case 'ReviewSchedulerTests.testInitialGradesUseVersionSixReferenceValues' started at 2026-11-01 12:19:38.762
 Test Case 'ReviewSchedulerTests.testInitialGradesUseVersionSixReferenceValues' passed (0.0 seconds)
-Test Case 'ReviewSchedulerTests.testLegacyBackupKeepsScheduleAndUsesLegacyAlgorithm' started at 2026-11-01 12:03:17.974
+Test Case 'ReviewSchedulerTests.testLegacyBackupKeepsScheduleAndUsesLegacyAlgorithm' started at 2026-11-01 12:19:38.763
 Test Case 'ReviewSchedulerTests.testLegacyBackupKeepsScheduleAndUsesLegacyAlgorithm' passed (0.0 seconds)
-Test Case 'ReviewSchedulerTests.testMalformedOrUnknownMemoryStateRejectedWithoutScheduling' started at 2026-11-01 12:03:17.975
+Test Case 'ReviewSchedulerTests.testMalformedOrUnknownMemoryStateRejectedWithoutScheduling' started at 2026-11-01 12:19:38.763
 Test Case 'ReviewSchedulerTests.testMalformedOrUnknownMemoryStateRejectedWithoutScheduling' passed (0.0 seconds)
-Test Case 'ReviewSchedulerTests.testMaximumIntervalRemainsReviewableForEveryGrade' started at 2026-11-01 12:03:17.975
+Test Case 'ReviewSchedulerTests.testMaximumIntervalRemainsReviewableForEveryGrade' started at 2026-11-01 12:19:38.763
 Test Case 'ReviewSchedulerTests.testMaximumIntervalRemainsReviewableForEveryGrade' passed (0.001 seconds)
-Test Case 'ReviewSchedulerTests.testMissingOrNullLearningStateIsRejectedOnImport' started at 2026-11-01 12:03:17.976
-Test Case 'ReviewSchedulerTests.testMissingOrNullLearningStateIsRejectedOnImport' passed (0.002 seconds)
-Test Case 'ReviewSchedulerTests.testReferenceSequenceSurvivesBackupAndReopenAtEveryReview' started at 2026-11-01 12:03:17.978
+Test Case 'ReviewSchedulerTests.testMissingOrNullLearningStateIsRejectedOnImport' started at 2026-11-01 12:19:38.764
+Test Case 'ReviewSchedulerTests.testMissingOrNullLearningStateIsRejectedOnImport' passed (0.102 seconds)
+Test Case 'ReviewSchedulerTests.testReferenceSequenceSurvivesBackupAndReopenAtEveryReview' started at 2026-11-01 12:19:38.866
 Test Case 'ReviewSchedulerTests.testReferenceSequenceSurvivesBackupAndReopenAtEveryReview' passed (0.003 seconds)
-Test Case 'ReviewSchedulerTests.testVersionOneCannotSilentlyCarryNewMemoryState' started at 2026-11-01 12:03:17.981
+Test Case 'ReviewSchedulerTests.testVersionOneCannotSilentlyCarryNewMemoryState' started at 2026-11-01 12:19:38.869
 Test Case 'ReviewSchedulerTests.testVersionOneCannotSilentlyCarryNewMemoryState' passed (0.0 seconds)
-Test Suite 'ReviewSchedulerTests' passed at 2026-11-01 12:03:17.981
-	 Executed 9 tests, with 0 failures (0 unexpected) in 0.008 (0.008) seconds
-Test Suite 'StudyEngineTests' started at 2026-11-01 12:03:17.981
-Test Case 'StudyEngineTests.testAgainTenMinutes' started at 2026-11-01 12:03:17.981
+Test Suite 'ReviewSchedulerTests' passed at 2026-11-01 12:19:38.869
+	 Executed 9 tests, with 0 failures (0 unexpected) in 0.107 (0.107) seconds
+Test Suite 'StudyEngineTests' started at 2026-11-01 12:19:38.869
+Test Case 'StudyEngineTests.testAgainTenMinutes' started at 2026-11-01 12:19:38.869
 Test Case 'StudyEngineTests.testAgainTenMinutes' passed (0.0 seconds)
-Test Case 'StudyEngineTests.testAtomicSaveAndLoad' started at 2026-11-01 12:03:17.981
-Test Case 'StudyEngineTests.testAtomicSaveAndLoad' passed (0.001 seconds)
-Test Case 'StudyEngineTests.testBackupRoundTrip' started at 2026-11-01 12:03:17.983
+Test Case 'StudyEngineTests.testAtomicSaveAndLoad' started at 2026-11-01 12:19:38.869
+Test Case 'StudyEngineTests.testAtomicSaveAndLoad' passed (0.002 seconds)
+Test Case 'StudyEngineTests.testBackupRoundTrip' started at 2026-11-01 12:19:38.871
 Test Case 'StudyEngineTests.testBackupRoundTrip' passed (0.0 seconds)
-Test Case 'StudyEngineTests.testBadReferenceRejected' started at 2026-11-01 12:03:17.983
+Test Case 'StudyEngineTests.testBadReferenceRejected' started at 2026-11-01 12:19:38.871
 Test Case 'StudyEngineTests.testBadReferenceRejected' passed (0.0 seconds)
-Test Case 'StudyEngineTests.testCardDueNow' started at 2026-11-01 12:03:17.983
-Test Case 'StudyEngineTests.testCardDueNow' passed (0.1 seconds)
-Test Case 'StudyEngineTests.testDuplicateNoteRejected' started at 2026-11-01 12:03:18.084
+Test Case 'StudyEngineTests.testCardDueNow' started at 2026-11-01 12:19:38.872
+Test Case 'StudyEngineTests.testCardDueNow' passed (0.0 seconds)
+Test Case 'StudyEngineTests.testDuplicateNoteRejected' started at 2026-11-01 12:19:38.872
 Test Case 'StudyEngineTests.testDuplicateNoteRejected' passed (0.0 seconds)
-Test Case 'StudyEngineTests.testEaseLowerBound' started at 2026-11-01 12:03:18.084
-Test Case 'StudyEngineTests.testEaseLowerBound' passed (0.0 seconds)
-Test Case 'StudyEngineTests.testEasyInitialFourDays' started at 2026-11-01 12:03:18.084
+Test Case 'StudyEngineTests.testEaseLowerBound' started at 2026-11-01 12:19:38.872
+Test Case 'StudyEngineTests.testEaseLowerBound' passed (0.1 seconds)
+Test Case 'StudyEngineTests.testEasyInitialFourDays' started at 2026-11-01 12:19:38.972
 Test Case 'StudyEngineTests.testEasyInitialFourDays' passed (0.0 seconds)
-Test Case 'StudyEngineTests.testEmptyTitleRejected' started at 2026-11-01 12:03:18.084
-Test Case 'StudyEngineTests.testEmptyTitleRejected' passed (0.0 seconds)
-Test Case 'StudyEngineTests.testGoodInitialDay' started at 2026-11-01 12:03:18.084
+Test Case 'StudyEngineTests.testEmptyTitleRejected' started at 2026-11-01 12:19:38.973
+Test Case 'StudyEngineTests.testEmptyTitleRejected' passed (0.1 seconds)
+Test Case 'StudyEngineTests.testGoodInitialDay' started at 2026-11-01 12:19:39.073
 Test Case 'StudyEngineTests.testGoodInitialDay' passed (0.0 seconds)
-Test Case 'StudyEngineTests.testHugeImageRejected' started at 2026-11-01 12:03:18.085
+Test Case 'StudyEngineTests.testHugeImageRejected' started at 2026-11-01 12:19:39.073
 Test Case 'StudyEngineTests.testHugeImageRejected' passed (0.0 seconds)
-Test Case 'StudyEngineTests.testInvalidAndSelfLinks' started at 2026-11-01 12:03:18.085
-Test Case 'StudyEngineTests.testInvalidAndSelfLinks' passed (0.001 seconds)
-Test Case 'StudyEngineTests.testLegacyExpoBackupMigration' started at 2026-11-01 12:03:18.085
+Test Case 'StudyEngineTests.testInvalidAndSelfLinks' started at 2026-11-01 12:19:39.073
+Test Case 'StudyEngineTests.testInvalidAndSelfLinks' passed (0.0 seconds)
+Test Case 'StudyEngineTests.testLegacyExpoBackupMigration' started at 2026-11-01 12:19:39.074
 Test Case 'StudyEngineTests.testLegacyExpoBackupMigration' passed (0.0 seconds)
-Test Case 'StudyEngineTests.testLegacyRejectsDanglingReferences' started at 2026-11-01 12:03:18.086
+Test Case 'StudyEngineTests.testLegacyRejectsDanglingReferences' started at 2026-11-01 12:19:39.074
 Test Case 'StudyEngineTests.testLegacyRejectsDanglingReferences' passed (0.0 seconds)
-Test Case 'StudyEngineTests.testNormalizeArabicTitle' started at 2026-11-01 12:03:18.086
+Test Case 'StudyEngineTests.testNormalizeArabicTitle' started at 2026-11-01 12:19:39.074
 Test Case 'StudyEngineTests.testNormalizeArabicTitle' passed (0.0 seconds)
-Test Case 'StudyEngineTests.testQuestionAnswerArabicEnglish' started at 2026-11-01 12:03:18.086
-Test Case 'StudyEngineTests.testQuestionAnswerArabicEnglish' passed (0.001 seconds)
-Test Case 'StudyEngineTests.testQuestionAnswerMissingAnswer' started at 2026-11-01 12:03:18.086
+Test Case 'StudyEngineTests.testQuestionAnswerArabicEnglish' started at 2026-11-01 12:19:39.074
+Test Case 'StudyEngineTests.testQuestionAnswerArabicEnglish' passed (0.0 seconds)
+Test Case 'StudyEngineTests.testQuestionAnswerMissingAnswer' started at 2026-11-01 12:19:39.075
 Test Case 'StudyEngineTests.testQuestionAnswerMissingAnswer' passed (0.0 seconds)
-Test Case 'StudyEngineTests.testQuizDistinctChoices' started at 2026-11-01 12:03:18.087
+Test Case 'StudyEngineTests.testQuizDistinctChoices' started at 2026-11-01 12:19:39.075
 Test Case 'StudyEngineTests.testQuizDistinctChoices' passed (0.0 seconds)
-Test Case 'StudyEngineTests.testQuizWithSingleCardUnavailable' started at 2026-11-01 12:03:18.087
+Test Case 'StudyEngineTests.testQuizWithSingleCardUnavailable' started at 2026-11-01 12:19:39.075
 Test Case 'StudyEngineTests.testQuizWithSingleCardUnavailable' passed (0.0 seconds)
-Test Case 'StudyEngineTests.testRejectCorruptedJSON' started at 2026-11-01 12:03:18.087
+Test Case 'StudyEngineTests.testRejectCorruptedJSON' started at 2026-11-01 12:19:39.075
 Test Case 'StudyEngineTests.testRejectCorruptedJSON' passed (0.0 seconds)
-Test Case 'StudyEngineTests.testReviewEventRequiresCard' started at 2026-11-01 12:03:18.087
+Test Case 'StudyEngineTests.testReviewEventRequiresCard' started at 2026-11-01 12:19:39.076
 Test Case 'StudyEngineTests.testReviewEventRequiresCard' passed (0.0 seconds)
-Test Case 'StudyEngineTests.testWikiLinksAliasAndDuplicates' started at 2026-11-01 12:03:18.087
+Test Case 'StudyEngineTests.testWikiLinksAliasAndDuplicates' started at 2026-11-01 12:19:39.076
 Test Case 'StudyEngineTests.testWikiLinksAliasAndDuplicates' passed (0.0 seconds)
-Test Suite 'StudyEngineTests' passed at 2026-11-01 12:03:18.087
-	 Executed 22 tests, with 0 failures (0 unexpected) in 0.106 (0.106) seconds
-Test Suite 'Debug-linux-x86_64.xctest' passed at 2026-11-01 12:03:18.088
-	 Executed 52 tests, with 0 failures (0 unexpected) in 0.754 (0.754) seconds
-Test Suite 'All tests' passed at 2026-11-01 12:03:18.088
-	 Executed 52 tests, with 0 failures (0 unexpected) in 0.754 (0.754) seconds
+Test Suite 'StudyEngineTests' passed at 2026-11-01 12:19:39.076
+	 Executed 22 tests, with 0 failures (0 unexpected) in 0.206 (0.206) seconds
+Test Suite 'Debug-linux-x86_64.xctest' passed at 2026-11-01 12:19:39.076
+	 Executed 52 tests, with 0 failures (0 unexpected) in 1.106 (1.106) seconds
+Test Suite 'All tests' passed at 2026-11-01 12:19:39.076
+	 Executed 52 tests, with 0 failures (0 unexpected) in 1.106 (1.106) seconds
 ◇ Test run started.
 ↳ Testing Library Version: 6.4.2 (288a2328ff84644)
 ↳ Target Platform: x86_64-unknown-linux-gnu

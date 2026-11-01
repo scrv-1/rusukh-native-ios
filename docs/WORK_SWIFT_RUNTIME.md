@@ -1,6 +1,6 @@
 # Swift في كمبيوتر Work — 2026-11-01
 
-مُثبت بالتنفيذ: Ubuntu 24.04 x86_64؛ `swift --version` أعاد Swift 6.4.2، والهدف x86_64-unknown-linux-gnu. نجح `swift test --jobs 4`: 41 اختبارًا لفرع الصوت أولًا، ثم 50 لدمج FSRS قبل إضافة اختباري تهيئة الصوت. خمسة اختبارات مرتبطة بأطر Apple تعمل على Mac فقط. لا Xcode أو Simulator محليًا.
+مُثبت بالتنفيذ: Ubuntu 24.04 x86_64؛ `swift --version` أعاد Swift 6.4.2، والهدف x86_64-unknown-linux-gnu. نجح `swift test --jobs 4`: 41 اختبارًا لفرع الصوت أولًا، ثم 50 لدمج FSRS قبل إضافة اختباري تهيئة الصوت. ثم 52 اختبارًا للدفعة المجمعة، واختبار ضغط مستقل لألف بطاقة و32000 مراجعة (7.877 ثانية). خمسة اختبارات مرتبطة بأطر Apple تعمل على Mac فقط. لا Xcode أو Simulator محليًا.
 
 المصدر الرسمي: https://www.swift.org/install/linux/ubuntu/24_04/ . نُزّلت الحزمة التالية وفُكّت داخل مجلد العمل: https://download.swift.org/swift-6.4.2-release/ubuntu2404/swift-6.4.2-RELEASE/swift-6.4.2-RELEASE-ubuntu24.04.tar.gz . لا خدمة مدفوعة. Swiftly انتهى برمز 132 دون نص تشخيص؛ السبب غير مثبت.
 

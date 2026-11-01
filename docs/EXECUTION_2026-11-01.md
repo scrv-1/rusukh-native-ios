@@ -38,8 +38,8 @@
 | xcodebuild، تابع Xcode 27.1، CLI | بناء المحاكي والجهاز والاختبار | غير متاح | مثبت | نعم، Run 2 | GitHub | ضمن CI | نعم |
 | xcrun/simctl، تابع Xcode، CLI | اختيار SDK وتشغيل المحاكي | غير متاح | مثبت | نعم، boot/install/launch/screenshot | GitHub | ضمن CI | نعم |
 | iOS Simulator، إصدار runtime في artifact، تطبيق | تشغيل SwiftUI | غير متاح | مثبت | نعم، صورة حقيقية Run 2 | لا جهاز فعلي | ضمن CI | نعم؛ لا يعمل على الآيفون |
-| XCTest / XCUITest، إطار اختبار | المنطق ورحلة الواجهة | XCTest Linux تعطل | XCTest وXCUITest مثبتان | 40 اختبار محرك و4 رحلات واجهة ناجحة في Run 15 | لا | ضمن CI | نعم |
-| Swift Compiler/SPM: Apple 6.4 في CI؛ Linux 6.2.1 جُرّب، CLI | تجميع Swift والحزم | شُغّل --version وdump-package؛ لم تبقَ الحزمة بعد الاستئناف | مثبت Apple 6.4 | Linux swift test تعطل Signal 4، ليس نجاحًا | لا | مجاني + CI | Mac للاختبارات؛ لا إعادة تنزيل Linux الكبيرة |
+| XCTest / XCUITest، إطار اختبار | المنطق ورحلة الواجهة | XCTest Linux مثبت: 52 اختبارًا ناجحًا في الدفعة الجديدة | XCTest وXCUITest مثبتان | 40 اختبار محرك و4 رحلات واجهة ناجحة في Run 15 | لا | ضمن CI | نعم |
+| Swift Compiler/SPM: Apple 6.4 في CI؛ Linux 6.4.2، CLI | تجميع Swift والحزم | مثبت محليًا بعد توفير libncurses داخل toolchain | مثبت Apple 6.4 | Linux swift test: 52 اختبارًا ناجحًا؛ التجربة القديمة 6.2.1 كانت متعطلة | لا | مجاني + CI | Linux للتحقق السريع وMac لأطر Apple؛ راجع WORK_SWIFT_RUNTIME.md |
 | Instruments / xctrace، برنامج وCLI | الذاكرة والطاقة والأداء | غير متاح | مستنتج مع Xcode؛ لم يُشغّل | لا | جهاز حقيقي للبطارية والحرارة | الأداة مجانية؛ تشغيل CI محدود | لاحقًا بعد اتصال جهاز |
 | LLDB 2103.0.34.103، CLI debugger | تشخيص الانهيار | غير متاح | مثبت في Run 15 | --version فقط؛ لا جلسة debugging | لا | ضمن CI | عند وجود انهيار |
 | Accessibility Inspector، تطبيق | تدقيق الوصول | غير متاح | مستنتج مع Xcode؛ GUI غير موصول | لا | Mac تفاعلي | مجاني مع Xcode | لا ادعاء تدقيق VoiceOver كامل |
