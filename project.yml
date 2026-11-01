@@ -1,5 +1,8 @@
 name: RusukhNative
 packages:
+  FSRS:
+    url: https://github.com/open-spaced-repetition/swift-fsrs
+    revision: 4fbaf20184d62f82a9f44f343337c61a2c5483e9
   MLX:
     url: https://github.com/ml-explore/mlx-swift
     exactVersion: 0.32.3
@@ -51,6 +54,8 @@ targets:
     type: application
     platform: iOS
     dependencies:
+      - package: FSRS
+        product: FSRS
       - package: MLX
         product: MLX
       - package: MLXLM
