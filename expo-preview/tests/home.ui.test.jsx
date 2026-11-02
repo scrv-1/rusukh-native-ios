@@ -2,14 +2,14 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react-native';
 import { StudyHome } from '../src/StudyHome';
 import { light } from '../src/ui';
-import { defaultWorkspace } from '../src/workspace';
+import { defaultWorkspace, readWorkspace, workspacePreset } from '../src/workspace';
 
 jest.mock('expo-symbols', () => ({ SymbolView: () => null }));
 
 const oldNote = { id: 'old', title: 'ملاحظة سابقة', body: '', createdAt: 1, updatedAt: 1 };
 const newNote = { id: 'new', title: 'آخر فكرة', body: '', createdAt: 2, updatedAt: 20 };
 function props(overrides = {}) {
-  return { p: light, workspace: defaultWorkspace(), notes: [oldNote, newNote], cardsCount: 3,
+  return { p: light, workspace: workspacePreset('simple'), notes: [oldNote, newNote], cardsCount: 3,
     dueCount: 1, todayReviewed: 2, linksCount: 0, onCustomize: jest.fn(), onTools: jest.fn(),
     onModule: jest.fn(), onOpenNote: jest.fn(), onNewNote: jest.fn(), ...overrides };
 }
@@ -37,19 +37,53 @@ test('recent notes follow edit time without mutating note data', async () => {
 });
 
 test('compact view omits recent rows but keeps the notes tool', async () => {
-  await render(<StudyHome {...props({ workspace: { ...defaultWorkspace(), density: 'compact' } })} />);
+  await render(<StudyHome {...props({ workspace: { ...workspacePreset('simple'), density: 'compact' } })} />);
   expect(screen.queryByRole('button', { name: 'فتح آخر فكرة' })).toBeNull();
   expect(screen.getByRole('button', { name: 'فتح ملاحظاتي' })).toBeTruthy();
 });
 
-test('hiding all modules keeps discovery and never offers the hidden review entry', async () => {
-  const workspace = defaultWorkspace(); workspace.modules = workspace.modules.map(item => ({ ...item, enabled: false }));
-  const value = props({ workspace }); await render(<StudyHome {...value} />);
-  expect(screen.getByText('مساحة هادئة على ذوقك')).toBeTruthy();
-  expect(screen.queryByRole('button', { name: 'ابدأ المراجعة' })).toBeNull();
-  await fireEvent.press(screen.getByRole('button', { name: 'إضافة أدوات لمساحتي' }));
+function expectOnlyBlankWorkspaceActions() {
+  expect(screen.getAllByText(/.+/).map(node => node.props.children).sort()).toEqual(
+    ['إضافة مادة', 'ملاحظة جديدة', 'إضافة أداة'].sort());
+  expect(screen.queryAllByRole('header')).toHaveLength(0);
+  expect(screen.getAllByRole('button')).toHaveLength(3);
+}
+
+test('first workspace is blank but can capture material or a note without installing sections', async () => {
+  const value = props({ workspace: defaultWorkspace(), notes: [], cardsCount: 0, dueCount: 0, todayReviewed: 0 });
+  await render(<StudyHome {...value} />);
+  expectOnlyBlankWorkspaceActions();
+  await fireEvent.press(screen.getByRole('button', { name: 'إضافة مادة' }));
+  expect(value.onModule).toHaveBeenCalledWith('sources');
+  await fireEvent.press(screen.getByRole('button', { name: 'ملاحظة جديدة' }));
+  expect(value.onNewNote).toHaveBeenCalledTimes(1);
+  expect(value.onCustomize).not.toHaveBeenCalled();
+});
+
+test('hiding all sections restores a blank canvas while keeping hidden tools recoverable', async () => {
+  const workspace = workspacePreset('simple');
+  workspace.modules = workspace.modules.map(item => ({ ...item, enabled: false }));
+  const value = props({ workspace });
+  const originalNotes = JSON.stringify(value.notes);
+  await render(<StudyHome {...value} />);
+  expectOnlyBlankWorkspaceActions();
+  await fireEvent.press(screen.getByRole('button', { name: 'إضافة أداة' }));
   expect(value.onCustomize).toHaveBeenCalledTimes(1);
-  expect(screen.getByRole('button', { name: 'كل الأدوات' })).toBeTruthy();
+  expect(value.onModule).not.toHaveBeenCalled();
+  expect(JSON.stringify(value.notes)).toBe(originalNotes);
+});
+
+test('an explicitly saved layout still shows its selected sections and recent note actions', async () => {
+  const saved = workspacePreset('simple');
+  saved.modules.reverse();
+  const value = props({ workspace: readWorkspace(JSON.stringify(saved)) });
+  await render(<StudyHome {...value} />);
+  const headings = screen.getAllByRole('header').map(node => node.props.children);
+  expect(headings).toEqual(['ملاحظاتي', 'مراجعة اليوم']);
+  expect(screen.queryByText('مساحتي')).toBeNull();
+  await fireEvent.press(screen.getByRole('button', { name: 'فتح آخر فكرة' }));
+  expect(value.onOpenNote).toHaveBeenCalledWith(newNote);
+  expect(value.workspace).toEqual(saved);
 });
 
 test('first-use and caught-up states explain the next action without invented progress', async () => {
@@ -70,4 +104,24 @@ test('muted text keeps WCAG normal-text contrast on every light content surface'
     const a = luminance(light.muted), b = luminance(background);
     expect((Math.max(a, b) + .05) / (Math.min(a, b) + .05)).toBeGreaterThanOrEqual(4.5);
   }
+});
+
+test('capture and search are reachable before every home module', async () => {
+  const value = props(); await render(<StudyHome {...value} />);
+  const names = screen.getAllByRole('button').map(row => row.props.accessibilityLabel);
+  for (const name of ['ملاحظة جديدة', 'إضافة مصدر', 'البحث في ملاحظاتي']) {
+    expect(names.indexOf(name)).toBeGreaterThanOrEqual(0);
+    expect(names.indexOf(name)).toBeLessThan(names.indexOf('ابدأ المراجعة'));
+  }
+  await fireEvent.press(screen.getByRole('button', { name: 'إضافة مصدر' }));
+  expect(value.onModule).toHaveBeenCalledWith('sources');
+  await fireEvent.press(screen.getByRole('button', { name: 'البحث في ملاحظاتي' }));
+  expect(value.onModule).toHaveBeenCalledWith('notes');
+});
+
+test('empty review offers card creation path instead of starting an empty session', async () => {
+  const value = props({ cardsCount: 0, dueCount: 0 }); await render(<StudyHome {...value} />);
+  expect(screen.queryByRole('button', { name: 'ابدأ المراجعة' })).toBeNull();
+  await fireEvent.press(screen.getByRole('button', { name: 'أضف بطاقات من ملاحظاتك' }));
+  expect(value.onModule).toHaveBeenCalledWith('notes');
 });

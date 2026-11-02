@@ -1,0 +1,27 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+FAIL iOS tests/media-panel.ui.test.jsx
+  ● replaying a finished clip waits for rewind after the transient end flag clears
+
+    expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+    Expected: 0
+
+    Number of calls: 0
+
+      108 |   await fireEvent.press(ui.getByRole('button', { name: 'استماع' }));
+      109 |   await fireEvent.press(ui.getByRole('button', { name: 'تشغيل التسجيل' }));
+    > 110 |   expect(mockPlayer.seekTo).toHaveBeenCalledWith(0);
+          |                             ^
+      111 |   expect(mockPlayer.play).not.toHaveBeenCalled();
+      112 |   await act(async () => finishSeek());
+      113 |   expect(mockPlayer.play).toHaveBeenCalledTimes(1);
+
+      at Object.toHaveBeenCalledWith (tests/media-panel.ui.test.jsx:110:29)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 6 skipped, 7 total
+Snapshots:   0 total
+Time:        1.114 s
+Ran all test suites within paths "tests/media-panel.ui.test.jsx".

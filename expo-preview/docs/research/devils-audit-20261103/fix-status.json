@@ -1,0 +1,46 @@
+{
+  "version": "0.5.1",
+  "findings": [
+    {
+      "id": "D001",
+      "status": "fixed-verified",
+      "verification": "نجح التحقق على Codespaces/Linux Node 24.22.2: 111 اختبار نواة و208 واجهة و28 AI؛ TypeScript والتوافق وExpo Doctor 20/20 وتصدير iOS 909 وحدات. السجلات والبصمات في evidence/v051. ليس اختبار iPhone.",
+      "evidence": "fix-evidence/first-launch-green.log"
+    },
+    {
+      "id": "N001",
+      "status": "fixed-verified",
+      "verification": "نجح التحقق على Codespaces/Linux Node 24.22.2: 111 اختبار نواة و208 واجهة و28 AI؛ TypeScript والتوافق وExpo Doctor 20/20 وتصدير iOS 909 وحدات. السجلات والبصمات في evidence/v051. ليس اختبار iPhone.",
+      "evidence": "fix-evidence/n001-summary.json"
+    },
+    {
+      "id": "D003",
+      "status": "fixed-verified",
+      "verification": "نجح التحقق على Codespaces/Linux Node 24.22.2: 111 اختبار نواة و208 واجهة و28 AI؛ TypeScript والتوافق وExpo Doctor 20/20 وتصدير iOS 909 وحدات. السجلات والبصمات في evidence/v051. ليس اختبار iPhone.",
+      "evidence": "fix-evidence/restore-draft-summary.json"
+    },
+    {
+      "id": "S003",
+      "status": "fixed-verified",
+      "verification": "نجح التحقق على Codespaces/Linux Node 24.22.2: 111 اختبار نواة و208 واجهة و28 AI؛ TypeScript والتوافق وExpo Doctor 20/20 وتصدير iOS 909 وحدات. السجلات والبصمات في evidence/v051. ليس اختبار iPhone.",
+      "evidence": "fix-evidence/S003-summary.json"
+    },
+    {
+      "id": "X201",
+      "status": "fixed-verified",
+      "verification": "نجح التحقق على Codespaces/Linux Node 24.22.2: 111 اختبار نواة و208 واجهة و28 AI؛ TypeScript والتوافق وExpo Doctor 20/20 وتصدير iOS 909 وحدات. السجلات والبصمات في evidence/v051. ليس اختبار iPhone.",
+      "evidence": "fix-evidence/x201-x202.json"
+    },
+    {
+      "id": "X202",
+      "status": "fixed-verified",
+      "verification": "نجح التحقق على Codespaces/Linux Node 24.22.2: 111 اختبار نواة و208 واجهة و28 AI؛ TypeScript والتوافق وExpo Doctor 20/20 وتصدير iOS 909 وحدات. السجلات والبصمات في evidence/v051. ليس اختبار iPhone.",
+      "evidence": "fix-evidence/x201-x202.json"
+    },
+    {
+      "id": "R005",
+      "status": "open",
+      "partial_progress_ar": "أضاف إصلاح D001 في0.5.1 اختبار openStorage الحقيقي فوق SQLite لقاعدة جديدة وإعادة الفتح وقاعدة سابقة مع seeded وبدونه. لم يعد تجاوز bootstrap شاملًا. يبقى استكمال سيناريو فشل التهيئة والترحيل التاريخي أوسع من هذه الحالات؛ لذلك لا نحسب الخطر مغلقًا أو إصلاحًا مستقلًا سابعًا."
+    }
+  ]
+}

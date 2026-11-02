@@ -1,0 +1,45 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+FAIL iOS tests/ai-bridge.ui.test.jsx
+  ● the light app palette supplies both colors of a terminated-engine error
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "#FFFFFF"
+    Received: "#111"
+
+      81 |   await act(async () => screen.getByTestId('local-ai-webview').props.onContentProcessDidTerminate());
+      82 |   const alert = screen.getByRole('alert');
+    > 83 |   expect(StyleSheet.flatten(alert.parent.props.style).backgroundColor).toBe(p.surface);
+         |                                                                        ^
+      84 |   expect(StyleSheet.flatten(alert.props.style).color).toBe(p.danger);
+      85 |   expect(alert).toHaveTextContent('أوقف النظام المحرك المحلي');
+      86 |   expect(screen.queryByTestId('local-ai-webview')).toBeNull();
+
+      at toBe (tests/ai-bridge.ui.test.jsx:83:72)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● the dark app palette supplies both colors of a terminated-engine error
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "#181819"
+    Received: "#111"
+
+      81 |   await act(async () => screen.getByTestId('local-ai-webview').props.onContentProcessDidTerminate());
+      82 |   const alert = screen.getByRole('alert');
+    > 83 |   expect(StyleSheet.flatten(alert.parent.props.style).backgroundColor).toBe(p.surface);
+         |                                                                        ^
+      84 |   expect(StyleSheet.flatten(alert.props.style).color).toBe(p.danger);
+      85 |   expect(alert).toHaveTextContent('أوقف النظام المحرك المحلي');
+      86 |   expect(screen.queryByTestId('local-ai-webview')).toBeNull();
+
+      at toBe (tests/ai-bridge.ui.test.jsx:83:72)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 1 failed, 1 total
+Tests:       2 failed, 5 skipped, 7 total
+Snapshots:   0 total
+Time:        0.878 s, estimated 1 s
+Ran all test suites within paths "tests/ai-bridge.ui.test.jsx".

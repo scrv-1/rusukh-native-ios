@@ -1,0 +1,731 @@
+{
+  "research_date": "2026-11-03",
+  "timezone": "Asia/Riyadh",
+  "scope_ar": "إمكانية الوصول والعربية واللمس والنماذج والاستيراد والصوت والاستعادة والثقة في الذكاء المحلي",
+  "methodology_ar": "بحث وقراءة مصادر عامة أصلية؛ التوصيات تصميمية وليست جميعها نتائج تجربة في رسوخ. قراءة package.json أكدت Expo ~58.0.0 وReact Native 0.88.1 وexpo-audio ~58.0.11. لم نشاهد فيديوهات YouTube؛ الوصول موضح لكل سجل. null يعني أن قناة أو تاريخ نشر YouTube لم يظهرا في الدليل ولا تم تخمينهما. آخر رابطين من فهارس ثانوية مرشحا مشاهدة ولا يحملان ادعاءات تقنية.",
+  "tips": [
+    {
+      "id": "T071",
+      "title_ar": "سمّ الفعل في الزر لا شكل الأيقونة",
+      "advice_ar": "استخدم أسماء عربية مختصرة للفعل؛ احتفظ بالتفاصيل الإضافية للتلميح.",
+      "source_url": "https://developer.apple.com/videos/play/wwdc2019/254/",
+      "source_title": "Writing Great Accessibility Labels",
+      "source_kind": "practitioner_transcript",
+      "verification": "حقيقة: تشرح مهندسة إمكانية الوصول أن اسم «إضافة» يحتاج سياقًا، وأن تكرار نوع العنصر داخل اسمه يطيل القراءة. نُص الجلسة مقروء، لا مشاهدة للفيديو.",
+      "application_ar": "اجعل + «إضافة مصدر» وأيقونة التشغيل «تشغيل التسجيل»، مع اسم المصدر عند تكرار الأزرار. هذا تطبيق مستنتج.",
+      "test_idea": "شغّل VoiceOver وافتح قائمة المصادر؛ يجب تمييز كل إجراء دون رؤية الأيقونات.",
+      "source_ref": "turn16search2"
+    },
+    {
+      "id": "T072",
+      "title_ar": "لا تدمج صفًا تفاعليًا في عنصر صوتي واحد",
+      "advice_ar": "اجمع النص الوصفي عند الحاجة مع إبقاء أفعال الصف مستقلة.",
+      "source_url": "https://reactnative.dev/docs/accessibility",
+      "source_title": "Accessibility · React Native 0.88",
+      "source_kind": "official_documentation",
+      "verification": "حقيقة تقنية: توضح وثائق RN أن accessible لا يضمن التركيز، وأن VoiceOver لا يقبل عناصر وصول متداخلة في بعض الحالات. الوثائق الحالية 0.88 تطابق خط المشروع 0.88.1.",
+      "application_ar": "اختبر صف المصدر الذي يحوي فتحًا وقائمة إجراءات وتشغيلًا؛ لا تجعل المجموعة تبتلع الأزرار. تطبيق مستنتج.",
+      "test_idea": "مرر VoiceOver داخل ثلاثة صفوف وتأكد من إمكان فتح المصدر والوصول إلى قائمته كلٌّ على حدة.",
+      "source_ref": "turn15view0"
+    },
+    {
+      "id": "T073",
+      "title_ar": "انقل التركيز إلى النافذة عند فتحها",
+      "advice_ar": "عامل فتح النافذة وإغلاقها كتغير في سياق القراءة الصوتية.",
+      "source_url": "https://github.com/callstack/react-native-paper/issues/3912",
+      "source_title": "A11y - Modals do not receive accessibility focus when used with VoiceOver #3912",
+      "source_kind": "community_issue",
+      "verification": "حقيقة مجتمعية: بلاغ RN Paper 3.0.8 مع RN 0.70.9 يصف بقاء التركيز خلف النافذة. ذكر صاحبه أن Modal الأصلي عمل لديه. ليس دليلًا على عيب في RN 0.88 أو رسوخ.",
+      "application_ar": "اختبر نوافذ استيراد المصدر والاستعادة؛ يبدأ التركيز بعنوانها وتعود القراءة إلى الزر الذي فتحها.",
+      "test_idea": "افتح وأغلق كل نافذة عبر VoiceOver؛ لا يمكن تنفيذ زر خلفها وهي مفتوحة.",
+      "source_ref": "turn21view4"
+    },
+    {
+      "id": "T074",
+      "title_ar": "اختبر أكبر خط قبل تثبيت ارتفاعات النوافذ",
+      "advice_ar": "اسمح للنوافذ والنصوص بالتمرير والتمدد عند تكبير الخط.",
+      "source_url": "https://infinite.red/react-native-radio/rnr-330-react-native-and-accessibility-with-karly-lamm",
+      "source_title": "RNR 330 - React Native and Accessibility with Karly Lamm",
+      "source_kind": "practitioner_transcript",
+      "verification": "حقيقة مباشرة: روت Karly Lamm أن زرًا مخفيًا داخل نافذة عند تكبير النص منع مستخدمًا من دخول التطبيق. قُرئ نص المقابلة، ولا نعمّم نسب الانتشار المذكورة فيها.",
+      "application_ar": "أعطِ نافذة الاستيراد والإعدادات مساحة قابلة للتمرير، مع بقاء الإجراء النهائي قابلًا للوصول.",
+      "test_idea": "اختر أكبر حجم نص متاح على iPhone وأكمل استيراد نص واستعادة نسخة دون قص زر.",
+      "source_ref": "turn46view1"
+    },
+    {
+      "id": "T075",
+      "title_ar": "قدّم الحالة بأكثر من حاسة",
+      "advice_ar": "أرفق اللون والصوت بنص أو رمز مفهوم للحالة.",
+      "source_url": "https://developer.apple.com/videos/play/wwdc2025/316/",
+      "source_title": "Principles of inclusive app design",
+      "source_kind": "practitioner_transcript_excerpt",
+      "verification": "حقيقة من مقتطف الجلسة: يناقش المصممان التصميم متعدد الحواس والتخصيص. تفاصيل رسوخ الآتية استنتاج تصميمي، وليست اقتباسًا من الجلسة.",
+      "application_ar": "اعرض «تم الحفظ» و«تعذّر الاستيراد» نصيًا؛ لا تكفِ نقطة خضراء أو نغمة نجاح وحدهما.",
+      "test_idea": "أكمل المهمة مع كتم الصوت وتدرج رمادي؛ يجب فهم النجاح والفشل والحالة المحددة.",
+      "source_ref": "turn43search0"
+    },
+    {
+      "id": "T076",
+      "title_ar": "وفّر طريقًا واضحًا لكل فعل إيمائي",
+      "advice_ar": "لا تجعل السحب أو الضغط المطول الطريق الوحيد لإجراء مهم.",
+      "source_url": "https://support.apple.com/guide/iphone/turn-on-and-practice-voiceover-iph3e2e415f/27/ios/27",
+      "source_title": "Turn on and practice VoiceOver on iPhone",
+      "source_kind": "official_documentation",
+      "verification": "حقيقة: تشرح Apple أن تشغيل VoiceOver يغيّر الإيماءات المستخدمة لتشغيل الهاتف. التوصية ببدائل مرئية استنتاج لتقليل الاعتماد على إيماءة بعينها.",
+      "application_ar": "أضف قائمة إجراءات ظاهرة للنسخ والحذف والتصدير في المصادر، حتى لو كانت هناك إيماءة سريعة.",
+      "test_idea": "نفّذ الأفعال الأساسية بلمسة عادية ثم VoiceOver؛ يجب ألا يتطلب أي فعل اكتشاف إيماءة مخفية.",
+      "source_ref": "turn84search1"
+    },
+    {
+      "id": "T077",
+      "title_ar": "اجعل العربية اتجاهًا للتدفق كله",
+      "advice_ar": "راجع ترتيب المجموعات والتتابع البصري مع العربية.",
+      "source_url": "https://developer.apple.com/videos/play/wwdc2022/10034/",
+      "source_title": "Design for Arabic",
+      "source_kind": "practitioner_transcript",
+      "verification": "حقيقة من نص Apple: يصف المصمم انتقال اتجاه RTL إلى العناوين والأعمدة والقوائم والتتابع بين الصفحات. لا يقتصر على محاذاة فقرة.",
+      "application_ar": "راجع صفحات الاستيراد والإعدادات من أعلى إلى أسفل ومن اليمين إلى اليسار، مع ترتيب قراءة مفهوم.",
+      "test_idea": "اطلب من قارئ عربي تتبع العنوان ثم الحقول ثم الإجراء؛ لا يحدث قفز بصري محير.",
+      "source_ref": "turn21view1"
+    },
+    {
+      "id": "T078",
+      "title_ar": "اختبر جملة عربية فيها رابط ورقم",
+      "advice_ar": "اختبر اتجاه الفقرة واتجاه المقاطع اللاتينية بصورة منفصلة.",
+      "source_url": "https://forum.cursor.com/t/arabic-english-mixed-text-is-visually-reordered-incorrectly-in-cursor-chat-rtl-ltr-issue/152615",
+      "source_title": "Arabic + English mixed text is visually reordered incorrectly in Cursor Chat (RTL/LTR issue)",
+      "source_kind": "community_post",
+      "verification": "حقيقة محدودة: مقتطف بلاغ أولي من مجتمع Cursor يصف اضطراب ترتيب العربية والإنجليزية المختلطة. لم يُقرأ كامل الخيط؛ لا ننقل حلًا تقنيًا منه.",
+      "application_ar": "ضع رابط YouTube واسم ملف PDF ورقم صفحة داخل أمثلة عربية في حقول المصدر والمعاينة.",
+      "test_idea": "تحقق بصريًا وبالنسخ من «المحاضرة 12 — https://youtu.be/abc — صفحة ٣» مع الأقواس والترقيم.",
+      "source_ref": "turn11search8"
+    },
+    {
+      "id": "T079",
+      "title_ar": "لا تعكس كل صورة وأيقونة آليًا",
+      "advice_ar": "قرر اتجاه الرمز بحسب معناه ثم اختبره مع العربية.",
+      "source_url": "https://developer.apple.com/videos/play/wwdc2022/10034/",
+      "source_title": "Design for Arabic",
+      "source_kind": "practitioner_transcript",
+      "verification": "حقيقة: وصف جلسة Apple يغطي الأيقونات واتجاه الواجهة؛ النص يطلب إبقاء الصور كما هي أثناء إعادة ترتيب المكونات. تفاصيل كل رمز في رسوخ قرار تصميمي.",
+      "application_ar": "راجع أسهم العودة واتجاه التقدم وأزرار الصوت بصورة منفصلة؛ احتفظ باتجاه الصور والشعارات الأصلية.",
+      "test_idea": "قارن الرموز العربية بسلوك iOS الفعلي؛ لا يتبدل معنى تشغيل الصوت أو الشعار بعد قلب التخطيط.",
+      "source_ref": "turn21view1"
+    },
+    {
+      "id": "T080",
+      "title_ar": "لا تجعل تبديل الاتجاه يبدو فوريًا إن كان يحتاج تشغيلًا جديدًا",
+      "advice_ar": "احفظ تفضيل اللغة واتجاه الواجهة بوضوح مع مراعاة دورة بدء التطبيق.",
+      "source_url": "https://reactnative.dev/docs/i18nmanager",
+      "source_title": "I18nManager · React Native 0.88",
+      "source_kind": "official_documentation",
+      "verification": "حقيقة RN 0.88: تغييرات allowRTL وforceRTL تُطبّق عند بدء التطبيق لاحقًا، وforceRTL مخصص أساسًا للتطوير والاختبار.",
+      "application_ar": "إذا أضيف تخصيص للاتجاه أو اللغة، افصل معاينة التفضيل عن تفعيله الكامل ولا تعرض حالة نجاح مضللة.",
+      "test_idea": "بدّل الإعداد ثم أعد فتح التطبيق؛ الاتجاه المعروض يطابق التفضيل المحفوظ ولا يقلب أجزاء فقط.",
+      "source_ref": "turn15view1"
+    },
+    {
+      "id": "T081",
+      "title_ar": "اجعل مناطق اللمس سهلة الفصل",
+      "advice_ar": "أعطِ الأفعال المتجاورة مسافة ومساحة عملية، واختبرها بيد واحدة.",
+      "source_url": "https://infinite.red/react-native-radio/rnr-330-react-native-and-accessibility-with-karly-lamm",
+      "source_title": "RNR 330 - React Native and Accessibility with Karly Lamm",
+      "source_kind": "practitioner_transcript",
+      "verification": "حقيقة: تؤكد الممارسة المروية في المقابلة قيمة اختبار المستخدم خارج الاختبارات الآلية. حجم هدف لمس محدد لم يُستخرج من هذا المصدر.",
+      "application_ar": "وسّع مناطق تشغيل الصوت وقائمة المصدر وإلغاء الاستيراد دون تداخلها؛ هذا استنتاج تصميمي يُقاس بالتجربة.",
+      "test_idea": "نفّذ عشر نقرات قرب حواف الأزرار بإبهام واحد؛ لا يُشغّل إجراء مجاور أو حذف خطأ.",
+      "source_ref": "turn46view1"
+    },
+    {
+      "id": "T082",
+      "title_ar": "أبقِ الحقل النشط فوق لوحة المفاتيح",
+      "advice_ar": "اختبر ارتفاع لوحة المفاتيح وتغيره، لا ارتفاع الشاشة وحده.",
+      "source_url": "https://reactnative.dev/docs/scrollview",
+      "source_title": "ScrollView · React Native 0.88",
+      "source_kind": "official_documentation",
+      "verification": "حقيقة RN 0.88: automaticallyAdjustKeyboardInsets على iOS يضبط contentInset عند تغير حجم لوحة المفاتيح؛ قيمته الافتراضية false. هذا لا يثبت إعداد رسوخ الحالي.",
+      "application_ar": "راجع نماذج العنوان والرابط والنص الطويل لتبقى الكتابة وزر الإنهاء في متناول المستخدم.",
+      "test_idea": "افتح آخر حقل بلوحة عربية ثم إنجليزية، مع النص الكبير؛ يظهر المؤشر ويمكن بلوغ الإجراء النهائي.",
+      "source_ref": "turn86view0"
+    },
+    {
+      "id": "T083",
+      "title_ar": "أبقِ تعليمات الحقل ظاهرة بعد الكتابة",
+      "advice_ar": "اعرض تسمية ثابتة ومثالًا قصيرًا منفصلًا عن قيمة الحقل.",
+      "source_url": "https://frontieralicante.com/talks/2023",
+      "source_title": "React Alicante 2023: Practical guide to building accessible forms in React",
+      "source_kind": "practitioner_description",
+      "verification": "حقيقة محدودة: وصف محاضرة Kateryna يذكر التسميات والتعليمات والأخطاء وإدارة التركيز ضمن موضوعاتها؛ لم يُقرأ تفريغها. شكل التنفيذ هنا توصية.",
+      "application_ar": "في استيراد YouTube استخدم «رابط الفيديو» و«نص الترجمة» كتسميتين ظاهرتين، لا placeholder وحده.",
+      "test_idea": "الصق نصًا طويلًا؛ يظل المستخدم قادرًا على معرفة وظيفة كل حقل ومعرفة المطلوب منه.",
+      "source_ref": "turn46view2"
+    },
+    {
+      "id": "T084",
+      "title_ar": "اربط خطأ النموذج بالفعل الذي يصلحه",
+      "advice_ar": "اذكر الحقل والسبب والخطوة التالية، واحتفظ بالنص المدخل.",
+      "source_url": "https://frontieralicante.com/talks/2023",
+      "source_title": "React Alicante 2023: Practical guide to building accessible forms in React",
+      "source_kind": "practitioner_description",
+      "verification": "حقيقة محدودة: وصف المحاضرة يذكر أخطاء النماذج والتحقق والتركيز. هذه صياغة تطبيقية مستنتجة وليست تفاصيل مشاهدة.",
+      "application_ar": "بدل «حدث خطأ»، قل «أضف نصًا للترجمة قبل المتابعة» قرب الحقل، مع ترك الرابط والمدخلات كما هي.",
+      "test_idea": "أرسل نموذجًا ناقصًا ثم أصلحه؛ لا يُمحى ما كُتب ولا يحتاج المستخدم البحث عن الحقل المخطئ.",
+      "source_ref": "turn46view2"
+    },
+    {
+      "id": "T085",
+      "title_ar": "افصل PDF المصوّر عن PDF ذي النص",
+      "advice_ar": "اشرح حدود استخراج النص قبل بدء العملية أو فور اكتشاف غيابه.",
+      "source_url": "https://community.obsidian.md/plugins/pdf-native-notes",
+      "source_title": "PDF to Markdown Native",
+      "source_kind": "maintainer_documentation",
+      "verification": "حقيقة موثقّة من صاحب الإضافة: الأداة التي لا تستخدم OCR لا تستخرج نصًا من ملف مصوّر بلا طبقة نص. رسوخ بحسب نطاق المهمة لا يملك OCR.",
+      "application_ar": "اعرض «هذا الملف لا يحتوي نصًا قابلًا للاستخراج» مع خيار إدخال النص يدويًا أو الاحتفاظ بالملف.",
+      "test_idea": "جرّب PDF مصوّرًا وآخر نصيًا؛ لا تظهر نتيجة نجاح فارغة ولا يُوعَد المستخدم بتحويل غير متاح.",
+      "source_ref": "turn35view0"
+    },
+    {
+      "id": "T086",
+      "title_ar": "اعرض معاينة النص قبل اعتماده",
+      "advice_ar": "اجعل تصحيح الترتيب والجداول ممكنًا قبل إنشاء محتوى الدراسة.",
+      "source_url": "https://community.obsidian.md/plugins/pdf-native-notes",
+      "source_title": "PDF to Markdown Native",
+      "source_kind": "maintainer_documentation",
+      "verification": "حقيقة: الإضافة تعرض PDF وMarkdown قبل الحفظ وتقر بأن الجداول المعقدة وترتيب القراءة قد يحتاجان تنظيفًا يدويًا.",
+      "application_ar": "اعرض عينة من النص المستخرج، وعدد الصفحات أو المقاطع إن كان معروفًا، وزر تحرير قبل الاعتماد.",
+      "test_idea": "استورد PDF عربيًا بعمودين؛ يستطيع المستخدم اكتشاف النص المبعثر وتصحيحه قبل توليد بطاقات.",
+      "source_ref": "turn35view0"
+    },
+    {
+      "id": "T087",
+      "title_ar": "احفظ الأصل حتى يكتمل البديل",
+      "advice_ar": "لا تربط فشل التحويل بفقد المصدر الأصلي.",
+      "source_url": "https://community.obsidian.md/plugins/pdf-native-notes",
+      "source_title": "PDF to Markdown Native",
+      "source_kind": "maintainer_documentation",
+      "verification": "حقيقة: صاحب الإضافة يؤخر إجراءات المصدر حتى حفظ المخرجات ولا يحذف PDF نهائيًا. توصية رسوخ تعمم هذا النمط بحذر.",
+      "application_ar": "احتفظ بمرفق المصدر عند فشل الاستخراج أو إلغائه، وأظهر حالة «لم يكتمل استخراج النص».",
+      "test_idea": "ألغِ التحويل أو حاكِ فشله؛ يبقى الأصل قابلًا للفتح ولا تُنشأ نسخة دراسة مكتملة كاذبة.",
+      "source_ref": "turn35view0"
+    },
+    {
+      "id": "T088",
+      "title_ar": "سمِّ استيراد YouTube بحسب ما يفعله فعلًا",
+      "advice_ar": "اشرح أن الرابط مرجع وأن المحتوى يأتي من النص الذي يقدمه المستخدم.",
+      "source_url": "https://support.google.com/youtube/answer/15930243?hl=en",
+      "source_title": "View video transcripts - YouTube Help",
+      "source_kind": "official_documentation",
+      "verification": "حقيقة: YouTube يتيح التفريغ للفيديوهات ذات التسميات التوضيحية. في نطاق رسوخ الحالي الاستيراد يدوي SRT/VTT/TXT؛ لا توجد هنا مشاهدة أو جلب تلقائي مثبت.",
+      "application_ar": "استخدم «إضافة نص فيديو YouTube» مع الرابط اختياريًا كمرجع، وتعليمات موجزة للوصول إلى التفريغ حين يتاح.",
+      "test_idea": "ألصق رابطًا فقط؛ يطلب التطبيق النص بوضوح ولا يعلن أنه استخرج الفيديو.",
+      "source_ref": "turn86view1"
+    },
+    {
+      "id": "T089",
+      "title_ar": "احتفظ بالطوابع الزمنية المفيدة",
+      "advice_ar": "استعمل التوقيت لعودة الطالب إلى الموضع الأصلي متى كان موجودًا.",
+      "source_url": "https://support.google.com/youtube/answer/15930243?hl=en",
+      "source_title": "View video transcripts - YouTube Help",
+      "source_kind": "official_documentation",
+      "verification": "حقيقة: توضح صفحة YouTube أن لمس سطر من التفريغ ينقل إلى موضعه في الفيديو. نقل ذلك إلى SRT/VTT في رسوخ استنتاج تصميمي.",
+      "application_ar": "احفظ وقت المقطع مع النص المستورد؛ إذا كان TXT بلا توقيت فقل ذلك بدل اختراع أزمنة.",
+      "test_idea": "استورد ترجمة بتوقيت وأخرى بدونه؛ روابط العودة صحيحة في الأولى ولا تعرض توقيتًا مزعومًا في الثانية.",
+      "source_ref": "turn86view1"
+    },
+    {
+      "id": "T090",
+      "title_ar": "اعرض أصل النص وحدود معالجته",
+      "advice_ar": "اجعل المستخدم يميّز النص الأصلي عن الملخص أو التنظيف الآلي.",
+      "source_url": "https://community.obsidian.md/plugins/pdf-native-notes",
+      "source_title": "PDF to Markdown Native",
+      "source_kind": "maintainer_documentation",
+      "verification": "حقيقة: أداة PDF تميّز معاينة المصدر والمخرج وتوضح حدود استعادة التخطيط. تطبيق هذا الفصل على مصادر رسوخ استنتاج.",
+      "application_ar": "أضف شارة «نص مستورد يدويًا» أو «نص مستخرج من PDF» واحتفظ بالأصل منفصلًا عن النص المصحح.",
+      "test_idea": "عدّل النص المستورد؛ يجب إمكان الرجوع للأصل ومعرفة أي نسخة استُخدمت لتوليد المحتوى.",
+      "source_ref": "turn35view0"
+    },
+    {
+      "id": "T091",
+      "title_ar": "صمّم انقطاع التسجيل كحالة عادية",
+      "advice_ar": "لا تترك واجهة التسجيل في حالة تشغيل بعد الانقطاع.",
+      "source_url": "https://github.com/expo/expo/issues/31964",
+      "source_title": "expo-av Does not handle AVAudioSessionInterruptionType accurately to resume recording #31964",
+      "source_kind": "community_issue_search_excerpt",
+      "verification": "حقيقة محدودة: بلاغ تاريخي expo-av يناقش استئناف التسجيل بعد المقاطعة؛ الحزمة قديمة وليست expo-audio المستخدمة في رسوخ. يستعمل البلاغ لتصميم اختبار فقط.",
+      "application_ar": "اختبر الاتصال الوارد والتنبيه وقفل الشاشة؛ اعرض الحالة الحقيقية والمدة المحفوظة وخيار إعادة المحاولة.",
+      "test_idea": "قاطع تسجيلًا بمكالمة؛ لا يستمر العداد وهميًا، ويمكن فتح الجزء المحفوظ أو رؤية فشل واضح.",
+      "source_ref": "turn31search2"
+    },
+    {
+      "id": "T092",
+      "title_ar": "حدّث التشغيل عند فصل السماعة",
+      "advice_ar": "لا تترك زر الإيقاف ظاهرًا إذا توقف الصوت فعليًا.",
+      "source_url": "https://docs.expo.dev/versions/v58.0.0/sdk/audio/",
+      "source_title": "Expo Audio (expo-audio), SDK 58",
+      "source_kind": "official_documentation",
+      "verification": "حقيقة في وثائق SDK 58 المطابقة للمشروع: يتوقف الصوت تلقائيًا عند فصل سماعة أو جهاز Bluetooth.",
+      "application_ar": "اربط أزرار المشغّل وحالة المقطع بحالة المشغّل الحقيقية؛ احتفظ بموضع الاستماع إن سمح التنفيذ.",
+      "test_idea": "شغّل مقطعًا ثم افصل السماعة؛ تتبدل الواجهة إلى متوقف ولا يبدأ الصوت مجددًا بلا فعل مقصود.",
+      "source_ref": "turn86view2"
+    },
+    {
+      "id": "T093",
+      "title_ar": "اطلب الميكروفون عند الحاجة واشرح الرفض",
+      "advice_ar": "افصل تشغيل ملف موجود عن بدء تسجيل جديد.",
+      "source_url": "https://docs.expo.dev/versions/v58.0.0/sdk/audio/",
+      "source_title": "Expo Audio (expo-audio), SDK 58",
+      "source_kind": "official_documentation",
+      "verification": "حقيقة: توثق Expo رسالة إذن الميكروفون وكون التسجيل غير متاح عند تعطيله. توقيت الطلب وصياغته هنا استنتاج UX.",
+      "application_ar": "عند أول تسجيل اشرح الغرض؛ عند الرفض أظهر حالة قابلة للإصلاح مع استمرار فتح المصادر وتشغيل الصوت الموجود.",
+      "test_idea": "ارفض الإذن ثم حاول تشغيل ملف موجود؛ لا يتعطل مسار المكتبة ولا يظهر تسجيل ناجح فارغ.",
+      "source_ref": "turn86view2"
+    },
+    {
+      "id": "T094",
+      "title_ar": "فرّق نقاط الاستعادة عن النسخة الكاملة",
+      "advice_ar": "اكتب نطاق كل وسيلة حماية بيانات بجوارها.",
+      "source_url": "https://obsidian.md/help/plugins/file-recovery",
+      "source_title": "File recovery - Obsidian Help",
+      "source_kind": "official_documentation",
+      "verification": "حقيقة: Obsidian يصرّح بأن استعادة الملفات ليست نسخة احتياطية كاملة ويذكر اقتصارها على أنواع ملفات محددة. لرسوخ ثلاث نقاط نصية بحسب نطاق المهمة.",
+      "application_ar": "سمِّ النقاط «نقاط استعادة نصية على هذا الجهاز» وميّزها عن تصدير الحزمة التي تتضمن المرفقات بحسب التحقق الفعلي.",
+      "test_idea": "يعرف مختبر جديد، من الشاشة وحدها، هل ستعيد النقطة التسجيلات والمرفقات أم النص فقط.",
+      "source_ref": "turn21view3"
+    },
+    {
+      "id": "T095",
+      "title_ar": "اعرض ما سيتغير قبل الاستعادة",
+      "advice_ar": "قدّم معاينة ومعلومات النسخة قبل استبدال البيانات.",
+      "source_url": "https://obsidian.md/help/plugins/file-recovery",
+      "source_title": "File recovery - Obsidian Help",
+      "source_kind": "official_documentation",
+      "verification": "حقيقة: واجهة Obsidian تتيح اختيار اللقطة ونسخها أو استعادتها ومشاهدة الفروق. تفاصيل ملخص رسوخ استنتاج.",
+      "application_ar": "اعرض تاريخ النسخة واسمها وعدد عناصرها ونطاق الاستبدال، مع خيار إلغاء واضح قبل التنفيذ.",
+      "test_idea": "اختر نسخة قديمة ثم ألغِ؛ لا تتغير البيانات. استعدها بعد التأكيد؛ يطابق الناتج المعاينة.",
+      "source_ref": "turn21view3"
+    },
+    {
+      "id": "T096",
+      "title_ar": "اجعل العثور على ملف النسخة جزءًا من النجاح",
+      "advice_ar": "أرشد المستخدم إلى مكان الحفظ الذي اختاره واسم الملف.",
+      "source_url": "https://forum.obsidian.md/t/icloud-sync-data-lost/90090",
+      "source_title": "ICloud Sync - Data lost",
+      "source_kind": "community_post",
+      "verification": "حقيقة مجتمعية: سأل المستخدم عن فقد البيانات، وكانت أول خطوة مساعدة التحقق من مجلد Files وتنزيل الملفات. لا يثبت الخيط سبب الفقد.",
+      "application_ar": "بعد تصدير النسخة عبر Files اعرض الاسم والتاريخ وتعليمات فتح الملف، ولا تساوِ فتح نافذة المشاركة مع حفظ مؤكد.",
+      "test_idea": "يستطيع شخص جديد العثور على النسخة من تطبيق Files وإعادة اختيارها للاستعادة.",
+      "source_ref": "turn35view2"
+    },
+    {
+      "id": "T097",
+      "title_ar": "اختبر استعادة نسخة تالفة أو ناقصة دون خسارة الحالية",
+      "advice_ar": "اجعل فحص سلامة الحزمة مرحلة مستقلة قبل أي استبدال.",
+      "source_url": "https://forum.obsidian.md/t/obsidian-sync-on-iphone-overwrites-newer-data-causing-data-loss/85214",
+      "source_title": "Obsidian Sync on iPhone Overwrites Newer Data, Causing Data Loss",
+      "source_kind": "community_post",
+      "verification": "حقيقة مجتمعية: يروي صاحب البلاغ فقد عمل عند مزامنة أجهزة، وتناقش الردود التداخل المحتمل بين أنظمة المزامنة. السبب غير محسوم؛ لا ننسبه لرسوخ.",
+      "application_ar": "بما أن رسوخ يستخدم SHA-256، اعرض نتيجة التحقق وامنع استبدال المكتبة عند اختلاف البصمة أو نقص المرفق؛ هذا قرار تطبيقي لا إثبات تشفير.",
+      "test_idea": "غيّر بايتًا في نسخة اختبار وأعد استيرادها؛ تُرفض بوضوح وتبقى المكتبة الحالية سليمة.",
+      "source_ref": "turn35view1"
+    },
+    {
+      "id": "T098",
+      "title_ar": "افصل تنزيل النموذج عن جاهزيته للعمل",
+      "advice_ar": "اعرض مراحل التحميل والتحقق والتهيئة وإمكان التنفيذ كلًّا على حدة.",
+      "source_url": "https://github.com/ngxson/wllama/blob/master/compat/README.md",
+      "source_title": "@wllama/wllama-compat README",
+      "source_kind": "maintainer_documentation",
+      "verification": "حقيقة من README الحالي: وضع التوافق أبطأ وقد يجلب أصوله من CDN عند الحاجة. لا نعرف أن نسخة رسوخ تطابق هذا الإصدار ولا أنه نجح على جهاز حقيقي.",
+      "application_ar": "اعرض «تم تنزيل الملف» ثم «جارٍ التهيئة» ثم «جاهز بعد اختبار قصير»؛ لا تجعل وجود الملف دليل جاهزية.",
+      "test_idea": "جرّب دون اتصال وبعد تنزيل ناقص ومع فشل التهيئة؛ تظهر الحالة الصحيحة ويظل إدخال المصدر اليدوي يعمل.",
+      "source_ref": "turn35view4"
+    },
+    {
+      "id": "T099",
+      "title_ar": "قدّم مخرجات الذكاء كمسودة قابلة للمراجعة",
+      "advice_ar": "اربط الملخص بالمصدر وأتح التصحيح والرفض قبل إضافته للمذاكرة.",
+      "source_url": "https://developer.apple.com/videos/play/wwdc2025/248/",
+      "source_title": "Explore prompt design & safety for on-device foundation models",
+      "source_kind": "practitioner_transcript_excerpt",
+      "verification": "حقيقة من نص Apple: توضح الجلسة أن النموذج على الجهاز مضغوط ومحدود مقارنة بنماذج الخوادم وتخصص فصلًا للتقييم. إطار Apple مختلف عن Wllama؛ النقل هنا لمبدأ UX فقط.",
+      "application_ar": "اعرض «مسودة مولّدة» مع المصدر والمقاطع المستخدمة؛ لا تستخدم علامة صحة مطلقة أو إجابات بلا أصل قابل للفحص.",
+      "test_idea": "ولّد من نص غامض أو قصير؛ يستطيع المستخدم اكتشاف النقص ورفض النتيجة، ولا تتحول آليًا إلى حقيقة محفوظة.",
+      "source_ref": "turn86view3"
+    },
+    {
+      "id": "T100",
+      "title_ar": "اجعل فشل النموذج قابلاً للتشخيص والتجاوز",
+      "advice_ar": "اعرض سببًا مفهومًا وخطوة تالية تحافظ على عمل المستخدم.",
+      "source_url": "https://github.com/ngxson/wllama/issues/210",
+      "source_title": "[Call for contributors] Add guide for compiling Safari-compatible version #210",
+      "source_kind": "maintainer_issue",
+      "verification": "حقيقة: وثّق المشرف مشكلة توافق Safari ثم أعلن دعم compat في v3.2 وإغلاق البلاغ. لا يجوز الاستنتاج أن Safari غير مدعوم دائمًا أو أن رسوخ اجتاز الاختبار.",
+      "application_ar": "ميّز فشل تنزيل الملف وفشل تهيئة WebView وعدم كفاية الذاكرة إن رُصدت؛ أتح إعادة المحاولة والعمل اليدوي وإلغاء الانتظار.",
+      "test_idea": "حاكِ أخطاء المراحل منفصلة؛ لا يفقد المستخدم مصدره ولا يرى دوّارة لا تنتهي ولا ادعاء نجاح على الهاتف.",
+      "source_ref": "turn35view3"
+    }
+  ],
+  "videos": [
+    {
+      "id": "V035",
+      "url": "https://www.youtube.com/watch?v=iqoaV_ALFsY",
+      "title": "WWDC22: Design for Arabic · صمّم بالعربي | Apple",
+      "channel": null,
+      "published_date": null,
+      "access_level": "search_metadata",
+      "supported_lesson_ar": "مرجع عربي لاتجاه الواجهة والطباعة. رابط YouTube وعنوانه رُصدا؛ الدليل التفصيلي للتوصيات مأخوذ من نص جلسة Apple الإنجليزية المقابلة، لا من مشاهدة هذا الرابط.",
+      "related_tip_ids": [
+        "T077",
+        "T079",
+        "T080"
+      ],
+      "source_ref": "turn18youtube48"
+    },
+    {
+      "id": "V036",
+      "url": "https://www.youtube.com/watch?v=xxTtyaajlcs",
+      "title": "WWDC22: Get it right (to left) | Apple",
+      "channel": "Apple Developer",
+      "published_date": "2025-02-03",
+      "access_level": "description",
+      "supported_lesson_ar": "الوصف يركز على تعريب الاتجاه وتجربة RTL؛ يستفاد منه لبناء قائمة اختبار النص العربي المختلط، دون نقل كود Swift إلى RN تلقائيًا.",
+      "related_tip_ids": [
+        "T078",
+        "T080"
+      ],
+      "source_ref": "turn26youtube34"
+    },
+    {
+      "id": "V037",
+      "url": "https://www.youtube.com/watch?v=ZqDZjW9TpFw",
+      "title": "WWDC24: Get started with Dynamic Type | Apple",
+      "channel": "Apple Developer",
+      "published_date": "2024-06-13",
+      "access_level": "description",
+      "supported_lesson_ar": "الوصف والفصول يذكران النص المتدرج والتخطيطات المتكيفة؛ يساند اختبار النوافذ والحقول بأكبر خط.",
+      "related_tip_ids": [
+        "T074",
+        "T082"
+      ],
+      "source_ref": "turn26youtube35"
+    },
+    {
+      "id": "V038",
+      "url": "https://www.youtube.com/watch?v=PHAA6nXTbdk",
+      "title": "WWDC24: Catch up on accessibility in SwiftUI | Apple",
+      "channel": "Apple Developer",
+      "published_date": "2024-06-11",
+      "access_level": "description",
+      "supported_lesson_ar": "الوصف يتناول عناصر الوصول ومعلومات المحتوى والتفاعل. تُنقل مبادئ الدلالة؛ واجهات SwiftUI البرمجية ليست واجهات Expo.",
+      "related_tip_ids": [
+        "T071",
+        "T072",
+        "T073"
+      ],
+      "source_ref": "turn29youtube36"
+    },
+    {
+      "id": "V039",
+      "url": "https://www.youtube.com/watch?v=wfTU7O7bJSU",
+      "title": "WWDC25: Evaluate your app for Accessibility Nutrition Labels | Apple",
+      "channel": null,
+      "published_date": null,
+      "access_level": "search_metadata",
+      "supported_lesson_ar": "العنوان مفهرس؛ النص الرسمي المقابل يوصي بتقييم المهام الشائعة. لا ندعي مشاهدة الفيديو أو جاهزية رسوخ لأي علامة وصول.",
+      "related_tip_ids": [
+        "T073",
+        "T074",
+        "T075"
+      ],
+      "source_ref": "turn43youtube47"
+    },
+    {
+      "id": "V040",
+      "url": "https://www.youtube.com/watch?v=pD43DI-VA20",
+      "title": "WWDC25: Principles of inclusive app design | Apple",
+      "channel": null,
+      "published_date": null,
+      "access_level": "search_metadata",
+      "supported_lesson_ar": "العنوان موثق، ومقتطفات النص الرسمي تتناول الحواس والتخصيص؛ يساند اختبار الحالات دون الاعتماد على الصوت واللون وحدهما.",
+      "related_tip_ids": [
+        "T075",
+        "T076",
+        "T081"
+      ],
+      "source_ref": "turn43youtube48"
+    },
+    {
+      "id": "V041",
+      "url": "https://www.youtube.com/watch?v=-aMFBj-kwdU",
+      "title": "WWDC25: Explore prompt design & safety for on-device foundation models | Apple",
+      "channel": null,
+      "published_date": null,
+      "access_level": "search_metadata",
+      "supported_lesson_ar": "رابط YouTube موثق، وقُرئ مقتطف من النص الرسمي. الدرس: قيود النموذج وتقييم المخرجات؛ لا تعني جلسة Apple أن Wllama يملك ميزاتها.",
+      "related_tip_ids": [
+        "T098",
+        "T099",
+        "T100"
+      ],
+      "source_ref": "turn49youtube36"
+    },
+    {
+      "id": "V042",
+      "url": "https://www.youtube.com/watch?v=AAAk9j_qS1g",
+      "title": "WWDC25: Enhance your app’s audio recording capabilities | Apple",
+      "channel": null,
+      "published_date": null,
+      "access_level": "search_metadata",
+      "supported_lesson_ar": "العنوان ووصف تحسين التسجيل موثقان فقط. مرجع لاستكشاف تجربة التسجيل؛ لا نعد بأي API خاص به ضمن Expo.",
+      "related_tip_ids": [
+        "T091",
+        "T092",
+        "T093"
+      ],
+      "source_ref": "turn49youtube37"
+    },
+    {
+      "id": "V043",
+      "url": "https://www.youtube.com/watch?v=uUWkEWHYhUg",
+      "title": "Make your app accessible in React Native",
+      "channel": null,
+      "published_date": null,
+      "access_level": "description",
+      "supported_lesson_ar": "صفحة الناشر Infinite Red تصف مقابلة Britta Evans-Fenton من Shopify بتاريخ 2026-09-09 وتربط هذا المعرّف عبر تضمين YouTube؛ تاريخ نشر YouTube وقناته لم يظهرا.",
+      "related_tip_ids": [
+        "T071",
+        "T072",
+        "T074"
+      ],
+      "source_ref": "turn46view0"
+    },
+    {
+      "id": "V044",
+      "url": "https://www.youtube.com/watch?v=cfzFZIouydY",
+      "title": "Chain React 2018: Be a React Native A11y by Jen Luker",
+      "channel": null,
+      "published_date": null,
+      "access_level": "search_metadata",
+      "supported_lesson_ar": "رابط من صفحة Infinite Red وعنوان صفحة YouTube رُصدا؛ مرجع عام للوصول في RN. لم يُقرأ وصف أو تفريغ يسمح باستخراج تفاصيل إضافية.",
+      "related_tip_ids": [
+        "T071",
+        "T073",
+        "T076"
+      ],
+      "source_ref": "turn49view1"
+    },
+    {
+      "id": "V045",
+      "url": "https://www.youtube.com/watch?v=eyDihTh19rM",
+      "title": "KATERYNA PORSHNIEVA - Practical guide to building accessible forms in React",
+      "channel": null,
+      "published_date": null,
+      "access_level": "description",
+      "supported_lesson_ar": "وصف المنظم الأصلي يذكر التسميات والتعليمات والأخطاء وإدارة التركيز؛ الرابط وعنوانه رُصدا. أمثلة الويب تُحوّل إلى اختبارات أصلية للهاتف.",
+      "related_tip_ids": [
+        "T083",
+        "T084"
+      ],
+      "source_ref": "turn46view2"
+    },
+    {
+      "id": "V046",
+      "url": "https://www.youtube.com/watch?v=y9BZRA1wpLA",
+      "title": "WWDC22: What's new in web accessibility | Apple",
+      "channel": null,
+      "published_date": null,
+      "access_level": "search_metadata",
+      "supported_lesson_ar": "العنوان مفهرس، والمقتطف الرسمي يذكر تحديث قيم عناصر التحكم. يصلح لمساحة WebView إن احتوت عناصر مستخدم؛ لا يكفي لإثبات وصول الطبقة الأصلية.",
+      "related_tip_ids": [
+        "T072",
+        "T098"
+      ],
+      "source_ref": "turn53youtube35"
+    },
+    {
+      "id": "V047",
+      "url": "https://www.youtube.com/watch?v=IAqzXI3kFCk",
+      "title": "WWDC23: Perform accessibility audits for your app | Apple",
+      "channel": null,
+      "published_date": null,
+      "access_level": "search_metadata",
+      "supported_lesson_ar": "رابط YouTube مفهرس، والنص الرسمي المقروء يصف تدقيق التباين والوصف وDynamic Type. مرجع اختبار؛ لم تُجرَ هذه التدقيقات على iPhone هنا.",
+      "related_tip_ids": [
+        "T071",
+        "T074",
+        "T081"
+      ],
+      "source_ref": "turn53youtube36"
+    },
+    {
+      "id": "V048",
+      "url": "https://www.youtube.com/watch?v=WVV9CAF56FU",
+      "title": "Can't touch this - Different ways users interact with their mobile devices",
+      "channel": null,
+      "published_date": null,
+      "access_level": "search_metadata",
+      "supported_lesson_ar": "رابط وعنوان رُصدا في فهرس مؤتمر ثانوي؛ تعذر فتح YouTube. مرشح مشاهدة عن بدائل اللمس فقط؛ لا يُستعمل تفريغ الفهرس كدليل تقني أصلي.",
+      "related_tip_ids": [
+        "T076",
+        "T081"
+      ],
+      "source_ref": "turn84search6"
+    },
+    {
+      "id": "V049",
+      "url": "https://www.youtube.com/watch?v=IoFnQQj4g1A",
+      "title": "Crafting an Inclusive Shopify Point of Sale",
+      "channel": null,
+      "published_date": null,
+      "access_level": "search_metadata",
+      "supported_lesson_ar": "رابط وعنوان رُصدا في فهرس مؤتمر ثانوي؛ تعذر فتح YouTube. مرشح مشاهدة عن تجربة وصول ممارس، ولا ننسب إليه نصائح تفصيلية غير متحققة.",
+      "related_tip_ids": [
+        "T071",
+        "T072"
+      ],
+      "source_ref": "turn84search5"
+    },
+    {
+      "id": "V050",
+      "url": "https://www.youtube.com/watch?v=ROIe49kXOc8",
+      "title": "How to Navigate your iPhone or iPad with VoiceOver | Apple Support",
+      "channel": "Apple Support",
+      "published_date": "2024-05-16",
+      "access_level": "description",
+      "supported_lesson_ar": "وصف قناة Apple Support يشرح VoiceOver بوصفه قارئ شاشة قائمًا على الإيماءات؛ مرجع لإعداد اختبار الهاتف وفهم اختلاف التنقل.",
+      "related_tip_ids": [
+        "T073",
+        "T076"
+      ],
+      "source_ref": "turn84youtube15"
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://developer.apple.com/videos/play/wwdc2019/254/",
+      "title": "Writing Great Accessibility Labels",
+      "kind": "practitioner_transcript",
+      "source_ref": "turn16search2"
+    },
+    {
+      "url": "https://reactnative.dev/docs/accessibility",
+      "title": "Accessibility · React Native 0.88",
+      "kind": "official_documentation",
+      "source_ref": "turn15view0"
+    },
+    {
+      "url": "https://github.com/callstack/react-native-paper/issues/3912",
+      "title": "A11y - Modals do not receive accessibility focus when used with VoiceOver #3912",
+      "kind": "community_issue",
+      "source_ref": "turn21view4"
+    },
+    {
+      "url": "https://infinite.red/react-native-radio/rnr-330-react-native-and-accessibility-with-karly-lamm",
+      "title": "RNR 330 - React Native and Accessibility with Karly Lamm",
+      "kind": "practitioner_transcript",
+      "source_ref": "turn46view1"
+    },
+    {
+      "url": "https://developer.apple.com/videos/play/wwdc2025/316/",
+      "title": "Principles of inclusive app design",
+      "kind": "practitioner_transcript_excerpt",
+      "source_ref": "turn43search0"
+    },
+    {
+      "url": "https://developer.apple.com/videos/play/wwdc2022/10034/",
+      "title": "Design for Arabic",
+      "kind": "practitioner_transcript",
+      "source_ref": "turn21view1"
+    },
+    {
+      "url": "https://forum.cursor.com/t/arabic-english-mixed-text-is-visually-reordered-incorrectly-in-cursor-chat-rtl-ltr-issue/152615",
+      "title": "Arabic + English mixed text is visually reordered incorrectly in Cursor Chat (RTL/LTR issue)",
+      "kind": "community_post",
+      "source_ref": "turn11search8"
+    },
+    {
+      "url": "https://reactnative.dev/docs/i18nmanager",
+      "title": "I18nManager · React Native 0.88",
+      "kind": "official_documentation",
+      "source_ref": "turn15view1"
+    },
+    {
+      "url": "https://reactnative.dev/docs/scrollview",
+      "title": "ScrollView · React Native 0.88",
+      "kind": "official_documentation",
+      "source_ref": "turn86view0"
+    },
+    {
+      "url": "https://frontieralicante.com/talks/2023",
+      "title": "React Alicante 2023: Practical guide to building accessible forms in React",
+      "kind": "practitioner_description",
+      "source_ref": "turn46view2"
+    },
+    {
+      "url": "https://community.obsidian.md/plugins/pdf-native-notes",
+      "title": "PDF to Markdown Native",
+      "kind": "maintainer_documentation",
+      "source_ref": "turn35view0"
+    },
+    {
+      "url": "https://support.google.com/youtube/answer/15930243?hl=en",
+      "title": "View video transcripts - YouTube Help",
+      "kind": "official_documentation",
+      "source_ref": "turn86view1"
+    },
+    {
+      "url": "https://docs.expo.dev/versions/v58.0.0/sdk/audio/",
+      "title": "Expo Audio (expo-audio), SDK 58",
+      "kind": "official_documentation",
+      "source_ref": "turn86view2"
+    },
+    {
+      "url": "https://github.com/expo/expo/issues/31964",
+      "title": "expo-av Does not handle AVAudioSessionInterruptionType accurately to resume recording #31964",
+      "kind": "community_issue_search_excerpt",
+      "source_ref": "turn31search2"
+    },
+    {
+      "url": "https://obsidian.md/help/plugins/file-recovery",
+      "title": "File recovery - Obsidian Help",
+      "kind": "official_documentation",
+      "source_ref": "turn21view3"
+    },
+    {
+      "url": "https://forum.obsidian.md/t/icloud-sync-data-lost/90090",
+      "title": "ICloud Sync - Data lost",
+      "kind": "community_post",
+      "source_ref": "turn35view2"
+    },
+    {
+      "url": "https://forum.obsidian.md/t/obsidian-sync-on-iphone-overwrites-newer-data-causing-data-loss/85214",
+      "title": "Obsidian Sync on iPhone Overwrites Newer Data, Causing Data Loss",
+      "kind": "community_post",
+      "source_ref": "turn35view1"
+    },
+    {
+      "url": "https://github.com/ngxson/wllama/blob/master/compat/README.md",
+      "title": "@wllama/wllama-compat README",
+      "kind": "maintainer_documentation",
+      "source_ref": "turn35view4"
+    },
+    {
+      "url": "https://github.com/ngxson/wllama/issues/210",
+      "title": "[Call for contributors] Add guide for compiling Safari-compatible version #210",
+      "kind": "maintainer_issue",
+      "source_ref": "turn35view3"
+    },
+    {
+      "url": "https://developer.apple.com/videos/play/wwdc2025/248/",
+      "title": "Explore prompt design & safety for on-device foundation models",
+      "kind": "practitioner_transcript_excerpt",
+      "source_ref": "turn86view3"
+    },
+    {
+      "url": "https://support.apple.com/guide/iphone/turn-on-and-practice-voiceover-iph3e2e415f/27/ios/27",
+      "title": "Turn on and practice VoiceOver on iPhone",
+      "kind": "official_documentation",
+      "source_ref": "turn84search1"
+    }
+  ]
+}

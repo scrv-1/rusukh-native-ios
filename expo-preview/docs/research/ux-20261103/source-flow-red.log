@@ -1,0 +1,945 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> rusukh-ios@0.4.2 test:ui
+> jest --runInBand --runTestsByPath tests/sources-workbench.ui.test.jsx --moduleNameMapper {"^../src/SourcesWorkbench$":"<rootDir>/src/SourceFlowBefore.tsx"}
+
+FAIL iOS tests/sources-workbench.ui.test.jsx
+  ● paste intake derives a title and opens a reviewable draft without choosing a file
+
+    Unable to find an element with role: button, name: مراجعة النص كمسودة
+
+    [36m<View>[39m
+      [36m<View>[39m
+        [36m<Text[39m
+          [33maccessibilityRole[39m=[32m"header"[39m
+        [36m>[39m
+          [0mمصادري[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mاختر أداة واحدة. راجع النص قبل إضافته إلى ملاحظاتك.[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"نص وملفات"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mنص وملفات[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"قراءة PDF"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mقراءة PDF[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فيديو YouTube"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mفيديو YouTube[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"كاميرا وصوت"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mكاميرا وصوت[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<Text[39m
+          [33maccessibilityRole[39m=[32m"header"[39m
+        [36m>[39m
+          [0mأضف نصًا أو تفريغ محاضرة[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mTXT وMarkdown وSRT وVTT حتى 1 ميغابايت. تختار ملفًا من جهازك ثم تراجعه في محرر الملاحظة.[0m
+        [36m</Text>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"اختيار مصدر من الملفات"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mاختيار مصدر من الملفات[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<Text>[39m
+          [0m0[0m
+          [0m ملاحظة محفوظة. لا تُرفع النصوص تلقائيًا إلى خادم.[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<Text>[39m
+        [0mالتبديل بين الأدوات يحتفظ بالحقول والمعاينات ما دمت في هذه الشاشة. أضف مسودة قبل مغادرتها للاحتفاظ بالنص.[0m
+      [36m</Text>[39m
+    [36m</View>[39m
+
+      129 | test('paste intake derives a title and opens a reviewable draft without choosing a file',async()=>{
+      130 |   await start();
+    > 131 |   expect(screen.getByRole('button',{name:'مراجعة النص كمسودة'})).toBeDisabled();
+          |                 ^
+      132 |   await fireEvent.changeText(screen.getByLabelText('النص الذي تريد دراسته'),'  عنوان الدرس\n\nس: ما العلم؟\nج: معرفة  ');
+      133 |   expect(onDraft).not.toHaveBeenCalled();
+      134 |   await press('مراجعة النص كمسودة');
+
+      at Object.getByRole (tests/sources-workbench.ui.test.jsx:131:17)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● pasted text and custom title survive switching tools and size validation failures
+
+    Unable to find an element with accessibility label: النص الذي تريد دراسته
+
+    [36m<View>[39m
+      [36m<View>[39m
+        [36m<Text[39m
+          [33maccessibilityRole[39m=[32m"header"[39m
+        [36m>[39m
+          [0mمصادري[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mاختر أداة واحدة. راجع النص قبل إضافته إلى ملاحظاتك.[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"نص وملفات"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mنص وملفات[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"قراءة PDF"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mقراءة PDF[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فيديو YouTube"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mفيديو YouTube[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"كاميرا وصوت"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mكاميرا وصوت[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<Text[39m
+          [33maccessibilityRole[39m=[32m"header"[39m
+        [36m>[39m
+          [0mأضف نصًا أو تفريغ محاضرة[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mTXT وMarkdown وSRT وVTT حتى 1 ميغابايت. تختار ملفًا من جهازك ثم تراجعه في محرر الملاحظة.[0m
+        [36m</Text>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"اختيار مصدر من الملفات"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mاختيار مصدر من الملفات[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<Text>[39m
+          [0m0[0m
+          [0m ملاحظة محفوظة. لا تُرفع النصوص تلقائيًا إلى خادم.[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<Text>[39m
+        [0mالتبديل بين الأدوات يحتفظ بالحقول والمعاينات ما دمت في هذه الشاشة. أضف مسودة قبل مغادرتها للاحتفاظ بالنص.[0m
+      [36m</Text>[39m
+    [36m</View>[39m
+
+      140 |   await start();
+      141 |   const oversized='ع'.repeat(524289);
+    > 142 |   await fireEvent.changeText(screen.getByLabelText('النص الذي تريد دراسته'),oversized);
+          |                                     ^
+      143 |   await press('تعديل عنوان النص');
+      144 |   await fireEvent.changeText(screen.getByLabelText('عنوان النص'),'محاضرتي');
+      145 |   await press('قراءة PDF');await press('نص وملفات');
+
+      at Object.getByLabelText (tests/sources-workbench.ui.test.jsx:142:37)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● pasted SRT transcript automatically preserves timed evidence without format setup
+
+    Unable to find an element with role: button, name: فيديو YouTube, selected state: true
+
+    [36m<View>[39m
+      [36m<View>[39m
+        [36m<Text[39m
+          [33maccessibilityRole[39m=[32m"header"[39m
+        [36m>[39m
+          [0mمصادري[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mاختر أداة واحدة. راجع النص قبل إضافته إلى ملاحظاتك.[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"نص وملفات"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mنص وملفات[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"قراءة PDF"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mقراءة PDF[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فيديو YouTube"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mفيديو YouTube[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"كاميرا وصوت"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mكاميرا وصوت[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<Text[39m
+          [33maccessibilityRole[39m=[32m"header"[39m
+        [36m>[39m
+          [0mفيديو وتفريغ موثّق[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mأضف رابط الفيديو وتفريغًا تملكه أو يتيحه صاحبه. لا تُنزّل هذه الأداة الصوت أو الترجمة تلقائيًا.[0m
+        [36m</Text>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0mرابط YouTube[0m
+          [36m</Text>[39m
+          [36m<TextInput[39m
+            [33maccessibilityLabel[39m=[32m"رابط YouTube"[39m
+            [33meditable[39m=[32m{true}[39m
+            [33mplaceholder[39m=[32m"https://www.youtube.com/watch?v=…"[39m
+            [33mvalue[39m=[32m""[39m
+          [36m/>[39m
+        [36m</View>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0mعنوان المصدر[0m
+          [36m</Text>[39m
+          [36m<TextInput[39m
+            [33maccessibilityLabel[39m=[32m"عنوان المصدر"[39m
+            [33meditable[39m=[32m{true}[39m
+            [33mvalue[39m=[32m"تفريغ YouTube"[39m
+          [36m/>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"اختيار ملف تفريغ"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mاختيار ملف تفريغ[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0mنص التفريغ[0m
+          [36m</Text>[39m
+          [36m<TextInput[39m
+            [33maccessibilityLabel[39m=[32m"نص التفريغ"[39m
+            [33meditable[39m=[32m{true}[39m
+            [33mplaceholder[39m=[32m"الصق التفريغ هنا، أو اختر ملف SRT / VTT"[39m
+            [33mvalue[39m=[32m""[39m
+          [36m/>[39m
+        [36m</View>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"نص عادي"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mنص عادي[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"SRT"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mSRT[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"VTT"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mVTT[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"معاينة التفريغ"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mمعاينة التفريغ[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح الفيديو في YouTube"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": true,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mفتح الفيديو في YouTube[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<Text>[39m
+        [0mالتبديل بين الأدوات يحتفظ بالحقول والمعاينات ما دمت في هذه الشاشة. أضف مسودة قبل مغادرتها للاحتفاظ بالنص.[0m
+      [36m</Text>[39m
+    [36m</View>[39m
+
+      160 | ])('pasted %s transcript automatically preserves timed evidence without format setup',async(kind,body)=>{
+      161 |   await start();await press('فيديو YouTube');
+    > 162 |   expect(screen.getByRole('button',{name:'فيديو YouTube',selected:true})).toBeTruthy();
+          |                 ^
+      163 |   expect(screen.queryByRole('button',{name:'SRT'})).toBeNull();
+      164 |   await fireEvent.changeText(screen.getByLabelText('رابط YouTube'),'https://youtu.be/dQw4w9WgXcQ');
+      165 |   await fireEvent.changeText(screen.getByLabelText('نص التفريغ'),body);
+
+      at getByRole (tests/sources-workbench.ui.test.jsx:162:17)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● pasted VTT transcript automatically preserves timed evidence without format setup
+
+    Unable to find an element with role: button, name: فيديو YouTube, selected state: true
+
+    [36m<View>[39m
+      [36m<View>[39m
+        [36m<Text[39m
+          [33maccessibilityRole[39m=[32m"header"[39m
+        [36m>[39m
+          [0mمصادري[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mاختر أداة واحدة. راجع النص قبل إضافته إلى ملاحظاتك.[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"نص وملفات"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mنص وملفات[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"قراءة PDF"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mقراءة PDF[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فيديو YouTube"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mفيديو YouTube[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"كاميرا وصوت"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mكاميرا وصوت[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<Text[39m
+          [33maccessibilityRole[39m=[32m"header"[39m
+        [36m>[39m
+          [0mفيديو وتفريغ موثّق[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mأضف رابط الفيديو وتفريغًا تملكه أو يتيحه صاحبه. لا تُنزّل هذه الأداة الصوت أو الترجمة تلقائيًا.[0m
+        [36m</Text>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0mرابط YouTube[0m
+          [36m</Text>[39m
+          [36m<TextInput[39m
+            [33maccessibilityLabel[39m=[32m"رابط YouTube"[39m
+            [33meditable[39m=[32m{true}[39m
+            [33mplaceholder[39m=[32m"https://www.youtube.com/watch?v=…"[39m
+            [33mvalue[39m=[32m""[39m
+          [36m/>[39m
+        [36m</View>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0mعنوان المصدر[0m
+          [36m</Text>[39m
+          [36m<TextInput[39m
+            [33maccessibilityLabel[39m=[32m"عنوان المصدر"[39m
+            [33meditable[39m=[32m{true}[39m
+            [33mvalue[39m=[32m"تفريغ YouTube"[39m
+          [36m/>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"اختيار ملف تفريغ"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mاختيار ملف تفريغ[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0mنص التفريغ[0m
+          [36m</Text>[39m
+          [36m<TextInput[39m
+            [33maccessibilityLabel[39m=[32m"نص التفريغ"[39m
+            [33meditable[39m=[32m{true}[39m
+            [33mplaceholder[39m=[32m"الصق التفريغ هنا، أو اختر ملف SRT / VTT"[39m
+            [33mvalue[39m=[32m""[39m
+          [36m/>[39m
+        [36m</View>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"نص عادي"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mنص عادي[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"SRT"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mSRT[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"VTT"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mVTT[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"معاينة التفريغ"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mمعاينة التفريغ[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح الفيديو في YouTube"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": true,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mفتح الفيديو في YouTube[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<Text>[39m
+        [0mالتبديل بين الأدوات يحتفظ بالحقول والمعاينات ما دمت في هذه الشاشة. أضف مسودة قبل مغادرتها للاحتفاظ بالنص.[0m
+      [36m</Text>[39m
+    [36m</View>[39m
+
+      160 | ])('pasted %s transcript automatically preserves timed evidence without format setup',async(kind,body)=>{
+      161 |   await start();await press('فيديو YouTube');
+    > 162 |   expect(screen.getByRole('button',{name:'فيديو YouTube',selected:true})).toBeTruthy();
+          |                 ^
+      163 |   expect(screen.queryByRole('button',{name:'SRT'})).toBeNull();
+      164 |   await fireEvent.changeText(screen.getByLabelText('رابط YouTube'),'https://youtu.be/dQw4w9WgXcQ');
+      165 |   await fireEvent.changeText(screen.getByLabelText('نص التفريغ'),body);
+
+      at getByRole (tests/sources-workbench.ui.test.jsx:162:17)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● automatic detection keeps malformed timing visible as an error; optional override is explicit
+
+    Unable to find an element with role: alert
+
+    [36m<View>[39m
+      [36m<View>[39m
+        [36m<Text[39m
+          [33maccessibilityRole[39m=[32m"header"[39m
+        [36m>[39m
+          [0mمصادري[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mاختر أداة واحدة. راجع النص قبل إضافته إلى ملاحظاتك.[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"نص وملفات"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mنص وملفات[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"قراءة PDF"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mقراءة PDF[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فيديو YouTube"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mفيديو YouTube[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"كاميرا وصوت"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mكاميرا وصوت[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<Text[39m
+          [33maccessibilityRole[39m=[32m"header"[39m
+        [36m>[39m
+          [0mفيديو وتفريغ موثّق[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mأضف رابط الفيديو وتفريغًا تملكه أو يتيحه صاحبه. لا تُنزّل هذه الأداة الصوت أو الترجمة تلقائيًا.[0m
+        [36m</Text>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0mرابط YouTube[0m
+          [36m</Text>[39m
+          [36m<TextInput[39m
+            [33maccessibilityLabel[39m=[32m"رابط YouTube"[39m
+            [33meditable[39m=[32m{true}[39m
+            [33mplaceholder[39m=[32m"https://www.youtube.com/watch?v=…"[39m
+            [33mvalue[39m=[32m"https://youtu.be/dQw4w9WgXcQ"[39m
+          [36m/>[39m
+        [36m</View>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0mعنوان المصدر[0m
+          [36m</Text>[39m
+          [36m<TextInput[39m
+            [33maccessibilityLabel[39m=[32m"عنوان المصدر"[39m
+            [33meditable[39m=[32m{true}[39m
+            [33mvalue[39m=[32m"تفريغ YouTube"[39m
+          [36m/>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"اختيار ملف تفريغ"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mاختيار ملف تفريغ[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0mنص التفريغ[0m
+          [36m</Text>[39m
+          [36m<TextInput[39m
+            [33maccessibilityLabel[39m=[32m"نص التفريغ"[39m
+            [33meditable[39m=[32m{true}[39m
+            [33mplaceholder[39m=[32m"الصق التفريغ هنا، أو اختر ملف SRT / VTT"[39m
+            [33mvalue[39m=[32m"1
+    00:00:02,000 --> 00:00:01,000
+    نص"[39m
+          [36m/>[39m
+        [36m</View>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"نص عادي"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mنص عادي[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"SRT"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mSRT[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"VTT"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mVTT[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"معاينة التفريغ"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mمعاينة التفريغ[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح الفيديو في YouTube"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mفتح الفيديو في YouTube[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<Text[39m
+          [33maccessibilityRole[39m=[32m"header"[39m
+        [36m>[39m
+          [0mمعاينة المصدر[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0m1[0m
+          [0m مقطع · [0m
+          [0m0[0m
+          [0m سؤال وجواب مكتوب صراحة[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mالمصدر: تفريغ YouTube
+    رابط الفيديو: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+    نوع التفريغ: TEXT — نص يقدّمه الطالب
+
+    لا توجد أسئلة وأجوبة مكتوبة بصيغة س:/ج: في المقاطع النصية.
+
+    التفريغ الأصلي — اقتباس للمراجعة:
+    &gt; 1
+    &gt; 00:00:02,000 --&gt; 00:00:01,000
+    &gt; نص[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mاستخراج الأسئلة المكتوبة ليس توليدًا بالذكاء الاصطناعي. ستظل التوقيتات ورابط المصدر داخل النص.[0m
+        [36m</Text>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"مراجعة مسودة YouTube"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mمراجعة مسودة YouTube[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<Text>[39m
+        [0mالتبديل بين الأدوات يحتفظ بالحقول والمعاينات ما دمت في هذه الشاشة. أضف مسودة قبل مغادرتها للاحتفاظ بالنص.[0m
+      [36m</Text>[39m
+    [36m</View>[39m
+
+      175 |   await fireEvent.changeText(screen.getByLabelText('نص التفريغ'),'1\n00:00:02,000 --> 00:00:01,000\nنص');
+      176 |   await press('معاينة التفريغ');
+    > 177 |   expect(screen.getByRole('alert')).toHaveTextContent(/مقطع تفريغ غير صالح/);
+          |                 ^
+      178 |   expect(onDraft).not.toHaveBeenCalled();
+      179 |   await press('خيارات التفريغ');await press('نص عادي');
+      180 |   expect(screen.getByRole('button',{name:'نص عادي',selected:true})).toBeTruthy();
+
+      at Object.getByRole (tests/sources-workbench.ui.test.jsx:177:17)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 1 failed, 1 total
+Tests:       5 failed, 10 passed, 15 total
+Snapshots:   0 total
+Time:        3.907 s
+Ran all test suites within paths "tests/sources-workbench.ui.test.jsx".

@@ -1,0 +1,29 @@
+✔ recovery point captures the previous library and survives a WAL database reopen (34.288229ms)
+✔ import failure rolls back both replacement and newly created recovery point (3.593417ms)
+✔ failure to persist recovery refuses import and preserves all existing data (1.324189ms)
+✔ only the newest three successful recovery points remain; target selected before rotation (4.389693ms)
+✔ corrupt, incompatible and nonexistent recovery points never replace the current library (3.80878ms)
+✔ a failed import after retention rotation keeps all three previous recovery points (3.676862ms)
+✔ input mutation while import awaits the transaction cannot bypass validated content (1.230428ms)
+✔ invalid input creates no snapshot and cannot overwrite the existing library (4.317104ms)
+✔ an oversized safety snapshot blocks replacement instead of importing without protection (374.147912ms)
+✔ fresh bootstrap creates the schema and a completely empty study library (17.245732ms)
+✔ repeated disk reopen of a new library never inserts sample content or a seeded flag (14.643259ms)
+✔ existing library with a seeded flag survives every bootstrap unchanged (68.575996ms)
+✔ existing library without a seeded flag survives every bootstrap unchanged (109.004383ms)
+✔ preferences persist after SQLite reopen; hide and reset preserve study content (54.906522ms)
+✔ rejected import leaves existing notes and workspace untouched (2.124301ms)
+✔ failure while creating cards rolls back the note and every previous card (5.608053ms)
+✔ renaming a note preserves incoming graph links, aliases and unrelated text atomically (10.110235ms)
+✔ card insertion failure rolls back renamed title and all rewritten backlinks (1.426703ms)
+✔ rename preserves long malformed wiki text and retargets valid links beyond its boundary (17.937871ms)
+✔ renaming refuses oversized rewritten content without changing any note (42.930169ms)
+✔ renaming to an unrepresentable wiki target never corrupts existing links (1.975157ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 21
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 547.585555

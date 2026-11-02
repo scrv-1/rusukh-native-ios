@@ -1,0 +1,69 @@
+✖ S003: first Easy does not make the next Hard later than Good (3.568579ms)
+✖ S003: every generated grading sequence through seven reviews preserves grade order (1.695636ms)
+✖ S003: backup-accepted fractional intervals, legacy ease and repetition states preserve order (5.842943ms)
+✔ S003: first-review targets and a lapse restart retain the simplified policy (0.429314ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 1
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 180.405851
+
+✖ failing tests:
+
+test at tests/core.test.cjs:179:1
+✖ S003: first Easy does not make the next Hard later than Good (3.568579ms)
+  AssertionError [ERR_ASSERTION]: after first Easy: Hard 5d must not follow Good 3d
+      at assertSuccessfulGradeOrder (/workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/tests/core.test.cjs:159:10)
+      at TestContext.<anonymous> (/workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/tests/core.test.cjs:182:27)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/core.test.cjs:189:1
+✖ S003: every generated grading sequence through seven reviews preserves grade order (1.695636ms)
+  AssertionError [ERR_ASSERTION]: easy: Hard 5d must not follow Good 3d
+      at assertSuccessfulGradeOrder (/workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/tests/core.test.cjs:159:10)
+      at TestContext.<anonymous> (/workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/tests/core.test.cjs:195:16)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/core.test.cjs:202:1
+✖ S003: backup-accepted fractional intervals, legacy ease and repetition states preserve order (5.842943ms)
+  AssertionError [ERR_ASSERTION]: restored interval=1, ease=1, repetitions=0: Hard 2d must not follow Good 1d
+      at assertSuccessfulGradeOrder (/workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/tests/core.test.cjs:159:10)
+      at TestContext.<anonymous> (/workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/tests/core.test.cjs:210:5)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

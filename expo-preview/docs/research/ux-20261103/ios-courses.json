@@ -1,0 +1,1003 @@
+{
+  "date": "2026-11-03",
+  "scope": "ملحق دورة iOS للصورة؛ مكمّل مستقل عن 100 نصيحةو 50 فيديو",
+  "method_ar": "قرأت فهرس الدورة ووصف 5 دروس من الناشر ونصوص 3 جلسات Apple. لم أشاهد أو أنسخ الدورة ولم أستخرج نصوص دروس YouTube. القرارات تطبيقات هندسية مقترحة وليست اقتباسات أو ادعاء تنفيذ.",
+  "identified_playlist": "https://www.youtube.com/playlist?list=PLQaOY10EEc8bNbEBMyiJU1I-GIgs1LQfj",
+  "unresolved": [
+    {
+      "title_seen_in_user_screenshot": "برمجة تطبيقات الآيفون iOS بلغةSwift — ويبينارالتحولالتقني",
+      "duration_seen": "1:32:10",
+      "status": "لم يتحدد رابط مطابق مؤكد بعد البحث؛لا محتوى منسوب له ولا احتساب ضمن المقاطعالمقروءة."
+    }
+  ],
+  "native_scope_limit_ar": "فُحصت ستة ملفات Swift جُلبت من رأس المستودع 93f5adb1c2ee43195e0ceda35d39a9992c11e320: RusukhNativeApp وHomeView وNotesView وLocalAIView وArabicModelView وBackupSettingsView. هذه مراجعة مصدر فقط؛ لم تُشغّل اختبارات Swift أو بناء Mac أو استدلال آيفون في هذا الملحق.",
+  "sources": [
+    {
+      "id": "CS01",
+      "url": "https://www.youtube.com/playlist?list=PLQaOY10EEc8bNbEBMyiJU1I-GIgs1LQfj",
+      "title": "Swift & Xcode | دورة برمجة تطبيقات الايفون باستخدام لغة سويفت",
+      "author": "بامبرمج",
+      "access_level": "playlist_metadata",
+      "source_ref": "turn62view0",
+      "note_ar": "تطابق عنوان الصورة؛ عناوين 100 درس ظهرت في فهرس ثانوي؛ لم نشاهد 100 درس ولم نستخرج نصوصها."
+    },
+    {
+      "id": "CS02",
+      "url": "https://www.youtube.com/watch?v=rpIV5hd3Owg",
+      "title": "75 - Swift Xcode RTL UIPageViewController With One ViewController",
+      "author": "بامبرمج",
+      "published_date": "2021-03-04",
+      "access_level": "description",
+      "source_ref": "turn68youtube27",
+      "supported_lesson_ar": "وصف الناشر يشرح اتجاه الصفحات ومؤشراتها من اليمين إلى اليسار وإعادة استخدام واجهة واحدة."
+    },
+    {
+      "id": "CS03",
+      "url": "https://www.youtube.com/watch?v=YPPzOIi51J0",
+      "title": "79 - Swift Xcode Run Your App on Real iPhone",
+      "author": "بامبرمج",
+      "published_date": "2021-04-20",
+      "access_level": "description",
+      "source_ref": "turn70youtube1",
+      "supported_lesson_ar": "وصف الناشر يتناول توصيل آيفون عبر USB أو Wi-Fi وربط حساب Apple مجاني بـ Xcode ؛ ليس إثباتًا لتثبيت رُسوخ."
+    },
+    {
+      "id": "CS04",
+      "url": "https://www.youtube.com/watch?v=8K_o1QGh0SE",
+      "title": "82 - Swift Xcode Select Photo Using PHPicker",
+      "author": "بامبرمج",
+      "published_date": "2021-07-17",
+      "access_level": "description",
+      "source_ref": "turn72youtube30",
+      "supported_lesson_ar": "وصف الناشر يتناول اختيار الصور باستخدام PHPickerViewController."
+    },
+    {
+      "id": "CS05",
+      "url": "https://www.youtube.com/watch?v=ZA3_s0of8FY",
+      "title": "84 - Swift Xcode Localize App Name, Permissions & Directions",
+      "author": "بامبرمج",
+      "published_date": "2021-08-06",
+      "access_level": "description",
+      "source_ref": "turn72youtube29",
+      "supported_lesson_ar": "وصف الناشر يتناول تعريب اسم التطبيق ورسائل الأذونات واتجاه القيود."
+    },
+    {
+      "id": "CS06",
+      "url": "https://www.youtube.com/watch?v=IKwhEvDyb1U",
+      "title": "100 - Swift Xcode Error Handling & Throwing Errors | Do, Try, Catch",
+      "author": "بامبرمج",
+      "published_date": "2022-04-01",
+      "access_level": "description",
+      "source_ref": "turn68youtube28",
+      "supported_lesson_ar": "وصف الناشر يذكر تصنيف الأخطاء باستخدام enum ومعالجتها باستخدام do/try/catch."
+    },
+    {
+      "id": "CS07",
+      "url": "https://developer.apple.com/videos/play/wwdc2024/10150/",
+      "title": "SwiftUI essentials",
+      "author": "Apple",
+      "access_level": "transcript_and_code",
+      "source_ref": "turn66view1",
+      "read_sections": "Transcript167–331; code sections state/binding/searchable",
+      "supported_lesson_ar": "قراءة نصية لبناء الواجهات بالتركيب والحالة والضوابط المتكيفة والتبنّي التدريجي؛ لم تُشاهد صور الفيديو."
+    },
+    {
+      "id": "CS08",
+      "url": "https://developer.apple.com/videos/play/wwdc2022/10034/",
+      "title": "Design for Arabic",
+      "author": "Apple",
+      "access_level": "transcript",
+      "source_ref": "turn78view2",
+      "read_sections": "Transcript158–211",
+      "supported_lesson_ar": "قراءة نصية لاتجاه التخطيط والأيقونات والخطوط والأرقام؛ لم تُشاهد صور الفيديو."
+    },
+    {
+      "id": "CS09",
+      "url": "https://developer.apple.com/videos/play/wwdc2022/10001/",
+      "title": "Explore navigation design for iOS",
+      "author": "Apple",
+      "access_level": "transcript",
+      "source_ref": "turn77view1",
+      "read_sections": "Transcript151–201",
+      "supported_lesson_ar": "قراءة نصية للتبويبات والتنقل الهرمي والمهام المودالية؛ لم تُشاهد صور الفيديو."
+    },
+    {
+      "id": "CS10",
+      "url": "https://www.wikicourses.net/course/swift-and-xcode",
+      "title": "فهرس دورة بامبرمج،100درس",
+      "author": "WikiCourses،فهرس ثانوي",
+      "access_level": "syllabus",
+      "source_ref": "turn61view1",
+      "note_ar": "للتعرف على الدروس والرابط الأصلي فقط؛ ليس مرجعًا تقنيًا. تظهر فيه UIKit و Storyboard و Xcode12 و 13."
+    }
+  ],
+  "decisions": [
+    {
+      "id": "C001",
+      "decision_ar": "استمر في SwiftUI ؛ حدّث تدريجيًا.",
+      "source_ids": [
+        "CS07"
+      ],
+      "source_urls": [
+        "https://developer.apple.com/videos/play/wwdc2024/10150/"
+      ],
+      "application_is_inference": true,
+      "comparison_paths": [
+        "../README.md"
+      ],
+      "existing_evidence_ar": "المسار الأصلي يستخدم SwiftUI فعلًا؛ مراجعة ستة ملفات من الرأس المذكور.",
+      "implementation_status_ar": "SwiftUI منفذ ومفحوص بالمصدر؛ نحافظ عليه",
+      "verification_ar": "راجع إطار كل شاشة قبل نقل تقنية من دورة UIKit.",
+      "new_implementation_in_this_research": false,
+      "native_comparison": {
+        "path": "App/RusukhNativeApp.swift:1",
+        "evidence_ar": "SwiftUI مستورد؛ التطبيق ينشئ RootView ويحقن LibraryStore.",
+        "verification_level": "source_review_only",
+        "source_sha": "93f5adb1c2ee43195e0ceda35d39a9992c11e320"
+      }
+    },
+    {
+      "id": "C002",
+      "decision_ar": "ركّب الواجهة من وحدات صغيرة.",
+      "source_ids": [
+        "CS07"
+      ],
+      "source_urls": [
+        "https://developer.apple.com/videos/play/wwdc2024/10150/"
+      ],
+      "application_is_inference": true,
+      "comparison_paths": [
+        "src/StudyHome.tsx",
+        "src/WorkspaceEditor.tsx"
+      ],
+      "existing_evidence_ar": "مكوّنان منفصلان موجودان.",
+      "implementation_status_ar": "تحسين مقترح فوق تنفيذ موجود",
+      "verification_ar": "كل وحدة تقبل بياناتها وإجراءاتها دون امتلاك قاعدة البيانات.",
+      "new_implementation_in_this_research": false,
+      "native_comparison": {
+        "path": "App/RusukhNativeApp.swift:21",
+        "evidence_ar": "RootView يركّب HomeView وNotesView وReviewView وGraphView وLocalAIView.",
+        "verification_level": "source_review_only",
+        "source_sha": "93f5adb1c2ee43195e0ceda35d39a9992c11e320"
+      }
+    },
+    {
+      "id": "C003",
+      "decision_ar": "اجعل التفضيلات ذات مصدر واحد.",
+      "source_ids": [
+        "CS07"
+      ],
+      "source_urls": [
+        "https://developer.apple.com/videos/play/wwdc2024/10150/"
+      ],
+      "application_is_inference": true,
+      "comparison_paths": [
+        "App.tsx:137",
+        "src/workspace.ts"
+      ],
+      "existing_evidence_ar": "saveWorkspace يحفظ قبل setWorkspace ؛ المحرر يحتفظ بمسودة.",
+      "implementation_status_ar": "تنفيذ موجود؛ حافظ عليه",
+      "verification_ar": "فشل الحفظ يبقي المسودة ولا يغيّر الإعداد المنشور.",
+      "new_implementation_in_this_research": false,
+      "native_comparison": {
+        "path": "App/RusukhNativeApp.swift:5",
+        "evidence_ar": "LibraryStore منشأ مرة عبر StateObject ومشارك عبر environmentObject؛ ليس دليلًا على اكتمال تخصيص الواجهة.",
+        "verification_level": "source_review_only",
+        "source_sha": "93f5adb1c2ee43195e0ceda35d39a9992c11e320"
+      }
+    },
+    {
+      "id": "C004",
+      "decision_ar": "حدّث العرض من حالة البيانات.",
+      "source_ids": [
+        "CS07"
+      ],
+      "source_urls": [
+        "https://developer.apple.com/videos/play/wwdc2024/10150/"
+      ],
+      "application_is_inference": true,
+      "comparison_paths": [
+        "App.tsx",
+        "src/StudyHome.tsx"
+      ],
+      "existing_evidence_ar": "عدادات وملاحظات الرئيسية تمرّر عبر props.",
+      "implementation_status_ar": "تنفيذ موجود؛ تحقق عند التوسعة",
+      "verification_ar": "إضافة ملاحظة تحدّث القائمة والعداد معًا.",
+      "new_implementation_in_this_research": false,
+      "native_comparison": {
+        "path": "App/HomeView.swift:21",
+        "evidence_ar": "عدادات الرئيسية مشتقة من library.snapshot وlibrary.due.",
+        "verification_level": "source_review_only",
+        "source_sha": "93f5adb1c2ee43195e0ceda35d39a9992c11e320"
+      }
+    },
+    {
+      "id": "C005",
+      "decision_ar": "استخدم زرًا له اسم وفعل.",
+      "source_ids": [
+        "CS07"
+      ],
+      "source_urls": [
+        "https://developer.apple.com/videos/play/wwdc2024/10150/"
+      ],
+      "application_is_inference": true,
+      "comparison_paths": [
+        "src/ui.tsx:39"
+      ],
+      "existing_evidence_ar": "Button يحتوي accessibilityRole و Label.",
+      "implementation_status_ar": "تنفيذ موجود؛ اختبار جهاز مطلوب",
+      "verification_ar": "VoiceOver يعلن الاسم والفعل والحالة.",
+      "new_implementation_in_this_research": false,
+      "native_comparison": {
+        "path": "App/NotesView.swift:59",
+        "evidence_ar": "أزرار PDF والإضافة لها accessibilityLabel وaccessibilityIdentifier.",
+        "verification_level": "source_review_only",
+        "source_sha": "93f5adb1c2ee43195e0ceda35d39a9992c11e320"
+      }
+    },
+    {
+      "id": "C006",
+      "decision_ar": "استخدم مفتاحًا للإظهار والإخفاء.",
+      "source_ids": [
+        "CS07"
+      ],
+      "source_urls": [
+        "https://developer.apple.com/videos/play/wwdc2024/10150/"
+      ],
+      "application_is_inference": true,
+      "comparison_paths": [
+        "src/WorkspaceEditor.tsx"
+      ],
+      "existing_evidence_ar": "Switch متصل بـ enabled.",
+      "implementation_status_ar": "تنفيذ موجود؛ قابل للتحسين",
+      "verification_ar": "إخفاء وحدة لا يزيل بياناتها.",
+      "new_implementation_in_this_research": false,
+      "native_comparison": {
+        "path": "App/HomeView.swift:8",
+        "evidence_ar": "لا يظهر محرر وحدات أو مفاتيح تخصيص في HomeView أو RootView المفحوصين؛ Expo يملكها بالفعل.",
+        "verification_level": "source_review_only",
+        "source_sha": "93f5adb1c2ee43195e0ceda35d39a9992c11e320"
+      }
+    },
+    {
+      "id": "C007",
+      "decision_ar": "اجعل البحث مرئيًا ومفهومًا.",
+      "source_ids": [
+        "CS07"
+      ],
+      "source_urls": [
+        "https://developer.apple.com/videos/play/wwdc2024/10150/"
+      ],
+      "application_is_inference": true,
+      "comparison_paths": [
+        "App.tsx",
+        "src/StudyHome.tsx"
+      ],
+      "existing_evidence_ar": "الملاحظات تملك بحثًا؛ الرئيسية لا تبرز البحث.",
+      "implementation_status_ar": "تحسين مقترح",
+      "verification_ar": "الوصول للبحث من البداية دون فتح التخصيص.",
+      "new_implementation_in_this_research": false,
+      "native_comparison": {
+        "path": "App/NotesView.swift:56",
+        "evidence_ar": "searchable موجود في قائمة الملاحظات الأصلية.",
+        "verification_level": "source_review_only",
+        "source_sha": "93f5adb1c2ee43195e0ceda35d39a9992c11e320"
+      }
+    },
+    {
+      "id": "C008",
+      "decision_ar": "راجع المظهرين في كل شاشة.",
+      "source_ids": [
+        "CS07"
+      ],
+      "source_urls": [
+        "https://developer.apple.com/videos/play/wwdc2024/10150/"
+      ],
+      "application_is_inference": true,
+      "comparison_paths": [
+        "src/ui.tsx",
+        "App.tsx"
+      ],
+      "existing_evidence_ar": "light ود ark موجودان؛ لا دليل جهاز لهذه الدفعة.",
+      "implementation_status_ar": "منفذ؛ تحقق بصري وجهاز مطلوب",
+      "verification_ar": "قارن الحقول والأخطاء والأزرار في المظهرين.",
+      "new_implementation_in_this_research": false,
+      "native_comparison": {
+        "path": "App/HomeView.swift:36",
+        "evidence_ar": "ألوان النظام مستخدمة، مع بطاقة جلسة سوداء ونص أبيض صراحة؛ يحتاج فحصًا بصريًا.",
+        "verification_level": "source_review_only",
+        "source_sha": "93f5adb1c2ee43195e0ceda35d39a9992c11e320"
+      }
+    },
+    {
+      "id": "C009",
+      "decision_ar": "اسمح بتكبير النص دون قص.",
+      "source_ids": [
+        "CS07"
+      ],
+      "source_urls": [
+        "https://developer.apple.com/videos/play/wwdc2024/10150/"
+      ],
+      "application_is_inference": true,
+      "comparison_paths": [
+        "src/ui.tsx:22"
+      ],
+      "existing_evidence_ar": "Label يسمح FontScaling ؛ الضوابط لها minHeight.",
+      "implementation_status_ar": "منفذ جزئيًا؛ اختبار جهاز مطلوب",
+      "verification_ar": "أكبر DynamicType يحافظ على النص والإجراءات.",
+      "new_implementation_in_this_research": false,
+      "native_comparison": {
+        "path": "App/HomeView.swift:13",
+        "evidence_ar": "العنوان يستخدم حجمًا ثابتًا 36؛ معظم النصوص الأخرى تستخدم headline/title/footnote. ملاءمة أكبر Dynamic Type غير مثبتة.",
+        "verification_level": "source_review_only",
+        "source_sha": "93f5adb1c2ee43195e0ceda35d39a9992c11e320"
+      }
+    },
+    {
+      "id": "C010",
+      "decision_ar": "عاين RTL قبل اعتماد التخطيط.",
+      "source_ids": [
+        "CS07"
+      ],
+      "source_urls": [
+        "https://developer.apple.com/videos/play/wwdc2024/10150/"
+      ],
+      "application_is_inference": true,
+      "comparison_paths": [
+        "src/ui.tsx:6"
+      ],
+      "existing_evidence_ar": "arabicRow يعالج RTL المضيف لتجنب القلب مرتين.",
+      "implementation_status_ar": "منفذ جزئيًا؛ اختبار جهاز مطلوب",
+      "verification_ar": "شغّل واجهة عربية داخل مضيف LTR و RTL.",
+      "new_implementation_in_this_research": false,
+      "native_comparison": {
+        "path": "App/RusukhNativeApp.swift:11",
+        "evidence_ar": "layoutDirection مضبوط على rightToLeft في جذر التطبيق.",
+        "verification_level": "source_review_only",
+        "source_sha": "93f5adb1c2ee43195e0ceda35d39a9992c11e320"
+      }
+    },
+    {
+      "id": "C011",
+      "decision_ar": "أعد استخدام الوحدات بهويات ثابتة.",
+      "source_ids": [
+        "CS07"
+      ],
+      "source_urls": [
+        "https://developer.apple.com/videos/play/wwdc2024/10150/"
+      ],
+      "application_is_inference": true,
+      "comparison_paths": [
+        "src/workspace.ts",
+        "src/WorkspaceEditor.tsx"
+      ],
+      "existing_evidence_ar": "MODULES يحمل id والمحرر يستخدم key=id.",
+      "implementation_status_ar": "تنفيذ موجود؛ حافظ عليه",
+      "verification_ar": "تغيير الترتيب لا يبدّل حالة الوحدة بأخرى.",
+      "new_implementation_in_this_research": false,
+      "native_comparison": {
+        "path": "App/NotesView.swift:30",
+        "evidence_ar": "ForEach(results) يستخدم عناصر Identifiable؛ التخصيص الأصلي لم يثبت.",
+        "verification_level": "source_review_only",
+        "source_sha": "93f5adb1c2ee43195e0ceda35d39a9992c11e320"
+      }
+    },
+    {
+      "id": "C012",
+      "decision_ar": "افصل ترتيب الواجهة عن بيانات الدراسة.",
+      "source_ids": [
+        "CS07"
+      ],
+      "source_urls": [
+        "https://developer.apple.com/videos/play/wwdc2024/10150/"
+      ],
+      "application_is_inference": true,
+      "comparison_paths": [
+        "src/workspace.ts"
+      ],
+      "existing_evidence_ar": "دوال toggleModule و moveModule تعدّل Workspace فقط.",
+      "implementation_status_ar": "تنفيذ موجود؛ وسّع بأمان",
+      "verification_ar": "الترتيب والإخفاء لا يغيّران Note أو StudyCard.",
+      "new_implementation_in_this_research": false,
+      "native_comparison": {
+        "path": "App/RusukhNativeApp.swift:21",
+        "evidence_ar": "تبويبات أصلية ثابتة؛ لا حالة تخصيص معروضة في الملفين الجذريين المفحوصين.",
+        "verification_level": "source_review_only",
+        "source_sha": "93f5adb1c2ee43195e0ceda35d39a9992c11e320"
+      }
+    },
+    {
+      "id": "C013",
+      "decision_ar": "اعكس ترتيب العناصر للعربية.",
+      "source_ids": [
+        "CS08"
+      ],
+      "source_urls": [
+        "https://developer.apple.com/videos/play/wwdc2022/10034/"
+      ],
+      "application_is_inference": true,
+      "comparison_paths": [
+        "src/ui.tsx",
+        "App.tsx"
+      ],
+      "existing_evidence_ar": "arabicRow مستخدم؛ تغطية جميع الصفحات تحتاج تدقيقًا.",
+      "implementation_status_ar": "تحقق مطلوب",
+      "verification_ar": "تتبّع القراءة من اليمين عبر الترويسة والأزرار.",
+      "new_implementation_in_this_research": false,
+      "native_comparison": {
+        "path": "App/RusukhNativeApp.swift:11",
+        "evidence_ar": "اتجاه RTL مفروض في البيئة؛ لا يثبت صحة كل أيقونة أو حقل مختلط.",
+        "verification_level": "source_review_only",
+        "source_sha": "93f5adb1c2ee43195e0ceda35d39a9992c11e320"
+      }
+    },
+    {
+      "id": "C014",
+      "decision_ar": "طابق اتجاه الانتقال مع RTL.",
+      "source_ids": [
+        "CS02",
+        "CS08"
+      ],
+      "source_urls": [
+        "https://www.youtube.com/watch?v=rpIV5hd3Owg",
+        "https://developer.apple.com/videos/play/wwdc2022/10034/"
+      ],
+      "application_is_inference": true,
+      "comparison_paths": [
+        "App.tsx"
+      ],
+      "existing_evidence_ar": "Tab-state مخصص؛ الملاحظة Modal.",
+      "implementation_status_ar": "مراجعة مقترحة",
+      "verification_ar": "الرجوع والتقديم ومؤشر الصفحات تتفق مع ترتيب العربية.",
+      "new_implementation_in_this_research": false,
+      "native_comparison": {
+        "path": "App/NotesView.swift:28",
+        "evidence_ar": "NavigationStack موجود، لكن فتح الملاحظة يعرض sheet عند السطر67.",
+        "verification_level": "source_review_only",
+        "source_sha": "93f5adb1c2ee43195e0ceda35d39a9992c11e320"
+      }
+    },
+    {
+      "id": "C015",
+      "decision_ar": "اعكس الأيقونة بحسب معناها فقط.",
+      "source_ids": [
+        "CS08"
+      ],
+      "source_urls": [
+        "https://developer.apple.com/videos/play/wwdc2022/10034/"
+      ],
+      "application_is_inference": true,
+      "comparison_paths": [
+        "src/ui.tsx:33"
+      ],
+      "existing_evidence_ar": "SymbolView مستخدم؛ لا تدقيق بصري موثق لكل رمز.",
+      "implementation_status_ar": "تحقق جهاز مطلوب",
+      "verification_ar": "السهم الاتجاهي يتكيف؛ العدسة والوسائط لا تقلب عشوائيًا.",
+      "new_implementation_in_this_research": false,
+      "native_comparison": {
+        "path": "App/NotesView.swift:42",
+        "evidence_ar": "chevron.left ثابت بجانب الصف؛ يجب فحص علاقته بالفعل المودالي واتجاه النظام.",
+        "verification_level": "source_review_only",
+        "source_sha": "93f5adb1c2ee43195e0ceda35d39a9992c11e320"
+      }
+    },
+    {
+      "id": "C016",
+      "decision_ar": "احترم صيغ الأرقام المحلية.",
+      "source_ids": [
+        "CS08"
+      ],
+      "source_urls": [
+        "https://developer.apple.com/videos/play/wwdc2022/10034/"
+      ],
+      "application_is_inference": true,
+      "comparison_paths": [
+        "src/StudyHome.tsx:30",
+        "App.tsx:526"
+      ],
+      "existing_evidence_ar": "تواريخ ar-SA موجودة؛ بعض العدادات أعداد مباشرة.",
+      "implementation_status_ar": "تحسين مقترح",
+      "verification_ar": "جرّب٠١٢و 012 والتواريخ دون افتراض أن الجميع يفضّل صيغة واحدة.",
+      "new_implementation_in_this_research": false,
+      "native_comparison": {
+        "path": "App/HomeView.swift:66",
+        "evidence_ar": "العدادات تستخدم interpolation وmonospacedDigit؛ تنسيق locale صريح غير ظاهر هنا.",
+        "verification_level": "source_review_only",
+        "source_sha": "93f5adb1c2ee43195e0ceda35d39a9992c11e320"
+      }
+    },
+    {
+      "id": "C017",
+      "decision_ar": "اختبر العربية مع أسماء إنجليزية.",
+      "source_ids": [
+        "CS08"
+      ],
+      "source_urls": [
+        "https://developer.apple.com/videos/play/wwdc2022/10034/"
+      ],
+      "application_is_inference": true,
+      "comparison_paths": [
+        "src/ui.tsx:22",
+        "src/ui.tsx:75"
+      ],
+      "existing_evidence_ar": "writingDirectionrtl عام؛ العناوين قدتضم PDF و YouTube.",
+      "implementation_status_ar": "اختبار مقترح",
+      "verification_ar": "اسم ملف مختلط يبقى مقروءًا ورابطه صحيحًا.",
+      "new_implementation_in_this_research": false,
+      "native_comparison": {
+        "path": "App/NotesView.swift:153",
+        "evidence_ar": "TextField وTextEditor أصليان؛ اختبار العربية والروابط الإنجليزية مطلوب.",
+        "verification_level": "source_review_only",
+        "source_sha": "93f5adb1c2ee43195e0ceda35d39a9992c11e320"
+      }
+    },
+    {
+      "id": "C018",
+      "decision_ar": "لا توسّع تباعد الحروف العربية.",
+      "source_ids": [
+        "CS08"
+      ],
+      "source_urls": [
+        "https://developer.apple.com/videos/play/wwdc2022/10034/"
+      ],
+      "application_is_inference": true,
+      "comparison_paths": [
+        "src/ui.tsx"
+      ],
+      "existing_evidence_ar": "لم يظهر letterSpacing فيالمكوّن المشترك.",
+      "implementation_status_ar": "قاعدة محفوظة؛ لا تغيير مطلوب",
+      "verification_ar": "افحص التشكيل والاتصال عند إضافة خط أو نمط.",
+      "new_implementation_in_this_research": false
+    },
+    {
+      "id": "C019",
+      "decision_ar": "اترك ارتفاعًا كافيًا للتشكيل.",
+      "source_ids": [
+        "CS08"
+      ],
+      "source_urls": [
+        "https://developer.apple.com/videos/play/wwdc2022/10034/"
+      ],
+      "application_is_inference": true,
+      "comparison_paths": [
+        "src/ui.tsx:24"
+      ],
+      "existing_evidence_ar": "lineHeight يساويتقريبًا 1.5 لـ Label ؛ Field له 23.",
+      "implementation_status_ar": "منفذ جزئيًا؛ اختبار جهاز مطلوب",
+      "verification_ar": "نص مشكول مع خط كبير لا يفقد الحركات.",
+      "new_implementation_in_this_research": false,
+      "native_comparison": {
+        "path": "App/NotesView.swift:156",
+        "evidence_ar": "TextEditor له minHeight220؛ سلامة التشكيل عند تكبير الخط تحتاج جهازًا.",
+        "verification_level": "source_review_only",
+        "source_sha": "93f5adb1c2ee43195e0ceda35d39a9992c11e320"
+      }
+    },
+    {
+      "id": "C020",
+      "decision_ar": "عرّب أسباب طلب الأذونات.",
+      "source_ids": [
+        "CS05"
+      ],
+      "source_urls": [
+        "https://www.youtube.com/watch?v=ZA3_s0of8FY"
+      ],
+      "application_is_inference": true,
+      "comparison_paths": [
+        "app.json"
+      ],
+      "existing_evidence_ar": "أسباب الكاميرا والصور والميكروفون عربية.",
+      "implementation_status_ar": "منفذ في إعداد البناء؛ اختبار جهاز مطلوب",
+      "verification_ar": "افحص النص الظاهر فعليًا؛ ExpoGo قد يعرض إذن المضيف.",
+      "new_implementation_in_this_research": false
+    },
+    {
+      "id": "C021",
+      "decision_ar": "طابق اسم التطبيق مع لغته.",
+      "source_ids": [
+        "CS05"
+      ],
+      "source_urls": [
+        "https://www.youtube.com/watch?v=ZA3_s0of8FY"
+      ],
+      "application_is_inference": true,
+      "comparison_paths": [
+        "app.json"
+      ],
+      "existing_evidence_ar": "name يساوي رُسوخ.",
+      "implementation_status_ar": "تنفيذ موجود؛ التثبيت الأصلي غير مثبت",
+      "verification_ar": "تحقق من اسم الأيقونة في بناء SwiftUI الموقّع.",
+      "new_implementation_in_this_research": false
+    },
+    {
+      "id": "C022",
+      "decision_ar": "اختَر الصور بمنتقي النظام.",
+      "source_ids": [
+        "CS04"
+      ],
+      "source_urls": [
+        "https://www.youtube.com/watch?v=8K_o1QGh0SE"
+      ],
+      "application_is_inference": true,
+      "comparison_paths": [
+        "src/media/MediaCapturePanel.tsx",
+        "package.json"
+      ],
+      "existing_evidence_ar": "MediaCapturePanel يستدعي launchImageLibraryAsync ويخرج عند result.canceled قبل savePhoto.",
+      "implementation_status_ar": "منفذ في Expo؛ اختبار جهاز مطلوب",
+      "verification_ar": "اختيار صورة ثم الإلغاء لا ينشئ مرفقًا تالفًا.",
+      "new_implementation_in_this_research": false,
+      "native_comparison": {
+        "path": "App/NotesView.swift:187",
+        "evidence_ar": "المحرر الأصلي المفحوص يستخدم UIImagePickerController للكاميرا؛ لا يظهر PHPicker لمكتبة الصور في هذا الملف.",
+        "verification_level": "source_review_only",
+        "source_sha": "93f5adb1c2ee43195e0ceda35d39a9992c11e320"
+      }
+    },
+    {
+      "id": "C023",
+      "decision_ar": "اكتب أنواع أخطاء قابلة للمعالجة.",
+      "source_ids": [
+        "CS06"
+      ],
+      "source_urls": [
+        "https://www.youtube.com/watch?v=IKwhEvDyb1U"
+      ],
+      "application_is_inference": true,
+      "comparison_paths": [
+        "src/backup/portable.ts",
+        "App.tsx"
+      ],
+      "existing_evidence_ar": "بعض catch يعرض String(error)خامًا.",
+      "implementation_status_ar": "تحسين مقترح",
+      "verification_ar": "فرّق فشل القراءة والمخطط والمساحة برسالة وفعل مناسب.",
+      "new_implementation_in_this_research": false,
+      "native_comparison": {
+        "path": "App/ArabicModelView.swift:39",
+        "evidence_ar": "CancellationError يعالج منفصلًا عن الخطأ العام؛ BackupSettingsView يعرض خطأ المعاينة.",
+        "verification_level": "source_review_only",
+        "source_sha": "93f5adb1c2ee43195e0ceda35d39a9992c11e320"
+      }
+    },
+    {
+      "id": "C024",
+      "decision_ar": "اجعل إعادة المحاولة تحفظ المدخلات.",
+      "source_ids": [
+        "CS06"
+      ],
+      "source_urls": [
+        "https://www.youtube.com/watch?v=IKwhEvDyb1U"
+      ],
+      "application_is_inference": true,
+      "comparison_paths": [
+        "src/SourcesWorkbench.tsx",
+        "App.tsx"
+      ],
+      "existing_evidence_ar": "المصدر يملك message و error وإلغاء؛ يلزم فحص كل خطأ.",
+      "implementation_status_ar": "تحسين مقترح",
+      "verification_ar": "فشل القراءة أو الاستيراد لا يمسح النص أو المسودة.",
+      "new_implementation_in_this_research": false,
+      "native_comparison": {
+        "path": "App/BackupSettingsView.swift:320",
+        "evidence_ar": "فشل تطبيق الاستيراد يترك المعاينة مفتوحة مع localError؛ يلزم اختبار مسار فعلي.",
+        "verification_level": "source_review_only",
+        "source_sha": "93f5adb1c2ee43195e0ceda35d39a9992c11e320"
+      }
+    },
+    {
+      "id": "C025",
+      "decision_ar": "افصل الإلغاء عن فشل العملية.",
+      "source_ids": [
+        "CS06"
+      ],
+      "source_urls": [
+        "https://www.youtube.com/watch?v=IKwhEvDyb1U"
+      ],
+      "application_is_inference": true,
+      "comparison_paths": [
+        "src/SourcesWorkbench.tsx:47",
+        "App.tsx:386"
+      ],
+      "existing_evidence_ar": "يوجد canceledguard ورسالةإلغاء القراءة.",
+      "implementation_status_ar": "تنفيذ موجود؛ حافظ عليه",
+      "verification_ar": "الإلغاء لا يعرض نجاحًا ولا ينفّذ حفظًا.",
+      "new_implementation_in_this_research": false,
+      "native_comparison": {
+        "path": "App/ArabicModelView.swift:40",
+        "evidence_ar": "إلغاء تحميل النموذج له رسالة منفصلة؛ stop يلغي Task.",
+        "verification_level": "source_review_only",
+        "source_sha": "93f5adb1c2ee43195e0ceda35d39a9992c11e320"
+      }
+    },
+    {
+      "id": "C026",
+      "decision_ar": "اختبر التطبيق على آيفون فعلي.",
+      "source_ids": [
+        "CS03"
+      ],
+      "source_urls": [
+        "https://www.youtube.com/watch?v=YPPzOIi51J0"
+      ],
+      "application_is_inference": true,
+      "comparison_paths": [
+        "../README.md",
+        "RELEASE_0.4.2.md"
+      ],
+      "existing_evidence_ar": "التوثيق يصرّح بعدم إثبات التثبيت والاختبارات الأصلية.",
+      "implementation_status_ar": "غير منفذ على جهاز المستخدم",
+      "verification_ar": "سجّل الجهاز والإصدار وخطوات Files و VoiceOver والصوت.",
+      "new_implementation_in_this_research": false
+    },
+    {
+      "id": "C027",
+      "decision_ar": "افصل نجاح البناء عن التثبيت.",
+      "source_ids": [
+        "CS03"
+      ],
+      "source_urls": [
+        "https://www.youtube.com/watch?v=YPPzOIi51J0"
+      ],
+      "application_is_inference": true,
+      "comparison_paths": [
+        "../README.md"
+      ],
+      "existing_evidence_ar": "README يميز IPA غير الموقع والمحاكي عن آيفون.",
+      "implementation_status_ar": "قاعدة توثيق موجودة",
+      "verification_ar": "لا تُحوّل رابط Expo أو CI إلى ادعاء تثبيت SwiftUI.",
+      "new_implementation_in_this_research": false
+    },
+    {
+      "id": "C028",
+      "decision_ar": "سمّ التبويبات بحسب المهمة.",
+      "source_ids": [
+        "CS09"
+      ],
+      "source_urls": [
+        "https://developer.apple.com/videos/play/wwdc2022/10001/"
+      ],
+      "application_is_inference": true,
+      "comparison_paths": [
+        "App.tsx:31",
+        "src/workspace.ts"
+      ],
+      "existing_evidence_ar": "التبويبات تتغير حسب أول ثلاث أدوات مثبتة.",
+      "implementation_status_ar": "تحسين مقترح",
+      "verification_ar": "ابدأ بدراسة أو ملاحظات أو مصادر؛ لا يحتاج المستخدم فهم البنية الداخلية.",
+      "new_implementation_in_this_research": false,
+      "native_comparison": {
+        "path": "App/RusukhNativeApp.swift:21",
+        "evidence_ar": "خمسة تبويبات مسماة: الرئيسية، ملاحظاتي، المراجعة، الشبكة، ذكاء محلي.",
+        "verification_level": "source_review_only",
+        "source_sha": "93f5adb1c2ee43195e0ceda35d39a9992c11e320"
+      }
+    },
+    {
+      "id": "C029",
+      "decision_ar": "ثبّت التنقل الأساسي.",
+      "source_ids": [
+        "CS09"
+      ],
+      "source_urls": [
+        "https://developer.apple.com/videos/play/wwdc2022/10001/"
+      ],
+      "application_is_inference": true,
+      "comparison_paths": [
+        "App.tsx:80",
+        "src/workspace.ts:60"
+      ],
+      "existing_evidence_ar": "pinnedModules يربط الشريط بترتيب الرئيسية.",
+      "implementation_status_ar": "تحسين مقترح",
+      "verification_ar": "ترتيب بطاقات الرئيسية لا ينقل مواضع التنقل المعتادة.",
+      "new_implementation_in_this_research": false,
+      "native_comparison": {
+        "path": "App/RusukhNativeApp.swift:21",
+        "evidence_ar": "TabView أصلي ثابت؛ مشكلة اعتماد الشريط على ترتيب الوحدات تخص Expo.",
+        "verification_level": "source_review_only",
+        "source_sha": "93f5adb1c2ee43195e0ceda35d39a9992c11e320"
+      }
+    },
+    {
+      "id": "C030",
+      "decision_ar": "اجعل الرجوع يوضح الوجهة.",
+      "source_ids": [
+        "CS09"
+      ],
+      "source_urls": [
+        "https://developer.apple.com/videos/play/wwdc2022/10001/"
+      ],
+      "application_is_inference": true,
+      "comparison_paths": [
+        "App.tsx"
+      ],
+      "existing_evidence_ar": "حوار تحرير ملاحظة؛ ليس NavigationStack في Expo.",
+      "implementation_status_ar": "تحسين مقترح",
+      "verification_ar": "فتح رابط ملاحظة ثم الرجوع يحفظ السياق والبحث.",
+      "new_implementation_in_this_research": false,
+      "native_comparison": {
+        "path": "App/NotesView.swift:67",
+        "evidence_ar": "تحرير الملاحظة sheet، لذا الرجوع الهرمي بين الملاحظات لا يثبت بهذا الملف.",
+        "verification_level": "source_review_only",
+        "source_sha": "93f5adb1c2ee43195e0ceda35d39a9992c11e320"
+      }
+    },
+    {
+      "id": "C031",
+      "decision_ar": "خصّص الحوار للمهام المستقلة.",
+      "source_ids": [
+        "CS09"
+      ],
+      "source_urls": [
+        "https://developer.apple.com/videos/play/wwdc2022/10001/"
+      ],
+      "application_is_inference": true,
+      "comparison_paths": [
+        "App.tsx",
+        "src/WorkspaceEditor.tsx"
+      ],
+      "existing_evidence_ar": "التحرير والتخصيص يستخدمان Modal.",
+      "implementation_status_ar": "تنفيذ موجود؛ راجع الاستخدام",
+      "verification_ar": "التنقل المتكرر بين الملاحظات لا يتحول لسلسلة حوارات.",
+      "new_implementation_in_this_research": false,
+      "native_comparison": {
+        "path": "App/NotesView.swift:67",
+        "evidence_ar": "إضافة/تحرير الملاحظة في sheet؛ الإعدادات أيضًا sheet من HomeView.",
+        "verification_level": "source_review_only",
+        "source_sha": "93f5adb1c2ee43195e0ceda35d39a9992c11e320"
+      }
+    },
+    {
+      "id": "C032",
+      "decision_ar": "اكتب «حفظ» و«إلغاء» بوضوح.",
+      "source_ids": [
+        "CS09"
+      ],
+      "source_urls": [
+        "https://developer.apple.com/videos/play/wwdc2022/10001/"
+      ],
+      "application_is_inference": true,
+      "comparison_paths": [
+        "src/WorkspaceEditor.tsx"
+      ],
+      "existing_evidence_ar": "«حفظ مساحتي» و«إلغاء التخصيص» موجودان.",
+      "implementation_status_ar": "تنفيذ موجود؛ حافظ عليه",
+      "verification_ar": "الحفظ والإلغاء لهما نتيجتان منفصلتان يمكن التنبؤ بهما.",
+      "new_implementation_in_this_research": false,
+      "native_comparison": {
+        "path": "App/NotesView.swift:194",
+        "evidence_ar": "حفظ وإلغاء موجودان كـToolbarItem؛ زر الإلغاء يغلق مباشرة.",
+        "verification_level": "source_review_only",
+        "source_sha": "93f5adb1c2ee43195e0ceda35d39a9992c11e320"
+      }
+    },
+    {
+      "id": "C033",
+      "decision_ar": "احمِ النص عند ترك التحرير.",
+      "source_ids": [
+        "CS09"
+      ],
+      "source_urls": [
+        "https://developer.apple.com/videos/play/wwdc2022/10001/"
+      ],
+      "application_is_inference": true,
+      "comparison_paths": [
+        "App.tsx:234",
+        "App.tsx:294"
+      ],
+      "existing_evidence_ar": "حوار حماية مسودة ومحرر بطاقة موجود.",
+      "implementation_status_ar": "Expo يحمي المسودة؛ فجوة إلغاء مثبتة في SwiftUI",
+      "verification_ar": "الرجوع أو إغلاق الحوار لا يفقد نصًا غير محفوظ.",
+      "new_implementation_in_this_research": false,
+      "native_comparison": {
+        "path": "App/NotesView.swift:194",
+        "evidence_ar": "فجوة مثبتة بالمصدر: زر إلغاء يستدعي dismiss مباشرة؛ لا guard للتعديلات أو interactiveDismissDisabled ظاهر في NotesView.",
+        "verification_level": "source_review_only",
+        "source_sha": "93f5adb1c2ee43195e0ceda35d39a9992c11e320"
+      }
+    },
+    {
+      "id": "C034",
+      "decision_ar": "أغلق الحوار الفارغ دون تعطيل.",
+      "source_ids": [
+        "CS09"
+      ],
+      "source_urls": [
+        "https://developer.apple.com/videos/play/wwdc2022/10001/"
+      ],
+      "application_is_inference": true,
+      "comparison_paths": [
+        "App.tsx",
+        "src/WorkspaceEditor.tsx"
+      ],
+      "existing_evidence_ar": "closeNote يخرج عبر finishDraftClose(false) إذا كانت dirty=false.",
+      "implementation_status_ar": "منفذ للملاحظة؛ تحقق لبقية الحوارات",
+      "verification_ar": "فتح محرر ثم إلغاؤه دون تعديل لا يولّد تحذير فقدان زائفًا.",
+      "new_implementation_in_this_research": false,
+      "native_comparison": {
+        "path": "App/NotesView.swift:194",
+        "evidence_ar": "المحرر الأصلي يغلق مباشرة سواء فارغًا أو معدلًا؛ يجب حماية المعدل مع إبقاء الفارغ سهل الإغلاق.",
+        "verification_level": "source_review_only",
+        "source_sha": "93f5adb1c2ee43195e0ceda35d39a9992c11e320"
+      }
+    },
+    {
+      "id": "C035",
+      "decision_ar": "قلّل الحوارات المتراكبة.",
+      "source_ids": [
+        "CS09"
+      ],
+      "source_urls": [
+        "https://developer.apple.com/videos/play/wwdc2022/10001/"
+      ],
+      "application_is_inference": true,
+      "comparison_paths": [
+        "App.tsx",
+        "src/SourcesWorkbench.tsx"
+      ],
+      "existing_evidence_ar": "عدة مسارات: محرر وبطاقات ومنتقي ومصدر.",
+      "implementation_status_ar": "مراجعة مقترحة",
+      "verification_ar": "منتقي الملف يعود للحوار الصحيح ولا يترك طبقة غير قابلة للإغلاق.",
+      "new_implementation_in_this_research": false,
+      "native_comparison": {
+        "path": "App/NotesView.swift:207",
+        "evidence_ar": "sheet الكاميرا داخل sheet المحرر؛ يحتاج فحص العودة والأذونات.",
+        "verification_level": "source_review_only",
+        "source_sha": "93f5adb1c2ee43195e0ceda35d39a9992c11e320"
+      }
+    },
+    {
+      "id": "C036",
+      "decision_ar": "لا تحشر كل الوظائف فيالرئيسية.",
+      "source_ids": [
+        "CS09"
+      ],
+      "source_urls": [
+        "https://developer.apple.com/videos/play/wwdc2022/10001/"
+      ],
+      "application_is_inference": true,
+      "comparison_paths": [
+        "src/StudyHome.tsx"
+      ],
+      "existing_evidence_ar": "كانت بطاقات عدة أدوات تسبق زر ملاحظة جديدة في أساس 0.4.2.",
+      "implementation_status_ar": "تحسين مقترح",
+      "verification_ar": "أظهر الإجراء التالي ووزّع التفاصيل؛ التخصيص اختياري.",
+      "new_implementation_in_this_research": false,
+      "native_comparison": {
+        "path": "App/HomeView.swift:39",
+        "evidence_ar": "الملاحظات الحديثة VStack دون زر فتح؛ الحالة الفارغة تطلب الانتقال إلى ملاحظاتي، ولا إجراء إنشاء مباشر.",
+        "verification_level": "source_review_only",
+        "source_sha": "93f5adb1c2ee43195e0ceda35d39a9992c11e320"
+      }
+    }
+  ],
+  "comparison_snapshot_ar": "الملاحظات الأولى رُصدت في أساس 0.4.2. قد يتغير الكود بالتوازي أثناء التنفيذ؛ الجدول ليس تقرير اعتماد للإصدار الجديد. على مسؤول الإصدار تحديث حالة القرارات بعد دمج التغييرات واختبارها.",
+  "native_findings": [
+    {
+      "id": "N01",
+      "severity": "high",
+      "path": "App/NotesView.swift:194",
+      "finding_ar": "الإلغاء الأصلي يغلق التعديلات مباشرة، بينما Expo يحمي المسودة؛ أضف حماية dirty واختبر السحب للإغلاق أيضًا.",
+      "status": "source-confirmed, not repaired by this research"
+    },
+    {
+      "id": "N02",
+      "severity": "usability",
+      "path": "App/HomeView.swift:39",
+      "finding_ar": "آخر الملاحظات معروضة دون فعل فتح؛ البداية الفارغة تحيل المستخدم لتبويب آخر.",
+      "status": "source-confirmed, not repaired by this research"
+    },
+    {
+      "id": "N03",
+      "severity": "capability",
+      "path": "App/ArabicModelView.swift:157",
+      "finding_ar": "إدارة تنزيل النموذج وإلغائه وحذفه موجودة في SwiftUI. لا تدّع أنها موجودة أو مثبتة في Expo؛ النموذجان والمحركان منفصلان.",
+      "status": "source-confirmed, device inference unverified"
+    },
+    {
+      "id": "N04",
+      "severity": "scope",
+      "path": "App/RusukhNativeApp.swift:21",
+      "finding_ar": "التبويبات الأصلية ثابتة؛ تخصيص وحدات Expo لا يعني أن SwiftUI يدعم التخصيص نفسه.",
+      "status": "reviewed files only"
+    }
+  ]
+}

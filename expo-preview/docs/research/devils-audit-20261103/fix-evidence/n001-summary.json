@@ -1,0 +1,71 @@
+{
+  "finding_id": "N001",
+  "checkpoint": "23724106b7a9555efa4cd4f95ef77d2cff8273e3",
+  "scope": "Empty home canvas and first workspace; no App edits by this agent, no version change, no commit.",
+  "changes_ar": [
+    "كل الأقسام في defaultWorkspace غير مفعلة؛ fallback فارغ مع بقاء readWorkspace المحفوظ دون تغيير.",
+    "القالب بسيط مستقل واختياري ويعرض المراجعة والملاحظات.",
+    "StudyHome الفارغ يعرض ثلاثة أفعال صغيرة فقط، دون تاريخ أو شعار أو إحصاءات أو بطاقة شرح.",
+    "أزيل عنوان مساحتي الداخلي عند وجود أقسام كي يبقى عنوان App واحدًا.",
+    "fixtures المستخدم القديم تحفظ simple صراحةً؛ حالات البداية بلا تخطيط واختبار استعادة قسم مخفي مستقلة."
+  ],
+  "toolbar": {
+    "إضافة مادة": "onModule('sources')",
+    "ملاحظة جديدة": "onNewNote()",
+    "إضافة أداة": "onCustomize()"
+  },
+  "add_tool_meaning_ar": "يفتح محرر تخصيص المساحة الموجود لإظهار قسم وإعادة ترتيبه؛ لا ينزّل مكوّنًا أو نموذجًا ولا يحذف بيانات. الدليل العام يظل متاحًا من App.",
+  "red": {
+    "home": {
+      "failed": 2,
+      "passed": 8,
+      "log": "n001-home-red.log"
+    },
+    "workspace": {
+      "failed": 2,
+      "passed": 12,
+      "log": "n001-workspace-red.log"
+    },
+    "duplicate_title": {
+      "failed": 1,
+      "passed": 9,
+      "log": "n001-title-red.log"
+    }
+  },
+  "green": {
+    "ui": {
+      "suites": 5,
+      "tests": 41,
+      "log": "n001-integration-green.log"
+    },
+    "workspace_and_sources": {
+      "tests": 14,
+      "log": "n001-workspace-green.log"
+    },
+    "typecheck_log": "n001-typecheck.log"
+  },
+  "limits_ar": [
+    "لم تُجر تجربة آيفون فعلي أو مراجعة بصرية أصلية.",
+    "الاختبار هنا للواجهة؛ إزالة المحتوى المزروع من قاعدة البيانات تعديل مستقل لفريق التخزين.",
+    "App يعرض أي مسودة مستردة خارج StudyHome؛ لم يُغيّر هذا التدفق.",
+    "إضافة أداة ما زالت تفتح محرر التخصيص الحالي؛ تبسيط الإضافة داخل صف الدليل N002 خارج نطاق هذا الإصلاح."
+  ],
+  "files": [
+    "src/StudyHome.tsx",
+    "src/workspace.ts",
+    "tests/home.ui.test.jsx",
+    "tests/workspace.test.cjs",
+    "tests/workspace.ui.test.jsx",
+    "tests/safety.ui.test.jsx",
+    "tests/draft-integration.ui.test.jsx"
+  ],
+  "sha256": {
+    "src/StudyHome.tsx": "e96884dcce9500f4f1a2f6c1e58f33ec6ff7013f001a2b123386ad7f6c989365",
+    "src/workspace.ts": "4a9c1f81ad7775d98fd3786ee471d2f307c5248abf9c55c96045458214590e34",
+    "tests/home.ui.test.jsx": "b2edf5fae460515987af715a74e5af4e8c79a0410dfbbe540f16bae93f1520ad",
+    "tests/workspace.test.cjs": "1737e652401c51ef82776dc6b5ba1954177a154404069b7a5c7db7906c7b83fb",
+    "tests/workspace.ui.test.jsx": "77af44c2b6b904c1d5beaf0e957ead545a4cdaf937f657943d0d2562536fc118",
+    "tests/safety.ui.test.jsx": "08adbbc0d5fa3bc46672538595438958518ba13e7a9b7d1ee50b1f6e82c6b1bc",
+    "tests/draft-integration.ui.test.jsx": "a9596d6503997456e190b995b83492f2fac4952251a9d37d344a3a8cd09aaf53"
+  }
+}

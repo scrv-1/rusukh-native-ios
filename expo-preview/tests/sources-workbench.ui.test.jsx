@@ -125,3 +125,72 @@ test('image-only PDF displays its limit honestly without a saveable empty draft'
   expect(screen.getByText('لم نجد نصًا قابلًا للاستخراج؛ لم نُجرِ OCR.')).toBeTruthy();
   expect(onDraft).not.toHaveBeenCalled();
 });
+
+test('paste intake derives a title and opens a reviewable draft without choosing a file',async()=>{
+  await start();
+  expect(screen.getByRole('button',{name:'مراجعة النص كمسودة'})).toBeDisabled();
+  await fireEvent.changeText(screen.getByLabelText('النص الذي تريد دراسته'),'  عنوان الدرس\n\nس: ما العلم؟\nج: معرفة  ');
+  expect(onDraft).not.toHaveBeenCalled();
+  await press('مراجعة النص كمسودة');
+  expect(onDraft).toHaveBeenCalledWith({title:'عنوان الدرس',body:expect.stringContaining('س: ما العلم؟\nج: معرفة')});
+  expect(onDraft.mock.calls[0][0].body.startsWith('المصدر: نص ملصق\n\n')).toBe(true);
+  expect(picker.getDocumentAsync).not.toHaveBeenCalled();
+});
+
+test('pasted text and custom title survive switching tools and size validation failures',async()=>{
+  await start();
+  const oversized='ع'.repeat(524289);
+  await fireEvent.changeText(screen.getByLabelText('النص الذي تريد دراسته'),oversized);
+  await press('تعديل عنوان النص');
+  await fireEvent.changeText(screen.getByLabelText('عنوان النص'),'محاضرتي');
+  await press('قراءة PDF');await press('نص وملفات');
+  expect(screen.getByLabelText('عنوان النص').props.value).toBe('محاضرتي');
+  expect(screen.getByLabelText('النص الذي تريد دراسته').props.value).toBe(oversized);
+  await press('مراجعة النص كمسودة');
+  expect(screen.getByRole('alert')).toHaveTextContent('النص أكبر من الحد المسموح.');
+  expect(onDraft).not.toHaveBeenCalled();
+  expect(screen.getByLabelText('النص الذي تريد دراسته').props.value).toBe(oversized);
+  await fireEvent.changeText(screen.getByLabelText('النص الذي تريد دراسته'),'نص صالح');
+  await press('مراجعة النص كمسودة');
+  expect(onDraft).toHaveBeenCalledWith({title:'محاضرتي',body:expect.stringContaining('نص صالح')});
+});
+
+test.each([
+  ['SRT','1\n00:00:02,000 --> 00:00:04,000\nس: ما العلم؟\nج: معرفة'],
+  ['VTT','WEBVTT\n\n00:02.000 --> 00:04.000\nس: ما العلم؟\nج: معرفة'],
+])('pasted %s transcript automatically preserves timed evidence without format setup',async(kind,body)=>{
+  await start();await press('فيديو YouTube');
+  expect(screen.getByRole('button',{name:'فيديو YouTube',selected:true})).toBeTruthy();
+  expect(screen.queryByRole('button',{name:'SRT'})).toBeNull();
+  await fireEvent.changeText(screen.getByLabelText('رابط YouTube'),'https://youtu.be/dQw4w9WgXcQ');
+  await fireEvent.changeText(screen.getByLabelText('نص التفريغ'),body);
+  await press('معاينة التفريغ');
+  expect(screen.getByRole('button',{name:'فتح المقطع 1 عند 2 ثانية'})).toBeTruthy();
+  await press('مراجعة مسودة YouTube');
+  expect(onDraft).toHaveBeenCalledWith(expect.objectContaining({body:expect.stringContaining(`نوع التفريغ: ${kind}`)}));
+});
+
+test('automatic detection keeps malformed timing visible as an error; optional override is explicit',async()=>{
+  await start();await press('فيديو YouTube');
+  await fireEvent.changeText(screen.getByLabelText('رابط YouTube'),'https://youtu.be/dQw4w9WgXcQ');
+  await fireEvent.changeText(screen.getByLabelText('نص التفريغ'),'1\n00:00:02,000 --> 00:00:01,000\nنص');
+  await press('معاينة التفريغ');
+  expect(screen.getByRole('alert')).toHaveTextContent(/مقطع تفريغ غير صالح/);
+  expect(onDraft).not.toHaveBeenCalled();
+  await press('خيارات التفريغ');await press('نص عادي');
+  expect(screen.getByRole('button',{name:'نص عادي',selected:true})).toBeTruthy();
+  await press('معاينة التفريغ');await press('مراجعة مسودة YouTube');
+  expect(onDraft).toHaveBeenCalledWith(expect.objectContaining({body:expect.stringContaining('نوع التفريغ: TEXT')}));
+});
+
+
+test('a rejected pasted-source title does not lose the text or create an invalid draft',async()=>{
+  await start();
+  await fireEvent.changeText(screen.getByLabelText('النص الذي تريد دراسته'),'نص مهم');
+  await press('تعديل عنوان النص');
+  await fireEvent.changeText(screen.getByLabelText('عنوان النص'),'عنوان\u0000غير صالح');
+  await press('مراجعة النص كمسودة');
+  expect(screen.getByRole('alert')).toHaveTextContent(/العنوان يحتوي على محرف غير صالح/);
+  expect(screen.getByLabelText('النص الذي تريد دراسته').props.value).toBe('نص مهم');
+  expect(onDraft).not.toHaveBeenCalled();
+});

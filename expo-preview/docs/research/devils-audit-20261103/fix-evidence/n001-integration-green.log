@@ -1,0 +1,11 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> rusukh-ios@0.5.0 test:ui
+> jest --runInBand --runTestsByPath tests/home.ui.test.jsx tests/workspace.ui.test.jsx tests/safety.ui.test.jsx tests/draft-integration.ui.test.jsx tests/recovery.ui.test.jsx
+
+
+Test Suites: 5 passed, 5 total
+Tests:       41 passed, 41 total
+Snapshots:   0 total
+Time:        3.641 s, estimated 8 s
+Ran all test suites within paths "tests/home.ui.test.jsx", "tests/workspace.ui.test.jsx", "tests/safety.ui.test.jsx", "tests/draft-integration.ui.test.jsx", "tests/recovery.ui.test.jsx".

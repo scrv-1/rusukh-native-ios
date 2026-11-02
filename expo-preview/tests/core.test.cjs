@@ -150,6 +150,79 @@ test('ease always bounded for repeated failures',()=>{
   for(let i=0;i<100;i++)result=scheduleReview(result,'again',i*10000);
   assert.equal(result.ease,1.3);
 });
+
+function assertSuccessfulGradeOrder(card, now, context) {
+  const before={...card};
+  const hard=scheduleReview(card,'hard',now);
+  const good=scheduleReview(card,'good',now);
+  const easy=scheduleReview(card,'easy',now);
+  assert.ok(hard.dueAt<=good.dueAt,
+    `${context}: Hard ${hard.intervalDays}d must not follow Good ${good.intervalDays}d`);
+  assert.ok(good.dueAt<=easy.dueAt,
+    `${context}: Good ${good.intervalDays}d must not follow Easy ${easy.intervalDays}d`);
+  for(const result of [hard,good,easy]) {
+    assert.ok(Number.isInteger(result.intervalDays) && result.intervalDays>=1,context);
+    assert.equal(result.dueAt,now+result.intervalDays*MS_DAY,context);
+    assert.equal(result.repetitions,card.repetitions+1,context);
+    assert.equal(result.updatedAt,now,context);
+    assert.ok(result.ease>=1.3 && result.ease<=3,context);
+    for(const field of ['id','noteId','question','answer']) assert.equal(result[field],card[field],context);
+  }
+  const again=scheduleReview(card,'again',now);
+  assert.equal(again.dueAt,now+10*60*1000,context);
+  assert.equal(again.intervalDays,0,context);
+  assert.equal(again.repetitions,0,context);
+  assert.deepEqual(card,before,`${context}: scheduling must not mutate the stored card`);
+  return [again,hard,good,easy];
+}
+
+test('S003: first Easy does not make the next Hard later than Good',()=>{
+  const first=scheduleReview(exampleCard,'easy',1000);
+  const now=first.dueAt;
+  const [,hard,good,easy]=assertSuccessfulGradeOrder(first,now,'after first Easy');
+  assert.equal(first.intervalDays,4);
+  assert.equal(hard.intervalDays,5);
+  assert.equal(good.intervalDays,5);
+  assert.equal(easy.intervalDays,15);
+});
+
+test('S003: every generated grading sequence through seven reviews preserves grade order',()=>{
+  const grades=['again','hard','good','easy'];
+  const queue=[{card:{...exampleCard},path:[]}];
+  let checked=0;
+  for(let index=0;index<queue.length;index++) {
+    const {card,path}=queue[index];
+    const next=assertSuccessfulGradeOrder(Object.freeze(card),card.dueAt+1234,path.join('→') || 'new');
+    checked++;
+    if(path.length<7) next.forEach((card,i)=>queue.push({card,path:[...path,grades[i]]}));
+  }
+  assert.equal(checked,21845);
+});
+
+test('S003: backup-accepted fractional intervals, legacy ease and repetition states preserve order',()=>{
+  const intervals=[0,0.01,0.5,1,4,40,1000,365000];
+  const eases=[1,1.3,2.5,2.85,3,4,5];
+  const repetitions=[0,1,2,5,100000];
+  for(const intervalDays of intervals) for(const ease of eases) for(const count of repetitions) {
+    const card={...exampleCard,intervalDays,ease,repetitions:count};
+    const backup={...exampleBackup(),cards:[card],reviews:[]};
+    assert.equal(validateBackup(backup),true);
+    assertSuccessfulGradeOrder(Object.freeze(card),1700000000000,
+      `restored interval=${intervalDays}, ease=${ease}, repetitions=${count}`);
+  }
+});
+
+test('S003: first-review targets and a lapse restart retain the simplified policy',()=>{
+  const now=1000;
+  assert.deepEqual(['hard','good','easy'].map(grade=>scheduleReview(exampleCard,grade,now).intervalDays),[1,1,4]);
+  const first=scheduleReview(exampleCard,'good',now);
+  const second=scheduleReview(first,'good',first.dueAt);
+  const third=scheduleReview(second,'good',second.dueAt);
+  assert.deepEqual([first.intervalDays,second.intervalDays,third.intervalDays],[1,3,8]);
+  const lapsed=scheduleReview({...exampleCard,intervalDays:60,repetitions:8},'again',now);
+  assert.equal(lapsed.dueAt,now+10*60*1000);
+  assert.deepEqual(['hard','good','easy'].map(grade=>scheduleReview(lapsed,grade,lapsed.dueAt).intervalDays),[1,1,4]);
+});
 test('dueCards include only due, ascending',()=>{
   assert.deepEqual(dueCards([
     {...exampleCard,id:'future',dueAt:300},

@@ -62,7 +62,7 @@ export default function VisualLab() {
       <View testID="visual-phone-frame" style={{ width: frameWidth, maxWidth: '100%', height: 760, backgroundColor: p.bg, borderRadius: 24,
         borderWidth: 1, borderColor: '#909399', overflow: 'hidden' }}>
         <View style={{ minHeight: 52, justifyContent: 'center', borderBottomWidth: 1, borderColor: p.border, paddingHorizontal: 20 }}>
-          <Label p={p} size={18} weight="800">رُسوخ</Label>
+          <Label p={p} size={18} weight="800">مساحتي</Label>
         </View>
         <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ padding: 20, gap: 16 }}>
           {notice ? <Panel p={p}>

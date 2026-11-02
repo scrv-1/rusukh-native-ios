@@ -1,0 +1,1334 @@
+[
+  {
+    "id": "T001",
+    "decision_ar": "تنقّل ثابت بخمس وجهات",
+    "status": "new",
+    "status_ar": "منفذ في 0.5.0",
+    "evidence_paths": [
+      "App.tsx",
+      "tests/workspace.ui.test.jsx"
+    ],
+    "verification_ar": "اختبار آلي مرتبط؛ ليس إثبات جهاز",
+    "source_url": "https://www.nngroup.com/articles/hamburger-menus/",
+    "source_title": "Hamburger Menus and Hidden Navigation Hurt UX Metrics",
+    "acceptance_test": "اطلب فتح الملاحظات والمصادر دون شرح؛ سجّل النجاح والزمن."
+  },
+  {
+    "id": "T002",
+    "decision_ar": "الإضافة والبحث قبل الأقسام",
+    "status": "new",
+    "status_ar": "منفذ في 0.5.0",
+    "evidence_paths": [
+      "src/StudyHome.tsx",
+      "tests/home.ui.test.jsx"
+    ],
+    "verification_ar": "اختبار آلي مرتبط؛ ليس إثبات جهاز",
+    "source_url": "https://www.nngroup.com/articles/mobile-navigation-patterns/",
+    "source_title": "Basic Patterns for Mobile Navigation",
+    "acceptance_test": "افتح الرئيسية على آيفون صغير وحدد هل تظهر بداية مهمة فعلية."
+  },
+  {
+    "id": "T003",
+    "decision_ar": "أسماء عربية مع الأيقونات",
+    "status": "existing",
+    "status_ar": "موجود سابقًا",
+    "evidence_paths": [
+      "src/ui.tsx",
+      "App.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://www.nngroup.com/articles/icon-usability/",
+    "source_title": "Icon Usability",
+    "acceptance_test": "اطلب توقع وظيفة كل أداة قبل لمسها."
+  },
+  {
+    "id": "T004",
+    "decision_ar": "أزرار ظاهرة للوظائف الحالية",
+    "status": "existing",
+    "status_ar": "موجود سابقًا",
+    "evidence_paths": [
+      "App.tsx",
+      "src/SourcesWorkbench.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://forum.obsidian.md/t/feature-mobile-navigation-guide/30295",
+    "source_title": "[Feature] Mobile navigation guide",
+    "acceptance_test": "نفّذ فتح قائمة الملاحظة دون تجربة ضغط مطول عشوائي."
+  },
+  {
+    "id": "T005",
+    "decision_ar": "ترتيب افتراضي وثلاثة قوالب اختيارية",
+    "status": "new",
+    "status_ar": "منفذ في 0.5.0",
+    "evidence_paths": [
+      "src/workspace.ts",
+      "tests/workspace.ui.test.jsx"
+    ],
+    "verification_ar": "اختبار آلي مرتبط؛ ليس إثبات جهاز",
+    "source_url": "https://www.nngroup.com/articles/mobile-app-onboarding/",
+    "source_title": "Mobile-App Onboarding: An Analysis of Components and Techniques",
+    "acceptance_test": "على تثبيت جديد احفظ ملاحظة دون المرور بإعداد ترتيب الأدوات."
+  },
+  {
+    "id": "T006",
+    "decision_ar": "تعليمات داخل المحرر؛ لا تعليم تفاعلي لأول ربط",
+    "status": "partial",
+    "status_ar": "جزئي",
+    "evidence_paths": [
+      "App.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://www.nngroup.com/articles/mobile-app-onboarding/",
+    "source_title": "Mobile-App Onboarding: An Analysis of Components and Techniques",
+    "acceptance_test": "اطلب ربط فكرتين وسجّل فهم التلميح دون رجوع لدليل."
+  },
+  {
+    "id": "T007",
+    "decision_ar": "الدخول مباشر بلا جولة إجبارية",
+    "status": "existing",
+    "status_ar": "موجود سابقًا",
+    "evidence_paths": [
+      "App.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://www.nngroup.com/articles/mobile-app-onboarding/",
+    "source_title": "Mobile-App Onboarding: An Analysis of Components and Techniques",
+    "acceptance_test": "قارن إتمام أول ملاحظة مع نسخة بلا جولة ونسخة بجولة اختيارية."
+  },
+  {
+    "id": "T008",
+    "decision_ar": "تمييز الفراغ والتحميل وغياب النتائج",
+    "status": "new",
+    "status_ar": "منفذ في 0.5.0",
+    "evidence_paths": [
+      "App.tsx",
+      "tests/workspace.ui.test.jsx"
+    ],
+    "verification_ar": "اختبار آلي مرتبط؛ ليس إثبات جهاز",
+    "source_url": "https://www.nngroup.com/articles/empty-state-interface-design/",
+    "source_title": "Designing Empty States in Complex Applications: 3 Guidelines",
+    "acceptance_test": "تحقق بصريًا من الحالات الثلاث ولا يظهر لا ملاحظات أثناء التحميل."
+  },
+  {
+    "id": "T009",
+    "decision_ar": "إنشاء مباشر من قسم الملاحظات الفارغ",
+    "status": "new",
+    "status_ar": "منفذ في 0.5.0",
+    "evidence_paths": [
+      "src/StudyHome.tsx",
+      "tests/home.ui.test.jsx"
+    ],
+    "verification_ar": "اختبار آلي مرتبط؛ ليس إثبات جهاز",
+    "source_url": "https://www.nngroup.com/articles/empty-state-interface-design/",
+    "source_title": "Designing Empty States in Complex Applications: 3 Guidelines",
+    "acceptance_test": "من الرئيسية الجديدة أنشئ ملاحظة دون البحث أسفل الصفحة."
+  },
+  {
+    "id": "T010",
+    "decision_ar": "لا نسجل تاريخ الفتح؛ المعروض آخر تعديل",
+    "status": "pending",
+    "status_ar": "غير منفذ",
+    "evidence_paths": [
+      "src/StudyHome.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://www.nngroup.com/articles/empty-state-interface-design/",
+    "source_title": "Designing Empty States in Complex Applications: 3 Guidelines",
+    "acceptance_test": "اطلب من مستخدم تفسير القسم قبل وبعد فتح ملاحظة."
+  },
+  {
+    "id": "T011",
+    "decision_ar": "التصريح بأن البحث يشمل العنوان والمتن",
+    "status": "new",
+    "status_ar": "منفذ في 0.5.0",
+    "evidence_paths": [
+      "App.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://forum.obsidian.md/t/mobile-faster-access-to-global-search-in-mobile-app/42072",
+    "source_title": "[Mobile] Faster access to global search in mobile app",
+    "acceptance_test": "ابحث بكلمة موجودة في المتن فقط وتحقق من النتيجة والتسمية."
+  },
+  {
+    "id": "T012",
+    "decision_ar": "مدخل بحث ظاهر في الرئيسية",
+    "status": "new",
+    "status_ar": "منفذ في 0.5.0",
+    "evidence_paths": [
+      "src/StudyHome.tsx",
+      "tests/home.ui.test.jsx"
+    ],
+    "verification_ar": "اختبار آلي مرتبط؛ ليس إثبات جهاز",
+    "source_url": "https://forum.obsidian.md/t/mobile-faster-access-to-global-search-in-mobile-app/42072",
+    "source_title": "[Mobile] Faster access to global search in mobile app",
+    "acceptance_test": "ابدأ من الرئيسية واسترجع ملاحظة معروفة دون قائمة إعدادات."
+  },
+  {
+    "id": "T013",
+    "decision_ar": "البحث الحالي شامل؛ لا نطاق ضيق منفصل",
+    "status": "not_applicable",
+    "status_ar": "غير منطبق حاليًا",
+    "evidence_paths": [
+      "src/sources.ts"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://forum.obsidian.md/t/mobile-faster-access-to-global-search-in-mobile-app/42072",
+    "source_title": "[Mobile] Faster access to global search in mobile app",
+    "acceptance_test": "اكتب عبارة ثم بدّل النطاق؛ يبقى النص وتُحدّث النتائج."
+  },
+  {
+    "id": "T014",
+    "decision_ar": "بحث الملاحظات مسمى؛ البحث داخل ملاحظة غير منفذ",
+    "status": "partial",
+    "status_ar": "جزئي",
+    "evidence_paths": [
+      "App.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://forum.obsidian.md/t/mobile-is-there-a-quick-way-to-open-find-command-on-mobile-to-search-for-text-on-a-note/65960",
+    "source_title": "[mobile] Is there a quick way to open Find... command on mobile to search for text on a Note?",
+    "acceptance_test": "اطلب العثور على الأمر من الشاشة ومن قائمة الأدوات بالاسم نفسه."
+  },
+  {
+    "id": "T015",
+    "decision_ar": "رسالة واضحة لغياب النتائج",
+    "status": "existing",
+    "status_ar": "موجود سابقًا",
+    "evidence_paths": [
+      "App.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://www.nngroup.com/articles/search-no-results-serp/",
+    "source_title": "3 Guidelines for Search Engine \"No Results\" Pages",
+    "acceptance_test": "ابحث بعبارة لا تطابق شيئًا؛ اطلب تفسير الشاشة قبل أي تلميح."
+  },
+  {
+    "id": "T016",
+    "decision_ar": "عبارة البحث تبقى في حالة التطبيق",
+    "status": "existing",
+    "status_ar": "موجود سابقًا",
+    "evidence_paths": [
+      "App.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://www.nngroup.com/articles/search-no-results-serp/",
+    "source_title": "3 Guidelines for Search Engine \"No Results\" Pages",
+    "acceptance_test": "عدّل حرفًا بعد بحث فاشل دون إعادة كتابة الاستعلام."
+  },
+  {
+    "id": "T017",
+    "decision_ar": "مسح البحث وإرشاد تقليل العبارة",
+    "status": "existing",
+    "status_ar": "موجود سابقًا",
+    "evidence_paths": [
+      "App.tsx",
+      "tests/workspace.ui.test.jsx"
+    ],
+    "verification_ar": "اختبار آلي مرتبط؛ ليس إثبات جهاز",
+    "source_url": "https://www.nngroup.com/articles/search-no-results-serp/",
+    "source_title": "3 Guidelines for Search Engine \"No Results\" Pages",
+    "acceptance_test": "ابحث بعبارة طويلة ثم أصلحها من الشاشة نفسها."
+  },
+  {
+    "id": "T018",
+    "decision_ar": "إنشاء ملاحظة من الرئيسية والقائمة",
+    "status": "new",
+    "status_ar": "منفذ في 0.5.0",
+    "evidence_paths": [
+      "src/StudyHome.tsx",
+      "App.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://discourse.joplinapp.org/t/mobile-quickly-add-notes-incl-prototypes/30085",
+    "source_title": "Mobile: Quickly add notes (incl prototypes)",
+    "acceptance_test": "التقط ثلاث أفكار قصيرة وسجّل خطوات الرجوع بين كل فكرة."
+  },
+  {
+    "id": "T019",
+    "decision_ar": "تنقل التالي بين الحقول يحتاج تنفيذًا",
+    "status": "pending",
+    "status_ar": "غير منفذ",
+    "evidence_paths": [
+      "src/ui.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://discourse.joplinapp.org/t/change-title-when-editing-a-note/37671",
+    "source_title": "Change title when editing a note",
+    "acceptance_test": "أنشئ عنوانًا ثم انتقل للمتن بلوحة المفاتيح دون لمس إضافي."
+  },
+  {
+    "id": "T020",
+    "decision_ar": "عنوان تلقائي اختياري للمصدر؛ اليدوي محفوظ",
+    "status": "new",
+    "status_ar": "منفذ في 0.5.0",
+    "evidence_paths": [
+      "src/SourcesWorkbench.tsx",
+      "tests/sources-workbench.ui.test.jsx"
+    ],
+    "verification_ar": "اختبار آلي مرتبط؛ ليس إثبات جهاز",
+    "source_url": "https://discourse.joplinapp.org/t/change-title-when-editing-a-note/37671",
+    "source_title": "Change title when editing a note",
+    "acceptance_test": "غيّر أول فقرة في ملاحظة مسماة وتأكد أن عنوانها لا يتبدل."
+  },
+  {
+    "id": "T021",
+    "decision_ar": "قوالب محتوى الملاحظات غير قوالب ترتيب الواجهة",
+    "status": "pending",
+    "status_ar": "غير منفذ",
+    "evidence_paths": [
+      "src/workspace.ts"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://forum.obsidian.md/t/mobile-add-the-ability-to-select-a-template-when-using-the-open-new-note-shortcut-command/110549",
+    "source_title": "[Mobile] Add the ability to select a template when using the \"Open New Note\" shortcut command",
+    "acceptance_test": "أنشئ ملاحظة فارغة ثم ملاحظة بقالب دون إعداد مسبق."
+  },
+  {
+    "id": "T022",
+    "decision_ar": "آخر تعديل ظاهر في الرئيسية؛ لا اقتراحات بحث خاصة",
+    "status": "partial",
+    "status_ar": "جزئي",
+    "evidence_paths": [
+      "src/StudyHome.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://obsidian.md/help/plugins/quick-switcher",
+    "source_title": "Quick switcher",
+    "acceptance_test": "افتح البحث فارغًا وعد إلى آخر ملاحظة دون كتابة."
+  },
+  {
+    "id": "T023",
+    "decision_ar": "الإنشاء باسم عبارة البحث غير منفذ",
+    "status": "pending",
+    "status_ar": "غير منفذ",
+    "evidence_paths": [
+      "App.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://obsidian.md/help/plugins/quick-switcher",
+    "source_title": "Quick switcher",
+    "acceptance_test": "ابحث عن عنوان جديد ثم أنشئه؛ لا تنشأ نسخة عند وجود مطابق."
+  },
+  {
+    "id": "T024",
+    "decision_ar": "المحرر نافذة فوق الصفحة الأصلية",
+    "status": "existing",
+    "status_ar": "موجود سابقًا",
+    "evidence_paths": [
+      "App.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://discourse.joplinapp.org/t/mobile-navigation-experience-with-note-links/23810",
+    "source_title": "Mobile navigation experience with note links",
+    "acceptance_test": "اختبر رئيسية ← ملاحظة، وبحث ← ملاحظة، ورابط ← ملاحظة ثم الرجوع."
+  },
+  {
+    "id": "T025",
+    "decision_ar": "احتفاظ القائمة بالموضع يحتاج قياسًا على الهاتف",
+    "status": "device",
+    "status_ar": "يحتاج اختبار الجهاز",
+    "evidence_paths": [
+      "App.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://forum.obsidian.md/t/preserve-scroll-position-in-the-file-explorer-for-obsidian-mobile/93965",
+    "source_title": "Preserve Scroll Position in the File Explorer for Obsidian Mobile",
+    "acceptance_test": "افتح العنصر رقم 40 ثم أغلقه؛ يبقى موضع القائمة قريبًا منه."
+  },
+  {
+    "id": "T026",
+    "decision_ar": "حفظ موضع القراءة بعد إعادة التشغيل غير منفذ",
+    "status": "pending",
+    "status_ar": "غير منفذ",
+    "evidence_paths": [
+      "App.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://forum.obsidian.md/t/feature-save-location-within-notes/43878",
+    "source_title": "[Feature] Save location within notes",
+    "acceptance_test": "اقرأ منتصف ملاحظة طويلة ثم بدّل التطبيق وعد؛ قارن موضع النص."
+  },
+  {
+    "id": "T027",
+    "decision_ar": "قفز العناوين داخل الملاحظات الطويلة غير منفذ",
+    "status": "pending",
+    "status_ar": "غير منفذ",
+    "evidence_paths": [
+      "App.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://discourse.joplinapp.org/t/mobile-app-navigate-to-the-start-end-of-the-note/29489",
+    "source_title": "Mobile app: navigate to the start/end of the note",
+    "acceptance_test": "أضف نصًا طويلًا واطلب الوصول لآخر فقرة دون تمرير مطوّل."
+  },
+  {
+    "id": "T028",
+    "decision_ar": "بحث داخل الملاحظة دون تحرير غير منفذ",
+    "status": "pending",
+    "status_ar": "غير منفذ",
+    "evidence_paths": [
+      "App.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://discourse.joplinapp.org/t/search-notes-in-view-mode-on-mobile/45364",
+    "source_title": "Search notes in view mode on mobile",
+    "acceptance_test": "ابحث داخل ملاحظة وافتح التطابق دون تعديل نصها."
+  },
+  {
+    "id": "T029",
+    "decision_ar": "التنقل بين تطابقات النص غير منفذ",
+    "status": "pending",
+    "status_ar": "غير منفذ",
+    "evidence_paths": [
+      "App.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://discourse.joplinapp.org/t/search-notes-in-view-mode-on-mobile/45364",
+    "source_title": "Search notes in view mode on mobile",
+    "acceptance_test": "في ملاحظة بها خمسة تطابقات انتقل لكل واحد ثم أغلق البحث."
+  },
+  {
+    "id": "T030",
+    "decision_ar": "مقتطف مطابق للبحث غير منفذ؛ الحالي بداية المتن",
+    "status": "pending",
+    "status_ar": "غير منفذ",
+    "evidence_paths": [
+      "App.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://discourse.joplinapp.org/t/joplin-is-let-down-by-very-poor-search/13679",
+    "source_title": "Joplin is let down by very poor search",
+    "acceptance_test": "استخدم عناوين متشابهة وحدد الملاحظة المقصودة من قائمة النتائج."
+  },
+  {
+    "id": "T031",
+    "decision_ar": "لا فئات أو لغة استعلام مخفية حاليًا",
+    "status": "not_applicable",
+    "status_ar": "غير منطبق حاليًا",
+    "evidence_paths": [
+      "src/sources.ts"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://discourse.joplinapp.org/t/joplin-is-let-down-by-very-poor-search/13679",
+    "source_title": "Joplin is let down by very poor search",
+    "acceptance_test": "اطلب البحث في فئة واحدة دون معرفة صيغة بحث."
+  },
+  {
+    "id": "T032",
+    "decision_ar": "فتح الملاحظة عند التطابق غير منفذ",
+    "status": "pending",
+    "status_ar": "غير منفذ",
+    "evidence_paths": [
+      "App.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://discourse.joplinapp.org/t/joplin-is-let-down-by-very-poor-search/13679",
+    "source_title": "Joplin is let down by very poor search",
+    "acceptance_test": "ابحث بكلمة في آخر ملاحظة طويلة وافتح النتيجة مباشرة."
+  },
+  {
+    "id": "T033",
+    "decision_ar": "عرض حديث حسب التعديل؛ لا اختيار ترتيب للنتائج",
+    "status": "partial",
+    "status_ar": "جزئي",
+    "evidence_paths": [
+      "src/StudyHome.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://discourse.joplinapp.org/t/search-result-order/3763",
+    "source_title": "Search result order",
+    "acceptance_test": "ابحث عن موضوع متكرر واختر أحدث ملاحظة بوضوح."
+  },
+  {
+    "id": "T034",
+    "decision_ar": "خيارات التفريغ والنموذج تظهر عند الحاجة",
+    "status": "new",
+    "status_ar": "منفذ في 0.5.0",
+    "evidence_paths": [
+      "src/SourcesWorkbench.tsx",
+      "src/AIWorkspace.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://www.nngroup.com/articles/progressive-disclosure/",
+    "source_title": "Progressive Disclosure",
+    "acceptance_test": "اطلب حفظ ملاحظة من مستخدم جديد وسجّل الخيارات غير الضرورية التي يفتحها."
+  },
+  {
+    "id": "T035",
+    "decision_ar": "كل الأدوات متاحة والإخفاء يخص الرئيسية",
+    "status": "new",
+    "status_ar": "منفذ في 0.5.0",
+    "evidence_paths": [
+      "App.tsx",
+      "tests/workspace.ui.test.jsx"
+    ],
+    "verification_ar": "اختبار آلي مرتبط؛ ليس إثبات جهاز",
+    "source_url": "https://www.nngroup.com/articles/progressive-disclosure/",
+    "source_title": "Progressive Disclosure",
+    "acceptance_test": "أخف أداة ثم اطلب فتحها وإعادتها للرئيسية دون تغيير بياناتها."
+  },
+  {
+    "id": "T036",
+    "decision_ar": "الإجابة مخفية حتى طلب كشفها",
+    "status": "existing",
+    "status_ar": "موجود سابقًا",
+    "evidence_paths": [
+      "App.tsx",
+      "tests/safety.ui.test.jsx"
+    ],
+    "verification_ar": "اختبار آلي مرتبط؛ ليس إثبات جهاز",
+    "source_url": "https://docs.ankiweb.net/manual/studying",
+    "source_title": "Studying — Anki Docs",
+    "acceptance_test": "ابدأ بطاقة جديدة وتحقق من عدم ظهور الإجابة أو إمكان التقييم قبل الكشف."
+  },
+  {
+    "id": "T037",
+    "decision_ar": "تعريف النسيان والصعوبة بوضوح",
+    "status": "new",
+    "status_ar": "منفذ في 0.5.0",
+    "evidence_paths": [
+      "App.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://forums.ankiweb.net/t/have-the-concepts-of-the-again-hard-good-and-easy-buttons-changed/49664",
+    "source_title": "Have the concepts of the Again, Hard, Good, and Easy buttons changed?",
+    "acceptance_test": "اعرض ثلاث حالات إجابة على خمسة مستخدمين وسجل اختيارهم دون شرح شفهي."
+  },
+  {
+    "id": "T038",
+    "decision_ar": "وضع تقييم ثنائي يحتاج تجربة؛ لم نعتمده",
+    "status": "pending",
+    "status_ar": "غير منفذ",
+    "evidence_paths": [
+      "App.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://docs.ankiweb.net/manual/studying",
+    "source_title": "Studying — Anki Docs",
+    "acceptance_test": "قارن زمن اختيار التقييم وأخطاء الفهم بين النموذجين دون تغيير جدولة الإنتاج."
+  },
+  {
+    "id": "T039",
+    "decision_ar": "السؤال يبقى ظاهرًا بعد الكشف",
+    "status": "existing",
+    "status_ar": "موجود سابقًا",
+    "evidence_paths": [
+      "App.tsx",
+      "tests/safety.ui.test.jsx"
+    ],
+    "verification_ar": "اختبار آلي مرتبط؛ ليس إثبات جهاز",
+    "source_url": "https://docs.ankiweb.net/manual/getting-started",
+    "source_title": "Getting Started — Anki Docs",
+    "acceptance_test": "اكشف جوابًا طويلًا وتأكد أن السؤال ما زال ظاهرًا ويمكن الرجوع إليه بالتمرير."
+  },
+  {
+    "id": "T040",
+    "decision_ar": "إرشاد فكرة واحدة لكل بطاقة",
+    "status": "new",
+    "status_ar": "منفذ في 0.5.0",
+    "evidence_paths": [
+      "App.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://super-memory.com/articles/20rules.htm",
+    "source_title": "Effective learning: Twenty rules of formulating knowledge",
+    "acceptance_test": "حرر بطاقة متعددة الفقرات واطلب تحديد المعلومة التي سيحكم عليها التقييم."
+  },
+  {
+    "id": "T041",
+    "decision_ar": "مثال لسؤال يحدد المطلوب",
+    "status": "new",
+    "status_ar": "منفذ في 0.5.0",
+    "evidence_paths": [
+      "App.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://andymatuschak.org/prompts/",
+    "source_title": "How to write good prompts: using spaced repetition to create understanding",
+    "acceptance_test": "اطلب من شخصين الإجابة عن السؤال نفسه؛ افحص هل اتفقا على حدود المطلوب."
+  },
+  {
+    "id": "T042",
+    "decision_ar": "زر الملاحظة الأصلية أثناء المراجعة",
+    "status": "new",
+    "status_ar": "منفذ في 0.5.0",
+    "evidence_paths": [
+      "App.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://docs.ankiweb.net/manual/getting-started",
+    "source_title": "Getting Started — Anki Docs",
+    "acceptance_test": "افتح ملاحظة من بطاقة ثم عد؛ يجب بقاء البطاقة الحالية وحالة كشفها."
+  },
+  {
+    "id": "T043",
+    "decision_ar": "إرشاد إبقاء الشرح الطويل في المصدر",
+    "status": "new",
+    "status_ar": "منفذ في 0.5.0",
+    "evidence_paths": [
+      "App.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://andymatuschak.org/prompts/",
+    "source_title": "How to write good prompts: using spaced repetition to create understanding",
+    "acceptance_test": "اختبر بطاقة على شاشة iPhone صغيرة؛ يجب أن يفهم المستخدم المطلوب دون فقد الشرح المرجعي."
+  },
+  {
+    "id": "T044",
+    "decision_ar": "أمثلة تفسيرية متنوعة لم تضاف",
+    "status": "pending",
+    "status_ar": "غير منفذ",
+    "evidence_paths": [
+      "App.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://andymatuschak.org/prompts/",
+    "source_title": "How to write good prompts: using spaced repetition to create understanding",
+    "acceptance_test": "أنشئ بطاقة تفسير؛ راجع أن جوابها يشرح علاقة محددة لا قائمة معلومات عامة."
+  },
+  {
+    "id": "T045",
+    "decision_ar": "البطاقة مرتبطة بعنوان مصدر؛ يظهر بعد الكشف",
+    "status": "existing",
+    "status_ar": "موجود سابقًا",
+    "evidence_paths": [
+      "App.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://super-memory.com/articles/20rules.htm",
+    "source_title": "Effective learning: Twenty rules of formulating knowledge",
+    "acceptance_test": "افتح المرجع من بطاقة وتحقق أن العنوان المرجعي لا يسرب الجواب قبل الكشف."
+  },
+  {
+    "id": "T046",
+    "decision_ar": "لا تأريخ تلقائي لحقائق متغيرة",
+    "status": "pending",
+    "status_ar": "غير منفذ",
+    "evidence_paths": [
+      "src/types.ts"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://super-memory.com/articles/20rules.htm",
+    "source_title": "Effective learning: Twenty rules of formulating knowledge",
+    "acceptance_test": "عدّل معلومة مرتبطة بإصدار وتحقق أن بطاقة المراجعة تعرض سياق الإصدار الصحيح."
+  },
+  {
+    "id": "T047",
+    "decision_ar": "تعديل بطاقة موجودة أثناء المراجعة غير منفذ",
+    "status": "pending",
+    "status_ar": "غير منفذ",
+    "evidence_paths": [
+      "App.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://forums.ankiweb.net/t/can-i-disable-leeches-altogether/4767",
+    "source_title": "Can I disable leeches altogether?",
+    "acceptance_test": "عدّل سؤالًا ملتبسًا ثم استأنف؛ تحقق من عدم زيادة عدد المراجعات بسبب فتح المحرر."
+  },
+  {
+    "id": "T048",
+    "decision_ar": "تنبيه البطاقات المتعثرة غير منفذ",
+    "status": "pending",
+    "status_ar": "غير منفذ",
+    "evidence_paths": [
+      "App.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://forums.ankiweb.net/t/can-i-disable-leeches-altogether/4767",
+    "source_title": "Can I disable leeches altogether?",
+    "acceptance_test": "استحث تنبيهًا تجريبيًا وتحقق أن الإجراء يفتح البطاقة التي سببت التنبيه تحديدًا."
+  },
+  {
+    "id": "T049",
+    "decision_ar": "تعليق البطاقات القابل للعكس غير منفذ",
+    "status": "pending",
+    "status_ar": "غير منفذ",
+    "evidence_paths": [
+      "src/types.ts"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://docs.ankiweb.net/manual/leeches",
+    "source_title": "Leeches — Anki Docs",
+    "acceptance_test": "علّق بطاقة ثم أعدها؛ يجب بقاء نصها ورابط مصدرها وسجلها."
+  },
+  {
+    "id": "T050",
+    "decision_ar": "فتح المصدر متاح؛ اقتراحه بعد الأخطاء غير منفذ",
+    "status": "partial",
+    "status_ar": "جزئي",
+    "evidence_paths": [
+      "App.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://forums.ankiweb.net/t/using-filtered-decks-to-reintroduce-leeches/21699",
+    "source_title": "Using filtered decks to reintroduce leeches",
+    "acceptance_test": "اجعل بطاقة بلا مصدر؛ يجب ألا يظهر زر فتح مصدر وهمي، بل اقتراح ربطها."
+  },
+  {
+    "id": "T051",
+    "decision_ar": "تأجيل بطاقة بعينها غير منفذ",
+    "status": "pending",
+    "status_ar": "غير منفذ",
+    "evidence_paths": [
+      "src/core.ts"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://docs.ankiweb.net/manual/leeches",
+    "source_title": "Leeches — Anki Docs",
+    "acceptance_test": "أجّل بطاقة من زوج متشابه وتحقق أنها لم تُحذف ولم تُحتسب نجاحًا."
+  },
+  {
+    "id": "T052",
+    "decision_ar": "التاريخ محفوظ؛ حد جلسة اختياري غير منفذ",
+    "status": "partial",
+    "status_ar": "جزئي",
+    "evidence_paths": [
+      "src/storage.ts"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://docs.ankiweb.net/faqs/resetting-progress-in-a-deck",
+    "source_title": "Resetting progress in a deck — Anki Docs",
+    "acceptance_test": "كوّن تراكمًا ثم افتح جلسة محدودة؛ تحقق من عدم إعادة البطاقات القديمة لحالة جديدة."
+  },
+  {
+    "id": "T053",
+    "decision_ar": "المراجعة تعرض المستحق فقط",
+    "status": "existing",
+    "status_ar": "موجود سابقًا",
+    "evidence_paths": [
+      "src/core.ts",
+      "tests/core.test.cjs"
+    ],
+    "verification_ar": "اختبار آلي مرتبط؛ ليس إثبات جهاز",
+    "source_url": "https://docs.ankiweb.net/manual/deck-options",
+    "source_title": "Deck Options — Anki Docs",
+    "acceptance_test": "أنشئ مستحقًا وجديدًا ثم تحقق أن جلسة المستحق لا تسحب الجديد خلاف الوصف."
+  },
+  {
+    "id": "T054",
+    "decision_ar": "عداد المستحق موجود؛ الجديد ليس عدادًا مستقلًا",
+    "status": "partial",
+    "status_ar": "جزئي",
+    "evidence_paths": [
+      "src/StudyHome.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://docs.ankiweb.net/manual/studying",
+    "source_title": "Studying — Anki Docs",
+    "acceptance_test": "قارن أعداد الواجهة باستعلامات SQLite لبيانات تشمل بطاقات مستقبلية وجديدة ومستحقة."
+  },
+  {
+    "id": "T055",
+    "decision_ar": "توضيح أن الاختبار لا يغير الجدول",
+    "status": "new",
+    "status_ar": "منفذ في 0.5.0",
+    "evidence_paths": [
+      "App.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://docs.ankiweb.net/manual/filtered-decks",
+    "source_title": "Filtered Decks & Cramming — Anki Docs",
+    "acceptance_test": "أكمل اختبارًا ثم قارن الاستحقاقات قبل وبعد؛ يجب أن يطابق السلوك النص المعروض."
+  },
+  {
+    "id": "T056",
+    "decision_ar": "تصحيح السؤال الحالي موجود؛ ملخص كل الأخطاء غير منفذ",
+    "status": "partial",
+    "status_ar": "جزئي",
+    "evidence_paths": [
+      "App.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://docs.ankiweb.net/manual/getting-started",
+    "source_title": "Getting Started — Anki Docs",
+    "acceptance_test": "أجب خطأ ثم افتح النتيجة؛ تأكد من بقاء الاختيار الخاطئ واضحًا بجانب التصحيح."
+  },
+  {
+    "id": "T057",
+    "decision_ar": "منع تكرار الإجابة المطابقة في الخيارات",
+    "status": "existing",
+    "status_ar": "موجود سابقًا",
+    "evidence_paths": [
+      "src/core.ts",
+      "tests/core.test.cjs"
+    ],
+    "verification_ar": "اختبار آلي مرتبط؛ ليس إثبات جهاز",
+    "source_url": "https://super-memory.com/articles/20rules.htm",
+    "source_title": "Effective learning: Twenty rules of formulating knowledge",
+    "acceptance_test": "جرب مرادفات عربية جوابها واحد؛ يجب تعديل السؤال أو استبعاد المثال الملتبس."
+  },
+  {
+    "id": "T058",
+    "decision_ar": "عنوان المصدر لا يكشف الجواب قبل طلبه",
+    "status": "new",
+    "status_ar": "منفذ في 0.5.0",
+    "evidence_paths": [
+      "App.tsx",
+      "tests/safety.ui.test.jsx"
+    ],
+    "verification_ar": "اختبار آلي مرتبط؛ ليس إثبات جهاز",
+    "source_url": "https://andymatuschak.org/prompts/",
+    "source_title": "How to write good prompts: using spaced repetition to create understanding",
+    "acceptance_test": "استخدم بطاقة اسم مفهوم ومصدر يحمل الاسم؛ افحص شاشة السؤال قبل الكشف."
+  },
+  {
+    "id": "T059",
+    "decision_ar": "عدة بطاقات ترتبط بالملاحظة عبر noteId",
+    "status": "existing",
+    "status_ar": "موجود سابقًا",
+    "evidence_paths": [
+      "src/types.ts",
+      "tests/storage.test.cjs"
+    ],
+    "verification_ar": "اختبار آلي مرتبط؛ ليس إثبات جهاز",
+    "source_url": "https://docs.ankiweb.net/manual/getting-started",
+    "source_title": "Getting Started — Anki Docs",
+    "acceptance_test": "أنشئ بطاقتين من ملاحظة وتحقق أن فتح مصدر كل منهما يقود للملاحظة نفسها."
+  },
+  {
+    "id": "T060",
+    "decision_ar": "الروابط داخل سياق المتن؛ لا إرشاد خاص لسبب العلاقة",
+    "status": "partial",
+    "status_ar": "جزئي",
+    "evidence_paths": [
+      "src/core.ts"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://forum.obsidian.md/t/q-how-should-i-use-graph-view-correctly-because-im-not-getting-any-ideas/82382",
+    "source_title": "Q: How should I use graph view correctly because I'm not getting any ideas",
+    "acceptance_test": "أعط مستخدمًا ملاحظتين مرتبطتين واطلب شرح العلاقة من النص دون تخمين الرسم."
+  },
+  {
+    "id": "T061",
+    "decision_ar": "مقتطف الروابط الواردة داخل الملاحظة غير منفذ",
+    "status": "pending",
+    "status_ar": "غير منفذ",
+    "evidence_paths": [
+      "App.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://obsidian.md/help/plugins/backlinks",
+    "source_title": "Backlinks — Obsidian Help",
+    "acceptance_test": "أنشئ رابطين من ملاحظتين؛ يجب أن يرى المستخدم سبب كل إحالة ومصدرها."
+  },
+  {
+    "id": "T062",
+    "decision_ar": "قائمة علاقات نصية؛ لا تقسيم وارد وصادر كامل",
+    "status": "partial",
+    "status_ar": "جزئي",
+    "evidence_paths": [
+      "src/KnowledgeGraph.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://obsidian.md/help/plugins/outgoing-links",
+    "source_title": "Outgoing links — Obsidian Help",
+    "acceptance_test": "أنشئ A→B فقط؛ تحقق أن الاتجاه لا يوصف بعلاقة متبادلة لم تُكتب."
+  },
+  {
+    "id": "T063",
+    "decision_ar": "إنشاء الملاحظة من رابط مفقود غير منفذ",
+    "status": "pending",
+    "status_ar": "غير منفذ",
+    "evidence_paths": [
+      "src/core.ts"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://obsidian.md/help/plugins/graph",
+    "source_title": "Graph view — Obsidian Help",
+    "acceptance_test": "اكتب [[فكرة لاحقة]] دون إنشائها؛ يجب ألا يوحي الرسم أن المحتوى موجود."
+  },
+  {
+    "id": "T064",
+    "decision_ar": "الأسماء البديلة بصيغة pipe غير مدعومة",
+    "status": "pending",
+    "status_ar": "غير منفذ",
+    "evidence_paths": [
+      "src/core.ts"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://obsidian.md/help/aliases",
+    "source_title": "Aliases — Obsidian Help",
+    "acceptance_test": "اربط ملاحظة باسم مختصر وتحقق من فتح الوجهة الصحيحة وظهور الرابط الوارد."
+  },
+  {
+    "id": "T065",
+    "decision_ar": "بحث وصفحات للشبكة؛ لا شبكة محلية بعمق مختار",
+    "status": "partial",
+    "status_ar": "جزئي",
+    "evidence_paths": [
+      "src/KnowledgeGraph.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://obsidian.md/help/plugins/graph",
+    "source_title": "Graph view — Obsidian Help",
+    "acceptance_test": "في مجموعة كبيرة افتح علاقات ملاحظة؛ يجب أن تبدأ من الجيران المرتبطين بها."
+  },
+  {
+    "id": "T066",
+    "decision_ar": "مرشح الملاحظات اليتيمة غير منفذ",
+    "status": "pending",
+    "status_ar": "غير منفذ",
+    "evidence_paths": [
+      "src/KnowledgeGraph.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://forum.obsidian.md/t/q-how-should-i-use-graph-view-correctly-because-im-not-getting-any-ideas/82382",
+    "source_title": "Q: How should I use graph view correctly because I'm not getting any ideas",
+    "acceptance_test": "أضف ملاحظة مستقلة عمدًا وتحقق أنها قابلة للاستخدام دون تنبيه عقابي."
+  },
+  {
+    "id": "T067",
+    "decision_ar": "عمق شبكة محلية غير منفذ",
+    "status": "pending",
+    "status_ar": "غير منفذ",
+    "evidence_paths": [
+      "src/KnowledgeGraph.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://obsidian.md/help/plugins/graph",
+    "source_title": "Graph view — Obsidian Help",
+    "acceptance_test": "في A→B→C تحقق أن C لا تظهر ضمن الروابط المباشرة لـA."
+  },
+  {
+    "id": "T068",
+    "decision_ar": "قالب خريطة موضوع غير منفذ",
+    "status": "pending",
+    "status_ar": "غير منفذ",
+    "evidence_paths": [
+      "App.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://forum.obsidian.md/t/how-do-you-use-the-graph-view/2785",
+    "source_title": "How do you use the graph view?",
+    "acceptance_test": "كوّن فهرسًا لثلاث ملاحظات؛ اختبر الوصول لكل مفهوم والعودة للفهرس من روابط حقيقية."
+  },
+  {
+    "id": "T069",
+    "decision_ar": "بحث وعدد وصفحات؛ لا مرشحات موضوعات",
+    "status": "partial",
+    "status_ar": "جزئي",
+    "evidence_paths": [
+      "src/KnowledgeGraph.tsx",
+      "tests/graph.ui.test.jsx"
+    ],
+    "verification_ar": "اختبار آلي مرتبط؛ ليس إثبات جهاز",
+    "source_url": "https://forum.obsidian.md/t/how-do-you-use-the-graph-view/2785",
+    "source_title": "How do you use the graph view?",
+    "acceptance_test": "صفِّ مجموعة ثم افتح عقدة؛ يجب أن تنتمي للنتائج وأن يبقى مرشح المجموعة ظاهرًا عند الرجوع."
+  },
+  {
+    "id": "T070",
+    "decision_ar": "قائمة بطاقات تحتاج تحسينًا غير منفذة",
+    "status": "pending",
+    "status_ar": "غير منفذ",
+    "evidence_paths": [
+      "src/types.ts"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://forums.ankiweb.net/t/can-i-disable-leeches-altogether/4767",
+    "source_title": "Can I disable leeches altogether?",
+    "acceptance_test": "علّم بطاقة للإصلاح؛ تحقق أن الوسم لا يسجل مراجعة أو يغير تقييم الذاكرة."
+  },
+  {
+    "id": "T071",
+    "decision_ar": "الأفعال مسماة؛ مراجعة جميع أزرار الوسائط على الجهاز باقية",
+    "status": "partial",
+    "status_ar": "جزئي",
+    "evidence_paths": [
+      "src/ui.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://developer.apple.com/videos/play/wwdc2019/254/",
+    "source_title": "Writing Great Accessibility Labels",
+    "acceptance_test": "شغّل VoiceOver وافتح قائمة المصادر؛ يجب تمييز كل إجراء دون رؤية الأيقونات."
+  },
+  {
+    "id": "T072",
+    "decision_ar": "استقلال الأزرار المركبة يحتاج VoiceOver",
+    "status": "device",
+    "status_ar": "يحتاج اختبار الجهاز",
+    "evidence_paths": [
+      "src/media/MediaCapturePanel.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://reactnative.dev/docs/accessibility",
+    "source_title": "Accessibility · React Native 0.88",
+    "acceptance_test": "مرر VoiceOver داخل ثلاثة صفوف وتأكد من إمكان فتح المصدر والوصول إلى قائمته كلٌّ على حدة."
+  },
+  {
+    "id": "T073",
+    "decision_ar": "انتقال التركيز وإعادته يحتاج VoiceOver",
+    "status": "device",
+    "status_ar": "يحتاج اختبار الجهاز",
+    "evidence_paths": [
+      "src/WorkspaceEditor.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://github.com/callstack/react-native-paper/issues/3912",
+    "source_title": "A11y - Modals do not receive accessibility focus when used with VoiceOver #3912",
+    "acceptance_test": "افتح وأغلق كل نافذة عبر VoiceOver؛ لا يمكن تنفيذ زر خلفها وهي مفتوحة."
+  },
+  {
+    "id": "T074",
+    "decision_ar": "التمرير والتفاف النص موجودان؛ أكبر خط لم يختبر على iOS",
+    "status": "device",
+    "status_ar": "يحتاج اختبار الجهاز",
+    "evidence_paths": [
+      "src/ui.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://infinite.red/react-native-radio/rnr-330-react-native-and-accessibility-with-karly-lamm",
+    "source_title": "RNR 330 - React Native and Accessibility with Karly Lamm",
+    "acceptance_test": "اختر أكبر حجم نص متاح على iPhone وأكمل استيراد نص واستعادة نسخة دون قص زر."
+  },
+  {
+    "id": "T075",
+    "decision_ar": "حالات النجاح والفشل نصية",
+    "status": "existing",
+    "status_ar": "موجود سابقًا",
+    "evidence_paths": [
+      "src/useNoteDraft.ts",
+      "src/SourcesWorkbench.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://developer.apple.com/videos/play/wwdc2025/316/",
+    "source_title": "Principles of inclusive app design",
+    "acceptance_test": "أكمل المهمة مع كتم الصوت وتدرج رمادي؛ يجب فهم النجاح والفشل والحالة المحددة."
+  },
+  {
+    "id": "T076",
+    "decision_ar": "الإجراءات الأساسية بأزرار ولا تتطلب إيماءة",
+    "status": "existing",
+    "status_ar": "موجود سابقًا",
+    "evidence_paths": [
+      "src/media/MediaCapturePanel.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://support.apple.com/guide/iphone/turn-on-and-practice-voiceover-iph3e2e415f/27/ios/27",
+    "source_title": "Turn on and practice VoiceOver on iPhone",
+    "acceptance_test": "نفّذ الأفعال الأساسية بلمسة عادية ثم VoiceOver؛ يجب ألا يتطلب أي فعل اكتشاف إيماءة مخفية."
+  },
+  {
+    "id": "T077",
+    "decision_ar": "ترتيب عربي برمجي؛ تدفق VoiceOver الأصلي غير مختبر",
+    "status": "device",
+    "status_ar": "يحتاج اختبار الجهاز",
+    "evidence_paths": [
+      "src/ui.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://developer.apple.com/videos/play/wwdc2022/10034/",
+    "source_title": "Design for Arabic",
+    "acceptance_test": "اطلب من قارئ عربي تتبع العنوان ثم الحقول ثم الإجراء؛ لا يحدث قفز بصري محير."
+  },
+  {
+    "id": "T078",
+    "decision_ar": "النص المختلط يحتاج فحصًا على لوحة مفاتيح iOS",
+    "status": "device",
+    "status_ar": "يحتاج اختبار الجهاز",
+    "evidence_paths": [
+      "src/SourcesWorkbench.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://forum.cursor.com/t/arabic-english-mixed-text-is-visually-reordered-incorrectly-in-cursor-chat-rtl-ltr-issue/152615",
+    "source_title": "Arabic + English mixed text is visually reordered incorrectly in Cursor Chat (RTL/LTR issue)",
+    "acceptance_test": "تحقق بصريًا وبالنسخ من «المحاضرة 12 — https://youtu.be/abc — صفحة ٣» مع الأقواس والترقيم."
+  },
+  {
+    "id": "T079",
+    "decision_ar": "لم نعكس الصور؛ اتجاه الرموز الأصلية يحتاج فحصًا",
+    "status": "device",
+    "status_ar": "يحتاج اختبار الجهاز",
+    "evidence_paths": [
+      "src/ui.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://developer.apple.com/videos/play/wwdc2022/10034/",
+    "source_title": "Design for Arabic",
+    "acceptance_test": "قارن الرموز العربية بسلوك iOS الفعلي؛ لا يتبدل معنى تشغيل الصوت أو الشعار بعد قلب التخطيط."
+  },
+  {
+    "id": "T080",
+    "decision_ar": "لا مفتاح لتبديل اتجاه التطبيق وقت التشغيل",
+    "status": "not_applicable",
+    "status_ar": "غير منطبق حاليًا",
+    "evidence_paths": [
+      "src/ui.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://reactnative.dev/docs/i18nmanager",
+    "source_title": "I18nManager · React Native 0.88",
+    "acceptance_test": "بدّل الإعداد ثم أعد فتح التطبيق؛ الاتجاه المعروض يطابق التفضيل المحفوظ ولا يقلب أجزاء فقط."
+  },
+  {
+    "id": "T081",
+    "decision_ar": "الزر الأساسي بحد 44 نقطة؛ الفصل الفعلي يحتاج لمسًا",
+    "status": "device",
+    "status_ar": "يحتاج اختبار الجهاز",
+    "evidence_paths": [
+      "src/ui.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://infinite.red/react-native-radio/rnr-330-react-native-and-accessibility-with-karly-lamm",
+    "source_title": "RNR 330 - React Native and Accessibility with Karly Lamm",
+    "acceptance_test": "نفّذ عشر نقرات قرب حواف الأزرار بإبهام واحد؛ لا يُشغّل إجراء مجاور أو حذف خطأ."
+  },
+  {
+    "id": "T082",
+    "decision_ar": "KeyboardAvoidingView موجود؛ لم تختبر لوحة الهاتف",
+    "status": "device",
+    "status_ar": "يحتاج اختبار الجهاز",
+    "evidence_paths": [
+      "App.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://reactnative.dev/docs/scrollview",
+    "source_title": "ScrollView · React Native 0.88",
+    "acceptance_test": "افتح آخر حقل بلوحة عربية ثم إنجليزية، مع النص الكبير؛ يظهر المؤشر ويمكن بلوغ الإجراء النهائي."
+  },
+  {
+    "id": "T083",
+    "decision_ar": "عناوين الحقول تبقى ظاهرة",
+    "status": "existing",
+    "status_ar": "موجود سابقًا",
+    "evidence_paths": [
+      "src/ui.tsx",
+      "src/SourcesWorkbench.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://frontieralicante.com/talks/2023",
+    "source_title": "React Alicante 2023: Practical guide to building accessible forms in React",
+    "acceptance_test": "الصق نصًا طويلًا؛ يظل المستخدم قادرًا على معرفة وظيفة كل حقل ومعرفة المطلوب منه."
+  },
+  {
+    "id": "T084",
+    "decision_ar": "أخطاء المصدر قابلة للإصلاح مع بقاء المدخلات",
+    "status": "new",
+    "status_ar": "منفذ في 0.5.0",
+    "evidence_paths": [
+      "src/SourcesWorkbench.tsx",
+      "tests/sources-workbench.ui.test.jsx"
+    ],
+    "verification_ar": "اختبار آلي مرتبط؛ ليس إثبات جهاز",
+    "source_url": "https://frontieralicante.com/talks/2023",
+    "source_title": "React Alicante 2023: Practical guide to building accessible forms in React",
+    "acceptance_test": "أرسل نموذجًا ناقصًا ثم أصلحه؛ لا يُمحى ما كُتب ولا يحتاج المستخدم البحث عن الحقل المخطئ."
+  },
+  {
+    "id": "T085",
+    "decision_ar": "PDF بلا نص معلن؛ OCR غير منفذ",
+    "status": "partial",
+    "status_ar": "جزئي",
+    "evidence_paths": [
+      "src/pdf",
+      "src/SourcesWorkbench.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://community.obsidian.md/plugins/pdf-native-notes",
+    "source_title": "PDF to Markdown Native",
+    "acceptance_test": "جرّب PDF مصوّرًا وآخر نصيًا؛ لا تظهر نتيجة نجاح فارغة ولا يُوعَد المستخدم بتحويل غير متاح."
+  },
+  {
+    "id": "T086",
+    "decision_ar": "معاينة نص PDF قبل المسودة",
+    "status": "existing",
+    "status_ar": "موجود سابقًا",
+    "evidence_paths": [
+      "src/SourcesWorkbench.tsx",
+      "tests/sources-workbench.ui.test.jsx"
+    ],
+    "verification_ar": "اختبار آلي مرتبط؛ ليس إثبات جهاز",
+    "source_url": "https://community.obsidian.md/plugins/pdf-native-notes",
+    "source_title": "PDF to Markdown Native",
+    "acceptance_test": "استورد PDF عربيًا بعمودين؛ يستطيع المستخدم اكتشاف النص المبعثر وتصحيحه قبل توليد بطاقات."
+  },
+  {
+    "id": "T087",
+    "decision_ar": "لا حذف للأصل المختار؛ لا أرشيف مصادر PDF دائم داخل التطبيق",
+    "status": "partial",
+    "status_ar": "جزئي",
+    "evidence_paths": [
+      "src/SourcesWorkbench.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://community.obsidian.md/plugins/pdf-native-notes",
+    "source_title": "PDF to Markdown Native",
+    "acceptance_test": "ألغِ التحويل أو حاكِ فشله؛ يبقى الأصل قابلًا للفتح ولا تُنشأ نسخة دراسة مكتملة كاذبة."
+  },
+  {
+    "id": "T088",
+    "decision_ar": "تفريغ يقدمه المستخدم؛ الرابط مطلوب في مسار YouTube الحالي",
+    "status": "partial",
+    "status_ar": "جزئي",
+    "evidence_paths": [
+      "src/SourcesWorkbench.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://support.google.com/youtube/answer/15930243?hl=en",
+    "source_title": "View video transcripts - YouTube Help",
+    "acceptance_test": "ألصق رابطًا فقط؛ يطلب التطبيق النص بوضوح ولا يعلن أنه استخرج الفيديو."
+  },
+  {
+    "id": "T089",
+    "decision_ar": "اكتشاف الصيغة مع الإبقاء على التوقيتات",
+    "status": "new",
+    "status_ar": "منفذ في 0.5.0",
+    "evidence_paths": [
+      "src/youtube.ts",
+      "tests/sources-workbench.ui.test.jsx"
+    ],
+    "verification_ar": "اختبار آلي مرتبط؛ ليس إثبات جهاز",
+    "source_url": "https://support.google.com/youtube/answer/15930243?hl=en",
+    "source_title": "View video transcripts - YouTube Help",
+    "acceptance_test": "استورد ترجمة بتوقيت وأخرى بدونه؛ روابط العودة صحيحة في الأولى ولا تعرض توقيتًا مزعومًا في الثانية."
+  },
+  {
+    "id": "T090",
+    "decision_ar": "أصل النص موضح؛ لا مقارنة نسخ أصلية ومصححة كاملة",
+    "status": "partial",
+    "status_ar": "جزئي",
+    "evidence_paths": [
+      "src/SourcesWorkbench.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://community.obsidian.md/plugins/pdf-native-notes",
+    "source_title": "PDF to Markdown Native",
+    "acceptance_test": "عدّل النص المستورد؛ يجب إمكان الرجوع للأصل ومعرفة أي نسخة استُخدمت لتوليد المحتوى."
+  },
+  {
+    "id": "T091",
+    "decision_ar": "حالات الصوت مختبرة بمحاكاة؛ الانقطاع الحقيقي باقٍ",
+    "status": "device",
+    "status_ar": "يحتاج اختبار الجهاز",
+    "evidence_paths": [
+      "src/media/AudioCaptureSession.ts"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://github.com/expo/expo/issues/31964",
+    "source_title": "expo-av Does not handle AVAudioSessionInterruptionType accurately to resume recording #31964",
+    "acceptance_test": "قاطع تسجيلًا بمكالمة؛ لا يستمر العداد وهميًا، ويمكن فتح الجزء المحفوظ أو رؤية فشل واضح."
+  },
+  {
+    "id": "T092",
+    "decision_ar": "فصل السماعة وتزامن التشغيل لم يختبرا على الهاتف",
+    "status": "device",
+    "status_ar": "يحتاج اختبار الجهاز",
+    "evidence_paths": [
+      "src/media"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://docs.expo.dev/versions/v58.0.0/sdk/audio/",
+    "source_title": "Expo Audio (expo-audio), SDK 58",
+    "acceptance_test": "شغّل مقطعًا ثم افصل السماعة؛ تتبدل الواجهة إلى متوقف ولا يبدأ الصوت مجددًا بلا فعل مقصود."
+  },
+  {
+    "id": "T093",
+    "decision_ar": "الأذونات عند الحاجة؛ رفضها الحقيقي يحتاج جهازًا",
+    "status": "device",
+    "status_ar": "يحتاج اختبار الجهاز",
+    "evidence_paths": [
+      "src/media"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://docs.expo.dev/versions/v58.0.0/sdk/audio/",
+    "source_title": "Expo Audio (expo-audio), SDK 58",
+    "acceptance_test": "ارفض الإذن ثم حاول تشغيل ملف موجود؛ لا يتعطل مسار المكتبة ولا يظهر تسجيل ناجح فارغ."
+  },
+  {
+    "id": "T094",
+    "decision_ar": "تمييز نقاط الاستعادة النصية عن نسخة الوسائط",
+    "status": "existing",
+    "status_ar": "موجود سابقًا",
+    "evidence_paths": [
+      "App.tsx",
+      "src/backup"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://obsidian.md/help/plugins/file-recovery",
+    "source_title": "File recovery - Obsidian Help",
+    "acceptance_test": "يعرف مختبر جديد، من الشاشة وحدها، هل ستعيد النقطة التسجيلات والمرفقات أم النص فقط."
+  },
+  {
+    "id": "T095",
+    "decision_ar": "معاينة الاستعادة وتأكيد الاستبدال",
+    "status": "existing",
+    "status_ar": "موجود سابقًا",
+    "evidence_paths": [
+      "src/backup",
+      "tests/backup-app-integration.ui.test.jsx"
+    ],
+    "verification_ar": "اختبار آلي مرتبط؛ ليس إثبات جهاز",
+    "source_url": "https://obsidian.md/help/plugins/file-recovery",
+    "source_title": "File recovery - Obsidian Help",
+    "acceptance_test": "اختر نسخة قديمة ثم ألغِ؛ لا تتغير البيانات. استعدها بعد التأكيد؛ يطابق الناتج المعاينة."
+  },
+  {
+    "id": "T096",
+    "decision_ar": "المشاركة لا تثبت الحفظ النهائي في Files",
+    "status": "partial",
+    "status_ar": "جزئي",
+    "evidence_paths": [
+      "src/backup/PortableBackupPanel.tsx"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://forum.obsidian.md/t/icloud-sync-data-lost/90090",
+    "source_title": "ICloud Sync - Data lost",
+    "acceptance_test": "يستطيع شخص جديد العثور على النسخة من تطبيق Files وإعادة اختيارها للاستعادة."
+  },
+  {
+    "id": "T097",
+    "decision_ar": "تلف النسخة والمسارات والأحجام والبصمات مفحوص",
+    "status": "existing",
+    "status_ar": "موجود سابقًا",
+    "evidence_paths": [
+      "src/backup/portable.ts",
+      "tests/portable-backup.ui.test.jsx"
+    ],
+    "verification_ar": "اختبار آلي مرتبط؛ ليس إثبات جهاز",
+    "source_url": "https://forum.obsidian.md/t/obsidian-sync-on-iphone-overwrites-newer-data-causing-data-loss/85214",
+    "source_title": "Obsidian Sync on iPhone Overwrites Newer Data, Causing Data Loss",
+    "acceptance_test": "غيّر بايتًا في نسخة اختبار وأعد استيرادها؛ تُرفض بوضوح وتبقى المكتبة الحالية سليمة."
+  },
+  {
+    "id": "T098",
+    "decision_ar": "لا ادعاء تنزيل أو جاهزية؛ مدير تنزيل Expo غير منفذ",
+    "status": "partial",
+    "status_ar": "جزئي",
+    "evidence_paths": [
+      "src/AIWorkspace.tsx",
+      "ai-lab/engine-entry.mjs"
+    ],
+    "verification_ar": "فحص المصدر أو بند غير منفذ؛ لا ادعاء اختبار آلي خاص",
+    "source_url": "https://github.com/ngxson/wllama/blob/master/compat/README.md",
+    "source_title": "@wllama/wllama-compat README",
+    "acceptance_test": "جرّب دون اتصال وبعد تنزيل ناقص ومع فشل التهيئة؛ تظهر الحالة الصحيحة ويظل إدخال المصدر اليدوي يعمل."
+  },
+  {
+    "id": "T099",
+    "decision_ar": "نتيجة الذكاء مسودة مع فحص المصدر",
+    "status": "existing",
+    "status_ar": "موجود سابقًا",
+    "evidence_paths": [
+      "src/ai/contracts.ts",
+      "tests/ai-workspace.ui.test.jsx"
+    ],
+    "verification_ar": "اختبار آلي مرتبط؛ ليس إثبات جهاز",
+    "source_url": "https://developer.apple.com/videos/play/wwdc2025/248/",
+    "source_title": "Explore prompt design & safety for on-device foundation models",
+    "acceptance_test": "ولّد من نص غامض أو قصير؛ يستطيع المستخدم اكتشاف النقص ورفض النتيجة، ولا تتحول آليًا إلى حقيقة محفوظة."
+  },
+  {
+    "id": "T100",
+    "decision_ar": "حماية اختيار النموذج وإلغاء العمليات الأقدم",
+    "status": "new",
+    "status_ar": "منفذ في 0.5.0",
+    "evidence_paths": [
+      "ai-lab/engine-entry.mjs",
+      "ai-lab/engine-runtime.test.mjs"
+    ],
+    "verification_ar": "اختبار آلي مرتبط؛ ليس إثبات جهاز",
+    "source_url": "https://github.com/ngxson/wllama/issues/210",
+    "source_title": "[Call for contributors] Add guide for compiling Safari-compatible version #210",
+    "acceptance_test": "حاكِ أخطاء المراحل منفصلة؛ لا يفقد المستخدم مصدره ولا يرى دوّارة لا تنتهي ولا ادعاء نجاح على الهاتف."
+  }
+]

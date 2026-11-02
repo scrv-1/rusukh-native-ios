@@ -1,0 +1,69 @@
+✖ new workspace starts with no installed sections and is independent between callers (7.288087ms)
+✖ simple remains an optional review and notes preset rather than the empty first workspace (1.653814ms)
+✔ invalid settings recover without throwing (0.643977ms)
+✔ existing saved settings retain their selected sections, order and density (0.462625ms)
+✔ unknown and duplicate IDs never produce duplicate or unsupported tools (0.257938ms)
+✔ hiding every module is valid and does not mutate original preferences (0.271708ms)
+✔ reorder respects boundaries and preserves each module exactly once (0.205909ms)
+✔ tab bar respects order and caps optional pages at three, excluding quiz (0.170916ms)
+✔ text sources preserve Arabic, Q/A and transcript timestamps (0.482074ms)
+✔ source import rejects unsupported, oversized, empty and invalid text (23.067706ms)
+✔ Arabic search ignores diacritics, tatweel, alef forms and word order (0.614012ms)
+✔ markdown export preserves note body and wiki links (0.222294ms)
+✔ source limit includes metadata so every accepted source can be reimported from backup (33.891854ms)
+✔ adding the AI module preserves prior layout and keeps the new tool hidden (0.331308ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 12
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 202.516397
+
+✖ failing tests:
+
+test at tests/workspace.test.cjs:6:1
+✖ new workspace starts with no installed sections and is independent between callers (7.288087ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(a.modules.every(module => module.enabled === false))
+  
+      at TestContext.<anonymous> (/workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/tests/workspace.test.cjs:8:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/workspace.test.cjs:13:1
+✖ simple remains an optional review and notes preset rather than the empty first workspace (1.653814ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + [
+  +   'review',
+  +   'notes'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (/workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/tests/workspace.test.cjs:17:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'review', 'notes' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

@@ -14,12 +14,12 @@ import { RecoveryPointsPanel } from './src/backup/RecoveryPointsPanel';
 import { PortableBackupPanel } from './src/backup/PortableBackupPanel';
 import type { PortablePreferences } from './src/backup/portable';
 import { StudyHome } from './src/StudyHome';
-import { useNoteDraft } from './src/useNoteDraft';
+import { NOTE_DRAFT_KEY, useNoteDraft } from './src/useNoteDraft';
 import { SourcesWorkbench } from './src/SourcesWorkbench';
 import { AIWorkspace } from './src/AIWorkspace';
 import { RemindersPanel } from './src/reminders/RemindersPanel';
 import { WorkspaceEditor } from './src/WorkspaceEditor';
-import { defaultWorkspace, MODULES, ModuleId, pinnedModules, readWorkspace, Workspace, WORKSPACE_KEY } from './src/workspace';
+import { defaultWorkspace, MODULES, ModuleId, readWorkspace, Workspace, WORKSPACE_KEY } from './src/workspace';
 import { markdownNote, matchesSearch, MAX_NOTE_CHARS, MAX_SOURCE_BYTES, prepareSource } from './src/sources';
 import { dueCards, graphEdges, makeId, makeQuiz, normalizeTitle, parseQuestionAnswer, validateBackup, MAX_BACKUP_BYTES, serializeBackup, utf8ByteLength } from './src/core';
 import type { Backup, Note, StudyCard, ReviewEvent, Grade } from './src/types';
@@ -33,11 +33,11 @@ const TABS: { id: Tab; label: string; symbol: string }[] = [
   { id: 'home', label: 'الرئيسية', symbol: 'house.fill' },
   { id: 'notes', label: 'الملاحظات', symbol: 'note.text' },
   { id: 'review', label: 'المراجعة', symbol: 'rectangle.stack.fill' },
-  { id: 'graph', label: 'الشبكة', symbol: 'point.3.connected.trianglepath.dotted' },
+  { id: 'tools', label: 'الأدوات', symbol: 'square.grid.2x2' },
   { id: 'settings', label: 'الإعدادات', symbol: 'gearshape.fill' },
 ];
 const screenTitle: Record<Tab, string> = {
-  home: 'رُسوخ', notes: 'ملاحظاتي', review: 'المراجعة', graph: 'شبكة أفكاري', settings: 'الإعدادات', sources: 'مصادري', tools: 'كل الأدوات', ai: 'مساعد الدراسة المحلي',
+  home: 'مساحتي', notes: 'ملاحظاتي', review: 'المراجعة', graph: 'شبكة أفكاري', settings: 'الإعدادات', sources: 'مصادري', tools: 'كل الأدوات', ai: 'مساعد الدراسة المحلي',
 };
 
 function AppContent() {
@@ -49,6 +49,7 @@ function AppContent() {
   const [isDark, setIsDark] = useState(false);
   const [busy, setBusy] = useState(true);
   const [search, setSearch] = useState('');
+  const [toolSearch, setToolSearch] = useState('');
   const [editorOpen, setEditorOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [draftTitle, setDraftTitle] = useState('');
@@ -66,6 +67,9 @@ function AppContent() {
   const draft = useNoteDraft(db);
   const draftTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const editorBaseline = useRef({title:'', body:''});
+  const sourceImportOwner = useRef(0);
+  const beginEditorRef = useRef(beginEditor);
+  beginEditorRef.current = beginEditor;
   const [quizData, setQuizData] = useState<ReturnType<typeof makeQuiz>>([]);
   const [quizIndex, setQuizIndex] = useState(0);
   const [quizSelected, setQuizSelected] = useState<string | null>(null);
@@ -77,15 +81,23 @@ function AppContent() {
   const [workspace, setWorkspace] = useState<Workspace>(defaultWorkspace);
   const [customizing, setCustomizing] = useState(false);
   const [clock, setClock] = useState(Date.now);
-  const visibleTabs = [TABS[0], ...pinnedModules(workspace).map(id => {
-    const module = MODULES.find(m => m.id === id)!;
-    return { id: id as Tab, label: module.title, symbol: module.symbol };
-  }), TABS[4]];
+  const visibleTabs = TABS;
   const p = isDark ? dark : light;
+  // Restore callbacks may outlive the render that opened a picker/confirmation.
+  // Keep the edit barrier live; the persisted slot is read again under actionLock.
+  const restoreDraftState = useRef({ editorOpen, cardEditorOpen: !!cardEditorNoteId,
+    loading: draft.loading, status: draft.status, retained: !!draft.recoveredDraft });
+  restoreDraftState.current = { editorOpen, cardEditorOpen: !!cardEditorNoteId,
+    loading: draft.loading, status: draft.status, retained: !!draft.recoveredDraft };
   const due = useMemo(() => dueCards(cards, clock), [cards, clock]);
   const links = useMemo(() => graphEdges(notes), [notes]);
   const today = new Date(clock).toDateString();
   const todayReviewed = reviews.filter(r => new Date(r.reviewedAt).toDateString() === today).length;
+
+  useEffect(() => {
+    sourceImportOwner.current++;
+    return () => { sourceImportOwner.current++; };
+  }, [tab]);
 
   useEffect(() => {
     let active = true;
@@ -153,15 +165,20 @@ function AppContent() {
   }
 
   async function importSource() {
+    const owner = ++sourceImportOwner.current;
+    const current = () => owner === sourceImportOwner.current && !dataStaleRef.current;
+    if (!current()) return;
     try {
       const result = await DocumentPicker.getDocumentAsync({ type: '*/*', copyToCacheDirectory: true });
+      if (!current()) return;
       if (result.canceled || !result.assets[0]) return;
       const asset = result.assets[0];
       const file = new File(asset.uri);
       if (Math.max(asset.size ?? 0, file.size ?? 0) > MAX_SOURCE_BYTES) throw new Error('الحد الأقصى للملف 1 ميغابايت.');
       const draft = prepareSource(asset.name, await file.text());
-      beginEditor({editingId:null,title:draft.title,body:draft.body});
-    } catch (error) { Alert.alert('تعذّر قراءة المصدر', String(error)); }
+      if (!current()) return;
+      beginEditorRef.current({editingId:null,title:draft.title,body:draft.body});
+    } catch (error) { if (current()) Alert.alert('تعذّر قراءة المصدر', String(error)); }
   }
 
   async function exportMarkdown() {
@@ -190,6 +207,9 @@ function AppContent() {
     finally { actionLock.current = false; setSaving(false); }
   }
   function editDraft(value: {editingId:string|null; title:string; body:string}, recovered = false) {
+    if (actionLock.current) return;
+    restoreDraftState.current.editorOpen = true;
+    sourceImportOwner.current++;
     if (recovered && value.editingId && !notes.some(n => n.id === value.editingId)) {
       Alert.alert('الملاحظة الأصلية غير موجودة', 'يمكنك تصدير المسودة أو حفظها كملاحظة جديدة.');
       value = {...value, editingId:null};
@@ -200,6 +220,8 @@ function AppContent() {
     setEditorOpen(true);
   }
   function beginEditor(value: {editingId:string|null; title:string; body:string}) {
+    if (actionLock.current) return;
+    sourceImportOwner.current++;
     if (draft.loading) return;
     if (draft.status === 'error' && !draft.recoveredDraft) {
       Alert.alert('تعذّر قراءة المسودة السابقة', 'يمكنك إعادة فتح التطبيق للمحاولة مجددًا، أو تجاهل المسودة القديمة لبدء التحرير.', [
@@ -286,6 +308,7 @@ function AppContent() {
       actionLock.current = false; setSaving(false);
       if (!cleared) { Alert.alert('تعذّر تحديث المسودة', 'حاول فتح البطاقة مرة أخرى.'); return; }
     }
+    restoreDraftState.current.cardEditorOpen = true;
     setCardEditorNoteId(noteId); setQuestion(''); setAnswer(''); setEditorOpen(false);
   }
   function closeCard() {
@@ -349,13 +372,39 @@ function AppContent() {
     });
     return snapshot;
   }
-  async function finishStudyRestore() {
-    stopDraftTimer();
-    if (!(await draft.clear())) Alert.alert('استُعيدت البيانات', 'تعذّر تنظيف المسودة القديمة. راجعها قبل استعادتها.');
-    setRevealedId(null); setQuizOpen(false); setEditorOpen(false); setCardEditorNoteId(null);
+  function assertNoDraftForRestore() {
+    const current = restoreDraftState.current;
+    if (current.loading || current.status === 'saving') {
+      throw new Error('انتظر اكتمال تحميل المسودة أو حفظها قبل الاستعادة. لم تُستبدل بيانات الدراسة.');
+    }
+    if (current.status === 'error') {
+      throw new Error('تعذّر التحقق من المسودة. أعد فتح التطبيق لمحاولة قراءتها قبل الاستعادة؛ لم تُستبدل بيانات الدراسة ولم تُحذف المسودة.');
+    }
+    if (current.editorOpen || current.cardEditorOpen || current.retained) {
+      throw new Error('قبل الاستعادة، احفظ الملاحظة أو البطاقة وأغلق المحرر. للمسودة: احفظها كملاحظة، أو صدّرها وتأكد من وجود الملف ثم اختر تجاهل المسودة صراحة من الرئيسية. أعد المحاولة بعد ذلك؛ لم تُستبدل بيانات الدراسة.');
+    }
+  }
+  async function replaceStudy(restore: (d: Database) => Promise<void>): Promise<boolean> {
+    return action(async d => {
+      assertNoDraftForRestore();
+      // Do not trust a recoveredDraft captured before a picker or an old alert.
+      // actionLock prevents opening an editor while this commit-time read waits.
+      let storedDraft: string | null;
+      try { storedDraft = await getSetting(d, NOTE_DRAFT_KEY); }
+      catch { throw new Error('تعذّر قراءة المسودة المحفوظة. أعد المحاولة بعد التأكد من إمكانية فتحها؛ لم تُستبدل بيانات الدراسة.'); }
+      assertNoDraftForRestore();
+      // Any non-null or corrupt entry is protected, not silently discarded.
+      if (storedDraft !== null && storedDraft.trim() !== 'null') {
+        throw new Error('توجد مسودة محفوظة. افتحها من الرئيسية واحفظها كملاحظة، أو صدّرها وتأكد من وجود الملف ثم اختر تجاهل المسودة صراحة. بعدها أعد الاستعادة؛ لم تُستبدل بيانات الدراسة ولم تُحذف المسودة.');
+      }
+      await restore(d);
+      stopDraftTimer();
+      // There is no draft to clear. A restore must never write a draft tombstone.
+      setRevealedId(null); setQuizOpen(false); setEditorOpen(false); setCardEditorNoteId(null);
+    });
   }
   async function restorePortableStudy(backup: Backup): Promise<boolean> {
-    return action(async d => { await restoreBackup(d, backup); await finishStudyRestore(); });
+    return replaceStudy(d => restoreBackup(d, backup));
   }
   async function applyPortablePreferences(preferences: PortablePreferences): Promise<void> {
     const nextWorkspace = readWorkspace(JSON.stringify(preferences.workspace));
@@ -373,9 +422,7 @@ function AppContent() {
       Alert.alert('العودة إلى نقطة الاستعادة؟',
         `ستُستعاد ${point.noteCount} ملاحظة و${point.cardCount} بطاقة. ستُحفظ نقطة رجوع من بياناتك الحالية أولًا. الصور والصوت والإعدادات لا تتغير.`, [
           { text: 'إلغاء', style: 'cancel', onPress: () => resolve(false) },
-          { text: 'استعادة', onPress: () => { void action(async d => {
-            await restoreRecoveryPoint(d, point.id); await finishStudyRestore();
-          }).then(resolve); } },
+          { text: 'استعادة', onPress: () => { void replaceStudy(d => restoreRecoveryPoint(d, point.id)).then(resolve); } },
         ], { cancelable: true, onDismiss: () => resolve(false) });
     });
   }
@@ -395,7 +442,7 @@ function AppContent() {
       Alert.alert('استبدال البيانات الحالية؟',
         `سيتم استبدال ${notes.length} ملاحظة بـ ${backup.notes.length} ملاحظة. تُحفظ نقطة رجوع تلقائيًا قبل الاستبدال؛ احتفظ أيضًا بنسخة خارج التطبيق.`, [
           { text: 'إلغاء', style: 'cancel' },
-          { text: 'استبدال', style: 'destructive', onPress: () => void action(async d => { await restoreBackup(d, backup); await finishStudyRestore(); }) },
+          { text: 'استبدال', style: 'destructive', onPress: () => void replaceStudy(d => restoreBackup(d, backup)) },
         ]);
     } catch (error) { Alert.alert('تعذّر استيراد النسخة', String(error)); }
   }
@@ -456,14 +503,23 @@ function AppContent() {
   }
 
   function toolsScreen() {
+    const filtered = MODULES.filter(module => matchesSearch(module.title, module.detail, toolSearch));
     return <View style={{ gap: 14 }}>
-      {header('كل الأدوات', 'تظل أدواتك هنا حتى لو أخفيتها من الرئيسية')}
-      {MODULES.map(module => <Panel key={module.id} p={p}>
-        <Label p={p} size={18} weight="700">{module.title}</Label>
-        <Label p={p} size={13} color={p.muted}>{module.detail}</Label>
-        <Button p={p} title={`فتح ${module.title}`} tone="secondary" onPress={() => openModule(module.id)} />
-      </Panel>)}
-      <Button p={p} title="تخصيص مساحتي" onPress={() => setCustomizing(true)} />
+      {header('كل الأدوات', 'جاهزة للوصول؛ إخفاء قسم من الرئيسية لا يحذف الأداة أو محتواها')}
+      <Field p={p} label="البحث في الأدوات" value={toolSearch} onChangeText={setToolSearch} placeholder="مثل: PDF، مراجعة، صوت" />
+      {filtered.map(module => <Pressable key={module.id} accessibilityRole="button" accessibilityLabel={`فتح ${module.title}`}
+        onPress={() => openModule(module.id)} style={({ pressed }) => ({ backgroundColor: p.surface, borderRadius: 16,
+          borderWidth: 1, borderColor: p.border, padding: 16, minHeight: 76, flexDirection: arabicRow, alignItems: 'center', gap: 12, opacity: pressed ? .7 : 1 })}>
+        <Icon name={module.symbol} p={p} />
+        <View style={{ flex: 1, gap: 3 }}>
+          <Label p={p} size={16} weight="700">{module.title}</Label>
+          <Label p={p} size={13} color={p.muted}>{module.detail}</Label>
+        </View>
+        <Icon name="chevron.left" size={14} p={p} color={p.muted} />
+      </Pressable>)}
+      {!filtered.length && <Empty p={p} title="لا توجد أداة بهذا الاسم" detail="جرّب كلمة أقصر أو اعرض كل الأدوات." />}
+      {toolSearch ? <Button p={p} title="مسح بحث الأدوات" tone="secondary" onPress={() => setToolSearch('')} /> : null}
+      <Button p={p} title="تخصيص مساحتي" tone="secondary" onPress={() => setCustomizing(true)} />
     </View>;
   }
 
@@ -488,6 +544,7 @@ function AppContent() {
               borderWidth: 1, borderColor: p.border, minHeight: 48 }} />
           <Button p={p} title="+ جديد" compact onPress={openNew} />
         </View>
+        <Label p={p} size={12} color={p.muted}>يشمل البحث عناوين الملاحظات ومحتواها.</Label>
       </View>}
       ListEmptyComponent={<Panel p={p}><Empty p={p} title={notes.length ? 'لا توجد نتائج' : 'ابدأ بملاحظتك الأولى'}
         detail={notes.length ? 'جرّب عبارة أقصر أو امسح البحث' : 'اكتب فكرة قصيرة أو استورد نصًا من ملفاتك'} />
@@ -503,20 +560,25 @@ function AppContent() {
         {stat(due.length, 'مستحقة الآن')}{stat(todayReviewed, 'مُراجعة اليوم')}
       </View>
       {current ? <Panel p={p} style={{ minHeight: 290, padding: 22, justifyContent: 'space-between' }}>
-        <Label p={p} size={12} color={p.muted}>{notes.find(n => n.id === current.noteId)?.title ?? 'بطاقة'}</Label>
+        {revealedId === current.id && <Label p={p} size={12} color={p.muted}>{notes.find(n => n.id === current.noteId)?.title ?? 'بطاقة'}</Label>}
         <Label p={p} size={23} weight="700" style={{ marginVertical: 17 }}>{current.question}</Label>
         {revealedId === current.id ? <View style={{ gap: 12 }}>
           <View style={{ backgroundColor: p.subtle, padding: 17, borderRadius: 15 }}>
             <Label p={p} size={17}>{current.answer}</Label>
           </View>
-          <Label p={p} size={12} color={p.muted}>اختر تقييمًا لتحديد موعد المراجعة القادمة.</Label>
+          <Label p={p} size={12} color={p.muted}>لم أتذكر: الإجابة لم تحضر. صعب: تذكّرتها بتردد. جيد أو سهل: تذكّرتها بثقة.</Label>
           <View style={{ flexDirection: arabicRow, flexWrap: 'wrap', gap: 7 }}>
-            {([['again','مُجددًا'],['hard','صعب'],['good','جيد'],['easy','سهل']] as [Grade,string][]).map(([grade,label]) =>
+            {([['again','لم أتذكر'],['hard','صعب'],['good','جيد'],['easy','سهل']] as [Grade,string][]).map(([grade,label]) =>
               <Button key={grade} p={p} title={label} tone={grade === 'good' ? 'primary' : 'secondary'}
                 compact disabled={saving} onPress={() => void review(current,grade)} style={{ flexGrow: 1 }} />)}
           </View>
         </View> : <Button title="إظهار الإجابة" p={p} onPress={() => setRevealedId(current.id)} />}
-      </Panel> : <Panel p={p}><Empty p={p} title="لا توجد بطاقات مستحقة الآن" detail="يمكنك إضافة بطاقات أو إجراء اختبار سريع" /></Panel>}
+      </Panel> : <Panel p={p}>
+        <Empty p={p} title={cards.length ? 'لا توجد بطاقات مستحقة الآن' : 'ابدأ ببطاقتك الأولى'}
+          detail={cards.length ? 'بطاقاتك محفوظة. يمكنك عرضها أو العودة عند موعدها.' : 'أنشئ ملاحظة، ثم أضف سؤالًا وإجابة لتراجعهما هنا.'} />
+        <Button p={p} title="إنشاء بطاقات من الملاحظات" tone="secondary" onPress={() => setTab('notes')} />
+      </Panel>}
+      {current && notes.some(n => n.id === current.noteId) && <Button p={p} title="فتح الملاحظة الأصلية" tone="plain" onPress={() => openNote(notes.find(n => n.id === current.noteId)!)} />}
       <Button title="اختبار اختيارات" p={p} tone="secondary" icon="checkmark.circle" onPress={startQuiz} />
       <Button p={p} title={showCards ? 'إخفاء إدارة البطاقات' : `إدارة البطاقات (${cards.length})`} tone="plain" onPress={() => setShowCards(v => !v)} />
       {showCards && cards.map(c => <Panel key={c.id} p={p} style={{ padding: 14, gap: 8 }}>
@@ -557,7 +619,7 @@ function AppContent() {
       restoreStudy={restorePortableStudy} applyPreferences={applyPortablePreferences} />}
     <Panel p={p}>
       <Label p={p} weight="700">عن النسخة</Label>
-      <Label p={p} size={13} color={p.muted}>رُسوخ 0.4.2 — استيراد محمي، واستعادة وسائط آمنة، وتحسين استمرارية التسجيل. مساعد الدراسة المحلي تجريبي ويحتاج مراجعة النتائج. جدولة المراجعة مبسطة وليست FSRS. لا مزامنة سحابية.</Label>
+      <Label p={p} size={13} color={p.muted}>رُسوخ 0.5.1 — بداية جديدة فارغة، وحماية للمسودات عند الاستعادة، وجدولة مراجعة متسقة. مساعد الدراسة المحلي تجريبي ويحتاج مراجعة النتائج. جدولة المراجعة مبسطة وليست FSRS. لا مزامنة سحابية.</Label>
     </Panel>
   </View>; }
   function modalHeader(title: string, close: () => void) {
@@ -635,6 +697,7 @@ function AppContent() {
       <SafeAreaView style={{ flex: 1, backgroundColor: p.bg }}>
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{flex:1}}><ScrollView contentContainerStyle={{ padding: 20, gap: 17 }} keyboardShouldPersistTaps="handled">
           {modalHeader('بطاقة تعليمية', closeCard)}
+          <Label p={p} size={13} color={p.muted}>فكرة واحدة لكل بطاقة. مثال: ما السبب الرئيسي لحدوث الظاهرة؟ احتفظ بالشرح الطويل في الملاحظة.</Label>
           <Field p={p} label="السؤال" maxLength={MAX_NOTE_CHARS} editable={!saving} value={question} onChangeText={setQuestion} placeholder="ماذا تريد أن تتذكر؟" />
           <Field p={p} label="الإجابة" maxLength={MAX_NOTE_CHARS} editable={!saving} value={answer} onChangeText={setAnswer} multiline placeholder="الإجابة المختصرة" />
           <Button p={p} title="إنشاء البطاقة" onPress={() => void commitCard()} disabled={saving} />
@@ -646,6 +709,7 @@ function AppContent() {
       <SafeAreaView style={{ flex: 1, backgroundColor: p.bg }}>
         <ScrollView contentContainerStyle={{ padding: 22, gap: 18 }}>
           {modalHeader('الاختبار السريع', () => setQuizOpen(false))}
+          <Label p={p} size={13} color={p.muted}>تدريب إضافي من بطاقاتك؛ لا يغيّر مواعيد المراجعة.</Label>
           {quizIndex >= quizData.length ? <Panel p={p} style={{ minHeight: 260, justifyContent: 'center' }}>
             <Label p={p} size={34} weight="800" style={{ textAlign: 'center' }}>{quizScore} / {quizData.length}</Label>
             <Label p={p} size={16} style={{ textAlign: 'center' }}>نتيجة الاختبار</Label>

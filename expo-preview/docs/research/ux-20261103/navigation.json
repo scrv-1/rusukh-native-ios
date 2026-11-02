@@ -1,0 +1,798 @@
+{
+  "date": "2026-11-03",
+  "timezone": "Asia/Riyadh",
+  "scope_ar": "التنقل، اكتشاف الأدوات، الحالات الفارغة، التهيئة، البحث، سير تدوين الملاحظات.",
+  "method_ar": "مصادر المجتمع شهادات أولية وليست إجماعًا. التطبيقات والاختبارات اقتراحات لرسوخ. لم تُشاهد الفيديوهات ولم يُقرأ تفريغها؛ مستويات الوصول موثقة بصدق. null يعني أن الحقل لم يُتحقق منه. تشمل الأدلة أبحاث الممارسين ووثائق رسمية، وليست كل النصائح آراء مجتمع.",
+  "tips": [
+    {
+      "id": "T001",
+      "title_ar": "الوجهات اليومية ظاهرة",
+      "advice_ar": "وجدت دراسة NN/G أن التنقل المخفي أقل اكتشافًا من التنقل الظاهر جزئيًا على الهاتف.",
+      "source_url": "https://www.nngroup.com/articles/hamburger-menus/",
+      "source_title": "Hamburger Menus and Hidden Navigation Hurt UX Metrics",
+      "source_kind": "original_research",
+      "verification": "حقيقة بحثية ضمن مواقع الدراسة؛ التطبيق على رسوخ استنتاج يحتاج اختبارًا.",
+      "application_ar": "احتفظ بوجهات يومية مستقرة في الشريط، مع مدخل واضح لكل الأدوات.",
+      "test_idea": "اطلب فتح الملاحظات والمصادر دون شرح؛ سجّل النجاح والزمن.",
+      "source_ref": "turn6view4"
+    },
+    {
+      "id": "T002",
+      "title_ar": "مساحة المحتوى قبل زخرفة التنقل",
+      "advice_ar": "توصي المقالة بموازنة اكتشاف التنقل مع مساحة المحتوى المحدودة على الهاتف.",
+      "source_url": "https://www.nngroup.com/articles/mobile-navigation-patterns/",
+      "source_title": "Basic Patterns for Mobile Navigation",
+      "source_kind": "practitioner_article",
+      "verification": "إرشاد منشور؛ حجم الاختصار المقترح استنتاج.",
+      "application_ar": "اختصر مقدمة الرئيسية كي تظهر مهمة مفيدة قبل التمرير.",
+      "test_idea": "افتح الرئيسية على آيفون صغير وحدد هل تظهر بداية مهمة فعلية.",
+      "source_ref": "turn6view7"
+    },
+    {
+      "id": "T003",
+      "title_ar": "أسماء ظاهرة للأدوات",
+      "advice_ar": "توضح دراسة الأيقونات أن الرمز قد يُفهم بصريًا دون فهم وظيفته؛ النص يزيل الغموض.",
+      "source_url": "https://www.nngroup.com/articles/icon-usability/",
+      "source_title": "Icon Usability",
+      "source_kind": "original_research",
+      "verification": "حقيقة من بحث قابلية الاستخدام؛ صياغة أسماء رسوخ استنتاج.",
+      "application_ar": "أبق أسماء عربية ظاهرة بجانب أيقونات الشبكة والمصادر والتخصيص.",
+      "test_idea": "اطلب توقع وظيفة كل أداة قبل لمسها.",
+      "source_ref": "turn57view4"
+    },
+    {
+      "id": "T004",
+      "title_ar": "لا تجعل الإيماءة الطريق الوحيد",
+      "advice_ar": "أفاد مستخدمان أنهما لم يكتشفا قائمة الملاحظة التي تتطلب ضغطًا مطولًا.",
+      "source_url": "https://forum.obsidian.md/t/feature-mobile-navigation-guide/30295",
+      "source_title": "[Feature] Mobile navigation guide",
+      "source_kind": "community_first_person",
+      "verification": "شهادة أفراد عن نسخة قديمة، وليست حكمًا على النسخة الحالية؛ التطبيق استنتاج.",
+      "application_ar": "وفّر زرًا ظاهرًا لكل وظيفة أساسية، ثم اجعل الإيماءات اختصارات إضافية.",
+      "test_idea": "نفّذ فتح قائمة الملاحظة دون تجربة ضغط مطول عشوائي.",
+      "source_ref": "turn6view1"
+    },
+    {
+      "id": "T005",
+      "title_ar": "ابدأ بإعداد جاهز",
+      "advice_ar": "تحذر المقالة من مطالبة المستخدم بتخصيص المظهر قبل أن يفهم التطبيق وتوصي بتأجيله.",
+      "source_url": "https://www.nngroup.com/articles/mobile-app-onboarding/",
+      "source_title": "Mobile-App Onboarding: An Analysis of Components and Techniques",
+      "source_kind": "original_research",
+      "verification": "التوصية الأصلية تخص التخصيص؛ تعميمها على ترتيب أدوات رسوخ استنتاج.",
+      "application_ar": "اعرض ترتيبًا افتراضيًا صالحًا فورًا واجعل تخصيص المساحة خيارًا لاحقًا.",
+      "test_idea": "على تثبيت جديد احفظ ملاحظة دون المرور بإعداد ترتيب الأدوات.",
+      "source_ref": "turn36view0"
+    },
+    {
+      "id": "T006",
+      "title_ar": "تعليم عند الحاجة",
+      "advice_ar": "توصي المقالة بتلميحات مرتبطة بالسياق بدل تحميل الذاكرة بشرح مسبق طويل.",
+      "source_url": "https://www.nngroup.com/articles/mobile-app-onboarding/",
+      "source_title": "Mobile-App Onboarding: An Analysis of Components and Techniques",
+      "source_kind": "original_research",
+      "verification": "إرشاد بحثي منشور؛ موضع التلميح المقترح استنتاج.",
+      "application_ar": "اشرح ربط ملاحظة عند أول محاولة ربط، لا عند أول تشغيل.",
+      "test_idea": "اطلب ربط فكرتين وسجّل فهم التلميح دون رجوع لدليل.",
+      "source_ref": "turn36view0"
+    },
+    {
+      "id": "T007",
+      "title_ar": "اختبر دون جولة إجبارية",
+      "advice_ar": "تنصح المقالة باختبار التطبيق بلا تهيئة قبل الاستثمار في شاشات تعليم منفصلة.",
+      "source_url": "https://www.nngroup.com/articles/mobile-app-onboarding/",
+      "source_title": "Mobile-App Onboarding: An Analysis of Components and Techniques",
+      "source_kind": "original_research",
+      "verification": "إرشاد منشور؛ لا توجد نتيجة تجربة رسوخ حتى الآن.",
+      "application_ar": "افتح الرئيسية مباشرة، واجعل البدء والدليل قابلين للتجاوز والعودة.",
+      "test_idea": "قارن إتمام أول ملاحظة مع نسخة بلا جولة ونسخة بجولة اختيارية.",
+      "source_ref": "turn36view0"
+    },
+    {
+      "id": "T008",
+      "title_ar": "اشرح سبب الفراغ",
+      "advice_ar": "تفرق المقالة بين محتوى غير موجود، معالجة جارية، وحالة ناتجة عن تصفية.",
+      "source_url": "https://www.nngroup.com/articles/empty-state-interface-design/",
+      "source_title": "Designing Empty States in Complex Applications: 3 Guidelines",
+      "source_kind": "practitioner_article",
+      "verification": "إرشاد منشور؛ نصوص رسوخ استنتاج.",
+      "application_ar": "اعرض نصًا خاصًا لكل حالة: لا ملاحظات، لا نتائج، جار التحميل.",
+      "test_idea": "تحقق بصريًا من الحالات الثلاث ولا يظهر لا ملاحظات أثناء التحميل.",
+      "source_ref": "turn36view1"
+    },
+    {
+      "id": "T009",
+      "title_ar": "زر البدء داخل الحالة الفارغة",
+      "advice_ar": "توصي المقالة بربط الحالة الفارغة مباشرة بالخطوة التي تملؤها.",
+      "source_url": "https://www.nngroup.com/articles/empty-state-interface-design/",
+      "source_title": "Designing Empty States in Complex Applications: 3 Guidelines",
+      "source_kind": "practitioner_article",
+      "verification": "إرشاد منشور؛ تطبيق مباشر مقترح.",
+      "application_ar": "ضع إنشاء أول ملاحظة داخل بطاقة الملاحظات الفارغة.",
+      "test_idea": "من الرئيسية الجديدة أنشئ ملاحظة دون البحث أسفل الصفحة.",
+      "source_ref": "turn36view1"
+    },
+    {
+      "id": "T010",
+      "title_ar": "اشرح كيف تمتلئ القوائم الشخصية",
+      "advice_ar": "تستخدم المقالة المفضلة والعناصر الحديثة لبيان فائدة وصف طريقة إضافة المحتوى.",
+      "source_url": "https://www.nngroup.com/articles/empty-state-interface-design/",
+      "source_title": "Designing Empty States in Complex Applications: 3 Guidelines",
+      "source_kind": "practitioner_article",
+      "verification": "مثال منشور؛ إن استُخدم قسم حديثة في رسوخ فهو اقتراح.",
+      "application_ar": "عند فراغ قسم الحديثة اذكر أنه يعرض ما فُتح مؤخرًا، مع مدخل للملاحظات.",
+      "test_idea": "اطلب من مستخدم تفسير القسم قبل وبعد فتح ملاحظة.",
+      "source_ref": "turn36view1"
+    },
+    {
+      "id": "T011",
+      "title_ar": "صرّح بنطاق البحث",
+      "advice_ar": "ذكر مستخدم أن بحث العناوين وحده جعله يظن أن المزامنة فقدت المحتوى.",
+      "source_url": "https://forum.obsidian.md/t/mobile-faster-access-to-global-search-in-mobile-app/42072",
+      "source_title": "[Mobile] Faster access to global search in mobile app",
+      "source_kind": "community_first_person",
+      "verification": "تجربة فردية موثقة؛ لا تثبت معدل انتشار المشكلة.",
+      "application_ar": "سمّ الحقل بحث في العناوين والمحتوى عندما يكون هذا نطاقه الفعلي.",
+      "test_idea": "ابحث بكلمة موجودة في المتن فقط وتحقق من النتيجة والتسمية.",
+      "source_ref": "turn6view0"
+    },
+    {
+      "id": "T012",
+      "title_ar": "البحث متاح مباشرة",
+      "advice_ar": "تصف المناقشة كلفة فتح شريط جانبي وتبديل القسم للوصول للبحث المتكرر.",
+      "source_url": "https://forum.obsidian.md/t/mobile-faster-access-to-global-search-in-mobile-app/42072",
+      "source_title": "[Mobile] Faster access to global search in mobile app",
+      "source_kind": "community_first_person",
+      "verification": "رغبة وتجارب مجتمع؛ اقتراح رسوخ استنتاج.",
+      "application_ar": "وفّر مدخل بحث واضحًا من الرئيسية والملاحظات.",
+      "test_idea": "ابدأ من الرئيسية واسترجع ملاحظة معروفة دون قائمة إعدادات.",
+      "source_ref": "turn6view0"
+    },
+    {
+      "id": "T013",
+      "title_ar": "بدّل نطاق البحث بلا إعادة كتابة",
+      "advice_ar": "تقترح المناقشة الانتقال من بحث العنوان إلى كل المحتوى داخل واجهة البحث نفسها.",
+      "source_url": "https://forum.obsidian.md/t/mobile-faster-access-to-global-search-in-mobile-app/42072",
+      "source_title": "[Mobile] Faster access to global search in mobile app",
+      "source_kind": "community_first_person",
+      "verification": "اقتراح مجتمع صريح؛ ليس ميزة مؤكدة في Obsidian.",
+      "application_ar": "إذا أضيف نطاق ضيق، وفّر توسيع البحث مع الاحتفاظ بعبارة المستخدم.",
+      "test_idea": "اكتب عبارة ثم بدّل النطاق؛ يبقى النص وتُحدّث النتائج.",
+      "source_ref": "turn6view0"
+    },
+    {
+      "id": "T014",
+      "title_ar": "اسم واحد للأمر نفسه",
+      "advice_ar": "وجد مشارك أن Find في القائمة يسمى Search current file في الإعدادات فتعذر العثور عليه.",
+      "source_url": "https://forum.obsidian.md/t/mobile-is-there-a-quick-way-to-open-find-command-on-mobile-to-search-for-text-on-a-note/65960",
+      "source_title": "[mobile] Is there a quick way to open Find... command on mobile to search for text on a Note?",
+      "source_kind": "community_first_person",
+      "verification": "شهادة موثقة عن أسماء أوامر؛ تطبيق التوحيد استنتاج.",
+      "application_ar": "استخدم البحث داخل الملاحظة في زرها ودليلها وأي اختصار لها.",
+      "test_idea": "اطلب العثور على الأمر من الشاشة ومن قائمة الأدوات بالاسم نفسه.",
+      "source_ref": "turn6view5"
+    },
+    {
+      "id": "T015",
+      "title_ar": "نتائج صفر واضحة",
+      "advice_ar": "توثق المقالة تجاهل المشاركين رسالة لا نتائج عندما تكون هامشية بصريًا.",
+      "source_url": "https://www.nngroup.com/articles/search-no-results-serp/",
+      "source_title": "3 Guidelines for Search Engine \"No Results\" Pages",
+      "source_kind": "original_research",
+      "verification": "ملاحظة من اختبار منشور؛ نقلها لرسوخ استنتاج.",
+      "application_ar": "اعرض لا توجد نتائج لعبارتك في منطقة النتائج نفسها.",
+      "test_idea": "ابحث بعبارة لا تطابق شيئًا؛ اطلب تفسير الشاشة قبل أي تلميح.",
+      "source_ref": "turn33view0"
+    },
+    {
+      "id": "T016",
+      "title_ar": "احتفظ بالعبارة لتعديلها",
+      "advice_ar": "تنصح المقالة بإبقاء الاستعلام الأصلي داخل حقل البحث عند غياب النتائج.",
+      "source_url": "https://www.nngroup.com/articles/search-no-results-serp/",
+      "source_title": "3 Guidelines for Search Engine \"No Results\" Pages",
+      "source_kind": "original_research",
+      "verification": "توصية منشورة؛ توسيعها للعودة من النتيجة استنتاج.",
+      "application_ar": "لا تمسح العبارة عند فشل البحث أو إغلاق نتيجة والعودة.",
+      "test_idea": "عدّل حرفًا بعد بحث فاشل دون إعادة كتابة الاستعلام.",
+      "source_ref": "turn33view0"
+    },
+    {
+      "id": "T017",
+      "title_ar": "طريق تعافٍ بعد البحث الفاشل",
+      "advice_ar": "توصي المقالة باقتراح كلمات أقل أو بديلة بدل جعل الصفحة نهاية مسدودة.",
+      "source_url": "https://www.nngroup.com/articles/search-no-results-serp/",
+      "source_title": "3 Guidelines for Search Engine \"No Results\" Pages",
+      "source_kind": "original_research",
+      "verification": "إرشاد منشور؛ لا تُعرض اقتراحات مزعومة أنها نتائج.",
+      "application_ar": "وفّر مسح البحث وإرشادًا مختصرًا لتقليل الكلمات أو إزالة التصفية.",
+      "test_idea": "ابحث بعبارة طويلة ثم أصلحها من الشاشة نفسها.",
+      "source_ref": "turn33view0"
+    },
+    {
+      "id": "T018",
+      "title_ar": "التقاط قصير من موضع العمل",
+      "advice_ar": "قدّم مساهم نموذجًا لإدخال ملاحظات قصيرة متتابعة من قائمة الملاحظات.",
+      "source_url": "https://discourse.joplinapp.org/t/mobile-quickly-add-notes-incl-prototypes/30085",
+      "source_title": "Mobile: Quickly add notes (incl prototypes)",
+      "source_kind": "community_prototype",
+      "verification": "نموذج مجتمع مقترح؛ ليس دليلًا على توفره في إصدار حالي.",
+      "application_ar": "اجعل ملاحظة جديدة إجراءً مباشرًا في الرئيسية والقائمة.",
+      "test_idea": "التقط ثلاث أفكار قصيرة وسجّل خطوات الرجوع بين كل فكرة.",
+      "source_ref": "turn33view4"
+    },
+    {
+      "id": "T019",
+      "title_ar": "انتقال واضح من العنوان للمتن",
+      "advice_ar": "طلب مستخدمون تفعيل الكتابة مباشرة والانتقال من العنوان للمتن بزر الإدخال.",
+      "source_url": "https://discourse.joplinapp.org/t/change-title-when-editing-a-note/37671",
+      "source_title": "Change title when editing a note",
+      "source_kind": "community_discussion",
+      "verification": "طلب مستخدمين؛ أفضل حقل ابتدائي لرسوخ يحتاج تجربة.",
+      "application_ar": "عند الإنشاء ركّز حقلًا مناسبًا، واجعل التالي ينقل إلى المتن.",
+      "test_idea": "أنشئ عنوانًا ثم انتقل للمتن بلوحة المفاتيح دون لمس إضافي.",
+      "source_ref": "turn33view3"
+    },
+    {
+      "id": "T020",
+      "title_ar": "لا تغيّر العنوان الذي اختاره صاحبه",
+      "advice_ar": "اعترض مشارك على تحديث العنوان تلقائيًا مع أول سطر لأنه يفقده مرجع الاسترجاع.",
+      "source_url": "https://discourse.joplinapp.org/t/change-title-when-editing-a-note/37671",
+      "source_title": "Change title when editing a note",
+      "source_kind": "community_discussion",
+      "verification": "رأي مستخدم ضمن نقاش مختلف الآراء؛ التطبيق استنتاج.",
+      "application_ar": "احفظ العنوان اليدوي ثابتًا عند تعديل المتن؛ اقترح عنوانًا فقط عند فراغه.",
+      "test_idea": "غيّر أول فقرة في ملاحظة مسماة وتأكد أن عنوانها لا يتبدل.",
+      "source_ref": "turn33view3"
+    },
+    {
+      "id": "T021",
+      "title_ar": "قوالب سريعة اختيارية",
+      "advice_ar": "طلب مستخدم اختيار قالب عند إنشاء ملاحظة باختصار الهاتف لتخفيف العمل المتكرر.",
+      "source_url": "https://forum.obsidian.md/t/mobile-add-the-ability-to-select-a-template-when-using-the-open-new-note-shortcut-command/110549",
+      "source_title": "[Mobile] Add the ability to select a template when using the \"Open New Note\" shortcut command",
+      "source_kind": "community_first_person",
+      "verification": "طلب مجتمع؛ عدد قوالب رسوخ المقترح ليس حقيقة من المصدر.",
+      "application_ar": "اعرض قوالب محدودة اختيارية مع ملاحظة فارغة كمسار مباشر.",
+      "test_idea": "أنشئ ملاحظة فارغة ثم ملاحظة بقالب دون إعداد مسبق.",
+      "source_ref": "turn33view2"
+    },
+    {
+      "id": "T022",
+      "title_ar": "حديثة قبل كتابة البحث",
+      "advice_ar": "توثق مساعدة Obsidian عرض أحدث الملاحظات عندما يكون استعلام المبدّل فارغًا.",
+      "source_url": "https://obsidian.md/help/plugins/quick-switcher",
+      "source_title": "Quick switcher",
+      "source_kind": "official_documentation",
+      "verification": "سلوك موثق رسميًا؛ تطبيقه في رسوخ اقتراح.",
+      "application_ar": "يمكن لمدخل البحث في رسوخ عرض ملاحظات حديثة معنونة بوضوح.",
+      "test_idea": "افتح البحث فارغًا وعد إلى آخر ملاحظة دون كتابة.",
+      "source_ref": "turn33view6"
+    },
+    {
+      "id": "T023",
+      "title_ar": "حوّل الاسم الجديد إلى ملاحظة",
+      "advice_ar": "توثق المساعدة إنشاء ملاحظة باسم الاستعلام إذا لم يوجد مطابق.",
+      "source_url": "https://obsidian.md/help/plugins/quick-switcher",
+      "source_title": "Quick switcher",
+      "source_kind": "official_documentation",
+      "verification": "سلوك موثق رسميًا؛ واجهة التأكيد المقترحة استنتاج.",
+      "application_ar": "وفّر إنشاء ملاحظة بهذا العنوان بعد غياب المطابقة مع فصلها عن النتائج.",
+      "test_idea": "ابحث عن عنوان جديد ثم أنشئه؛ لا تنشأ نسخة عند وجود مطابق.",
+      "source_ref": "turn33view6"
+    },
+    {
+      "id": "T024",
+      "title_ar": "الرجوع يعيد إلى السياق السابق",
+      "advice_ar": "اشتكى مستخدمون أن الرجوع بعد تتبع رابط يعيد لقائمة بدل الملاحظة السابقة.",
+      "source_url": "https://discourse.joplinapp.org/t/mobile-navigation-experience-with-note-links/23810",
+      "source_title": "Mobile navigation experience with note links",
+      "source_kind": "community_first_person",
+      "verification": "شهادات مجتمع عن إصدار قديم؛ الاختبار لرسوخ مقترح.",
+      "application_ar": "احفظ مصدر الدخول كي يعود إغلاق الملاحظة للرئيسية أو نتائج البحث أو الملاحظة الأصلية.",
+      "test_idea": "اختبر رئيسية ← ملاحظة، وبحث ← ملاحظة، ورابط ← ملاحظة ثم الرجوع.",
+      "source_ref": "turn6view2"
+    },
+    {
+      "id": "T025",
+      "title_ar": "احتفظ بموضع القائمة",
+      "advice_ar": "ذكر مستخدم أن إعادة مستكشف الملفات للأعلى بعد إغلاق ملاحظة تعيق التنقل في القوائم الكبيرة.",
+      "source_url": "https://forum.obsidian.md/t/preserve-scroll-position-in-the-file-explorer-for-obsidian-mobile/93965",
+      "source_title": "Preserve Scroll Position in the File Explorer for Obsidian Mobile",
+      "source_kind": "community_first_person",
+      "verification": "شكوى تاريخية ورد يفيد إصلاحها؛ لا ننسب العطل للنسخة الحالية.",
+      "application_ar": "أعد المستخدم إلى موضع قائمة الملاحظات نفسه بعد إغلاق المحرر.",
+      "test_idea": "افتح العنصر رقم 40 ثم أغلقه؛ يبقى موضع القائمة قريبًا منه.",
+      "source_ref": "turn57view0"
+    },
+    {
+      "id": "T026",
+      "title_ar": "استأنف موضع القراءة",
+      "advice_ar": "وصف مستخدم للهاتف فقدان موضعه في الملاحظات الطويلة عند مغادرة التطبيق والعودة.",
+      "source_url": "https://forum.obsidian.md/t/feature-save-location-within-notes/43878",
+      "source_title": "[Feature] Save location within notes",
+      "source_kind": "community_first_person",
+      "verification": "تجربة فردية موثقة؛ آلية التنفيذ في رسوخ تحتاج فحصًا.",
+      "application_ar": "احتفظ بموضع قراءة الملاحظة عند التنقل واستئناف التطبيق حيثما أمكن.",
+      "test_idea": "اقرأ منتصف ملاحظة طويلة ثم بدّل التطبيق وعد؛ قارن موضع النص.",
+      "source_ref": "turn57view1"
+    },
+    {
+      "id": "T027",
+      "title_ar": "قفز واضح داخل الملاحظة الطويلة",
+      "advice_ar": "تصف المناقشة التمرير البطيء وصعوبة بلوغ بداية الملاحظة أو نهايتها.",
+      "source_url": "https://discourse.joplinapp.org/t/mobile-app-navigate-to-the-start-end-of-the-note/29489",
+      "source_title": "Mobile app: navigate to the start/end of the note",
+      "source_kind": "community_first_person",
+      "verification": "طلب مجتمع؛ اختيار أزرار القفز أو الفهرس لرسوخ استنتاج.",
+      "application_ar": "وفّر انتقالًا واضحًا للبداية والنهاية أو عناوين الأقسام في الملاحظات الطويلة.",
+      "test_idea": "أضف نصًا طويلًا واطلب الوصول لآخر فقرة دون تمرير مطوّل.",
+      "source_ref": "turn6view6"
+    },
+    {
+      "id": "T028",
+      "title_ar": "البحث أثناء القراءة",
+      "advice_ar": "يقترح مساهم توفير بحث داخل الملاحظة في وضع القراءة بدل اشتراط التحرير.",
+      "source_url": "https://discourse.joplinapp.org/t/search-notes-in-view-mode-on-mobile/45364",
+      "source_title": "Search notes in view mode on mobile",
+      "source_kind": "community_contributor_proposal",
+      "verification": "مقترح مساهم موثق؛ ليس إثباتًا أنه طُبق.",
+      "application_ar": "اجعل بحث النص قابلًا للاستخدام دون دخول وضع يغير المحتوى.",
+      "test_idea": "ابحث داخل ملاحظة وافتح التطابق دون تعديل نصها.",
+      "source_ref": "turn33view5"
+    },
+    {
+      "id": "T029",
+      "title_ar": "انتقل بين التطابقات",
+      "advice_ar": "يقترح المساهم زري السابق والتالي للقفز بين كلمات البحث داخل الملاحظة.",
+      "source_url": "https://discourse.joplinapp.org/t/search-notes-in-view-mode-on-mobile/45364",
+      "source_title": "Search notes in view mode on mobile",
+      "source_kind": "community_contributor_proposal",
+      "verification": "السابق والتالي اقتراح صريح؛ إضافة العدد استنتاج.",
+      "application_ar": "اعرض عدد التطابقات وانتقل بينها دون تمرير يدوي.",
+      "test_idea": "في ملاحظة بها خمسة تطابقات انتقل لكل واحد ثم أغلق البحث.",
+      "source_ref": "turn33view5"
+    },
+    {
+      "id": "T030",
+      "title_ar": "مقتطف يفسر النتيجة",
+      "advice_ar": "اشتكى مستخدم من عرض عناوين فقط، ما يجبره على فتح النتائج واحدة واحدة.",
+      "source_url": "https://discourse.joplinapp.org/t/joplin-is-let-down-by-very-poor-search/13679",
+      "source_title": "Joplin is let down by very poor search",
+      "source_kind": "community_discussion",
+      "verification": "شهادة مستخدم وليست قياسًا عامًا؛ مقتطف رسوخ اقتراح.",
+      "application_ar": "أظهر مقتطفًا حول تطابق المتن مع إبقاء عنوان الملاحظة.",
+      "test_idea": "استخدم عناوين متشابهة وحدد الملاحظة المقصودة من قائمة النتائج.",
+      "source_ref": "turn57view2"
+    },
+    {
+      "id": "T031",
+      "title_ar": "التصفية المكتشفة أفضل من الصيغة المخفية",
+      "advice_ar": "صحح ردّ في المناقشة اعتقاد غياب بحث الدفتر؛ الوظيفة موجودة بصيغة لم يعرفها السائل.",
+      "source_url": "https://discourse.joplinapp.org/t/joplin-is-let-down-by-very-poor-search/13679",
+      "source_title": "Joplin is let down by very poor search",
+      "source_kind": "community_discussion",
+      "verification": "حقيقة النقاش هي وجود تصحيح؛ لا ننسب انعدام الوظيفة إلى Joplin.",
+      "application_ar": "إذا أضيفت فئات، اعرض تصفية مرئية بدل اشتراط كتابة معاملات خاصة.",
+      "test_idea": "اطلب البحث في فئة واحدة دون معرفة صيغة بحث.",
+      "source_ref": "turn57view2"
+    },
+    {
+      "id": "T032",
+      "title_ar": "افتح النتيجة عند موضع التطابق",
+      "advice_ar": "اشتكى السائل من الوصول لأول الملاحظة بدل النص المطابق عند البحث.",
+      "source_url": "https://discourse.joplinapp.org/t/joplin-is-let-down-by-very-poor-search/13679",
+      "source_title": "Joplin is let down by very poor search",
+      "source_kind": "community_discussion",
+      "verification": "شكوى تاريخية مع اختلاف تجارب المشاركين؛ اقتراح رسوخ يحتاج اختبارًا.",
+      "application_ar": "مرر عبارة البحث لعارض الملاحظة وحدد التطابق أو زر الانتقال إليه.",
+      "test_idea": "ابحث بكلمة في آخر ملاحظة طويلة وافتح النتيجة مباشرة.",
+      "source_ref": "turn57view2"
+    },
+    {
+      "id": "T033",
+      "title_ar": "ترتيب النتائج يخدم قصد البحث",
+      "advice_ar": "طلب مستخدمون فرز نتائج كثيرة بالتاريخ أو الاسم بدل الاعتماد الدائم على الصلة.",
+      "source_url": "https://discourse.joplinapp.org/t/search-result-order/3763",
+      "source_title": "Search result order",
+      "source_kind": "community_maintainer_discussion",
+      "verification": "طلبات ومناقشة مساهم؛ لا ندعي دمج طلب التعديل.",
+      "application_ar": "أضف ترتيبًا معلنًا مثل آخر تعديل عند الحاجة الفعلية للقوائم الكبيرة.",
+      "test_idea": "ابحث عن موضوع متكرر واختر أحدث ملاحظة بوضوح.",
+      "source_ref": "turn57view5"
+    },
+    {
+      "id": "T034",
+      "title_ar": "أجّل الأدوات المتخصصة",
+      "advice_ar": "توصي المقالة بإظهار المهم أولًا ونقل الخيارات النادرة إلى مستوى ثانٍ.",
+      "source_url": "https://www.nngroup.com/articles/progressive-disclosure/",
+      "source_title": "Progressive Disclosure",
+      "source_kind": "practitioner_article",
+      "verification": "إرشاد منشور؛ اختيار الوظائف الأساسية لرسوخ فرضية.",
+      "application_ar": "ابدأ بالملاحظة والبحث والمصدر، وضع الإعدادات المتقدمة داخل الأداة.",
+      "test_idea": "اطلب حفظ ملاحظة من مستخدم جديد وسجّل الخيارات غير الضرورية التي يفتحها.",
+      "source_ref": "turn57view3"
+    },
+    {
+      "id": "T035",
+      "title_ar": "سمِّ الطريق للأدوات الثانوية",
+      "advice_ar": "تشترط المقالة أن يكون الانتقال للمستوى الثاني ظاهرًا وأن تصف تسميته المحتوى المتوقع.",
+      "source_url": "https://www.nngroup.com/articles/progressive-disclosure/",
+      "source_title": "Progressive Disclosure",
+      "source_kind": "practitioner_article",
+      "verification": "إرشاد منشور؛ التفريق بين الظهور والتثبيت استنتاج خاص برسـوخ.",
+      "application_ar": "احتفظ بمدخل كل الأدوات، وافصل فتح الأداة عن إظهارها في الرئيسية وتثبيتها بالشريط.",
+      "test_idea": "أخف أداة ثم اطلب فتحها وإعادتها للرئيسية دون تغيير بياناتها.",
+      "source_ref": "turn57view3"
+    }
+  ],
+  "videos": [
+    {
+      "id": "V001",
+      "url": "https://www.youtube.com/watch?v=rdeoPuPzONg",
+      "title": "Hamburger Menus Hurt UX Metrics (Kara Pernice)",
+      "channel": "NNgroup",
+      "published_date": "2017-02-17",
+      "access_level": "search_metadata",
+      "supported_lesson_ar": "الوصف يربط إخفاء التنقل بانخفاض اكتشافه وزيادة زمن المهمة؛ يساند إبقاء الوجهات الأساسية ظاهرة.",
+      "related_tip_ids": [
+        "T001"
+      ],
+      "source_ref": "turn12youtube47"
+    },
+    {
+      "id": "V002",
+      "url": "https://www.youtube.com/watch?v=3J8YKKHhhhA",
+      "title": "How to Design a Good Search UI",
+      "channel": "NNgroup",
+      "published_date": "2021-05-14",
+      "access_level": "search_metadata",
+      "supported_lesson_ar": "الوصف ينبه أن ضعف استخدام البحث قد ينتج عن واجهته؛ اختبر اكتشاف مدخل البحث قبل افتراض عدم الحاجة إليه.",
+      "related_tip_ids": [
+        "T012"
+      ],
+      "source_ref": "turn12youtube48"
+    },
+    {
+      "id": "V003",
+      "url": "https://www.youtube.com/watch?v=Vp77JWjjaiQ",
+      "title": "Navigation Menus - 5 Tips to Make Them Visible",
+      "channel": "NNgroup",
+      "published_date": "2020-06-12",
+      "access_level": "search_metadata",
+      "supported_lesson_ar": "الوصف يركز على ظهور قائمة التنقل؛ يدعم اختبار العثور على كل الأدوات دون شرح.",
+      "related_tip_ids": [
+        "T001",
+        "T035"
+      ],
+      "source_ref": "turn19youtube48"
+    },
+    {
+      "id": "V004",
+      "url": "https://www.youtube.com/watch?v=ZF_25i-be8k",
+      "title": "Tips for Icon Usability",
+      "channel": "NNgroup",
+      "published_date": "2017-09-01",
+      "access_level": "search_metadata",
+      "supported_lesson_ar": "الوصف يعلن إرشادات لفهم الأيقونات؛ يساند اختبار المعنى المتوقع للأدوات، ولا نسرد إرشادات لم تُقرأ.",
+      "related_tip_ids": [
+        "T003"
+      ],
+      "source_ref": "turn22youtube48"
+    },
+    {
+      "id": "V005",
+      "url": "https://www.youtube.com/watch?v=MUh3xyvEWDE",
+      "title": "Empty States in Application Design: 3 Guidelines",
+      "channel": null,
+      "published_date": null,
+      "access_level": "search_metadata",
+      "supported_lesson_ar": "وصف الناشر الأصلي للفيديو يربط الحالة الفارغة بالثقة والتعلم وبدء المهام؛ رابط يوتيوب فُتح بعنوان مطابق.",
+      "related_tip_ids": [
+        "T008",
+        "T009",
+        "T010"
+      ],
+      "source_ref": "turn19search0",
+      "supporting_source_url": "https://www.nngroup.com/videos/empty-states-in-application-design-guidelines/"
+    },
+    {
+      "id": "V006",
+      "url": "https://www.youtube.com/watch?v=qlKWPNgPjmw",
+      "title": "Progressive Disclosure",
+      "channel": "NNgroup",
+      "published_date": "2022-07-15",
+      "access_level": "search_metadata",
+      "supported_lesson_ar": "الوصف يوصي بنقل الخيارات الثانوية لشاشة فرعية لتركيز الانتباه على الأساسية.",
+      "related_tip_ids": [
+        "T034",
+        "T035"
+      ],
+      "source_ref": "turn27youtube3"
+    },
+    {
+      "id": "V007",
+      "url": "https://www.youtube.com/watch?v=4oJ0rAeWIss",
+      "title": null,
+      "channel": "NNgroup",
+      "published_date": "2022-10-28",
+      "access_level": "search_metadata",
+      "supported_lesson_ar": "الوصف المرصود يدعو لأماكن متوقعة وتسلسل بصري واضح وإظهار تدريجي للخيارات؛ العنوان لم يظهر في نتيجة البحث.",
+      "related_tip_ids": [
+        "T002",
+        "T034"
+      ],
+      "source_ref": "turn27youtube4"
+    },
+    {
+      "id": "V008",
+      "url": "https://www.youtube.com/watch?v=-c9AUhXAFD8",
+      "title": "Information Scent",
+      "channel": "NNgroup",
+      "published_date": "2020-11-27",
+      "access_level": "search_metadata",
+      "supported_lesson_ar": "الوصف يشرح استخدام نص الرابط وسياقه لتوقع وجهته؛ سمّ فتح الأداة وتخصيص ظهورها بدقة.",
+      "related_tip_ids": [
+        "T035"
+      ],
+      "source_ref": "turn39youtube30"
+    },
+    {
+      "id": "V009",
+      "url": "https://www.youtube.com/watch?v=7XpQVWaTO2s",
+      "title": "Designing Search Suggestions",
+      "channel": "NNgroup",
+      "published_date": "2019-03-22",
+      "access_level": "search_metadata",
+      "supported_lesson_ar": "الوصف يشترط صلة اقتراحات البحث وتمييزها بصريًا عن الاستعلام؛ أي اقتراح في رسوخ يجب ألا يبدو نتيجة مؤكدة.",
+      "related_tip_ids": [
+        "T017"
+      ],
+      "source_ref": "turn39youtube31"
+    },
+    {
+      "id": "V010",
+      "url": "https://www.youtube.com/watch?v=zgYapNWI6EA",
+      "title": null,
+      "channel": "CreaDev Labs",
+      "published_date": "2026-01-29",
+      "access_level": "search_metadata",
+      "supported_lesson_ar": "وصف الفيديو يناقش تقليل صعوبة الالتقاط على الهاتف ومداخل مباشرة للملاحظات؛ لا نستنتج تفاصيل تنفيذ لرسوخ.",
+      "related_tip_ids": [
+        "T018"
+      ],
+      "source_ref": "turn41youtube1"
+    },
+    {
+      "id": "V011",
+      "url": "https://www.youtube.com/watch?v=6UA6PkYMRyY",
+      "title": "Obsidian ➡ 3 tips for content capture (how I do it)",
+      "channel": "Vladimir Campos",
+      "published_date": "2026-07-03",
+      "access_level": "search_metadata",
+      "supported_lesson_ar": "الوصف والفصول يتناولان التقاط المحتوى بالهاتف وتنظيمه في مجلد؛ الدرس المحدود هو اختبار التقاط الفكرة في سياقها.",
+      "related_tip_ids": [
+        "T018",
+        "T021"
+      ],
+      "source_ref": "turn41youtube2"
+    },
+    {
+      "id": "V012",
+      "url": "https://www.youtube.com/watch?v=xxmczG4dcS4",
+      "title": "Quick Capture Obsidian Mobile Notes on IPhone",
+      "channel": null,
+      "published_date": null,
+      "access_level": "search_metadata",
+      "supported_lesson_ar": "المقتطف يصف إعداد اختصار Siri من ثلاث خطوات لالتقاط الملاحظات؛ يبرهن وجود مسار اختصار يناقشه ممارس، لا جودة مسار رسوخ.",
+      "related_tip_ids": [
+        "T018"
+      ],
+      "source_ref": "turn45youtube49"
+    },
+    {
+      "id": "V013",
+      "url": "https://www.youtube.com/watch?v=P0WDO76300Q",
+      "title": "Tree Testing to Evaluate Information Architecture Categories",
+      "channel": "NNgroup",
+      "published_date": "2019-11-01",
+      "access_level": "search_metadata",
+      "supported_lesson_ar": "الوصف يعرّف اختبار شجرة التنقل لتقييم التصنيف؛ يمكن استخدام مهام بسيطة لاختبار موضع أدوات رسوخ.",
+      "related_tip_ids": [
+        "T035"
+      ],
+      "source_ref": "turn55youtube46"
+    },
+    {
+      "id": "V014",
+      "url": "https://www.youtube.com/watch?v=zJLQdMmYWFQ",
+      "title": "How Many Items in a Navigation Menu?",
+      "channel": "NNgroup",
+      "published_date": "2019-05-24",
+      "access_level": "search_metadata",
+      "supported_lesson_ar": "الوصف يرفض العدد سبعة كقاعدة تلقائية للقوائم؛ اختر عدد الوجهات وفق المهمة والمساحة ثم اختبره.",
+      "related_tip_ids": [
+        "T001",
+        "T002"
+      ],
+      "source_ref": "turn55youtube47"
+    },
+    {
+      "id": "V015",
+      "url": "https://www.youtube.com/watch?v=OO0jveK-x0w",
+      "title": "Onboarding: Skip it When Possible",
+      "channel": "NNgroup",
+      "published_date": "2021-01-15",
+      "access_level": "search_metadata",
+      "supported_lesson_ar": "الوصف يحذر من كلفة التعليمات التي تسبق الاستخدام؛ يدعم دخول تجربة جاهزة وتعليمًا عند الحاجة.",
+      "related_tip_ids": [
+        "T005",
+        "T006",
+        "T007"
+      ],
+      "source_ref": "turn83youtube33"
+    },
+    {
+      "id": "V016",
+      "url": "https://www.youtube.com/watch?v=s2_hdIXW5UU",
+      "title": "Best Way To Organize Your Apple Notes - Most Don't Know This Method",
+      "channel": "Craig Neidel",
+      "published_date": "2025-06-03",
+      "access_level": "search_metadata",
+      "supported_lesson_ar": "الوصف والفصول يعرضان ملاحظة تجميع مثبتة ووسومًا للاسترجاع؛ المقارنة المفيدة لرسوخ هي سرعة الالتقاط ثم العثور على المحتوى، دون اعتماد تفضيل المنشئ كقاعدة عامة.",
+      "related_tip_ids": [
+        "T018",
+        "T031"
+      ],
+      "source_ref": "turn88youtube22"
+    },
+    {
+      "id": "V017",
+      "url": "https://www.youtube.com/watch?v=O4eB1aTy9Uc",
+      "title": "The #1 Apple Notes Organization System You Need to Try",
+      "channel": "The MacWhisperer",
+      "published_date": "2024-11-22",
+      "access_level": "search_metadata",
+      "supported_lesson_ar": "الوصف يذكر الفرز بتاريخ التعديل أو الإنشاء أو العنوان والتثبيت والوسوم؛ يساند اختبار طرق استرجاع مختلفة بدل افتراض معيار ترتيب واحد.",
+      "related_tip_ids": [
+        "T031",
+        "T033"
+      ],
+      "source_ref": "turn88youtube23"
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://www.nngroup.com/articles/hamburger-menus/",
+      "title": "Hamburger Menus and Hidden Navigation Hurt UX Metrics",
+      "kind": "original_research",
+      "source_ref": "turn6view4"
+    },
+    {
+      "url": "https://www.nngroup.com/articles/mobile-navigation-patterns/",
+      "title": "Basic Patterns for Mobile Navigation",
+      "kind": "practitioner_article",
+      "source_ref": "turn6view7"
+    },
+    {
+      "url": "https://www.nngroup.com/articles/icon-usability/",
+      "title": "Icon Usability",
+      "kind": "original_research",
+      "source_ref": "turn57view4"
+    },
+    {
+      "url": "https://forum.obsidian.md/t/feature-mobile-navigation-guide/30295",
+      "title": "[Feature] Mobile navigation guide",
+      "kind": "community_first_person",
+      "source_ref": "turn6view1"
+    },
+    {
+      "url": "https://www.nngroup.com/articles/mobile-app-onboarding/",
+      "title": "Mobile-App Onboarding: An Analysis of Components and Techniques",
+      "kind": "original_research",
+      "source_ref": "turn36view0"
+    },
+    {
+      "url": "https://www.nngroup.com/articles/empty-state-interface-design/",
+      "title": "Designing Empty States in Complex Applications: 3 Guidelines",
+      "kind": "practitioner_article",
+      "source_ref": "turn36view1"
+    },
+    {
+      "url": "https://forum.obsidian.md/t/mobile-faster-access-to-global-search-in-mobile-app/42072",
+      "title": "[Mobile] Faster access to global search in mobile app",
+      "kind": "community_first_person",
+      "source_ref": "turn6view0"
+    },
+    {
+      "url": "https://forum.obsidian.md/t/mobile-is-there-a-quick-way-to-open-find-command-on-mobile-to-search-for-text-on-a-note/65960",
+      "title": "[mobile] Is there a quick way to open Find... command on mobile to search for text on a Note?",
+      "kind": "community_first_person",
+      "source_ref": "turn6view5"
+    },
+    {
+      "url": "https://www.nngroup.com/articles/search-no-results-serp/",
+      "title": "3 Guidelines for Search Engine \"No Results\" Pages",
+      "kind": "original_research",
+      "source_ref": "turn33view0"
+    },
+    {
+      "url": "https://discourse.joplinapp.org/t/mobile-quickly-add-notes-incl-prototypes/30085",
+      "title": "Mobile: Quickly add notes (incl prototypes)",
+      "kind": "community_prototype",
+      "source_ref": "turn33view4"
+    },
+    {
+      "url": "https://discourse.joplinapp.org/t/change-title-when-editing-a-note/37671",
+      "title": "Change title when editing a note",
+      "kind": "community_discussion",
+      "source_ref": "turn33view3"
+    },
+    {
+      "url": "https://forum.obsidian.md/t/mobile-add-the-ability-to-select-a-template-when-using-the-open-new-note-shortcut-command/110549",
+      "title": "[Mobile] Add the ability to select a template when using the \"Open New Note\" shortcut command",
+      "kind": "community_first_person",
+      "source_ref": "turn33view2"
+    },
+    {
+      "url": "https://obsidian.md/help/plugins/quick-switcher",
+      "title": "Quick switcher",
+      "kind": "official_documentation",
+      "source_ref": "turn33view6"
+    },
+    {
+      "url": "https://discourse.joplinapp.org/t/mobile-navigation-experience-with-note-links/23810",
+      "title": "Mobile navigation experience with note links",
+      "kind": "community_first_person",
+      "source_ref": "turn6view2"
+    },
+    {
+      "url": "https://forum.obsidian.md/t/preserve-scroll-position-in-the-file-explorer-for-obsidian-mobile/93965",
+      "title": "Preserve Scroll Position in the File Explorer for Obsidian Mobile",
+      "kind": "community_first_person",
+      "source_ref": "turn57view0"
+    },
+    {
+      "url": "https://forum.obsidian.md/t/feature-save-location-within-notes/43878",
+      "title": "[Feature] Save location within notes",
+      "kind": "community_first_person",
+      "source_ref": "turn57view1"
+    },
+    {
+      "url": "https://discourse.joplinapp.org/t/mobile-app-navigate-to-the-start-end-of-the-note/29489",
+      "title": "Mobile app: navigate to the start/end of the note",
+      "kind": "community_first_person",
+      "source_ref": "turn6view6"
+    },
+    {
+      "url": "https://discourse.joplinapp.org/t/search-notes-in-view-mode-on-mobile/45364",
+      "title": "Search notes in view mode on mobile",
+      "kind": "community_contributor_proposal",
+      "source_ref": "turn33view5"
+    },
+    {
+      "url": "https://discourse.joplinapp.org/t/joplin-is-let-down-by-very-poor-search/13679",
+      "title": "Joplin is let down by very poor search",
+      "kind": "community_discussion",
+      "source_ref": "turn57view2"
+    },
+    {
+      "url": "https://discourse.joplinapp.org/t/search-result-order/3763",
+      "title": "Search result order",
+      "kind": "community_maintainer_discussion",
+      "source_ref": "turn57view5"
+    },
+    {
+      "url": "https://www.nngroup.com/articles/progressive-disclosure/",
+      "title": "Progressive Disclosure",
+      "kind": "practitioner_article",
+      "source_ref": "turn57view3"
+    }
+  ],
+  "evidence_gaps_ar": [
+    "لم تُشاهد الفيديوهات ولم تتوفر نصوص تفريغ؛ الدروس مقيدة بالعناوين والأوصاف المفهرسة. لذلك صنفت كلها search_metadata.",
+    "العنوان الدقيق غير متاح للفيديوهين V007 وV010. لا يعني الوصف المتاح التحقق من المحتوى الكامل.",
+    "القناة والتاريخ الدقيق غير متحققين للفيديوهين V005 وV012، وتُحفظ هذه الحقول null.",
+    "دراسات NN/G تتعلق بسياقاتها ومنتجاتها؛ لا ننقل أحجام أثرها إلى رسوخ. شهادات المجتمع إشارة تصميم وليست إجماعًا.",
+    "هذه 35 نصيحة متميزة مستخلصة من 21 صفحة فعلية؛ ليست ادعاء قراءة 35 منشورًا مستقلًا."
+  ]
+}

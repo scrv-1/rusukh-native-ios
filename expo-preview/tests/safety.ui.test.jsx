@@ -2,7 +2,7 @@ import React from 'react';
 import { Alert, AppState } from 'react-native';
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react-native';
 import App from '../App';
-import { WORKSPACE_KEY, defaultWorkspace } from '../src/workspace';
+import { WORKSPACE_KEY, workspacePreset } from '../src/workspace';
 import * as storage from '../src/storage';
 import * as picker from 'expo-document-picker';
 
@@ -32,6 +32,7 @@ async function hideDefault() {
 }
 beforeEach(()=>{
   mockSettings.clear(); mockCards[0].dueAt=0;
+  mockSettings.set(WORKSPACE_KEY, JSON.stringify(workspacePreset('simple')));
   storage.readAll.mockImplementation(async () => ({notes:mockNotes,cards:mockCards,reviews:[]}));
   storage.setSetting.mockImplementation(async (_,key,value)=>{mockSettings.set(key,value);});
   jest.spyOn(Alert,'alert').mockImplementation(()=>{});
@@ -66,6 +67,14 @@ test('review answer stays hidden before reveal instead of leaking in card list',
   expect(screen.queryByText('جواب')).toBeNull();
   await fireEvent.press(screen.getByRole('button',{name:'إظهار الإجابة'}));
   expect(screen.getByText('جواب')).toBeTruthy();
+});
+
+test('note title cannot reveal the answer before the student requests it', async()=>{
+  storage.readAll.mockResolvedValueOnce({notes:[{...mockNotes[0],title:'عنوان يكشف الجواب'}],cards:mockCards,reviews:[]});
+  await openApp(); await fireEvent.press(screen.getByRole('tab',{name:'المراجعة'}));
+  expect(screen.queryByText('عنوان يكشف الجواب')).toBeNull();
+  await fireEvent.press(screen.getByRole('button',{name:'إظهار الإجابة'}));
+  expect(screen.getByText('عنوان يكشف الجواب')).toBeTruthy();
 });
 
 test('closing a changed note asks before discarding', async()=>{

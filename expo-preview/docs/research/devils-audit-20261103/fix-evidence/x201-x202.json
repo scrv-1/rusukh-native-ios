@@ -1,0 +1,61 @@
+{
+  "fixed_findings": [
+    "X201",
+    "X202"
+  ],
+  "changed_product_files": [
+    "src/media/MediaCapturePanel.tsx",
+    "src/ai/LocalAILab.tsx",
+    "src/AIWorkspace.tsx"
+  ],
+  "changed_test_files": [
+    "tests/media-panel.ui.test.jsx",
+    "tests/ai-bridge.ui.test.jsx"
+  ],
+  "x201": {
+    "behavior_ar": "إعادة التشغيل تتحقق من نهاية مستقرة بوقت حالي محدود ومدة محدودة موجبة، أو من إشارة انتهاء native. لا يحسب الصفر/المدة غير المعروفة نهاية. فرع playing يوقف مؤقتًا فقط. يجب أن ينجح await seekTo(0) قبل play؛ رفضه يظهر خطأ داخل اللوحة ويسمح بإعادة المحاولة.",
+    "tests": [
+      "end flag cleared and deferred seek",
+      "pause and resume at 2.99 of 3 seconds without rewind",
+      "unknown duration 0/undefined/NaN/Infinity",
+      "native completion with unknown duration",
+      "seek rejection prevents play and retry recovers"
+    ],
+    "red_log": "x201-red.txt",
+    "source_lines": "src/media/MediaCapturePanel.tsx:23–34"
+  },
+  "x202": {
+    "behavior_ar": "رسالة الخطأ native تحدد لون النص والخلفية معًا. يستقبل LocalAILab اختياريًا p.surface وp.danger؛ AIWorkspace يمرر p. fallback مستقل #FF8989 فوق #111 عند عدم تمرير اللوحة.",
+    "contrast_ratios": {
+      "light": 6.430010662409411,
+      "dark": 7.766174235262522,
+      "standalone_fallback": 8.264929352576154
+    },
+    "tests": [
+      "fallback with explicit surface",
+      "light app palette on process termination",
+      "dark app palette on process termination",
+      "WCAG contrast >=4.5 for rendered native error colors",
+      "existing queued-result invalidation remains passing"
+    ],
+    "red_logs": [
+      "x202-red.txt",
+      "x202-palette-red.txt"
+    ],
+    "source_lines": "src/ai/LocalAILab.tsx:8,17,59; src/AIWorkspace.tsx:85"
+  },
+  "validation": {
+    "command": "npx jest --runInBand --runTestsByPath tests/media-panel.ui.test.jsx tests/ai-bridge.ui.test.jsx tests/ai-workspace.ui.test.jsx",
+    "suites_passed": 3,
+    "tests_passed": 29,
+    "log": "x201-x202-green.txt",
+    "typecheck_command": "npx tsc --noEmit",
+    "typecheck_exit_code": 0,
+    "typecheck_log": "x201-x202-typecheck.txt"
+  },
+  "limits_ar": "الاختبارات تستخدم مشغّل الصوت وWebView وهميين. نسب التباين محسوبة من الألوان المعلنة وليست قياسات شاشة iPhone. لا تثبت هذه النتائج الصوت الفعلي أو VoiceOver أو مطابقة CSS داخل مختبر WebView لسمة التطبيق؛ لم يتغير CSS المختبر. لا تعديل App.tsx أو storage/core أو version، ولا تبعيات جديدة أو عمليات Git.",
+  "device_acceptance_ar": [
+    "على iPhone أعد التشغيل بعد انتهاء التسجيل وانتظار ثانيتين؛ يجب أن يبدأ الصوت من الصفر. أوقف تسجيلًا قرب نهايته واستأنفه من موضعه.",
+    "في الوضعين الفاتح والداكن تحقق من قراءة رسالة فشل المحرك وتعليمات المحاولة مجددًا، مع تكبير النص؛ لا حاجة لاعتبار صور المحاكي دليل VoiceOver."
+  ]
+}

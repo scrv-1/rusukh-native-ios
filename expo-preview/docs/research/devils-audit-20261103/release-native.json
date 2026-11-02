@@ -1,0 +1,248 @@
+{
+  "audit": "release-native",
+  "observed_at": "2026-11-03",
+  "native_source_sha": "93f5adb1c2ee43195e0ceda35d39a9992c11e320",
+  "scope_ar": "مراجعة مصدر ستة ملفات Swift وصورة العمل الحالية Expo وسكربت الإصدار وWorkflow. لا تثبيت حزم، لا تعديل كود، لا Mac CI، لا تشغيل نموذج أو جهاز.",
+  "kind_legend": {
+    "source_verified_defect": "سلوك خاطئ محدد يثبته مسار المصدر؛ تشغيل الجهاز لم ينفذ",
+    "release_risk": "فجوة تمنع دليل الإصدار من كشف أو تمييز فشل معين؛ ليست دعوى فشل حالي",
+    "spec_gap": "جزء مطلوب لم يكتمل؛ ليس كل غياب ميزة عيبًا",
+    "device_validation_gap": "معيار قبول يحتاج جهازًا ولم يُثبت"
+  },
+  "verified_non_findings_ar": [
+    "المورد الحالي AI يطابق SHA-256 المسجل في manifest؛ R004 خطر بوابة إصدار مستقبلية لا ادعاء اختلاف حالي.",
+    "التقرير الحالي يميز Expo وSwiftUI ويصرح بحدود الهاتف؛ لم أجد فيه ادعاء تثبيت مستقل.",
+    "نتائج 307 في Codespaces لم أعد تشغيلها؛ ملفات الأدلة النهائية الكاملة غير موجودة في هذه النسخة المحلية، فلا أحكم على غيابها من الفرع البعيد.",
+    "العدد 50 مصنف22وصفًا و28metadata صراحة؛ ليس دليل مشاهدة ولا عيبًا برمجيًا.",
+    "لا أكرر عيب seed؛ وكيل البيانات مسؤول عن تحقيقه وإصلاحه."
+  ],
+  "source_file_sha256": {
+    "/workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/scripts/verify-release.cjs": "6d97819b4466dc9a8f80e572f60c168cac2912cadf8ce4305f3f2b2a981d73ba",
+    "/workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/tests/storage.test.cjs": "cff815aeda09ded80f3ee683d4a538c32c633098336240b9574a21672cdf1688",
+    "/workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/ai-lab/engine-runtime.test.mjs": "b9b196344875308f795c5345996e4992e716db1ee55f902f0e794ad664cdcc33",
+    "/workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/tests/ai-bridge.ui.test.jsx": "8659a6daed8573ea11991149c466d6bda9be3c7f043ea2ba42fb416d9eea0d81",
+    "/workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/RELEASE_0.5.0.md": "e3b84b26dd54a0153734d4c7b1dc40d331bc5f6e67b467a7a6bfc3d8904444c1",
+    "/workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/.github/workflows/ios-unsigned.yml": "24751509206a692ec5daae2f9379964499fd876b618e5473703808f2d7b5be17",
+    "/workspace/scratch/97ad5d4fb9f4/native-source-review/App/LocalAIView.swift": "4d2ec4cc4cca94efb9da982df90bd0906ff0f9dc90ebec2a135204e00bf26213",
+    "/workspace/scratch/97ad5d4fb9f4/native-source-review/App/NotesView.swift": "650ab26c0a0a42ec3fd9b8bbdf4b524980470bfff6ea21a5bb3f92dcb3947a51",
+    "/workspace/scratch/97ad5d4fb9f4/native-source-review/App/RusukhNativeApp.swift": "85c925c632b02a42c2634091363296dc30080a2d9302ddf2d6cfb6515c38cd4c",
+    "/workspace/scratch/97ad5d4fb9f4/native-source-review/App/HomeView.swift": "34376a96720c56bdfe59634016b98dd742275506d8a73471272fdecdf93e2362",
+    "/workspace/scratch/97ad5d4fb9f4/native-source-review/App/BackupSettingsView.swift": "0925e7b9a545fb803da70e3131d8bb28c19496277aa9a47092af9e1fd58b344d",
+    "/workspace/scratch/97ad5d4fb9f4/native-source-review/App/ArabicModelView.swift": "c442d720fccaec96b21ac28beb03dbca0c6fd1efb5e51a2d20e508c492bd803d"
+  },
+  "findings": [
+    {
+      "id": "R001",
+      "title_ar": "إلغاء محرر SwiftUI يتخلّص من التعديلات دون حماية",
+      "kind": "source_verified_defect",
+      "severity": "high",
+      "file": "/workspace/scratch/97ad5d4fb9f4/native-source-review/App/NotesView.swift",
+      "line_start": 194,
+      "line_end": 204,
+      "evidence": {
+        "source_sha": "93f5adb1c2ee43195e0ceda35d39a9992c11e320",
+        "code": "ToolbarItem(placement: .cancellationAction) { Button(\"إلغاء\") { dismiss() } }",
+        "related_lines": [
+          115,
+          116,
+          117,
+          125,
+          126,
+          128,
+          163,
+          198,
+          220
+        ],
+        "details_ar": "العنوان والنص والصورة حالات محلية في المحرر. الكتابة إلى LibraryStore لا تقع إلا عند حفظ. زر إلغاء يستدعي dismiss مباشرة، ولا يوجد تحقق dirty أو حماية إغلاق تفاعلي في الملف المفحوص."
+      },
+      "scenario": "افتح ملاحظة أو PDF، اكتب نصًا أو أضف صورة/تسجيلًا، ثم اضغط إلغاء بدل حفظ.",
+      "impact_ar": "يفقد الطالب تعديلات غير محفوظة بخطوة واحدة؛ حماية مسودة Expo لا تنطبق على هذا المحرر الأصلي.",
+      "fix_ar": "أضف كشف تغييرات فعليًا وحوار متابعة/حفظ مسودة/تجاهل؛ احمِ الإغلاق التفاعلي عند وجود تغييرات. يجب ألا يحتاج المحرر الفارغ تأكيدًا.",
+      "acceptance_ar": "اختبار SwiftUI يحرر نصًا وصورة وصوتًا ثم يلغي؛ النص يبقى عند متابعة التحرير، ولا يختفي إلا بعد تجاهل صريح. اختبر السحب للإغلاق وفشل حفظ المسودة بصورة مستقلة.",
+      "verification": "SOURCE: confirmed explicit cancel path; no Swift runtime or device reproduction in this audit",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/93f5adb1c2ee43195e0ceda35d39a9992c11e320/App/NotesView.swift"
+      ]
+    },
+    {
+      "id": "R002",
+      "title_ar": "نتيجة الذكاء الأصلية تبقى تحت سؤال أو ملاحظة جديدة بلا نسبة واضحة",
+      "kind": "source_verified_defect",
+      "severity": "medium",
+      "file": "/workspace/scratch/97ad5d4fb9f4/native-source-review/App/LocalAIView.swift",
+      "line_start": 40,
+      "line_end": 79,
+      "evidence": {
+        "source_sha": "93f5adb1c2ee43195e0ceda35d39a9992c11e320",
+        "code": "Picker(\"ملاحظة مرجعية\", selection: $selectedNoteID) ... TextField(... text: $prompt) ... if !appleModel.answer.isEmpty { Text(appleModel.answer) }",
+        "related_files": [
+          "App/ArabicModelView.swift:47-68",
+          "App/ArabicModelView.swift:103-104",
+          "App/ArabicModelView.swift:168-170"
+        ],
+        "details_ar": "السؤال والمرجع قابلان للتغيير بعد انتهاء busy. عرض إجابة Apple لا يحمل السؤال/المصدر الأصلي ولا يبطلها عند تغيرهما. Qwen يحتفظ answer داخل StateObject؛ تمسح عند بدء توليد جديد أو الحذف فقط، لا عند تغير prompt/context."
+      },
+      "scenario": "ولّد إجابة للملاحظة أ، ثم اختر الملاحظة ب أو حرر السؤال دون تشغيل توليد جديد.",
+      "impact_ar": "تبقى الإجابة السابقة بجانب سياق جديد، وقد يفهمها الطالب كإجابة للمصدر الحالي. لا يوجد حفظ تلقائي مثبت هنا؛ الخلل نسبة النتيجة في العرض.",
+      "fix_ar": "اربط النتيجة بلقطة السؤال ومعرف/نسخة المصدر واعرضهما، أو امسح/وسم النتيجة قديمة عند تغير المدخلات. حافظ على فصل محركي Apple وQwen.",
+      "acceptance_ar": "بعد توليد أ وتغيير السؤال أو المرجع إلى ب، لا تظهر النتيجة دون وسم واضح بأنها تخص أ؛ يمنع وصول نتيجة متأخرة إلى سياق أحدث.",
+      "verification": "SOURCE: state/render relationship confirmed; runtime reproduction pending",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/93f5adb1c2ee43195e0ceda35d39a9992c11e320/App/LocalAIView.swift",
+        "https://github.com/scrv-1/rusukh-native-ios/blob/93f5adb1c2ee43195e0ceda35d39a9992c11e320/App/ArabicModelView.swift"
+      ]
+    },
+    {
+      "id": "R003",
+      "title_ar": "الرئيسية الأصلية تعرض الملاحظات دون فتح مباشر وتؤجل بداية العمل",
+      "kind": "spec_gap",
+      "severity": "medium",
+      "file": "/workspace/scratch/97ad5d4fb9f4/native-source-review/App/HomeView.swift",
+      "line_start": 38,
+      "line_end": 50,
+      "evidence": {
+        "source_sha": "93f5adb1c2ee43195e0ceda35d39a9992c11e320",
+        "code": "ForEach(library.snapshot.notes.prefix(4)) { note in VStack(...) }",
+        "details_ar": "بطاقات آخر الملاحظات VStack فقط دون Button أو NavigationLink. الحالة الفارغة تقول اضغط ملاحظاتي لإضافة أول ملاحظة بدل إجراء إنشاء مباشر."
+      },
+      "scenario": "المستخدم يضغط ملاحظة حديثة من الرئيسية، أو يبدأ بتطبيق فارغ ويريد إنشاء أول ملاحظة.",
+      "impact_ar": "الرئيسية الأصلية تتطلب انتقالًا إضافيًا وبحثًا جديدًا عن الملاحظة؛ تحسين Expo لا يصل إليها. ليست مشكلة تلف بيانات.",
+      "fix_ar": "اربط البطاقات بمحرر الملاحظة الموجود، وأضف إجراء إنشاء في الحالة الفارغة مع الحفاظ على المسار والسياق.",
+      "acceptance_ar": "من الرئيسية تُفتح الملاحظة المقصودة مباشرة؛ من الحالة الفارغة يبدأ محرر جديد بخطوة واحدة دون بيانات نموذجية إجبارية.",
+      "verification": "SOURCE: confirmed missing interaction in reviewed HomeView; user-flow acceptance pending",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/93f5adb1c2ee43195e0ceda35d39a9992c11e320/App/HomeView.swift"
+      ]
+    },
+    {
+      "id": "R004",
+      "title_ar": "بوابة إصدار Expo لا تضمن تطابق مصدر محرك AI مع المورد المشحون",
+      "kind": "release_risk",
+      "severity": "medium",
+      "file": "expo-preview/scripts/verify-release.cjs",
+      "line_start": 22,
+      "line_end": 31,
+      "evidence": {
+        "code": "ai-contract-tests runs ai-lab/test.mjs and ai-lab/engine-runtime.test.mjs; no ai-lab/build.mjs rebuild/consistency check in checks",
+        "related_files": [
+          "expo-preview/ai-lab/engine-runtime.test.mjs:10-13",
+          "expo-preview/tests/ai-bridge.ui.test.jsx:8",
+          "expo-preview/ai-lab/build.mjs:14-36"
+        ],
+        "details_ar": "اختبارات الأحداث تقرأ engine-entry.mjs، واختبارات الجسر تستبدل engine.generated بنموذج اختبار. verify-release يسجل تجزئة المصدر والمورد لكنه لا يثبت أن المورد مولّد من هذا المصدر. كذلك لا تشمل قائمة تجزئات المصدر ai-lab/build.mjs أو ai-lab/package-lock.json. فحص مستقل في هذا التدقيق وجد تطابق HTML الحالي مع manifest؛ لا ندّعي عيبًا في المورد الحالي."
+      },
+      "scenario": "يصلح مطور engine-entry أو contracts ثم ينسى إعادة بناء engine.generated؛ اختبارات المنطق تمر وMetro يشحن المورد القديم.",
+      "impact_ar": "قد تُنسب حماية جديدة إلى إصدار لا يحتويها فعليًا، رغم نجاح اختبارات المصدر.",
+      "fix_ar": "أضف فحصًا حتميًا للمورد: بناء مؤقت من الاعتماديات المثبتة ومقارنة الناتج/manifest قبل التصدير، أو سلسلة بصمات مدخلات موثقة تتحقق منها بوابة الإصدار. ضم build.mjs وملف قفل AI إلى سجل المدخلات.",
+      "acceptance_ar": "تغيير متعمد في engine-entry دون إعادة البناء يفشل بوابة الاتساق؛ البناء الصحيح ينجح دون استدلال أو تحميل نموذج.",
+      "verification": "SOURCE: release-check coverage confirmed; read-only hash check current HTML=manifest 00f1de9bb4db7f0dcd20ab93b68c031937ec1ea267ce33eb605cdeb7718f288d; no stale-artifact failure injected",
+      "source_urls": []
+    },
+    {
+      "id": "R005",
+      "title_ar": "اختبارات التخزين تتجاوز فتح قاعدة جديدة وترحيلها",
+      "kind": "release_risk",
+      "severity": "medium",
+      "file": "expo-preview/tests/storage.test.cjs",
+      "line_start": 9,
+      "line_end": 25,
+      "evidence": {
+        "code": "expo-sqlite mocked to {}; imported storage functions omit openStorage; schema(raw) manually creates tables",
+        "related_files": [
+          "expo-preview/tests/safety.ui.test.jsx:14",
+          "expo-preview/tests/workspace.ui.test.jsx:14",
+          "expo-preview/src/storage.ts:30-78"
+        ],
+        "details_ar": "اختبارات SQLite تختبر عمليات فوق schema يصنعه الاختبار، واختبارات التطبيق تستبدل openStorage. لا تمر هذه الطبقات بمسار bootstrap الحقيقي؛ لذلك لا تثبت البداية الفارغة ولا عدم زرع بيانات بعد الترقية. عيب الزرع نفسه مُحال لوكيل البيانات ولم يُكرّر هنا."
+      },
+      "scenario": "تتغير تهيئة قاعدة البيانات أو قاعدة seed بينما تبقى اختبارات CRUD الحالية خضراء.",
+      "impact_ar": "قد يختلف أول تشغيل حقيقي عن مسارات الواجهة المختبرة، وتفوت تغييرات تهيئة أو ترحيل مؤثرة.",
+      "fix_ar": "اختبر openStorage الحقيقي عبر محول SQLite يطبق execAsync/openDatabaseAsync أيضًا؛ غطِّ قاعدة فارغة وقاعدة قديمة وإعادة الفتح دون زرع أو حذف.",
+      "acceptance_ar": "اختبار يبدأ دون ملفات فيثبت صفر ملاحظات وبطاقات؛ آخر يعيد فتح بيانات مستخدم قديم ويحفظها بايتًا/مضمونًا؛ إخفاق تهيئة لا يعلن تحميلًا ناجحًا.",
+      "verification": "SOURCE: test bypass confirmed; bootstrap runtime reproduction delegated to data reviewer",
+      "source_urls": []
+    },
+    {
+      "id": "R006",
+      "title_ar": "يمكن إنتاج IPA كملف CI رغم فشل الاختبارات اللاحقة",
+      "kind": "release_risk",
+      "severity": "medium",
+      "file": ".github/workflows/ios-unsigned.yml",
+      "line_start": 136,
+      "line_end": 143,
+      "evidence": {
+        "code": "if: always() && steps.device.outcome == 'success'",
+        "related_lines": [
+          66,
+          78,
+          109,
+          112,
+          128,
+          157,
+          165
+        ],
+        "details_ar": "رفع IPA يتوقف على نجاح خطوة بناء الجهاز وحدها. اختبارات UI وتشغيل Swift المحلي تقع بعدها؛ يمكن فشلها ثم يبقى IPA ضمن مخرجات التشغيل. هذا مفيد للتشخيص، لكنه ليس دليل إصدار معتمد."
+      },
+      "scenario": "ينجح xcodebuild للجهاز ثم يفشل UI test أو اختبار Swift؛ يجد المستخدم IPA في Artifacts ويحسب وجوده نجاحًا كاملاً.",
+      "impact_ar": "اختلاط مخرج بناء غير موقع بمخرج اجتاز اعتماد الإصدار، أو نسبة اختبارات Expo إلى حزمة Swift أخرى.",
+      "fix_ar": "احتفظ بمخرجات التشخيص مع وسم واضح؛ انشر سجل validation-status وSHA وحالة كل خطوة داخل الحزمة/ملخص التشغيل، أو افصل اسم المخرج المعتمد عن غير المعتمد.",
+      "acceptance_ar": "تشغيل ذو فشل UI يعرض IPA موسومًا بوضوح غير معتمد؛ لا يقال اختُبر أو ثُبت لمجرد وجود artifact. لا حاجة لتشغيل Mac CI لإصلاح توصيف الأدلة.",
+      "verification": "SOURCE: workflow conditions confirmed; no workflow dispatched",
+      "source_urls": []
+    },
+    {
+      "id": "R007",
+      "title_ar": "تخصيص أقسام Expo ليس موجودًا في الرئيسية الأصلية المفحوصة",
+      "kind": "spec_gap",
+      "severity": "low",
+      "file": "/workspace/scratch/97ad5d4fb9f4/native-source-review/App/RusukhNativeApp.swift",
+      "line_start": 21,
+      "line_end": 31,
+      "evidence": {
+        "source_sha": "93f5adb1c2ee43195e0ceda35d39a9992c11e320",
+        "code": "TabView { HomeView(); NotesView(); ReviewView(); GraphView(); LocalAIView() }",
+        "related_files": [
+          "App/HomeView.swift:8-60",
+          "App/BackupSettingsView.swift:18-74",
+          "expo-preview/src/WorkspaceEditor.tsx",
+          "expo-preview/src/workspace.ts"
+        ],
+        "details_ar": "الرئيسية الأصلية ثابتة ولا تستقبل تفضيلات وحدات؛ الإعدادات المفحوصة لا تعرض محرر أقسام. Expo يملك workspace ومحرره. لا نعمم على ملفات أصلية غير مفحوصة."
+      },
+      "scenario": "يخصص الطالب Expo ثم ينتقل مستقبلًا إلى SwiftUI ويتوقع الأقسام والترتيب نفسه.",
+      "impact_ar": "فجوة تكافؤ في الهدف النهائي وتجربة الانتقال، لا خلل في تبويبات SwiftUI الثابتة بحد ذاتها.",
+      "fix_ar": "سجّلها كعمل Native مستقل: تفضيلات عرض محدودة قابلة للاسترجاع، وهجرة/تعيين مدروس من workspace عند الاستيراد؛ لا تنقل قاعدة البيانات أو تخفي التنقل الأساسي.",
+      "acceptance_ar": "في Native، الإخفاء والإظهار والترتيب والحفظ والفشل وإعادة التشغيل لا تمس المحتوى؛ تفضيلات Expo إما تُستورد بوضوح أو يُعلن عدم دعمها.",
+      "verification": "SOURCE: reviewed RootView/HomeView/SettingsView only; not implemented or device-tested by this audit",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/93f5adb1c2ee43195e0ceda35d39a9992c11e320/App/RusukhNativeApp.swift",
+        "https://github.com/scrv-1/rusukh-native-ios/blob/93f5adb1c2ee43195e0ceda35d39a9992c11e320/App/HomeView.swift",
+        "https://github.com/scrv-1/rusukh-native-ios/blob/93f5adb1c2ee43195e0ceda35d39a9992c11e320/App/BackupSettingsView.swift"
+      ]
+    },
+    {
+      "id": "R008",
+      "title_ar": "اعتماد تجربة الآيفون ما زال منفصلًا عن نجاح 307 اختبارات",
+      "kind": "device_validation_gap",
+      "severity": "high",
+      "file": "expo-preview/RELEASE_0.5.0.md",
+      "line_start": 47,
+      "line_end": 52,
+      "evidence": {
+        "code": "منفذ ولم يُختبر على الآيفون: Files/iCloud، VoiceOver، الأذونات، المحرك المحلي والموارد",
+        "related_files": [
+          "expo-preview/evidence/v050/visual-check.json:2-5",
+          "expo-preview/tests/ai-bridge.ui.test.jsx:8-15",
+          "expo-preview/ai-lab/engine-runtime.test.mjs:10-11"
+        ],
+        "details_ar": "التقرير يصرح بالحدود بدقة. المعاينة المرئية Web harness، ومحرك AI بديل في Node، والجسر WebView محاكى. هذه أدلة مفيدة لكنها لا تثبت مسار Files الحقيقي أو الذاكرة أو استدلال iPhone."
+      },
+      "scenario": "التسليم يصف النسخة جاهزة بالكامل اعتمادًا على العدد أو HTTP200 أو صور المتصفح، قبل تجربة الهاتف.",
+      "impact_ar": "قد يتعطل هدف المستخدم المباشر رغم صحة اختبارات المنطق؛ لا يوجد في هذا التدقيق دليل وقوع تعطل جهاز بعينه.",
+      "fix_ar": "اعتمد نسخة تجربة بحدود صريحة، مع سجل مهام جهاز قصير: بدء فارغ، حفظ/إعادة تشغيل، تخصيص، ملف Files وiCloud، صوت وأذونات؛ افصل اختبار AI الكبير عن أول تجربة أساسية.",
+      "acceptance_ar": "سجل جهاز وإصدار iOS/Expo وSHA وتوقيت ونتيجة كل مهمة. لا تعتمد حرارة أو بطارية أو استدلال عربي من Mac/Chrome. ولا تُعلن تثبيت SwiftUI حتى يثبت فعليًا.",
+      "verification": "DOCUMENTED GAP: acknowledged by release; no device available to this reviewer",
+      "source_urls": []
+    }
+  ]
+}

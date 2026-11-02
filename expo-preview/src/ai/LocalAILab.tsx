@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { AppState, Text, View } from 'react-native';
 import { WebView } from 'react-native-webview';
+import type { Palette } from '../ui';
 import { AI_PROTOCOL, AI_ENGINE_VERSION, LocalAIDraft, LocalAIStatus, validateBridgeDraft } from './contracts';
 export type { LocalAIDraft, LocalAIStatus } from './contracts';
 
-type Props = { sourceText: string; onResult: (draft: LocalAIDraft) => void; onStatus?: (status: LocalAIStatus) => void };
+type Props = { sourceText: string; onResult: (draft: LocalAIDraft) => void; onStatus?: (status: LocalAIStatus) => void; p?: Pick<Palette, 'surface' | 'danger'> };
 let html: string | undefined;
 function getHTML() {
   // Deliberately deferred until the user opens this laboratory. Metro keeps the
@@ -13,7 +14,7 @@ function getHTML() {
   return html;
 }
 
-export function LocalAILab({ sourceText, onResult, onStatus }: Props) {
+export function LocalAILab({ sourceText, onResult, onStatus, p }: Props) {
   const web = useRef<WebView<object>>(null);
   const callbacks = useRef({ onResult, onStatus });
   callbacks.current = { onResult, onStatus };
@@ -55,7 +56,7 @@ export function LocalAILab({ sourceText, onResult, onStatus }: Props) {
     return () => { alive.current = false; ready.current = false; subscription.remove(); };
   }, []);
 
-  if (error) return <View style={{ padding: 16 }}><Text accessibilityRole="alert" style={{ color: '#b71c1c', fontSize: 17, textAlign: 'right' }}>{error} أغلق المختبر وافتحه للمحاولة مجددًا.</Text></View>;
+  if (error) return <View style={{ padding: 16, backgroundColor: p?.surface ?? '#111' }}><Text accessibilityRole="alert" style={{ color: p?.danger ?? '#FF8989', fontSize: 17, textAlign: 'right' }}>{error} أغلق المختبر وافتحه للمحاولة مجددًا.</Text></View>;
   return <WebView<object> ref={web} source={{ html: getHTML() }} style={{ flex: 1, minHeight: 620, backgroundColor: '#111' }}
     originWhitelist={['*']} javaScriptEnabled javaScriptCanOpenWindowsAutomatically={false}
     onShouldStartLoadWithRequest={event => event.url === 'about:blank'} onOpenWindow={() => {}}

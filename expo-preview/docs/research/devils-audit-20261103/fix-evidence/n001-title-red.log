@@ -1,0 +1,36 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> rusukh-ios@0.5.0 test:ui
+> jest --runInBand --runTestsByPath tests/home.ui.test.jsx
+
+FAIL iOS tests/home.ui.test.jsx
+  ● an explicitly saved layout still shows its selected sections and recent note actions
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 0
+    + Received  + 1
+
+      Array [
+    +   "مساحتي",
+        "ملاحظاتي",
+        "مراجعة اليوم",
+      ]
+
+      80 |   await render(<StudyHome {...value} />);
+      81 |   const headings = screen.getAllByRole('header').map(node => node.props.children);
+    > 82 |   expect(headings).toEqual(['ملاحظاتي', 'مراجعة اليوم']);
+         |                    ^
+      83 |   expect(screen.queryByText('مساحتي')).toBeNull();
+      84 |   await fireEvent.press(screen.getByRole('button', { name: 'فتح آخر فكرة' }));
+      85 |   expect(value.onOpenNote).toHaveBeenCalledWith(newNote);
+
+      at Object.toEqual (tests/home.ui.test.jsx:82:20)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 9 passed, 10 total
+Snapshots:   0 total
+Time:        1.023 s, estimated 2 s
+Ran all test suites within paths "tests/home.ui.test.jsx".

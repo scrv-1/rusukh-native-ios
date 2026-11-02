@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal, ScrollView, Switch, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { arabicRow, Button, Label, Palette, Panel } from './ui';
-import { defaultWorkspace, MODULES, moveModule, toggleModule, Workspace } from './workspace';
+import { defaultWorkspace, MODULES, moveModule, toggleModule, Workspace, workspacePreset } from './workspace';
 
 export function WorkspaceEditor({ value, p, onCancel, onSave, reducedMotion = true }: {
   value: Workspace; p: Palette; reducedMotion?: boolean; onCancel: () => void; onSave: (value: Workspace) => Promise<boolean>;
@@ -18,6 +18,14 @@ export function WorkspaceEditor({ value, p, onCancel, onSave, reducedMotion = tr
         </View>
         <Label p={p} color={p.muted} size={14}>أظهر ما تحتاجه ورتّبه. إخفاء أداة لا يحذف محتواها؛ ستجدها دائمًا في «كل الأدوات».</Label>
         <Panel p={p}>
+          <Label p={p} weight="700" role="header">ابدأ بترتيب جاهز</Label>
+          <Label p={p} color={p.muted} size={13}>اختر ثم عدّل ما يناسبك. يُطبّق عند حفظ مساحتك.</Label>
+          <View style={{ flexDirection: arabicRow, gap: 8, flexWrap: 'wrap' }}>
+            {([['simple','بسيط'],['reading','قراءة وربط'],['all','كل الأقسام']] as const).map(([id,title]) =>
+              <Button key={id} p={p} title={title} tone="secondary" disabled={saving} onPress={() => setDraft(workspacePreset(id))} />)}
+          </View>
+        </Panel>
+        <Panel p={p}>
           <Label p={p} weight="700">حجم البطاقات في الرئيسية</Label>
           <View style={{ flexDirection: arabicRow, gap: 8, flexWrap: 'wrap' }}>
             <Button p={p} title="مريح" tone={draft.density === 'comfortable' ? 'primary' : 'secondary'}
@@ -26,13 +34,18 @@ export function WorkspaceEditor({ value, p, onCancel, onSave, reducedMotion = tr
               selected={draft.density === 'compact'} disabled={saving} onPress={() => setDraft(d => ({ ...d, density: 'compact' }))} />
           </View>
         </Panel>
+        <Label p={p} size={14} weight="700" role="header">{draft.modules.filter(m => m.enabled).length} من {draft.modules.length} أقسام ظاهرة</Label>
+        <View style={{ flexDirection: arabicRow, gap: 8, flexWrap: 'wrap' }}>
+          <Button p={p} title="إظهار كل الأقسام" tone="plain" disabled={saving} onPress={() => setDraft(d => ({ ...d, modules: d.modules.map(m => ({ ...m, enabled: true })) }))} />
+          <Button p={p} title="إخفاء كل الأقسام" tone="plain" disabled={saving} onPress={() => setDraft(d => ({ ...d, modules: d.modules.map(m => ({ ...m, enabled: false })) }))} />
+        </View>
         {draft.modules.map((item, index) => {
           const module = MODULES.find(m => m.id === item.id)!;
           return <Panel key={item.id} p={p} style={{ gap: 10 }}>
             <View style={{ flexDirection: arabicRow, alignItems: 'center', gap: 12 }}>
               <View style={{ flex: 1 }}>
                 <Label p={p} weight="700">{module.title}</Label>
-                <Label p={p} size={12} color={p.muted}>{item.enabled ? 'ظاهرة في مساحتك' : 'متاحة في كل الأدوات'}</Label>
+                <Label p={p} size={12} color={p.muted}>{index + 1} · {item.enabled ? 'ظاهرة في مساحتك' : 'متاحة في كل الأدوات'}</Label>
               </View>
               <Switch value={item.enabled} disabled={saving} accessibilityLabel={`إظهار ${module.title}`}
                 onValueChange={() => setDraft(d => toggleModule(d, item.id))}
@@ -46,7 +59,7 @@ export function WorkspaceEditor({ value, p, onCancel, onSave, reducedMotion = tr
             </View>
           </Panel>;
         })}
-        <Label p={p} size={12} color={p.muted}>شريط التنقّل يثبّت أول ثلاث أدوات ظاهرة تدعم صفحة مستقلة. الاختبار يفتح كجلسة منفصلة.</Label>
+        <Label p={p} size={12} color={p.muted}>شريط التنقّل ثابت. الترتيب والإخفاء يغيّران أقسام الرئيسية فقط، ويمكن فتح كل أداة من «الأدوات».</Label>
         <Button p={p} title="استعادة الترتيب الافتراضي" tone="secondary" disabled={saving} onPress={() => setDraft(defaultWorkspace())} />
       </ScrollView>
       <View style={{ padding: 16, borderTopWidth: 1, borderColor: p.border }}>

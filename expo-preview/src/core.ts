@@ -133,6 +133,12 @@ export function scheduleReview(card: StudyCard, grade: Grade, now: number): Stud
   const ease = Math.max(1.3, Math.min(3.0,
     card.ease + (grade === 'easy' ? 0.15 : grade === 'hard' ? -0.15 : grade === 'again' ? -0.2 : 0)
   ));
+  const hardDays = Math.max(1, Math.ceil(card.intervalDays * 1.2));
+  // Compare grades from the same incoming state. The initial Good steps must
+  // not shorten a longer interval earned by Easy (or restored from a backup).
+  // Use Good's unchanged, bounded ease even when computing Easy's lower bound.
+  const goodDays = Math.max(hardDays, card.repetitions === 0 ? 1 : card.repetitions === 1 ? 3 :
+    Math.ceil(card.intervalDays * Math.max(1.3, Math.min(3.0, card.ease))));
   let intervalDays = 0;
   let repetitions = card.repetitions;
   if (grade === 'again') {
@@ -140,13 +146,13 @@ export function scheduleReview(card: StudyCard, grade: Grade, now: number): Stud
     intervalDays = 0;
   } else if (grade === 'hard') {
     repetitions += 1;
-    intervalDays = Math.max(1, Math.ceil(card.intervalDays * 1.2));
+    intervalDays = hardDays;
   } else if (grade === 'good') {
     repetitions += 1;
-    intervalDays = card.repetitions === 0 ? 1 : card.repetitions === 1 ? 3 : Math.max(1, Math.ceil(card.intervalDays * ease));
+    intervalDays = goodDays;
   } else {
     repetitions += 1;
-    intervalDays = card.repetitions === 0 ? 4 : Math.max(4, Math.ceil(card.intervalDays * ease * 1.3));
+    intervalDays = Math.max(goodDays, card.repetitions === 0 ? 4 : Math.max(4, Math.ceil(card.intervalDays * ease * 1.3)));
   }
   return {
     ...card,
