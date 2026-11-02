@@ -2,7 +2,7 @@
 > rusukh-ios@0.4.0 test:ui
 > jest --runInBand
 
-PASS iOS tests/draft-integration.ui.test.jsx
+PASS iOS tests/draft-integration.ui.test.jsx (13.757 s)
   ● Console
 
     console.warn
@@ -25,6 +25,8 @@ PASS iOS tests/draft-integration.ui.test.jsx
       at Object.require (App.tsx:17:1)
       at Object.require (tests/draft-integration.ui.test.jsx:4:1)
 
+PASS iOS tests/reminders.ui.test.jsx
+PASS iOS tests/sources-workbench.ui.test.jsx
 PASS iOS tests/workspace.ui.test.jsx
   ● Console
 
@@ -48,6 +50,11 @@ PASS iOS tests/workspace.ui.test.jsx
       at Object.require (App.tsx:17:1)
       at Object.require (tests/workspace.ui.test.jsx:4:1)
 
+PASS iOS tests/media-panel.ui.test.jsx
+PASS iOS tests/media-library.ui.test.jsx
+PASS iOS tests/draft.ui.test.jsx
+PASS iOS tests/ai-workspace.ui.test.jsx
+PASS iOS tests/media-session.ui.test.jsx
 PASS iOS tests/safety.ui.test.jsx
   ● Console
 
@@ -71,22 +78,15 @@ PASS iOS tests/safety.ui.test.jsx
       at Object.require (App.tsx:17:1)
       at Object.require (tests/safety.ui.test.jsx:4:1)
 
-PASS iOS tests/sources-workbench.ui.test.jsx
-PASS iOS tests/media-panel.ui.test.jsx
-PASS iOS tests/reminders.ui.test.jsx
 PASS iOS tests/home.ui.test.jsx
-PASS iOS tests/graph.ui.test.jsx
-PASS iOS tests/ai-workspace.ui.test.jsx
-PASS iOS tests/ai-bridge.ui.test.jsx
 PASS iOS tests/pdf.ui.test.jsx
-PASS iOS tests/draft.ui.test.jsx
-PASS iOS tests/recovery.ui.test.jsx
-PASS iOS tests/media-library.ui.test.jsx
-PASS iOS tests/media-session.ui.test.jsx
+PASS iOS tests/ai-bridge.ui.test.jsx
+PASS iOS tests/graph.ui.test.jsx
 PASS iOS tests/media-native.ui.test.jsx
+PASS iOS tests/recovery.ui.test.jsx
 
 Test Suites: 16 passed, 16 total
 Tests:       104 passed, 104 total
 Snapshots:   0 total
-Time:        6.383 s
+Time:        18.569 s
 Ran all test suites.

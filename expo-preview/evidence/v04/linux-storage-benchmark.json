@@ -1,0 +1,257 @@
+{
+  "status": "passed",
+  "startedAt": "2026-11-02T18:16:19.510Z",
+  "scope": "Linux Node SQLite adapter executing actual compiled app functions; synthetic content only",
+  "notMeasured": [
+    "iPhone performance",
+    "React Native bridge cost",
+    "UI frame rate",
+    "battery",
+    "temperature",
+    "Neural Engine",
+    "concurrent writers"
+  ],
+  "environment": {
+    "node": "v24.22.1",
+    "platform": "linux",
+    "architecture": "x64",
+    "kernel": "6.18.57",
+    "logicalCpus": 9,
+    "cpuModel": "AMD EPYC 9V74 80-Core Processor",
+    "hostReportedMemoryBytes": 10451427328,
+    "sqlite": "3.53.4"
+  },
+  "sourceSha256": {
+    "src/storage.ts": "f9c3e2fed0d5a08af1821d5ab9828f437d6aca89050e0d0b337e617e9ff8294c",
+    "src/core.ts": "32a82cc993b2513f7ad8dd5767ee3746f30c15d4b22cb7307774316944236b89",
+    "src/sources.ts": "bd7bdaec06e53d1d6dcee695cefe73097edb685da64e20708c40cbaa822c8848",
+    "src/workspace.ts": "cd57276e9b0afd6d1ad79819264f18a91f70816611937cdd79e7956b6fc6c441",
+    ".test-build/storage.js": "18e8d182929842deb8eb3145ad742288add5a838e875c7718ae1ed4b5f4a060e",
+    ".test-build/core.js": "215790f94c219a5e04981f89f1c8d785bf8e90eda7315a90abe4b182923bc4b3",
+    ".test-build/sources.js": "b0a61ac77c716b1e86ec3f0d0e040e7c60ba8264f186e5b79e02ea06d13390fe",
+    ".test-build/workspace.js": "ec3329ff7864bb2dae93e321d35cd68bf206a822044921066958db6a6aeeacfc"
+  },
+  "input": {
+    "notes": 2000,
+    "cards": 2000,
+    "reviews": 500,
+    "sparseDirectedEdges": 4000,
+    "denseDirectedEdges": 20000,
+    "backupLimitBytes": 15728640
+  },
+  "initialMemory": {
+    "rssBytes": 40030208,
+    "heapUsedBytes": 8344264,
+    "processPeakRssBytes": 40030208
+  },
+  "stages": [
+    {
+      "name": "open_actual_schema_and_clear_demo_seed",
+      "elapsedMs": 9.168,
+      "before": {
+        "rssBytes": 40947712,
+        "heapUsedBytes": 8393232,
+        "processPeakRssBytes": 40947712
+      },
+      "after": {
+        "rssBytes": 41353216,
+        "heapUsedBytes": 8444232,
+        "processPeakRssBytes": 41353216
+      }
+    },
+    {
+      "name": "persist_2000_notes_and_cards_2000_actual_transactions",
+      "elapsedMs": 900.434,
+      "before": {
+        "rssBytes": 52232192,
+        "heapUsedBytes": 15523720,
+        "processPeakRssBytes": 52232192
+      },
+      "after": {
+        "rssBytes": 79888384,
+        "heapUsedBytes": 20015760,
+        "processPeakRssBytes": 79888384
+      }
+    },
+    {
+      "name": "record_500_reviews_actual_scheduler_and_transactions",
+      "elapsedMs": 152.527,
+      "before": {
+        "rssBytes": 79888384,
+        "heapUsedBytes": 20023992,
+        "processPeakRssBytes": 79888384
+      },
+      "after": {
+        "rssBytes": 84869120,
+        "heapUsedBytes": 21861768,
+        "processPeakRssBytes": 84869120
+      }
+    },
+    {
+      "name": "read_2000_notes_2000_cards_500_reviews",
+      "elapsedMs": 41.146,
+      "before": {
+        "rssBytes": 84869120,
+        "heapUsedBytes": 21863544,
+        "processPeakRssBytes": 84869120
+      },
+      "after": {
+        "rssBytes": 88096768,
+        "heapUsedBytes": 20290072,
+        "processPeakRssBytes": 88276992
+      }
+    },
+    {
+      "name": "sparse_graph_2000_notes_4000_edges",
+      "elapsedMs": 103.776,
+      "before": {
+        "rssBytes": 129335296,
+        "heapUsedBytes": 35323000,
+        "processPeakRssBytes": 133468160
+      },
+      "after": {
+        "rssBytes": 132087808,
+        "heapUsedBytes": 44319448,
+        "processPeakRssBytes": 133468160
+      }
+    },
+    {
+      "name": "dense_graph_2000_notes_20000_edges_run_1",
+      "elapsedMs": 2320.701,
+      "before": {
+        "rssBytes": 132481024,
+        "heapUsedBytes": 50640056,
+        "processPeakRssBytes": 133468160
+      },
+      "after": {
+        "rssBytes": 185303040,
+        "heapUsedBytes": 55516240,
+        "processPeakRssBytes": 185303040
+      }
+    },
+    {
+      "name": "dense_graph_2000_notes_20000_edges_run_2",
+      "elapsedMs": 1929.823,
+      "before": {
+        "rssBytes": 186613760,
+        "heapUsedBytes": 58346208,
+        "processPeakRssBytes": 186613760
+      },
+      "after": {
+        "rssBytes": 186425344,
+        "heapUsedBytes": 54591440,
+        "processPeakRssBytes": 186613760
+      }
+    },
+    {
+      "name": "dense_graph_2000_notes_20000_edges_run_3",
+      "elapsedMs": 1939.85,
+      "before": {
+        "rssBytes": 187736064,
+        "heapUsedBytes": 57354144,
+        "processPeakRssBytes": 187736064
+      },
+      "after": {
+        "rssBytes": 187555840,
+        "heapUsedBytes": 53671072,
+        "processPeakRssBytes": 187736064
+      }
+    },
+    {
+      "name": "arabic_search_20_queries_over_2000_notes",
+      "elapsedMs": 665.116,
+      "before": {
+        "rssBytes": 188866560,
+        "heapUsedBytes": 56446840,
+        "processPeakRssBytes": 188866560
+      },
+      "after": {
+        "rssBytes": 187666432,
+        "heapUsedBytes": 57007712,
+        "processPeakRssBytes": 188866560
+      }
+    },
+    {
+      "name": "validate_and_serialize_backup",
+      "elapsedMs": 58.97,
+      "before": {
+        "rssBytes": 187666432,
+        "heapUsedBytes": 57014792,
+        "processPeakRssBytes": 188866560
+      },
+      "after": {
+        "rssBytes": 194351104,
+        "heapUsedBytes": 49413952,
+        "processPeakRssBytes": 194351104
+      }
+    },
+    {
+      "name": "parse_and_validate_backup",
+      "elapsedMs": 7.712,
+      "before": {
+        "rssBytes": 194351104,
+        "heapUsedBytes": 49417024,
+        "processPeakRssBytes": 194351104
+      },
+      "after": {
+        "rssBytes": 194351104,
+        "heapUsedBytes": 56248752,
+        "processPeakRssBytes": 194351104
+      }
+    },
+    {
+      "name": "restore_4500_records_single_actual_transaction",
+      "elapsedMs": 49.454,
+      "before": {
+        "rssBytes": 204705792,
+        "heapUsedBytes": 79663000,
+        "processPeakRssBytes": 204705792
+      },
+      "after": {
+        "rssBytes": 206278656,
+        "heapUsedBytes": 84766776,
+        "processPeakRssBytes": 206278656
+      }
+    },
+    {
+      "name": "reopen_and_verify_exact_roundtrip",
+      "elapsedMs": 60.732,
+      "before": {
+        "rssBytes": 215531520,
+        "heapUsedBytes": 94000568,
+        "processPeakRssBytes": 219332608
+      },
+      "after": {
+        "rssBytes": 229961728,
+        "heapUsedBytes": 123586280,
+        "processPeakRssBytes": 236998656
+      }
+    }
+  ],
+  "checks": {
+    "reviewSchedulingAndRetention": true,
+    "sparseGraphExactUniqueEdges": true,
+    "denseGraphCountOrderAliasesSelfLinks": true,
+    "arabicSearch20ExactResultSets": true,
+    "exportParseExactEquality": true,
+    "restoreExactEqualityAndWorkspaceRetention": true,
+    "orphanRejectedWithoutMutation": true,
+    "foreignKeyCascadeAndSubsequentRestore": true,
+    "reopenExactEqualityAndForeignKeys": true
+  },
+  "denseGraphMedianMs": 1939.85,
+  "backupUtf8Bytes": 4438139,
+  "temporarySyntheticDataRemoved": true,
+  "finishedAt": "2026-11-02T18:16:28.226Z",
+  "totalElapsedMs": 8714.678,
+  "finalMemory": {
+    "rssBytes": 229961728,
+    "heapUsedBytes": 123593032,
+    "processPeakRssBytes": 236998656
+  },
+  "releaseReference": {
+    "commit": "0d7b1a0",
+    "version": "Expo 0.4.0",
+    "verification": "Remote commit supplied by release task; extracted local tree has no Git metadata. Exact local source and compiled input hashes are recorded in sourceSha256."
+  }
+}

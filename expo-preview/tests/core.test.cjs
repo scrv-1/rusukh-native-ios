@@ -38,6 +38,23 @@ test('graph builds directed links between known note titles only', () => {
 test('graph does not create self-links', () => {
   assert.deepEqual(graphEdges([{id:'a',title:'Alpha',body:'[[Alpha]]'}]),[]);
 });
+test('graph preserves first-seen order and deduplicates aliases across repeated source IDs',()=>{
+  const notes=[
+    {id:'a',title:'Alpha',body:'[[Beta|اسم]] [[ beta ]] [[Alpha]] [[Unknown]]'},
+    {id:'a',title:'Alpha copy',body:'[[Gamma]] [[Beta]] [[Alpha copy]]'},
+    {id:'b',title:'Beta',body:'[[Gamma]] [[Gamma|آخر]]'},
+    {id:'c',title:'Gamma',body:''},
+  ];
+  assert.deepEqual(graphEdges(notes),[{from:'a',to:'b'},{from:'a',to:'c'},{from:'b',to:'c'}]);
+});
+test('graph edge deduplication cannot collide when identifiers contain separators',()=>{
+  assert.deepEqual(graphEdges([
+    {id:'a\u0000b',title:'Source one',body:'[[Target one]]'},
+    {id:'a',title:'Source two',body:'[[Target two]]'},
+    {id:'c',title:'Target one',body:''},
+    {id:'b\u0000c',title:'Target two',body:''},
+  ]),[{from:'a\u0000b',to:'c'},{from:'a',to:'b\u0000c'}]);
+});
 test('extract Arabic Q/A pairs and ignores incomplete', () => {
   assert.deepEqual(parseQuestionAnswer('س: ما العلم؟\nج: معرفة\nس: متى؟\nج: الآن\nس: غير مكتمل'),[
     {question:'ما العلم؟',answer:'معرفة'}, {question:'متى؟',answer:'الآن'}

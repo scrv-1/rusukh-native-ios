@@ -1,48 +1,48 @@
 {
-  "observedAt": "2026-11-02T17:11:21.271Z",
+  "observedAt": "2026-11-02T18:21:46.660Z",
   "node": "v24.22.2",
   "checks": [
     {
       "name": "core-tests",
       "exitCode": 0,
       "signal": null,
-      "milliseconds": 3816
+      "milliseconds": 4670
     },
     {
       "name": "ai-contract-tests",
       "exitCode": 0,
       "signal": null,
-      "milliseconds": 186
+      "milliseconds": 799
     },
     {
       "name": "ui-tests",
       "exitCode": 0,
       "signal": null,
-      "milliseconds": 7790
+      "milliseconds": 20722
     },
     {
       "name": "typecheck",
       "exitCode": 0,
       "signal": null,
-      "milliseconds": 3862
+      "milliseconds": 3524
     },
     {
       "name": "expo-compatibility",
       "exitCode": 0,
       "signal": null,
-      "milliseconds": 891
+      "milliseconds": 934
     },
     {
       "name": "expo-doctor",
       "exitCode": 0,
       "signal": null,
-      "milliseconds": 7904
+      "milliseconds": 8241
     },
     {
       "name": "ios-export",
       "exitCode": 0,
       "signal": null,
-      "milliseconds": 11050
+      "milliseconds": 23561
     }
   ]
 }

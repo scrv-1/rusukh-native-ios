@@ -1,16 +1,16 @@
-✔ accepts actual-model draft format with verbatim source evidence (1.738545ms)
-✔ rejects evidence fabricated by a model (0.462022ms)
-✔ rejects an incomplete or prose-wrapped model answer (0.213519ms)
-✔ source exceeding context budget is rejected, never silently truncated (0.169587ms)
-✔ source substitution on bridge is rejected (0.297164ms)
-✔ bridge revalidates model fields instead of trusting a JS result (0.241942ms)
-✔ English-only output is not accepted as Arabic study support (0.253513ms)
-✔ source instructions are encoded as data, not a system prompt (0.307855ms)
-✔ no empty output is mislabeled a useful generation (0.312002ms)
-✔ regression: real Qwen output copying the old evidence placeholder is rejected (0.453636ms)
-✔ constrained decoding permits only exact source sentences as evidence (0.48206ms)
-✔ oversized individual evidence is refused, not silently shortened (0.19269ms)
-✔ newline-delimited evidence does not silently lose the first sentence (0.775548ms)
+✔ accepts actual-model draft format with verbatim source evidence (1.72679ms)
+✔ rejects evidence fabricated by a model (0.508118ms)
+✔ rejects an incomplete or prose-wrapped model answer (0.195164ms)
+✔ source exceeding context budget is rejected, never silently truncated (0.168244ms)
+✔ source substitution on bridge is rejected (0.322812ms)
+✔ bridge revalidates model fields instead of trusting a JS result (0.265595ms)
+✔ English-only output is not accepted as Arabic study support (0.250096ms)
+✔ source instructions are encoded as data, not a system prompt (0.293187ms)
+✔ no empty output is mislabeled a useful generation (0.342081ms)
+✔ regression: real Qwen output copying the old evidence placeholder is rejected (0.392572ms)
+✔ constrained decoding permits only exact source sentences as evidence (0.504411ms)
+✔ oversized individual evidence is refused, not silently shortened (0.19845ms)
+✔ newline-delimited evidence does not silently lose the first sentence (0.755158ms)
 ℹ tests 13
 ℹ suites 0
 ℹ pass 13
@@ -18,4 +18,4 @@
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 137.502422
+ℹ duration_ms 723.731909

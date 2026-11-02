@@ -48,10 +48,16 @@ export function wikiLinks(body: string): string[] {
 export function graphEdges(notes: Pick<Note, 'id' | 'title' | 'body'>[]): { from: string; to: string }[] {
   const index = new Map(notes.map((note) => [normalizeTitle(note.title), note.id]));
   const edges: { from: string; to: string }[] = [];
+  const targetsBySource = new Map<string, Set<string>>();
   for (const note of notes) {
+    // Share the set across repeated source IDs, matching the previous global
+    // edge deduplication while avoiding a scan of every preceding edge.
+    let targets = targetsBySource.get(note.id);
+    if (!targets) { targets = new Set<string>(); targetsBySource.set(note.id, targets); }
     for (const title of wikiLinks(note.body)) {
       const id = index.get(normalizeTitle(title));
-      if (id && id !== note.id && !edges.some((e) => e.from === note.id && e.to === id)) {
+      if (id && id !== note.id && !targets.has(id)) {
+        targets.add(id);
         edges.push({ from: note.id, to: id });
       }
     }

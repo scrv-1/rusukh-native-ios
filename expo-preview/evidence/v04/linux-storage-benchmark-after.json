@@ -1,0 +1,258 @@
+{
+  "status": "passed",
+  "startedAt": "2026-11-02T18:19:06.928Z",
+  "releaseReference": {
+    "baseCommit": "0d7b1a0",
+    "sourceLabel": "graph-optimization-after-0d7b1a0",
+    "version": "Expo 0.4.0",
+    "verification": "Remote commit supplied by release task; extracted local tree has no Git metadata. Exact local source and compiled input hashes are recorded below."
+  },
+  "scope": "Linux Node SQLite adapter executing actual compiled app functions; synthetic content only",
+  "notMeasured": [
+    "iPhone performance",
+    "React Native bridge cost",
+    "UI frame rate",
+    "battery",
+    "temperature",
+    "Neural Engine",
+    "concurrent writers"
+  ],
+  "environment": {
+    "node": "v24.22.1",
+    "platform": "linux",
+    "architecture": "x64",
+    "kernel": "6.18.57",
+    "logicalCpus": 9,
+    "cpuModel": "AMD EPYC 9V74 80-Core Processor",
+    "hostReportedMemoryBytes": 10451427328,
+    "sqlite": "3.53.4"
+  },
+  "sourceSha256": {
+    "src/storage.ts": "f9c3e2fed0d5a08af1821d5ab9828f437d6aca89050e0d0b337e617e9ff8294c",
+    "src/core.ts": "2bc65023f49ff45d4edd1973f32363502e87ed1eb2f0bd1080b20caaa5062f98",
+    "src/sources.ts": "bd7bdaec06e53d1d6dcee695cefe73097edb685da64e20708c40cbaa822c8848",
+    "src/workspace.ts": "cd57276e9b0afd6d1ad79819264f18a91f70816611937cdd79e7956b6fc6c441",
+    ".test-build/storage.js": "18e8d182929842deb8eb3145ad742288add5a838e875c7718ae1ed4b5f4a060e",
+    ".test-build/core.js": "7ecccbdc68ee352d156d6431eb67b81062605ad3b69c0cf4bd1cdcc3511c6358",
+    ".test-build/sources.js": "b0a61ac77c716b1e86ec3f0d0e040e7c60ba8264f186e5b79e02ea06d13390fe",
+    ".test-build/workspace.js": "ec3329ff7864bb2dae93e321d35cd68bf206a822044921066958db6a6aeeacfc"
+  },
+  "input": {
+    "notes": 2000,
+    "cards": 2000,
+    "reviews": 500,
+    "sparseDirectedEdges": 4000,
+    "denseDirectedEdges": 20000,
+    "backupLimitBytes": 15728640
+  },
+  "initialMemory": {
+    "rssBytes": 39903232,
+    "heapUsedBytes": 9078536,
+    "processPeakRssBytes": 39903232
+  },
+  "stages": [
+    {
+      "name": "open_actual_schema_and_clear_demo_seed",
+      "elapsedMs": 10.512,
+      "before": {
+        "rssBytes": 40951808,
+        "heapUsedBytes": 8397456,
+        "processPeakRssBytes": 40951808
+      },
+      "after": {
+        "rssBytes": 41365504,
+        "heapUsedBytes": 8448784,
+        "processPeakRssBytes": 41365504
+      }
+    },
+    {
+      "name": "persist_2000_notes_and_cards_2000_actual_transactions",
+      "elapsedMs": 1229.485,
+      "before": {
+        "rssBytes": 52375552,
+        "heapUsedBytes": 15511568,
+        "processPeakRssBytes": 52375552
+      },
+      "after": {
+        "rssBytes": 79769600,
+        "heapUsedBytes": 19993000,
+        "processPeakRssBytes": 79769600
+      }
+    },
+    {
+      "name": "record_500_reviews_actual_scheduler_and_transactions",
+      "elapsedMs": 165.088,
+      "before": {
+        "rssBytes": 79769600,
+        "heapUsedBytes": 20001232,
+        "processPeakRssBytes": 79769600
+      },
+      "after": {
+        "rssBytes": 84750336,
+        "heapUsedBytes": 21839160,
+        "processPeakRssBytes": 84750336
+      }
+    },
+    {
+      "name": "read_2000_notes_2000_cards_500_reviews",
+      "elapsedMs": 34.876,
+      "before": {
+        "rssBytes": 84750336,
+        "heapUsedBytes": 21840960,
+        "processPeakRssBytes": 84750336
+      },
+      "after": {
+        "rssBytes": 87977984,
+        "heapUsedBytes": 20259928,
+        "processPeakRssBytes": 88158208
+      }
+    },
+    {
+      "name": "sparse_graph_2000_notes_4000_edges",
+      "elapsedMs": 11.836,
+      "before": {
+        "rssBytes": 126373888,
+        "heapUsedBytes": 35449448,
+        "processPeakRssBytes": 131244032
+      },
+      "after": {
+        "rssBytes": 129912832,
+        "heapUsedBytes": 44580928,
+        "processPeakRssBytes": 131244032
+      }
+    },
+    {
+      "name": "dense_graph_2000_notes_20000_edges_run_1",
+      "elapsedMs": 224.182,
+      "before": {
+        "rssBytes": 132403200,
+        "heapUsedBytes": 50895608,
+        "processPeakRssBytes": 132403200
+      },
+      "after": {
+        "rssBytes": 186011648,
+        "heapUsedBytes": 57473912,
+        "processPeakRssBytes": 186011648
+      }
+    },
+    {
+      "name": "dense_graph_2000_notes_20000_edges_run_2",
+      "elapsedMs": 174.88,
+      "before": {
+        "rssBytes": 187322368,
+        "heapUsedBytes": 60278720,
+        "processPeakRssBytes": 187322368
+      },
+      "after": {
+        "rssBytes": 188186624,
+        "heapUsedBytes": 58675968,
+        "processPeakRssBytes": 188186624
+      }
+    },
+    {
+      "name": "dense_graph_2000_notes_20000_edges_run_3",
+      "elapsedMs": 154.287,
+      "before": {
+        "rssBytes": 189497344,
+        "heapUsedBytes": 61436544,
+        "processPeakRssBytes": 189497344
+      },
+      "after": {
+        "rssBytes": 190296064,
+        "heapUsedBytes": 59790624,
+        "processPeakRssBytes": 190296064
+      }
+    },
+    {
+      "name": "arabic_search_20_queries_over_2000_notes",
+      "elapsedMs": 681.043,
+      "before": {
+        "rssBytes": 191606784,
+        "heapUsedBytes": 62565480,
+        "processPeakRssBytes": 191606784
+      },
+      "after": {
+        "rssBytes": 190631936,
+        "heapUsedBytes": 63507856,
+        "processPeakRssBytes": 191868928
+      }
+    },
+    {
+      "name": "validate_and_serialize_backup",
+      "elapsedMs": 42.897,
+      "before": {
+        "rssBytes": 190631936,
+        "heapUsedBytes": 63514936,
+        "processPeakRssBytes": 191868928
+      },
+      "after": {
+        "rssBytes": 197709824,
+        "heapUsedBytes": 55915024,
+        "processPeakRssBytes": 197709824
+      }
+    },
+    {
+      "name": "parse_and_validate_backup",
+      "elapsedMs": 6.592,
+      "before": {
+        "rssBytes": 197709824,
+        "heapUsedBytes": 55918488,
+        "processPeakRssBytes": 197709824
+      },
+      "after": {
+        "rssBytes": 197709824,
+        "heapUsedBytes": 62758504,
+        "processPeakRssBytes": 197709824
+      }
+    },
+    {
+      "name": "restore_4500_records_single_actual_transaction",
+      "elapsedMs": 52.985,
+      "before": {
+        "rssBytes": 208334848,
+        "heapUsedBytes": 86148320,
+        "processPeakRssBytes": 208334848
+      },
+      "after": {
+        "rssBytes": 209645568,
+        "heapUsedBytes": 91270536,
+        "processPeakRssBytes": 209645568
+      }
+    },
+    {
+      "name": "reopen_and_verify_exact_roundtrip",
+      "elapsedMs": 68.999,
+      "before": {
+        "rssBytes": 248373248,
+        "heapUsedBytes": 127384968,
+        "processPeakRssBytes": 248373248
+      },
+      "after": {
+        "rssBytes": 254259200,
+        "heapUsedBytes": 91103880,
+        "processPeakRssBytes": 269606912
+      }
+    }
+  ],
+  "checks": {
+    "reviewSchedulingAndRetention": true,
+    "sparseGraphExactUniqueEdges": true,
+    "denseGraphCountOrderAliasesSelfLinks": true,
+    "arabicSearch20ExactResultSets": true,
+    "exportParseExactEquality": true,
+    "restoreExactEqualityAndWorkspaceRetention": true,
+    "orphanRejectedWithoutMutation": true,
+    "foreignKeyCascadeAndSubsequentRestore": true,
+    "reopenExactEqualityAndForeignKeys": true
+  },
+  "denseGraphMedianMs": 174.88,
+  "backupUtf8Bytes": 4438139,
+  "temporarySyntheticDataRemoved": true,
+  "finishedAt": "2026-11-02T18:19:10.184Z",
+  "totalElapsedMs": 3253.889,
+  "finalMemory": {
+    "rssBytes": 254259200,
+    "heapUsedBytes": 91110848,
+    "processPeakRssBytes": 269606912
+  }
+}
