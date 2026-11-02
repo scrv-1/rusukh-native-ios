@@ -62,6 +62,10 @@
 فحص `npm audit --omit=dev` أظهر 12 تحذيرًا متوسطًا في شجرة اعتماديات Expo وأدواتها، صفر مرتفع وصفر حرج وقت الفحص. أصل التنبيه في `glob` (AbortSignal traversal) و`minimatch` (denial of service). اقتراح npm الآلي يرجع Expo إلى51 ويكسر توافق58، لذلك لم نطبّقه. الاعتماديات التشغيلية لم تُغيّر في هذه النسخة؛ التحذيرات باقية وتحتاج ترقية متوافقة والتحقق قبل اعتبار النسخة إنتاجية. [التقرير الكامل](evidence/v03/runtime-audit.json).
 
 
+## ملاحظة من آخر فحص بصري
+
+ظهرت ست رسائل Unknown event handler property من react-native-svg عند العرض عبر React Native Web: onStartShouldSetResponder وonResponderTerminationRequest وonResponderGrant وonResponderMove وonResponderRelease وonResponderTerminate. لم تمنع رسم الشبكة أو قائمة العلاقات أو التكبير. لم تُخفَ الرسائل ولم تُغيّر معالجة اللمس الأصلية لإسكات تحذير المتصفح؛ تبقى ضمن قيود المختبر البصري. [السجل المرصود](evidence/v03/web-svg-warnings.json). هذه الرسائل لا تثبت فشل iOS أو نجاحه؛ تجربة الجهاز مطلوبة.
+
 ## حدود النسخة
 
 لا محرك ذكاء اصطناعي محلي في نسخة Expo Go، ولا توليد أسئلة بالذكاء الاصطناعي. استخراج س/ج يقرأ أسئلة مكتوبة صراحة. لا قراءة PDF أو جلب YouTube تلقائيًا. استيراد TXT/MD/SRT/VTT وتصدير Markdown موجودان. الجدولة مبسطة وليست FSRS. لم يُختبر VoiceOver أو لوحة مفاتيح iOS أو البطارية أو الحرارة أو Neural Engine على هاتف في هذا التحديث. لا تثبيت لتطبيق مستقل جديد على هاتف المستخدم ولا ادعاء اكتمال المشروع الإنتاجي.
