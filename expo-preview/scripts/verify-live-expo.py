@@ -9,7 +9,8 @@ from pathlib import Path
 from urllib.parse import urlsplit, urlunsplit
 
 headers = {"Expo-Platform": "ios", "Accept": "application/expo+json"}
-evidence = Path("evidence/v04")
+expected_version = json.loads(Path('app.json').read_text())["expo"]["version"]
+evidence = Path("evidence") / ("v" + expected_version.replace('.', ''))
 evidence.mkdir(parents=True, exist_ok=True)
 with urllib.request.urlopen(urllib.request.Request("http://127.0.0.1:8081/", headers=headers), timeout=60) as response:
     local = json.load(response)
@@ -27,7 +28,8 @@ with tempfile.TemporaryDirectory(prefix="rusukh-expo-verify-") as tmp:
     manifest_status = fetch("https://" + host + "/", manifest_path, manifest=True)
     manifest = json.loads(manifest_path.read_text())
 client = manifest["extra"]["expoClient"]
-assert client["version"] == "0.4.0", client["version"]
+assert client["version"] == expected_version, client["version"]
+assert client.get("extra", {}).get("appVersion") == expected_version, client.get("extra")
 parsed = urlsplit(manifest["launchAsset"]["url"])
 bundle = urlunsplit(("https", parsed.netloc, parsed.path, parsed.query, parsed.fragment))
 digest, size = hashlib.sha256(), 0
@@ -40,7 +42,7 @@ with tempfile.TemporaryDirectory(prefix="rusukh-expo-bundle-") as tmp:
             size += len(chunk)
 result = {
     "observedAtUTC": datetime.datetime.now(datetime.timezone.utc).isoformat(),
-    "version": client["version"], "sdkVersion": client["sdkVersion"],
+    "version": client["version"], "extraAppVersion": client["extra"]["appVersion"], "sdkVersion": client["sdkVersion"],
     "expoGoURL": "exp://" + host, "manifestHTTPStatus": manifest_status,
     "bundleHTTPStatus": bundle_status, "bundleBytes": size, "bundleSHA256": digest.hexdigest(),
     "limits": "HTTP verification from Codespaces; not an iPhone launch. The development tunnel requires a running Codespace."

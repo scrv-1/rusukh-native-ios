@@ -1,0 +1,24 @@
+✔ recovery point captures the previous library and survives a WAL database reopen (32.056968ms)
+✔ import failure rolls back both replacement and newly created recovery point (3.069169ms)
+✔ failure to persist recovery refuses import and preserves all existing data (1.3916ms)
+✔ only the newest three successful recovery points remain; target selected before rotation (4.467629ms)
+✔ corrupt, incompatible and nonexistent recovery points never replace the current library (3.356075ms)
+✔ a failed import after retention rotation keeps all three previous recovery points (3.52891ms)
+✔ input mutation while import awaits the transaction cannot bypass validated content (1.496267ms)
+✔ invalid input creates no snapshot and cannot overwrite the existing library (0.976466ms)
+✔ an oversized safety snapshot blocks replacement instead of importing without protection (275.293012ms)
+✔ preferences persist after SQLite reopen; hide and reset preserve study content (28.71276ms)
+✔ rejected import leaves existing notes and workspace untouched (2.319043ms)
+✔ failure while creating cards rolls back the note and every previous card (1.476228ms)
+✔ renaming a note preserves incoming graph links, aliases and unrelated text atomically (2.314581ms)
+✔ card insertion failure rolls back renamed title and all rewritten backlinks (2.556004ms)
+✔ renaming refuses oversized rewritten content without changing any note (15.59183ms)
+✔ renaming to an unrepresentable wiki target never corrupts existing links (1.531379ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 445.541611

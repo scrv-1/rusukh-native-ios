@@ -107,6 +107,21 @@ test('card insertion failure rolls back renamed title and all rewritten backlink
   } finally { raw.close(); }
 });
 
+test('rename preserves long malformed wiki text and retargets valid links beyond its boundary', async()=>{
+  const raw=new DatabaseSync(':memory:');schema(raw);const db=adapter(raw);
+  try {
+    const target={id:'target',title:'قديم',body:'[[قديم|ذاتي]]',createdAt:1,updatedAt:1};
+    const malformed='['.repeat(120000)+'\n'+'[[x|'.repeat(30000)+'\n';
+    const linked={id:'linked',title:'رابط',body:malformed+'[[  قديم |وصف|إضافي]] ثم [[آخر]]',createdAt:1,updatedAt:2};
+    await saveNote(db,target);await saveNote(db,linked);
+    await saveNoteAndCards(db,{...target,title:'جديد',updatedAt:10},[]);
+    const notes=Object.fromEntries((await readAll(db)).notes.map(n=>[n.id,n]));
+    assert.equal(notes.target.body,'[[جديد|ذاتي]]');
+    assert.equal(notes.linked.body,malformed+'[[جديد|وصف|إضافي]] ثم [[آخر]]');
+    assert.deepEqual(graphEdges(Object.values(notes)),[{from:'linked',to:'target'}]);
+  } finally {raw.close();}
+});
+
 test('renaming refuses oversized rewritten content without changing any note', async()=>{
   const raw=new DatabaseSync(':memory:');schema(raw);const db=adapter(raw);
   try {

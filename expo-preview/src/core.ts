@@ -32,16 +32,62 @@ export function normalizeTitle(input: string): string {
   return input.trim().replace(/\s+/g, ' ').toLocaleLowerCase();
 }
 
-export function wikiLinks(body: string): string[] {
-  const regex = /\[\[([^\]|\n]+)(?:\|[^\]\n]*)?\]\]/g;
-  const found: string[] = [];
-  let match: RegExpExecArray | null;
-  while ((match = regex.exec(body))) {
-    const name = match[1].trim();
-    if (name && !found.some((x) => normalizeTitle(x) === normalizeTitle(name))) {
-      found.push(name);
+// Match the existing wiki syntax in one pass. In particular, '[' is allowed
+// inside a target/alias; ']' and LF terminate an unsuccessful candidate. A
+// backtracking regex rescans every opener in long, unclosed bracket runs.
+function forEachWikiLink(body: string, visit: (start: number, end: number, target: string, alias: string | undefined) => void): void {
+  let start = -1;
+  let pipe = -1;
+  for (let index = 0; index < body.length; index++) {
+    const character = body[index];
+    if (character === '\n' || character === ']') {
+      if (character === ']' && start >= 0 && body[index + 1] === ']') {
+        visit(start, index + 2, body.slice(start + 2, pipe < 0 ? index : pipe),
+          pipe < 0 ? undefined : body.slice(pipe, index));
+        index++; // Global matches resume after both closing brackets.
+      }
+      start = -1;
+      pipe = -1;
+    } else if (start < 0) {
+      const firstTarget = body[index + 2];
+      if (character === '[' && body[index + 1] === '[' && firstTarget !== undefined &&
+          firstTarget !== ']' && firstTarget !== '|' && firstTarget !== '\n') {
+        start = index;
+      }
+    } else if (character === '|' && pipe < 0) {
+      pipe = index;
     }
   }
+}
+
+// The shared parser keeps graph discovery and rename propagation in agreement.
+// Changed spans are assembled once, leaving unrelated/malformed text untouched.
+export function replaceWikiLinks(body: string, replace: (full: string, target: string, alias: string | undefined) => string): string {
+  const parts: string[] = [];
+  let copied = 0;
+  forEachWikiLink(body, (start, end, target, alias) => {
+    const full = body.slice(start, end);
+    const replacement = replace(full, target, alias);
+    if (replacement !== full) {
+      parts.push(body.slice(copied, start), replacement);
+      copied = end;
+    }
+  });
+  return copied === 0 ? body : parts.join('') + body.slice(copied);
+}
+
+export function wikiLinks(body: string): string[] {
+  const found: string[] = [];
+  const seen = new Set<string>();
+  forEachWikiLink(body, (_start, _end, target) => {
+    const name = target.trim();
+    const key = normalizeTitle(name);
+    // Normalize each target once; retain its first spelling and encounter order.
+    if (name && !seen.has(key)) {
+      seen.add(key);
+      found.push(name);
+    }
+  });
   return found;
 }
 
@@ -116,15 +162,30 @@ export function dueCards(cards: StudyCard[], now = Date.now()): StudyCard[] {
   return cards.filter((card) => card.dueAt <= now).sort((a, b) => a.dueAt - b.dueAt);
 }
 
-export function makeQuiz(cards: StudyCard[], limit = 8) {
-  const unique = Array.from(new Map(cards.map((c) => [normalizeTitle(c.answer), c])).values());
-  if (unique.length < 2) return [];
-  return unique.slice(0, Math.max(0, limit)).map((card, index) => {
-    const distractors = unique.filter((c) => c.id !== card.id).map((c) => c.answer).slice(0, 3);
-    const options = [card.answer, ...distractors];
-    const rotate = index % options.length;
+function shuffled<T>(items: readonly T[], random: () => number): T[] {
+  const result = [...items];
+  // Fisher–Yates: sample only the remaining range; never mutate stored cards.
+  for (let last = result.length - 1; last > 0; last--) {
+    const selected = Math.floor(random() * (last + 1));
+    [result[last], result[selected]] = [result[selected], result[last]];
+  }
+  return result;
+}
+
+// random follows Math.random's [0, 1) contract; tests can inject a seeded source.
+export function makeQuiz(cards: readonly StudyCard[], limit = 8, random: () => number = Math.random) {
+  const count = Number.isFinite(limit) ? Math.max(0, Math.trunc(limit)) : 0;
+  if (count === 0) return [];
+  const candidates = cards.filter(card => card.question.trim() && card.answer.trim());
+  const answers = new Map(candidates.map(card => [normalizeTitle(card.answer), card.answer]));
+  if (answers.size < 2) return [];
+  // Deduplicate options, not questions: two cards may legitimately share an answer.
+  return shuffled(candidates, random).slice(0, count).map(card => {
+    const answerKey = normalizeTitle(card.answer);
+    const distractors = shuffled([...answers].filter(([key]) => key !== answerKey), random)
+      .slice(0, 3).map(([, answer]) => answer);
     return { cardId: card.id, question: card.question, answer: card.answer,
-      options: [...options.slice(rotate), ...options.slice(0, rotate)] };
+      options: shuffled([card.answer, ...distractors], random) };
   });
 }
 

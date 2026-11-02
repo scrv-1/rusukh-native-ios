@@ -1,0 +1,21 @@
+FAIL iOS tests/backup-recovery-panel.ui.test.jsx
+  ● Test suite failed to run
+
+    Cannot find module '../src/backup/RecoveryPointsPanel' from 'tests/backup-recovery-panel.ui.test.jsx'
+
+      1 | import React from 'react';
+      2 | import { render, screen, fireEvent, waitFor, act } from '@testing-library/react-native';
+    > 3 | import { RecoveryPointsPanel } from '../src/backup/RecoveryPointsPanel';
+        | ^
+      4 | import { listRecoveryPoints } from '../src/storage';
+      5 | import { light } from '../src/ui';
+      6 |
+
+      at Resolver._throwModNotFoundError (node_modules/jest-resolve/build/index.js:1031:11)
+      at Object.require (tests/backup-recovery-panel.ui.test.jsx:3:1)
+
+Test Suites: 1 failed, 1 total
+Tests:       0 total
+Snapshots:   0 total
+Time:        0.86 s
+Ran all test suites matching tests/backup-recovery-panel.ui.test.jsx.

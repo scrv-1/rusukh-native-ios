@@ -1,9 +1,31 @@
 import * as SQLite from 'expo-sqlite';
 import type { Backup, Note, ReviewEvent, StudyCard, Grade } from './types';
-import { makeId, normalizeTitle, scheduleReview, validateBackup } from './core';
+import { makeId, normalizeTitle, replaceWikiLinks, scheduleReview, serializeBackup, utf8ByteLength, MAX_BACKUP_BYTES, validateBackup } from './core';
 import { MAX_NOTE_CHARS } from './sources';
 
 export type Database = SQLite.SQLiteDatabase;
+
+// These are local undo points, not a portable backup of attachments or settings.
+// Bounded at three 15 MiB JSON payloads. SQLite/WAL pages may temporarily use
+// additional disk space; failed writes abort the complete import transaction.
+export const MAX_RECOVERY_POINTS = 3;
+export type RecoveryPoint = {
+  id: number; schemaVersion: 1; createdAt: number;
+  reason: 'before-import' | 'before-recovery';
+  noteCount: number; cardCount: number; reviewCount: number; bytes: number;
+};
+const recoverySchema = `CREATE TABLE IF NOT EXISTS study_recovery_v1 (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  schemaVersion INTEGER NOT NULL,
+  createdAt INTEGER NOT NULL, reason TEXT NOT NULL,
+  noteCount INTEGER NOT NULL, cardCount INTEGER NOT NULL, reviewCount INTEGER NOT NULL,
+  bytes INTEGER NOT NULL CHECK(bytes > 0 AND bytes <= ${MAX_BACKUP_BYTES}),
+  payload TEXT NOT NULL
+)`;
+
+async function ensureRecoveryTable(db: Database): Promise<void> {
+  await db.runAsync(recoverySchema);
+}
 
 export async function openStorage(): Promise<Database> {
   const db = await SQLite.openDatabaseAsync('rusukh-v1.db');
@@ -26,6 +48,7 @@ export async function openStorage(): Promise<Database> {
       FOREIGN KEY(cardId) REFERENCES cards(id) ON DELETE CASCADE
     );
     CREATE TABLE IF NOT EXISTS meta (key TEXT PRIMARY KEY NOT NULL, value TEXT NOT NULL);
+    ${recoverySchema};
   `);
   const seeded = await db.getFirstAsync<{ value: string }>('SELECT value FROM meta WHERE key = ?', 'seeded');
   if (!seeded) {
@@ -81,7 +104,7 @@ export async function saveNoteAndCards(db: Database, note: Note, cards: StudyCar
       const retarget = (body: string) => {
         // Parse complete links; never interpolate a user title into a RegExp or
         // replacement string. Aliases and surrounding prose stay unchanged.
-        const updated = body.replace(/\[\[([^\]|\n]+)(\|[^\]\n]*)?\]\]/g, (full, target: string, alias: string | undefined) => {
+        const updated = replaceWikiLinks(body, (full, target, alias) => {
           if (normalizeTitle(target) !== oldTitle) return full;
           if (/[\]|\r\n]/.test(note.title)) throw new Error('العنوان الجديد يحتوي محارف لا تدعمها الروابط. اختر عنوانًا آخر.');
           return `[[${note.title}${alias ?? ''}]]`;
@@ -127,17 +150,74 @@ export async function recordReview(db: Database, card: StudyCard, grade: Grade):
   });
 }
 
-export async function restoreBackup(db: Database, data: unknown) {
+async function replaceStudyData(tx: Database, backup: Backup): Promise<void> {
+  await tx.runAsync('DELETE FROM reviews');
+  await tx.runAsync('DELETE FROM cards');
+  await tx.runAsync('DELETE FROM notes');
+  for (const n of backup.notes) await tx.runAsync('INSERT INTO notes VALUES (?,?,?,?,?)',n.id,n.title,n.body,n.createdAt,n.updatedAt);
+  for (const c of backup.cards) await tx.runAsync('INSERT INTO cards VALUES (?,?,?,?,?,?,?,?,?)',
+    c.id,c.noteId,c.question,c.answer,c.dueAt,c.intervalDays,c.ease,c.repetitions,c.updatedAt);
+  for (const r of backup.reviews) await tx.runAsync('INSERT INTO reviews VALUES (?,?,?,?)',r.id,r.cardId,r.grade,r.reviewedAt);
+}
+
+async function snapshotStudyData(tx: Database, reason: RecoveryPoint['reason']): Promise<void> {
+  await ensureRecoveryTable(tx);
+  const current = await readAll(tx);
+  let payload: string;
+  try {
+    payload = serializeBackup(makeBackup(current.notes, current.cards, current.reviews));
+  } catch {
+    throw new Error('تعذّر إنشاء نقطة رجوع آمنة للبيانات الحالية. لم تُستبدل الملاحظات. صدّر بياناتك وراجع حجمها وصحتها أولًا.');
+  }
+  await tx.runAsync(`INSERT INTO study_recovery_v1
+    (schemaVersion,createdAt,reason,noteCount,cardCount,reviewCount,bytes,payload) VALUES (?,?,?,?,?,?,?,?)`,
+    1, Date.now(), reason, current.notes.length, current.cards.length, current.reviews.length, utf8ByteLength(payload), payload);
+  // Rotation belongs to the same transaction as the replacement. If any later
+  // write fails, both the previous library and previous recovery points survive.
+  await tx.runAsync(`DELETE FROM study_recovery_v1 WHERE id NOT IN
+    (SELECT id FROM study_recovery_v1 ORDER BY id DESC LIMIT ?)`, MAX_RECOVERY_POINTS);
+}
+
+export async function restoreBackup(db: Database, data: unknown): Promise<void> {
   if (!validateBackup(data)) throw new Error('ملف النسخة الاحتياطية غير صالح');
-  const backup: Backup = data;
+  // Clone the validated input before awaiting so a caller cannot mutate it
+  // between validation and insertion; apply the same portable 15 MiB limit.
+  const backup: Backup = JSON.parse(serializeBackup(data));
   await db.withExclusiveTransactionAsync(async (tx) => {
-    await tx.runAsync('DELETE FROM reviews');
-    await tx.runAsync('DELETE FROM cards');
-    await tx.runAsync('DELETE FROM notes');
-    for (const n of backup.notes) await tx.runAsync('INSERT INTO notes VALUES (?,?,?,?,?)',n.id,n.title,n.body,n.createdAt,n.updatedAt);
-    for (const c of backup.cards) await tx.runAsync('INSERT INTO cards VALUES (?,?,?,?,?,?,?,?,?)',
-      c.id,c.noteId,c.question,c.answer,c.dueAt,c.intervalDays,c.ease,c.repetitions,c.updatedAt);
-    for (const r of backup.reviews) await tx.runAsync('INSERT INTO reviews VALUES (?,?,?,?)',r.id,r.cardId,r.grade,r.reviewedAt);
+    await snapshotStudyData(tx, 'before-import');
+    await replaceStudyData(tx, backup);
+  });
+}
+
+export async function listRecoveryPoints(db: Database): Promise<RecoveryPoint[]> {
+  await ensureRecoveryTable(db);
+  return db.getAllAsync<RecoveryPoint>(`SELECT id,schemaVersion,createdAt,reason,noteCount,cardCount,reviewCount,bytes
+    FROM study_recovery_v1 ORDER BY id DESC LIMIT ?`, MAX_RECOVERY_POINTS);
+}
+
+export async function readRecoveryPoint(db: Database, id: number): Promise<Backup> {
+  if (!Number.isSafeInteger(id) || id <= 0) throw new Error('معرّف نقطة الرجوع غير صالح.');
+  await ensureRecoveryTable(db);
+  const row = await db.getFirstAsync<{ schemaVersion: number; payload: string; bytes: number }>(
+    'SELECT schemaVersion,payload,bytes FROM study_recovery_v1 WHERE id=?', id);
+  if (!row) throw new Error('نقطة الرجوع غير موجودة؛ قد تكون خرجت من آخر ثلاث نقاط محفوظة.');
+  if (row.schemaVersion !== 1 || typeof row.payload !== 'string' ||
+      row.bytes > MAX_BACKUP_BYTES || utf8ByteLength(row.payload) !== row.bytes) {
+    throw new Error('نقطة الرجوع غير متوافقة أو تالفة. لم تُستبدل البيانات.');
+  }
+  let backup: unknown;
+  try { backup = JSON.parse(row.payload); }
+  catch { throw new Error('تعذّر قراءة نقطة الرجوع. لم تُستبدل البيانات.'); }
+  if (!validateBackup(backup)) throw new Error('نقطة الرجوع غير صالحة. لم تُستبدل البيانات.');
+  return backup;
+}
+
+export async function restoreRecoveryPoint(db: Database, id: number): Promise<void> {
+  await db.withExclusiveTransactionAsync(async tx => {
+    // Read and validate the selected point before rotation could remove it.
+    const backup = await readRecoveryPoint(tx, id);
+    await snapshotStudyData(tx, 'before-recovery');
+    await replaceStudyData(tx, backup);
   });
 }
 

@@ -1,7 +1,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const {
-  normalizeTitle, wikiLinks, graphEdges, parseQuestionAnswer, scheduleReview,
+  normalizeTitle, wikiLinks, replaceWikiLinks, graphEdges, parseQuestionAnswer, scheduleReview,
   dueCards, makeQuiz, validateBackup, makeId, MS_DAY,
   MAX_BACKUP_BYTES, utf8ByteLength, serializeBackup
 } = require('../.test-build/core.js');
@@ -26,6 +26,66 @@ test('wiki link parser supports alias and deduplicates', () => {
 });
 test('wiki parser ignores incomplete links and empty targets', () => {
   assert.deepEqual(wikiLinks('[[ ]] [[مفقود] [عنوان]'), []);
+});
+test('wiki links retain first spelling and encounter order across normalized aliases', () => {
+  assert.deepEqual(wikiLinks('[[ Study   Notes |أول]] [[study notes]] [[علم  الأحياء]] [[علم الأحياء|ثان]] [[آخر]]'),
+    ['Study   Notes', 'علم  الأحياء', 'آخر']);
+});
+test('a large single note retains every unique link and ignores later aliases', () => {
+  const names=Array.from({length:6000},(_,i)=>`موضوع ${i}`);
+  const body=names.map(name=>`[[${name}]]`).join(' ')+names.slice(0,20).map(name=>` [[ ${name} |اسم بديل]]`).join('');
+  assert.deepEqual(wikiLinks(body),names);
+});
+test('wiki scanner preserves nested open brackets, empty aliases, CR and malformed prefixes', () => {
+  const cases = [
+    '[[outer[[inner]] [[|alias[[good]]',
+    '[[عربي\rعنوان|اسم|آخر]] [[ ]] [[هدف|]] [[هدف]]',
+    '[[]] [[[|]] [[a]b]] [[a\nb]] [[a|b\nc]] [[last]]',
+    '[[a|[[nested]]]] [[b]] ] [[c]]',
+  ];
+  for (const body of cases) {
+    const expected=[]; const actual=[];
+    const rewrite=(list)=>(full,target,alias)=>{list.push({full,target,alias});return `{${target}${alias ?? ''}}`;};
+    const old=body.replace(/\[\[([^\]|\n]+)(\|[^\]\n]*)?\]\]/g,rewrite(expected));
+    assert.equal(replaceWikiLinks(body,rewrite(actual)),old);
+    assert.deepEqual(actual,expected);
+    assert.equal(replaceWikiLinks(body,full=>full),body);
+  }
+});
+test('wiki scanner matches legacy syntax on every short bracket/pipe/newline combination', () => {
+  const alphabet=['[',']','|','\n','a'];
+  const visit=(body,depth)=>{
+    const expected=[]; const actual=[];
+    const old=body.replace(/\[\[([^\]|\n]+)(\|[^\]\n]*)?\]\]/g,(full,target,alias)=>{
+      expected.push([full,target,alias]);return `{${target}${alias ?? ''}}`;
+    });
+    const result=replaceWikiLinks(body,(full,target,alias)=>{
+      actual.push([full,target,alias]);return `{${target}${alias ?? ''}}`;
+    });
+    assert.equal(result,old,JSON.stringify(body));
+    assert.deepEqual(actual,expected,JSON.stringify(body));
+    if(depth<7) for(const character of alphabet)visit(body+character,depth+1);
+  };
+  visit('',0);
+});
+test('wiki scanner completes million-character malformed notes within a worker watchdog', async () => {
+  const { Worker }=require('node:worker_threads');
+  const worker=new Worker(`
+    const {parentPort,workerData}=require('node:worker_threads');
+    const {wikiLinks,replaceWikiLinks}=require(workerData);
+    const plain='['.repeat(1000000);
+    const alias='[[x|'.repeat(250000);
+    const values=[plain,alias].map(body=>({links:wikiLinks(body),unchanged:replaceWikiLinks(body,()=>{throw Error('unexpected match');})===body}));
+    parentPort.postMessage(values);
+  `,{eval:true,workerData:require.resolve('../.test-build/core.js')});
+  try {
+    const result=await new Promise((resolve,reject)=>{
+      const timer=setTimeout(()=>reject(new Error('malformed wiki input exceeded 10-second watchdog')),10000);
+      worker.once('message',data=>{clearTimeout(timer);resolve(data);});
+      worker.once('error',error=>{clearTimeout(timer);reject(error);});
+    });
+    assert.deepEqual(result,[{links:[],unchanged:true},{links:[],unchanged:true}]);
+  } finally {await worker.terminate();}
 });
 test('graph builds directed links between known note titles only', () => {
   const notes=[
@@ -105,6 +165,69 @@ test('quiz options have one correct and no duplicates',()=>{
   const q=makeQuiz(cards,4);
   assert.equal(q.length,4);
   for(const item of q){assert.equal(item.options.filter(x=>x===item.answer).length,1);assert.equal(new Set(item.options).size,item.options.length);}
+});
+// Seeded only for reproducible tests; the app uses Math.random for study quizzes.
+function quizRandom(seed) {
+  return () => {
+    let value=seed+=0x6D2B79F5;
+    value=Math.imul(value^(value>>>15),value|1);
+    value^=value+Math.imul(value^(value>>>7),value|61);
+    return ((value^(value>>>14))>>>0)/4294967296;
+  };
+}
+function quizCards(count) {
+  return Array.from({length:count},(_,i)=>({...exampleCard,id:`c${i}`,question:`سؤال ${i}`,answer:`جواب ${i}`}));
+}
+test('quiz can reach every card rather than repeatedly taking the same prefix',()=>{
+  const cards=quizCards(20);
+  const rounds=Array.from({length:40},(_,i)=>makeQuiz(cards,8,quizRandom(i+1)));
+  const seen=new Set(rounds.flatMap(round=>round.map(question=>question.cardId)));
+  assert.equal(seen.size,20);
+  assert.ok(new Set(rounds.map(round=>round.map(question=>question.cardId).join(','))).size>1);
+  for(const round of rounds) assert.equal(new Set(round.map(q=>q.cardId)).size,8);
+});
+test('quiz selection gives each of three cards the same share of exhaustive shuffle choices',()=>{
+  const cards=quizCards(3), counts=new Map(cards.map(card=>[card.id,0]));
+  for(let first=0;first<3;first++) for(let second=0;second<2;second++) {
+    const draws=[(first+0.5)/3,(second+0.5)/2];
+    const [question]=makeQuiz(cards,1,()=>draws.shift()??0.5);
+    counts.set(question.cardId,counts.get(question.cardId)+1);
+  }
+  assert.deepEqual([...counts.values()],[2,2,2]);
+});
+test('quiz answer positions vary and remain reproducible for a supplied random source',()=>{
+  const cards=quizCards(20), positions=new Set();
+  for(let seed=1;seed<=40;seed++) {
+    const [first]=makeQuiz(cards,8,quizRandom(seed));
+    positions.add(first.options.indexOf(first.answer));
+  }
+  assert.deepEqual([...positions].sort(),[0,1,2,3]);
+  assert.deepEqual(makeQuiz(cards,8,quizRandom(42)),makeQuiz(cards,8,quizRandom(42)));
+});
+test('quiz keeps separate questions sharing an answer and normalizes distractor uniqueness',()=>{
+  const cards=[
+    {...exampleCard,id:'same-1',question:'الأول؟',answer:' Answer '},
+    {...exampleCard,id:'same-2',question:'الثاني؟',answer:'answer'},
+    {...exampleCard,id:'other',question:'الثالث؟',answer:'Other'},
+  ];
+  const quiz=makeQuiz(cards,10,quizRandom(23));
+  assert.equal(quiz.length,3);
+  assert.deepEqual(new Set(quiz.map(q=>q.cardId)),new Set(cards.map(card=>card.id)));
+  for(const q of quiz) {
+    const original=cards.find(card=>card.id===q.cardId);
+    assert.equal(q.question,original.question);
+    assert.equal(q.answer,original.answer);
+    assert.equal(q.options.filter(option=>option===q.answer).length,1);
+    assert.equal(new Set(q.options.map(normalizeTitle)).size,q.options.length);
+  }
+});
+test('quiz does not reorder or edit source cards and handles small or invalid limits',()=>{
+  const cards=Object.freeze(quizCards(3).map(card=>Object.freeze(card)));
+  const before=JSON.stringify(cards);
+  assert.equal(makeQuiz(cards,2.9,quizRandom(2)).length,2);
+  for(const limit of [0,-1,NaN,Infinity,-Infinity]) assert.deepEqual(makeQuiz(cards,limit,quizRandom(2)),[]);
+  assert.deepEqual(makeQuiz([],8,quizRandom(2)),[]);
+  assert.equal(JSON.stringify(cards),before);
 });
 test('valid backup passes',()=>assert.equal(validateBackup(exampleBackup()),true));
 test('backup notes must remain editable and recoverable by the note editor',()=>{

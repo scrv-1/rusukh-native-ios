@@ -1,0 +1,8 @@
+Command: npm run typecheck
+Recorded result: exit code 0
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> rusukh-ios@0.4.1 typecheck
+> tsc --noEmit
+
