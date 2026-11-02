@@ -1,0 +1,279 @@
+iOS - SwiftUI build and simulator preview
+iOS - SwiftUI build and simulator preview #19
+Re-run jobs
+Summary
+All jobs
+Test, build and launch SwiftUI
+Evaluate Arabic model offline on cloud Mac
+Run details
+Usage
+Workflow file
+Lockfile
+Test, build and launch SwiftUI
+failed  in 2m 1s
+1/1
+Show timestamps
+Show full screen (Shift+F)
+Download log archive
+View raw logs
+Set up job
+1s
+Checkout source
+1s
+Record toolchain and source
+5s
+Install XcodeGen
+4s
+Verify reviewed source bytes
+0s
+Test core logic
+46s
+Generate Xcode project
+38s
+Build simulator app
+21s
+311
+    Target 'Numerics' in project 'swift-numerics'
+
+312
+        ➜ Explicit dependency on target '_NumericsShims' in project 'swift-numerics'
+
+313
+        ➜ Explicit dependency on target 'RealModule' in project 'swift-numerics'
+
+253
+        ➜ Explicit dependency on target 'ComplexModule' in project 'swift-numerics'
+
+254
+    Target 'ComplexModule' in project 'swift-numerics'
+
+255
+        ➜ Explicit dependency on target '_NumericsShims' in project 'swift-numerics'
+
+256
+        ➜ Explicit dependency on target 'RealModule' in project 'swift-numerics'
+
+257
+    Target 'RealModule' in project 'swift-numerics'
+
+258
+        ➜ Explicit dependency on target '_NumericsShims' in project 'swift-numerics'
+
+259
+    Target '_NumericsShims' in project 'swift-numerics' (no dependencies)
+
+260
+    Target 'cLogSupport' in project 'mlx-swift' (no dependencies)
+
+261
+    Target 'Cmlx' in project 'mlx-swift'
+
+262
+        ➜ Explicit dependency on target 'mlx-swift_Cmlx' in project 'mlx-swift'
+
+263
+    Target 'mlx-swift_Cmlx' in project 'mlx-swift' (no dependencies)
+
+264
+    Target 'FSRS-product' in project 'FSRS'
+
+265
+        ➜ Explicit dependency on target 'FSRS' in project 'FSRS'
+
+266
+    Target 'FSRS' in project 'FSRS' (no dependencies)
+
+267
+
+
+268
+GatherProvisioningInputs
+
+269
+
+
+270
+CreateBuildDescription
+
+271
+
+
+272
+ExecuteExternalTool /Applications/Xcode_27.1.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc --version
+
+273
+
+
+274
+ExecuteExternalTool /Applications/Xcode_27.1.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -arch arm64 -isysroot /Applications/Xcode_27.1.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk -x c -c /dev/null
+
+275
+
+
+276
+ExecuteExternalTool /Applications/Xcode_27.1.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -arch arm64 -isysroot /Applications/Xcode_27.1.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk -x objective-c -c /dev/null
+
+277
+
+
+278
+ExecuteExternalTool /Applications/Xcode_27.1.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode_27.1.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk -x c -c /dev/null
+
+279
+
+
+280
+ExecuteExternalTool /Applications/Xcode_27.1.app/Contents/Developer/usr/bin/actool --print-asset-tag-combinations --output-format xml1 /Users/runner/work/rusukh-native-ios/rusukh-native-ios/App/Assets.xcassets
+
+281
+
+
+282
+ExecuteExternalTool /Applications/Xcode_27.1.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -arch arm64 -isysroot /Applications/Xcode_27.1.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk -x c++ -c /dev/null
+
+283
+
+
+284
+ExecuteExternalTool /Applications/Xcode_27.1.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
+
+285
+
+
+286
+ReadFileContents /Applications/Xcode_27.1.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/share/docc/features.json
+
+287
+
+
+288
+ExecuteExternalTool /Applications/Xcode_27.1.app/Contents/Developer/usr/bin/actool --version --output-format xml1
+
+289
+
+
+290
+Build description signature: e372e790328249a618df649d674d2e2c
+
+291
+Build description path: /Users/runner/work/_temp/simulator-build/Build/Intermediates.noindex/XCBuildData/e372e790328249a618df649d674d2e2c.xcbuilddata
+
+292
+error: Multiple commands produce '/Users/runner/work/_temp/simulator-build/Build/Products/Debug-iphonesimulator/RusukhNative.app/Info.plist'
+
+293
+    note: Target 'RusukhNative' (project 'RusukhNative') has copy command from '/Users/runner/work/rusukh-native-ios/rusukh-native-ios/App/Info.plist' to '/Users/runner/work/_temp/simulator-build/Build/Products/Debug-iphonesimulator/RusukhNative.app/Info.plist'
+
+294
+    note: Target 'RusukhNative' (project 'RusukhNative') has process command with output '/Users/runner/work/_temp/simulator-build/Build/Products/Debug-iphonesimulator/RusukhNative.app/Info.plist'
+
+295
+CreateBuildDirectory /Users/runner/work/_temp/simulator-build/ModuleCache.noindex
+
+296
+    cd /Users/runner/work/rusukh-native-ios/rusukh-native-ios/RusukhNative.xcodeproj
+
+297
+    builtin-create-build-directory /Users/runner/work/_temp/simulator-build/ModuleCache.noindex
+
+298
+
+
+299
+CreateBuildDirectory /Users/runner/work/_temp/simulator-build/SDKExplicitPrecompiledModules
+
+300
+    cd /Users/runner/work/rusukh-native-ios/rusukh-native-ios/RusukhNative.xcodeproj
+
+301
+    builtin-create-build-directory /Users/runner/work/_temp/simulator-build/SDKExplicitPrecompiledModules
+
+302
+
+
+303
+CreateBuildDirectory /Users/runner/work/_temp/simulator-build/CompilationCache.noindex
+
+304
+    cd /Users/runner/work/rusukh-native-ios/rusukh-native-ios/RusukhNative.xcodeproj
+
+305
+    builtin-create-build-directory /Users/runner/work/_temp/simulator-build/CompilationCache.noindex
+
+306
+
+
+307
+ClangStatCache /Applications/Xcode_27.1.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode_27.1.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk /Users/runner/work/_temp/simulator-build/SDKStatCaches.noindex/iphonesimulator27.1-24A94232-e829b21a6f8c9b70876ba0858053c0444d9d9db8bd6230e456490c80ea63f8ae.sdkstatcache
+
+308
+    cd /Users/runner/work/rusukh-native-ios/rusukh-native-ios/RusukhNative.xcodeproj
+
+309
+    /Applications/Xcode_27.1.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode_27.1.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk -o /Users/runner/work/_temp/simulator-build/SDKStatCaches.noindex/iphonesimulator27.1-24A94232-e829b21a6f8c9b70876ba0858053c0444d9d9db8bd6230e456490c80ea63f8ae.sdkstatcache
+
+310
+
+
+311
+PruneExplicitPrecompiledModules /Users/runner/work/_temp/simulator-build/SDKExplicitPrecompiledModules
+
+312
+
+
+313
+warning: duplicate output file '/Users/runner/work/_temp/simulator-build/Build/Products/Debug-iphonesimulator/RusukhNative.app/Info.plist' on task: ProcessInfoPlistFile /Users/runner/work/_temp/simulator-build/Build/Products/Debug-iphonesimulator/RusukhNative.app/Info.plist /Users/runner/work/_temp/simulator-build/Build/Intermediates.noindex/RusukhNative.build/Debug-iphonesimulator/RusukhNative.build/DerivedSources/RusukhInfo.plist (in target 'RusukhNative' from project 'RusukhNative')
+
+314
+** BUILD FAILED **
+
+315
+
+
+316
+
+
+317
+The following build commands failed:
+
+318
+	Building project RusukhNative with scheme RusukhNative and configuration Debug
+
+319
+(1 failure)
+
+320
+Error: Process completed with exit code 65.
+
+Build unsigned device app
+0s
+Launch simulator and capture preview
+0s
+Build xtool 1.24.0 unsigned IPA
+0s
+Verify bundled open-source notice
+0s
+Provision verified local model for simulator test
+0s
+Test Arabic UI and persistence
+0s
+Verify current Swift runtime offline on Mac (not Simulator)
+0s
+Record artifact checksums
+0s
+Upload simulator app
+0s
+Upload unsigned device IPA
+0s
+Package source with xtool configuration
+0s
+Upload xtool project
+1s
+Upload xtool IPA
+0s
+Upload build evidence
+1s
+Post Checkout source
+1s
+Complete job
+0s

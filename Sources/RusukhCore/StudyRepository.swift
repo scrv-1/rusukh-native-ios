@@ -10,7 +10,7 @@ public enum StudyStorageError: Error, LocalizedError {
     }
 }
 
-public struct StudyRepository {
+public struct StudyRepository: Sendable {
     public static let maximumFileBytes = 80_000_000
     public let fileURL: URL
 
@@ -22,12 +22,17 @@ public struct StudyRepository {
     }
 
     public static func read(from url: URL) throws -> StudySnapshot {
+        try decode(readBytes(from: url))
+    }
+
+    static func readBytes(from url: URL) throws -> Data {
         let size = try url.resourceValues(forKeys: [.fileSizeKey]).fileSize ?? 0
-        guard size < maximumFileBytes else { throw StudyStorageError.invalidBackup }
+        guard size >= 0, size < maximumFileBytes else { throw StudyStorageError.invalidBackup }
         let handle = try FileHandle(forReadingFrom: url)
         defer { try? handle.close() }
         let bytes = try handle.read(upToCount: maximumFileBytes) ?? Data()
-        return try decode(bytes)
+        guard bytes.count < maximumFileBytes else { throw StudyStorageError.invalidBackup }
+        return bytes
     }
 
     public func save(_ snapshot: StudySnapshot) throws {

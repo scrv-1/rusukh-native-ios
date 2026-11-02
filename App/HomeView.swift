@@ -1,5 +1,4 @@
 import SwiftUI
-import UniformTypeIdentifiers
 
 struct HomeView: View {
     @EnvironmentObject private var library: LibraryStore
@@ -70,47 +69,5 @@ struct HomeView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(12)
         .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 14))
-    }
-}
-
-struct SettingsView: View {
-    @EnvironmentObject private var library: LibraryStore
-    @Environment(\.dismiss) private var dismiss
-    @State private var shareURL: URL?
-    @State private var importing = false
-    @State private var confirmImport = false
-
-    var body: some View {
-        NavigationStack {
-            Form {
-                ReviewReminderView()
-                Section("النسخ الاحتياطي") {
-                    Button("تجهيز نسخة JSON شاملة مع المرفقات") { shareURL = library.exportToTemporaryFile() }
-                    if let shareURL {
-                        ShareLink(item: shareURL) { Label("حفظ النسخة في الملفات", systemImage: "square.and.arrow.up") }
-                    }
-                    Button("استيراد نسخة — يستبدل كل البيانات") { confirmImport = true }
-                    Text("الصور والتسجيلات المحفوظة داخل الملاحظات موجودة في النسخة. النسخة غير مشفّرة؛ احفظها بمكان آمن.")
-                        .font(.footnote).foregroundStyle(.secondary)
-                }
-                Section("الأمان") {
-                    Text("كل الملاحظات تُحفظ محليًا. حذف التطبيق قد يحذف البيانات؛ صدّر نسخة دورية.")
-                }
-                Section("وضع التطوير") {
-                    Text("تجربة بدون عضوية Apple Developer مدفوعة. قد تحتاج إعادة توقيع كل 7 أيام.")
-                }
-            }
-            .navigationTitle("الإعدادات")
-            .toolbar { ToolbarItem(placement: .confirmationAction) { Button("إغلاق") { dismiss() } } }
-            .confirmationDialog("سيُستبدل كل المحتوى. صدّر نسخة احتياطية أولًا.", isPresented: $confirmImport) {
-                Button("اختيار ملف الاستيراد", role: .destructive) { importing = true }
-            }
-            .fileImporter(isPresented: $importing, allowedContentTypes: [.json]) { result in
-                switch result {
-                case .success(let url): library.importFromFile(url)
-                case .failure(let error): library.message = error.localizedDescription
-                }
-            }
-        }
     }
 }

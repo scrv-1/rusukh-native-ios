@@ -6,6 +6,8 @@ final class LibraryStore: ObservableObject {
     @Published private(set) var snapshot: StudySnapshot = .empty
     @Published var message: String?
     @Published private(set) var storageLocked = false
+    @Published private(set) var backupBusy = false
+    @Published private(set) var recoveryPoints: [StudyRecoveryPoint] = []
     private let repository: StudyRepository
 
     init(repository override: StudyRepository? = nil) {
@@ -18,7 +20,8 @@ final class LibraryStore: ObservableObject {
         if ProcessInfo.processInfo.arguments.contains("-ui-testing") {
             relativePath = "RusukhNativeUITests/study.json"
             if ProcessInfo.processInfo.arguments.contains("-reset-test-data") {
-                try? FileManager.default.removeItem(at: directory.appendingPathComponent(relativePath))
+                // This directory is exclusively synthetic UI-test storage.
+                try? FileManager.default.removeItem(at: directory.appendingPathComponent("RusukhNativeUITests"))
             }
         }
         #endif
@@ -30,6 +33,11 @@ final class LibraryStore: ObservableObject {
             storageLocked = true
             message = "تعذّر قراءة ملف البيانات: \(error.localizedDescription). لن يتم استبداله تلقائيًا."
         }
+        recoveryPoints = (try? repository.recoveryPoints()) ?? []
+        #if DEBUG
+        do { try BackupUITestFixture.prepareIfRequested() }
+        catch { message = "تعذّر تجهيز ملف اختبار الواجهة: \(error.localizedDescription)" }
+        #endif
     }
 
     var due: [StudyCard] { StudyEngine.dueCards(snapshot.cards) }
@@ -38,6 +46,7 @@ final class LibraryStore: ObservableObject {
         var updated = updated
         if updated.cards.contains(where: { $0.fsrs != nil }) { updated.version = 2 }
         guard !storageLocked else { message = "البيانات مقفلة للحفاظ على نسخة الملف المعطوبة."; return false }
+        guard !backupBusy else { message = StudyBackupError.operationInProgress.localizedDescription; return false }
         do {
             try repository.save(updated)
             snapshot = updated
@@ -116,27 +125,90 @@ final class LibraryStore: ObservableObject {
         }
     }
 
-    func exportToTemporaryFile() -> URL? {
+    private func beginBackup(requireReadableStore: Bool = true) throws {
+        if requireReadableStore && storageLocked { throw StudyBackupError.storageLocked }
+        guard !backupBusy else { throw StudyBackupError.operationInProgress }
+        backupBusy = true
+    }
+
+    func exportToTemporaryFile() async throws -> URL {
+        try beginBackup()
+        defer { backupBusy = false }
+        let current = snapshot
+        let repository = repository
+        return try await Task.detached(priority: .userInitiated) {
+            guard try repository.load() == current else { throw StudyBackupError.stalePreview }
+            return try StudyRepository.export(current)
+        }.value
+    }
+
+    func prepareImport(from url: URL) async throws -> StudyImportPreview {
+        try beginBackup()
+        defer { backupBusy = false }
+        let access = url.startAccessingSecurityScopedResource()
+        defer { if access { url.stopAccessingSecurityScopedResource() } }
+        let current = snapshot
+        let repository = repository
+        let preview = try await Task.detached(priority: .userInitiated) {
+            guard try repository.load() == current else { throw StudyBackupError.stalePreview }
+            let incoming = try StudyRepository.read(from: url)
+            return try StudyImportPreview(current: current, incoming: incoming, sourceName: url.lastPathComponent)
+        }.value
+        try Task.checkCancellation()
+        return preview
+    }
+
+    func prepareRecovery(_ point: StudyRecoveryPoint) async throws -> StudyImportPreview {
+        try beginBackup()
+        defer { backupBusy = false }
+        let current = snapshot
+        let repository = repository
+        return try await Task.detached(priority: .userInitiated) {
+            guard try repository.load() == current else { throw StudyBackupError.stalePreview }
+            return try StudyImportPreview(current: current, incoming: repository.readRecovery(point), sourceName: "نقطة رجوع محفوظة")
+        }.value
+    }
+
+    @discardableResult
+    func applyImport(_ plan: StudyImportPlan) async throws -> StudyImportReceipt {
+        try beginBackup()
+        defer { backupBusy = false }
+        guard snapshot == plan.current else { throw StudyBackupError.stalePreview }
+        let repository = repository
         do {
-            let data = try StudyRepository.encode(snapshot)
-            let location = FileManager.default.temporaryDirectory.appendingPathComponent("rusukh-native-backup-\(UUID().uuidString).json")
-            try data.write(to: location, options: .atomic)
-            return location
+            let receipt = try await Task.detached(priority: .userInitiated) { try repository.applyImport(plan) }.value
+            if receipt.changed { snapshot = plan.result }
+            if let point = receipt.recoveryPoint { recoveryPoints.insert(point, at: 0) }
+            message = nil
+            return receipt
         } catch {
-            message = "تعذّر التصدير: \(error.localizedDescription)"
-            return nil
+            // A failed write may still have created a valid new recovery point.
+            if let points = try? await Task.detached(priority: .userInitiated, operation: { try repository.recoveryPoints() }).value {
+                recoveryPoints = points
+            }
+            throw error
         }
     }
 
-    func importFromFile(_ url: URL) {
-        guard !storageLocked else { message = "الملف الحالي محمي؛ لا يمكن الاستيراد قبل معالجة خطأ القراءة."; return }
-        let access = url.startAccessingSecurityScopedResource()
-        defer { if access { url.stopAccessingSecurityScopedResource() } }
-        do {
-            let imported = try StudyRepository.read(from: url)
-            _ = commit(imported)
-        } catch {
-            message = "لم يتم تغيير بياناتك؛ فشل الاستيراد: \(error.localizedDescription)"
-        }
+    func refreshRecoveryPoints() async throws {
+        try beginBackup(requireReadableStore: false)
+        defer { backupBusy = false }
+        let repository = repository
+        recoveryPoints = try await Task.detached(priority: .userInitiated) { try repository.recoveryPoints() }.value
+    }
+
+    func exportRecovery(_ point: StudyRecoveryPoint) async throws -> URL {
+        try beginBackup(requireReadableStore: false)
+        defer { backupBusy = false }
+        let repository = repository
+        return try await Task.detached(priority: .userInitiated) { try repository.exportRecovery(point) }.value
+    }
+
+    func deleteRecovery(_ point: StudyRecoveryPoint) async throws {
+        try beginBackup(requireReadableStore: false)
+        defer { backupBusy = false }
+        let repository = repository
+        try await Task.detached(priority: .userInitiated) { try repository.deleteRecovery(point) }.value
+        recoveryPoints.removeAll { $0.id == point.id }
     }
 }
