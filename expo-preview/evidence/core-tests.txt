@@ -1,0 +1,48 @@
+
+> rusukh-ios@0.2.0 test
+> tsc -p tsconfig.test.json && node --test tests/*.test.cjs
+
+✔ Arabic title normalisation ignores extra whitespace/case (2.575089ms)
+✔ wiki link parser supports alias and deduplicates (0.979937ms)
+✔ wiki parser ignores incomplete links and empty targets (0.154468ms)
+✔ graph builds directed links between known note titles only (0.473292ms)
+✔ graph does not create self-links (0.175036ms)
+✔ extract Arabic Q/A pairs and ignores incomplete (0.575823ms)
+✔ extract English Q/A pairs (0.31651ms)
+✔ repeat grade schedules after 10 minutes (0.242241ms)
+✔ good grade intervals progress 1,3 then more (0.387802ms)
+✔ easy first review is four days (0.371653ms)
+✔ hard grade still schedules >= day (0.270704ms)
+✔ ease always bounded for repeated failures (0.293778ms)
+✔ dueCards include only due, ascending (0.296092ms)
+✔ quiz requires two distinct answers (0.244676ms)
+✔ quiz options have one correct and no duplicates (0.392572ms)
+✔ valid backup passes (0.477189ms)
+✔ malformed backup fails (0.176619ms)
+✔ backup rejects cards referencing nonexistent notes (0.214499ms)
+✔ backup rejects duplicate identifiers (1.43839ms)
+✔ backup rejects invalid grades and time values (0.150711ms)
+✔ new IDs have supplied prefix and differ (0.158395ms)
+✔ preferences persist after SQLite reopen; hide and reset preserve study content (80.095068ms)
+✔ rejected import leaves existing notes and workspace untouched (1.131239ms)
+✔ failure while creating cards rolls back the note and every previous card (1.402734ms)
+✔ new workspace is calm and independent between callers (2.37172ms)
+✔ invalid settings recover without throwing (2.422655ms)
+✔ saved settings round trip with order, density and hidden tools intact (0.521371ms)
+✔ unknown and duplicate IDs never produce duplicate or unsupported tools (0.515381ms)
+✔ hiding every module is valid and does not mutate original preferences (0.369198ms)
+✔ reorder respects boundaries and preserves each module exactly once (0.236161ms)
+✔ tab bar respects order and caps optional pages at three, excluding quiz (0.266016ms)
+✔ text sources preserve Arabic, Q/A and transcript timestamps (0.441072ms)
+✔ source import rejects unsupported, oversized, empty and invalid text (0.974386ms)
+✔ Arabic search ignores diacritics, tatweel, alef forms and word order (0.816833ms)
+✔ markdown export preserves note body and wiki links (0.392722ms)
+✔ source limit includes metadata so every accepted source can be reimported from backup (5.558189ms)
+ℹ tests 36
+ℹ suites 0
+ℹ pass 36
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 349.55262

@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
-  ActivityIndicator, Alert, KeyboardAvoidingView, Modal, Platform, Pressable,
+  ActivityIndicator, Alert, AppState, KeyboardAvoidingView, Modal, Platform, Pressable,
   ScrollView, StatusBar, TextInput, View,
 } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
@@ -9,14 +9,17 @@ import * as Sharing from 'expo-sharing';
 import * as DocumentPicker from 'expo-document-picker';
 import { Button, Empty, Field, Icon, Label, Panel, Palette, dark, light } from './src/ui';
 import { KnowledgeGraph } from './src/KnowledgeGraph';
+import { WorkspaceEditor } from './src/WorkspaceEditor';
+import { defaultWorkspace, MODULES, ModuleId, pinnedModules, readWorkspace, Workspace, WORKSPACE_KEY } from './src/workspace';
+import { markdownNote, matchesSearch, MAX_NOTE_CHARS, MAX_SOURCE_BYTES, prepareSource } from './src/sources';
 import { dueCards, graphEdges, makeId, makeQuiz, normalizeTitle, parseQuestionAnswer, validateBackup } from './src/core';
 import type { Backup, Note, StudyCard, ReviewEvent, Grade } from './src/types';
 import {
   Database, deleteCard, deleteNote, getSetting, makeBackup, openStorage,
-  readAll, recordReview, restoreBackup, saveCard, saveNote, setSetting,
+  readAll, recordReview, restoreBackup, saveCard, saveNoteAndCards, setSetting,
 } from './src/storage';
 
-type Tab = 'home' | 'notes' | 'review' | 'graph' | 'settings';
+type Tab = 'home' | 'notes' | 'review' | 'graph' | 'settings' | 'sources' | 'tools';
 const TABS: { id: Tab; label: string; symbol: string }[] = [
   { id: 'home', label: 'الرئيسية', symbol: 'house.fill' },
   { id: 'notes', label: 'الملاحظات', symbol: 'note.text' },
@@ -25,7 +28,7 @@ const TABS: { id: Tab; label: string; symbol: string }[] = [
   { id: 'settings', label: 'الإعدادات', symbol: 'gearshape.fill' },
 ];
 const screenTitle: Record<Tab, string> = {
-  home: 'رُسوخ', notes: 'ملاحظاتي', review: 'المراجعة', graph: 'شبكة أفكاري', settings: 'الإعدادات',
+  home: 'رُسوخ', notes: 'ملاحظاتي', review: 'المراجعة', graph: 'شبكة أفكاري', settings: 'الإعدادات', sources: 'مصادري', tools: 'كل الأدوات',
 };
 
 function AppContent() {
@@ -51,10 +54,19 @@ function AppContent() {
   const [quizScore, setQuizScore] = useState(0);
   const [quizOpen, setQuizOpen] = useState(false);
   const [saving, setSaving] = useState(false);
+  const actionLock = useRef(false);
+  const preferenceLock = useRef(false);
+  const [workspace, setWorkspace] = useState<Workspace>(defaultWorkspace);
+  const [customizing, setCustomizing] = useState(false);
+  const [clock, setClock] = useState(Date.now);
+  const visibleTabs = [TABS[0], ...pinnedModules(workspace).map(id => {
+    const module = MODULES.find(m => m.id === id)!;
+    return { id: id as Tab, label: module.title, symbol: module.symbol };
+  }), TABS[4]];
   const p = isDark ? dark : light;
-  const due = useMemo(() => dueCards(cards), [cards]);
+  const due = useMemo(() => dueCards(cards, clock), [cards, clock]);
   const links = useMemo(() => graphEdges(notes), [notes]);
-  const today = new Date().toDateString();
+  const today = new Date(clock).toDateString();
   const todayReviewed = reviews.filter(r => new Date(r.reviewedAt).toDateString() === today).length;
 
   useEffect(() => {
@@ -63,10 +75,10 @@ function AppContent() {
       try {
         const opened = await openStorage();
         if (!active) return;
-        const [data, mode] = await Promise.all([readAll(opened), getSetting(opened, 'darkMode')]);
+        const [data, mode, layout] = await Promise.all([readAll(opened), getSetting(opened, 'darkMode'), getSetting(opened, WORKSPACE_KEY)]);
         if (!active) return;
-        setDb(opened); setNotes(data.notes); setCards(data.cards); setReviews(data.reviews);
-        setIsDark(mode === 'true');
+        setClock(Date.now()); setDb(opened); setNotes(data.notes); setCards(data.cards); setReviews(data.reviews);
+        setIsDark(mode === 'true'); setWorkspace(readWorkspace(layout));
       } catch (err) {
         Alert.alert('خطأ في فتح قاعدة البيانات', String(err));
       } finally { if (active) setBusy(false); }
@@ -74,16 +86,61 @@ function AppContent() {
     return () => { active = false; };
   }, []);
 
+  useEffect(() => {
+    const timer = setInterval(() => setClock(Date.now()), 30000);
+    const subscription = AppState.addEventListener('change', state => { if (state === 'active') setClock(Date.now()); });
+    return () => { clearInterval(timer); subscription.remove(); };
+  }, []);
+
+  async function saveWorkspace(next: Workspace): Promise<boolean> {
+    if (!db || preferenceLock.current) return false;
+    preferenceLock.current = true;
+    try {
+      await setSetting(db, WORKSPACE_KEY, JSON.stringify(next));
+      setWorkspace(next); setCustomizing(false);
+      return true;
+    } catch {
+      Alert.alert('لم يُحفظ الترتيب', 'اختياراتك ما زالت هنا. حاول الحفظ مرة أخرى.');
+      return false;
+    } finally { preferenceLock.current = false; }
+  }
+
+  function openModule(id: ModuleId) {
+    if (id === 'quiz') startQuiz();
+    else { setRevealed(false); setTab(id); }
+  }
+
+  async function importSource() {
+    try {
+      const result = await DocumentPicker.getDocumentAsync({ type: '*/*', copyToCacheDirectory: true });
+      if (result.canceled || !result.assets[0]) return;
+      const asset = result.assets[0];
+      const file = new File(asset.uri);
+      if (Math.max(asset.size ?? 0, file.size ?? 0) > MAX_SOURCE_BYTES) throw new Error('الحد الأقصى للملف 1 ميغابايت.');
+      const draft = prepareSource(asset.name, await file.text());
+      setEditingId(null); setDraftTitle(draft.title); setDraftBody(draft.body); setEditorOpen(true);
+    } catch (error) { Alert.alert('تعذّر قراءة المصدر', String(error)); }
+  }
+
+  async function exportMarkdown() {
+    try {
+      const file = new File(Paths.cache, `rusukh-note-${Date.now()}.md`);
+      file.create(); await file.write(markdownNote(draftTitle, draftBody));
+      if (!(await Sharing.isAvailableAsync())) throw new Error('المشاركة غير متوفرة');
+      await Sharing.shareAsync(file.uri, { mimeType: 'text/markdown', UTI: 'public.plain-text' });
+    } catch (error) { Alert.alert('تعذّر تصدير الملاحظة', String(error)); }
+  }
+
   async function refresh(d: Database) {
     const data = await readAll(d);
-    setNotes(data.notes); setCards(data.cards); setReviews(data.reviews);
+    setClock(Date.now()); setNotes(data.notes); setCards(data.cards); setReviews(data.reviews);
   }
   async function action(fn: (d: Database) => Promise<void>): Promise<boolean> {
-    if (!db || saving) return false;
-    setSaving(true);
+    if (!db || actionLock.current) return false;
+    actionLock.current = true; setSaving(true);
     try { await fn(db); await refresh(db); return true; }
     catch (error) { Alert.alert('تعذّر إكمال العملية', String(error)); return false; }
-    finally { setSaving(false); }
+    finally { actionLock.current = false; setSaving(false); }
   }
   function openNew() {
     setEditingId(null); setDraftTitle(''); setDraftBody(''); setEditorOpen(true);
@@ -97,23 +154,25 @@ function AppContent() {
     if (notes.some(n => n.id !== editingId && normalizeTitle(n.title) === normalizeTitle(name))) {
       Alert.alert('العنوان مكرر', 'اختر عنوانًا مختلفًا حتى تظل الروابط بين الملاحظات دقيقة.'); return;
     }
+    if (draftBody.length > MAX_NOTE_CHARS || name.length > 160) {
+      Alert.alert('النص طويل جدًا', 'الحد الأقصى مليون حرف للمحتوى و160 حرفًا للعنوان.'); return;
+    }
     const now = Date.now();
     const original = notes.find(n => n.id === editingId);
     const note: Note = { id: editingId ?? makeId('note'), title: name, body: draftBody,
       createdAt: original?.createdAt ?? now, updatedAt: now };
     const pairs = autoCards ? parseQuestionAnswer(draftBody) : [];
-    let created = 0;
-    const saved = await action(async (d) => {
-      await saveNote(d, note);
-      const existing = cards.filter(c => c.noteId === note.id).map(c => normalizeTitle(c.question));
-      for (const pair of pairs) {
-        if (existing.includes(normalizeTitle(pair.question))) continue;
-        await saveCard(d, { id: makeId('card'), noteId: note.id, question: pair.question,
-          answer: pair.answer, dueAt: now, intervalDays: 0, ease: 2.5, repetitions: 0, updatedAt: now });
-        existing.push(normalizeTitle(pair.question));
-        created += 1;
-      }
-    });
+    const existing = new Set(cards.filter(c => c.noteId === note.id).map(c => normalizeTitle(c.question)));
+    const additions: StudyCard[] = [];
+    for (const pair of pairs) {
+      const normalized = normalizeTitle(pair.question);
+      if (existing.has(normalized)) continue;
+      additions.push({ id: makeId('card'), noteId: note.id, question: pair.question,
+        answer: pair.answer, dueAt: now, intervalDays: 0, ease: 2.5, repetitions: 0, updatedAt: now });
+      existing.add(normalized);
+    }
+    const created = additions.length;
+    const saved = await action(d => saveNoteAndCards(d, note, additions));
     if (!saved) return;
     setEditorOpen(false);
     if (autoCards) Alert.alert('البطاقات', created > 0 ? `أُنشئت ${created} بطاقة من أسطر س: وج:.` : 'لم أجد أسئلة جديدة بصيغة س: وج:.');
@@ -187,9 +246,8 @@ function AppContent() {
   }
   async function toggleDark() {
     const next = !isDark;
-    setIsDark(next);
     if (db) {
-      try { await setSetting(db, 'darkMode', String(next)); }
+      try { await setSetting(db, 'darkMode', String(next)); setIsDark(next); }
       catch (err) { Alert.alert('لم يُحفظ المظهر', String(err)); }
     }
   }
@@ -227,38 +285,75 @@ function AppContent() {
   }
 
   function homeScreen() {
+    const shown = workspace.modules.filter(m => m.enabled);
+    const compact = workspace.density === 'compact';
     return <View style={{ gap: 16 }}>
-      {header('تعلّم يبقى.', 'مساحتك الخاصة للتفكير والتذكّر')}
-      <View style={{ flexDirection: 'row-reverse', gap: 10 }}>
-        {stat(notes.length, 'ملاحظة')}{stat(cards.length, 'بطاقة')}{stat(due.length, 'للمراجعة')}
+      {header('مساحتي', 'تعلّم يبقى. وأدوات تختارها أنت.')}
+      <View style={{ flexDirection: 'row-reverse', flexWrap: 'wrap', gap: 8 }}>
+        <Button title="تخصيص مساحتي" p={p} tone="secondary" icon="slider.horizontal.3" onPress={() => setCustomizing(true)} />
+        <Button title="كل الأدوات" p={p} tone="plain" onPress={() => setTab('tools')} />
       </View>
-      <Panel p={p} style={{ backgroundColor: p.accent, padding: 22, gap: 15, borderColor: p.accent }}>
-        <Label p={p} color={p.accentInk} size={13}>جلسة اليوم</Label>
-        <Label p={p} color={p.accentInk} size={27} weight="800">{due.length ? `${due.length} بطاقة تنتظرك` : 'أنجزت مراجعاتك'}</Label>
-        <Label p={p} color={p.accentInk} size={13}>{todayReviewed} مراجعة مكتملة اليوم</Label>
-        <Button p={p} title={due.length ? 'ابدأ المراجعة' : 'عرض البطاقات'} tone="secondary"
-          icon="arrow.left" onPress={() => { setRevealed(false); setTab('review'); }}
-          style={{ backgroundColor: isDark ? '#3A3A3B' : '#F4F4F1' }} />
+      <Label p={p} size={13} color={p.muted}>{notes.length} ملاحظة · {cards.length} بطاقة · {todayReviewed} مراجعة اليوم</Label>
+      {shown.length === 0 && <Panel p={p}>
+        <Empty p={p} title="مساحة هادئة على ذوقك" detail="بياناتك محفوظة. أضف أداة أو افتحها من كل الأدوات." />
+        <Button p={p} title="إضافة أدوات لمساحتي" onPress={() => setCustomizing(true)} />
+      </Panel>}
+      {shown.map(item => {
+        const module = MODULES.find(m => m.id === item.id)!;
+        return <Panel key={item.id} p={p} style={{ padding: compact ? 15 : 20, gap: 12 }}>
+          <View style={{ flexDirection: 'row-reverse', alignItems: 'center', gap: 10 }}>
+            <Icon name={module.symbol} p={p} />
+            <View style={{ flex: 1 }}><Label p={p} size={18} weight="800">{module.title}</Label></View>
+          </View>
+          <Label p={p} color={p.muted} size={13}>{item.id === 'review' ? `${due.length} بطاقة مستحقة الآن` : item.id === 'graph' ? `${links.length} علاقة بين أفكارك` : module.detail}</Label>
+          {!compact && item.id === 'notes' && notes.slice(0, 2).map(note =>
+            <Pressable key={note.id} accessibilityRole="button" accessibilityLabel={`فتح ${note.title}`} onPress={() => openNote(note)}
+              style={{ minHeight: 44, justifyContent: 'center', borderBottomWidth: 1, borderColor: p.border }}>
+              <Label p={p} numberOfLines={1}>{note.title}</Label>
+            </Pressable>)}
+          <Button p={p} title={item.id === 'review' ? 'ابدأ المراجعة' : item.id === 'quiz' ? 'ابدأ الاختبار' : `فتح ${module.title}`}
+            tone={item.id === 'review' ? 'primary' : 'secondary'} onPress={() => openModule(item.id)} />
+        </Panel>;
+      })}
+      <Button p={p} title="ملاحظة جديدة" tone="secondary" icon="square.and.pencil" onPress={openNew} />
+    </View>;
+  }
+
+  function toolsScreen() {
+    return <View style={{ gap: 14 }}>
+      {header('كل الأدوات', 'تظل أدواتك هنا حتى لو أخفيتها من الرئيسية')}
+      {MODULES.map(module => <Panel key={module.id} p={p}>
+        <Label p={p} size={18} weight="700">{module.title}</Label>
+        <Label p={p} size={13} color={p.muted}>{module.detail}</Label>
+        <Button p={p} title={`فتح ${module.title}`} tone="secondary" onPress={() => openModule(module.id)} />
+      </Panel>)}
+      <Button p={p} title="تخصيص مساحتي" onPress={() => setCustomizing(true)} />
+    </View>;
+  }
+
+  function sourcesScreen() {
+    return <View style={{ gap: 16 }}>
+      {header('مصادري', 'من الملفات إلى ملاحظاتك، دون رفع المحتوى إلى خادم')}
+      <Panel p={p}>
+        <Label p={p} size={19} weight="700">أضف نصًا أو تفريغ محاضرة</Label>
+        <Label p={p} color={p.muted} size={14}>استورد TXT أو Markdown أو ترجمة SRT / VTT حتى 1 ميغابايت بترميز UTF-8. ستراجع النص قبل حفظه كملاحظة جديدة.</Label>
+        <Button p={p} title="اختيار مصدر من الملفات" icon="square.and.arrow.down" onPress={() => void importSource()} />
       </Panel>
-      <View style={{ flexDirection: 'row-reverse', gap: 10 }}>
-        <Button title="ملاحظة جديدة" p={p} tone="secondary" icon="square.and.pencil" onPress={openNew} style={{ flex: 1 }} />
-        <Button title="اختبار سريع" p={p} tone="secondary" icon="checkmark.circle" onPress={startQuiz} style={{ flex: 1 }} />
-      </View>
-      <View style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Label p={p} size={18} weight="800">آخر الملاحظات</Label>
-        <Button title="عرض الكل" p={p} tone="plain" onPress={() => setTab('notes')} />
-      </View>
-      {notes.slice(0, 3).map(n => noteTile(n, true))}
-      {notes.length === 0 && <Empty p={p} title="ابدأ بملاحظة" detail="ملاحظاتك هي أساس بطاقاتك وشبكة معرفتك" />}
+      <Panel p={p}>
+        <Label p={p} weight="700">من محاضرة إلى بطاقات</Label>
+        <Label p={p} size={14}>استورد ملف تفريغ تملكه أو يتيحه صاحب المقطع. احتفظ بتوقيتاته، ثم أضف أسئلتك بصيغة س: وج: واضغط «حفظ واستخراج بطاقات».</Label>
+        <Label p={p} size={13} color={p.muted}>هذه قراءة نصوص واستخراج أسئلة مكتوبة، وليست توليدًا بالذكاء الاصطناعي. جلب روابط YouTube وقراءة PDF تلقائيًا غير متاحين في هذه النسخة.</Label>
+      </Panel>
+      <Button p={p} title="عرض الملاحظات المحفوظة" tone="secondary" onPress={() => setTab('notes')} />
     </View>;
   }
   function notesScreen() {
-    const filtered = notes.filter(n => `${n.title} ${n.body}`.toLocaleLowerCase().includes(search.trim().toLocaleLowerCase()));
+    const filtered = notes.filter(n => matchesSearch(n.title, n.body, search));
     return <View style={{ gap: 14 }}>
       {header('ملاحظاتي', `${notes.length} ملاحظة محفوظة على جهازك`)}
       <View style={{ flexDirection: 'row-reverse', gap: 9 }}>
         <TextInput value={search} onChangeText={setSearch} placeholder="ابحث في الملاحظات..."
-          placeholderTextColor={p.muted} textAlign="right"
+          placeholderTextColor={p.muted} textAlign="right" accessibilityLabel="البحث في الملاحظات"
           style={{ flex: 1, color: p.ink, backgroundColor: p.surface, borderRadius: 15, paddingHorizontal: 14,
             borderWidth: 1, borderColor: p.border, minHeight: 48 }} />
         <Button p={p} title="+ جديد" compact onPress={openNew} />
@@ -307,6 +402,10 @@ function AppContent() {
   </View>; }
   function settingsScreen() { return <View style={{ gap: 15 }}>
     {header('الإعدادات', 'حفظ محلي، دون خادم أو حساب مطلوب')}
+    <Panel p={p}><Label p={p} weight="700">مساحتك كما تحب</Label>
+      <Button p={p} title="تخصيص مساحتي" tone="secondary" onPress={() => setCustomizing(true)} />
+      <Label p={p} size={12} color={p.muted}>اختيارات الواجهة محفوظة على هذا الجهاز، منفصلة عن نسخة محتوى الدراسة.</Label>
+    </Panel>
     <Panel p={p}>
       <View style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', alignItems: 'center' }}>
         <Label p={p} size={16} weight="700">المظهر {isDark ? 'الداكن' : 'الفاتح'}</Label>
@@ -321,7 +420,7 @@ function AppContent() {
     </Panel>
     <Panel p={p}>
       <Label p={p} weight="700">عن النسخة</Label>
-      <Label p={p} size={13} color={p.muted}>رُسوخ iOS — نسخة أولية قابلة للتطوير. جدولة المراجعة مبسطة وليست FSRS. شبكة العلاقات تعتمد على الروابط [[العنوان]]، ولا يوجد اتصال ذكاء اصطناعي أو مزامنة سحابية بعد.</Label>
+      <Label p={p} size={13} color={p.muted}>رُسوخ 0.2 — مساحة قابلة للتخصيص واستيراد نصوص. جدولة المراجعة مبسطة وليست FSRS. شبكة العلاقات تعتمد على الروابط [[العنوان]]، ولا يوجد اتصال ذكاء اصطناعي أو مزامنة سحابية بعد.</Label>
     </Panel>
   </View>; }
   function modalHeader(title: string, close: () => void) {
@@ -346,22 +445,24 @@ function AppContent() {
         </View>
         <Label p={p} size={16} weight="800">{screenTitle[tab]}</Label>
       </View>
-      <Pressable onPress={openNew} accessibilityRole="button" accessibilityLabel="ملاحظة جديدة"
+      <Pressable onPress={() => setTab('tools')} accessibilityRole="button" accessibilityLabel="كل الأدوات"
         style={{ width: 44, height: 44, borderRadius: 15, alignItems: 'center', justifyContent: 'center' }}>
-        <Icon name="square.and.pencil" p={p} size={22} />
+        <Icon name="square.grid.2x2" p={p} size={22} />
       </Pressable>
     </View>
     <ScrollView key={tab} keyboardShouldPersistTaps="handled" contentContainerStyle={{ paddingHorizontal: 20, paddingTop: 14, paddingBottom: 32, gap: 2 }}>
-      {tab === 'home' ? homeScreen() : tab === 'notes' ? notesScreen() : tab === 'review' ? reviewScreen() : tab === 'graph' ? graphScreen() : settingsScreen()}
+      {tab === 'home' ? homeScreen() : tab === 'notes' ? notesScreen() : tab === 'review' ? reviewScreen() : tab === 'graph' ? graphScreen() : tab === 'sources' ? sourcesScreen() : tab === 'tools' ? toolsScreen() : settingsScreen()}
     </ScrollView>
     <View style={{ flexDirection: 'row-reverse', borderTopWidth: 1, borderColor: p.border, backgroundColor: p.surface, paddingTop: 8, paddingBottom: 6 }}>
-      {TABS.map(t => <Pressable key={t.id} accessibilityRole="tab" accessibilityState={{ selected: tab === t.id }}
+      {visibleTabs.map(t => <Pressable key={t.id} accessibilityRole="tab" accessibilityState={{ selected: tab === t.id }}
         accessibilityLabel={t.label} onPress={() => { setTab(t.id); setRevealed(false); }}
         style={{ flex: 1, minHeight: 57, alignItems: 'center', justifyContent: 'center', gap: 3, opacity: tab === t.id ? 1 : .55 }}>
         <Icon name={t.symbol} p={p} size={22} />
         <Label p={p} size={10} weight={tab === t.id ? '700' : '400'}>{t.label}</Label>
       </Pressable>)}
     </View>
+
+    {customizing && <WorkspaceEditor value={workspace} p={p} onCancel={() => setCustomizing(false)} onSave={saveWorkspace} />}
 
     <Modal visible={editorOpen} animationType="slide" presentationStyle="pageSheet" onRequestClose={() => setEditorOpen(false)}>
       <SafeAreaView style={{ flex: 1, backgroundColor: p.bg }}>
@@ -372,6 +473,7 @@ function AppContent() {
             <Field p={p} label="المحتوى" multiline numberOfLines={12} value={draftBody} onChangeText={setDraftBody}
               placeholder="اكتب هنا… للربط استخدم [[عنوان ملاحظة]]" />
             <Label p={p} size={12} color={p.muted}>توليد بطاقات من نصك: اكتب سؤالًا في س: والإجابة في ج: على سطر منفصل.</Label>
+            <Button p={p} title="تصدير النص إلى الملفات (Markdown)" tone="plain" onPress={() => void exportMarkdown()} />
             <Button p={p} title="حفظ الملاحظة" onPress={() => void commitNote()} disabled={saving} />
             <Button p={p} title="حفظ واستخراج بطاقات س/ج" onPress={() => void commitNote(true)} tone="secondary" disabled={saving} />
             {editingId && notes.some(n => n.id === editingId) ? <>

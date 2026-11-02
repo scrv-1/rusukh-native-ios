@@ -37,7 +37,7 @@ export function Button({ title, p, onPress, tone = 'primary', icon, disabled, co
 }) {
   const bg = tone === 'primary' ? p.accent : tone === 'secondary' ? p.subtle : 'transparent';
   const fg = tone === 'primary' ? p.accentInk : tone === 'danger' ? p.danger : p.ink;
-  return <Pressable onPress={onPress} disabled={disabled} accessibilityRole="button" accessibilityLabel={title}
+  return <Pressable onPress={onPress} disabled={disabled} accessibilityRole="button" accessibilityLabel={title} accessibilityState={{ disabled: !!disabled }}
     style={({ pressed }) => [
       { minHeight: 45, paddingHorizontal: compact ? 13 : 17, paddingVertical: 10, borderRadius: 15,
         backgroundColor: bg, justifyContent: 'center', alignItems: 'center', opacity: disabled ? 0.4 : pressed ? 0.74 : 1,
@@ -59,7 +59,7 @@ export function Field({ label, value, onChangeText, p, placeholder, multiline = 
 }) {
   return <View style={{ gap: 8 }}>
     {label ? <Label p={p} size={13} weight="600">{label}</Label> : null}
-    <TextInput value={value} onChangeText={onChangeText} placeholder={placeholder} placeholderTextColor={p.muted}
+    <TextInput accessibilityLabel={label ?? placeholder} value={value} onChangeText={onChangeText} placeholder={placeholder} placeholderTextColor={p.muted}
       multiline={multiline} numberOfLines={numberOfLines}
       textAlign="right" textAlignVertical={multiline ? 'top' : 'center'}
       style={{ borderRadius: 15, minHeight: multiline ? 145 : 49, padding: 14,

@@ -71,6 +71,13 @@ export async function deleteNote(db: Database, id: string): Promise<void> {
   await db.runAsync('DELETE FROM notes WHERE id = ?', id);
 }
 
+export async function saveNoteAndCards(db: Database, note: Note, cards: StudyCard[]): Promise<void> {
+  await db.withExclusiveTransactionAsync(async tx => {
+    await saveNote(tx, note);
+    for (const card of cards) await saveCard(tx, card);
+  });
+}
+
 export async function saveCard(db: Database, card: StudyCard): Promise<void> {
   await db.runAsync(`INSERT INTO cards (id,noteId,question,answer,dueAt,intervalDays,ease,repetitions,updatedAt)
     VALUES (?,?,?,?,?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET

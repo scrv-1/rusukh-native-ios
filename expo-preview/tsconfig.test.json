@@ -8,5 +8,5 @@
     "strict": true,
     "skipLibCheck": true
   },
-  "include": ["src/core.ts", "src/types.ts"]
+  "include": ["src/core.ts", "src/types.ts", "src/workspace.ts", "src/sources.ts", "src/storage.ts"]
 }
