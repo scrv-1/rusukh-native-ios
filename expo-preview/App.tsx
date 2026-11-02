@@ -10,6 +10,9 @@ import * as DocumentPicker from 'expo-document-picker';
 import { arabicRow, Button, Empty, Field, Icon, Label, Panel, Palette, dark, light } from './src/ui';
 import { KnowledgeGraph } from './src/KnowledgeGraph';
 import { RecoveryBoundary } from './src/RecoveryBoundary';
+import { RecoveryPointsPanel } from './src/backup/RecoveryPointsPanel';
+import { PortableBackupPanel } from './src/backup/PortableBackupPanel';
+import type { PortablePreferences } from './src/backup/portable';
 import { StudyHome } from './src/StudyHome';
 import { useNoteDraft } from './src/useNoteDraft';
 import { SourcesWorkbench } from './src/SourcesWorkbench';
@@ -22,7 +25,7 @@ import { dueCards, graphEdges, makeId, makeQuiz, normalizeTitle, parseQuestionAn
 import type { Backup, Note, StudyCard, ReviewEvent, Grade } from './src/types';
 import {
   Database, deleteCard, deleteNote, getSetting, makeBackup, openStorage,
-  readAll, recordReview, restoreBackup, saveCard, saveNoteAndCards, setSetting,
+  readAll, recordReview, restoreBackup, restoreRecoveryPoint, RecoveryPoint, saveCard, saveNoteAndCards, setSetting,
 } from './src/storage';
 
 type Tab = 'home' | 'notes' | 'review' | 'graph' | 'settings' | 'sources' | 'tools' | 'ai';
@@ -319,14 +322,60 @@ function AppContent() {
     setQuizData(questions); setQuizIndex(0); setQuizScore(0); setQuizSelected(null); setQuizOpen(true);
   }
   async function exportData() {
+    if (!db || dataStale || actionLock.current) return;
+    actionLock.current = true; setSaving(true);
     try {
-      const json = serializeBackup(makeBackup(notes, cards, reviews));
+      const snapshot = await capturePortableSnapshot();
+      const json = serializeBackup(snapshot.study);
       const file = new File(Paths.cache, `rusukh-backup-${Date.now()}.json`);
       file.create();
       await file.write(json);
       if (!(await Sharing.isAvailableAsync())) throw new Error('المشاركة غير متوفرة على الجهاز');
       await Sharing.shareAsync(file.uri, { mimeType: 'application/json', UTI: 'public.json' });
     } catch (error) { Alert.alert('تعذّر تصدير النسخة', String(error)); }
+    finally { actionLock.current = false; setSaving(false); }
+  }
+  async function capturePortableSnapshot() {
+    if (!db || dataStale) throw new Error('أعد تحميل البيانات قبل إنشاء النسخة.');
+    let snapshot!: { study: Backup; preferences: { isDark: boolean; workspace: Workspace } };
+    await db.withExclusiveTransactionAsync(async tx => {
+      const data = await readAll(tx);
+      const mode = await getSetting(tx, 'darkMode');
+      const layout = await getSetting(tx, WORKSPACE_KEY);
+      snapshot = { study: makeBackup(data.notes, data.cards, data.reviews),
+        preferences: { isDark: mode === 'true', workspace: readWorkspace(layout) } };
+    });
+    return snapshot;
+  }
+  async function finishStudyRestore() {
+    stopDraftTimer();
+    if (!(await draft.clear())) Alert.alert('استُعيدت البيانات', 'تعذّر تنظيف المسودة القديمة. راجعها قبل استعادتها.');
+    setRevealedId(null); setQuizOpen(false); setEditorOpen(false); setCardEditorNoteId(null);
+  }
+  async function restorePortableStudy(backup: Backup): Promise<boolean> {
+    return action(async d => { await restoreBackup(d, backup); await finishStudyRestore(); });
+  }
+  async function applyPortablePreferences(preferences: PortablePreferences): Promise<void> {
+    const nextWorkspace = readWorkspace(JSON.stringify(preferences.workspace));
+    const saved = await action(async d => {
+      await d.withExclusiveTransactionAsync(async tx => {
+        await setSetting(tx, 'darkMode', String(preferences.isDark));
+        await setSetting(tx, WORKSPACE_KEY, JSON.stringify(nextWorkspace));
+      });
+      setIsDark(preferences.isDark); setWorkspace(nextWorkspace);
+    });
+    if (!saved) throw new Error('لم تُطبّق إعدادات النسخة. أعد المحاولة بعد تحديث البيانات.');
+  }
+  function restorePoint(point: RecoveryPoint): Promise<boolean> {
+    return new Promise(resolve => {
+      Alert.alert('العودة إلى نقطة الاستعادة؟',
+        `ستُستعاد ${point.noteCount} ملاحظة و${point.cardCount} بطاقة. ستُحفظ نقطة رجوع من بياناتك الحالية أولًا. الصور والصوت والإعدادات لا تتغير.`, [
+          { text: 'إلغاء', style: 'cancel', onPress: () => resolve(false) },
+          { text: 'استعادة', onPress: () => { void action(async d => {
+            await restoreRecoveryPoint(d, point.id); await finishStudyRestore();
+          }).then(resolve); } },
+        ], { cancelable: true, onDismiss: () => resolve(false) });
+    });
   }
   async function importData() {
     if (!db) return;
@@ -341,9 +390,9 @@ function AppContent() {
       if (!validateBackup(parsed)) throw new Error('النسخة غير صالحة أو ليست من رُسوخ');
       const backup = parsed as Backup;
       Alert.alert('استبدال البيانات الحالية؟',
-        `سيتم استبدال ${notes.length} ملاحظة بـ ${backup.notes.length} ملاحظة. احفظ نسخة احتياطية أولًا.`, [
+        `سيتم استبدال ${notes.length} ملاحظة بـ ${backup.notes.length} ملاحظة. تُحفظ نقطة رجوع تلقائيًا قبل الاستبدال؛ احتفظ أيضًا بنسخة خارج التطبيق.`, [
           { text: 'إلغاء', style: 'cancel' },
-          { text: 'استبدال', style: 'destructive', onPress: () => void action(async d => { await restoreBackup(d, backup); if (!(await draft.clear())) Alert.alert('استُعيدت النسخة', 'تعذّر تنظيف المسودة القديمة. راجعها قبل استعادتها.'); setRevealedId(null); setQuizOpen(false); }) },
+          { text: 'استبدال', style: 'destructive', onPress: () => void action(async d => { await restoreBackup(d, backup); await finishStudyRestore(); }) },
         ]);
     } catch (error) { Alert.alert('تعذّر استيراد النسخة', String(error)); }
   }
@@ -496,13 +545,16 @@ function AppContent() {
     {db && <RemindersPanel db={db} p={p} />}
     <Panel p={p}>
       <Label p={p} size={17} weight="700">النسخ الاحتياطي</Label>
-      <Label p={p} size={13} color={p.muted}>صدّر ملاحظاتك وبطاقاتك ومراجعاتك في ملف JSON. الصور والتسجيلات تُصدّر منفردة من مصادري. الاستيراد يستبدل محتوى الدراسة بعد التأكيد.</Label>
-      <Button p={p} title="تصدير نسخة إلى الملفات" icon="square.and.arrow.up" onPress={() => void exportData()} />
-      <Button p={p} title="استيراد نسخة من الملفات" tone="secondary" icon="square.and.arrow.down" onPress={() => void importData()} />
+      <Label p={p} size={13} color={p.muted}>نسخة JSON تشمل الملاحظات والبطاقات والمراجعات فقط. قبل الاستيراد تُحفظ نقطة رجوع تلقائيًا، وتبقى أحدث ثلاث نقاط على الجهاز. ليست بديلًا عن نسخة في الملفات.</Label>
+      <Button p={p} title="تصدير نسخة إلى الملفات" icon="square.and.arrow.up" disabled={saving} onPress={() => void exportData()} />
+      <Button p={p} title="استيراد نسخة من الملفات" tone="secondary" icon="square.and.arrow.down" disabled={saving} onPress={() => void importData()} />
     </Panel>
+    {db && <RecoveryPointsPanel db={db} p={p} disabled={saving || dataStale} onRestore={restorePoint} />}
+    {db && <PortableBackupPanel p={p} disabled={saving || dataStale} getSnapshot={capturePortableSnapshot}
+      restoreStudy={restorePortableStudy} applyPreferences={applyPortablePreferences} />}
     <Panel p={p}>
       <Label p={p} weight="700">عن النسخة</Label>
-      <Label p={p} size={13} color={p.muted}>رُسوخ 0.4 — مصادر PDF وYouTube، كاميرا وصوت وتذكيرات محلية. مساعد الدراسة يشغّل نموذج GGUF اختياريًا على CPU داخل الجهاز؛ ميزته تجريبية وتتطلب مراجعة النتائج. جدولة المراجعة مبسطة وليست FSRS. الروابط [[العنوان]] تبني شبكة أفكارك. لا مزامنة سحابية.</Label>
+      <Label p={p} size={13} color={p.muted}>رُسوخ 0.4.1 — استيراد قابل للتراجع، واختبارات متنوعة، وتصفح جميع ملاحظات الشبكة. مساعد الدراسة المحلي تجريبي ويحتاج مراجعة النتائج. جدولة المراجعة مبسطة وليست FSRS. لا مزامنة سحابية.</Label>
     </Panel>
   </View>; }
   function modalHeader(title: string, close: () => void) {

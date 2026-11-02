@@ -1,0 +1,173 @@
+{
+  "phase": "before",
+  "observedAt": "2026-11-02T20:14:15.343Z",
+  "environment": {
+    "node": "v24.22.1",
+    "platform": "linux",
+    "architecture": "x64"
+  },
+  "limits": "Actual compiled functions on Node/Linux with synthetic input; not iPhone UI latency, memory, battery or heat. Fixed-seed coverage is a regression example, not a statistical fairness proof.",
+  "sourceSha256": "2bc65023f49ff45d4edd1973f32363502e87ed1eb2f0bd1080b20caaa5062f98",
+  "compiledSha256": "7ecccbdc68ee352d156d6431eb67b81062605ad3b69c0cf4bd1cdcc3511c6358",
+  "quiz": {
+    "inputCards": 20,
+    "rounds": 10,
+    "selectedCardIds": [
+      [
+        "c0",
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5",
+        "c6",
+        "c7"
+      ],
+      [
+        "c0",
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5",
+        "c6",
+        "c7"
+      ],
+      [
+        "c0",
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5",
+        "c6",
+        "c7"
+      ],
+      [
+        "c0",
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5",
+        "c6",
+        "c7"
+      ],
+      [
+        "c0",
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5",
+        "c6",
+        "c7"
+      ],
+      [
+        "c0",
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5",
+        "c6",
+        "c7"
+      ],
+      [
+        "c0",
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5",
+        "c6",
+        "c7"
+      ],
+      [
+        "c0",
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5",
+        "c6",
+        "c7"
+      ],
+      [
+        "c0",
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5",
+        "c6",
+        "c7"
+      ],
+      [
+        "c0",
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5",
+        "c6",
+        "c7"
+      ]
+    ],
+    "uniqueCardIds": [
+      "c0",
+      "c1",
+      "c2",
+      "c3",
+      "c4",
+      "c5",
+      "c6",
+      "c7"
+    ],
+    "allRoundsIdentical": true,
+    "firstAnswerPositions": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "parser": [
+    {
+      "links": 1000,
+      "characters": 13889,
+      "milliseconds": [
+        366.976,
+        358.821,
+        458.452
+      ],
+      "medianMs": 366.976
+    },
+    {
+      "links": 3000,
+      "characters": 43889,
+      "milliseconds": [
+        3405.022,
+        3034.354,
+        2874.193
+      ],
+      "medianMs": 3034.354
+    },
+    {
+      "links": 6000,
+      "characters": 88889,
+      "milliseconds": [
+        11398.583,
+        11400.483,
+        13089.102
+      ],
+      "medianMs": 11400.483
+    }
+  ]
+}

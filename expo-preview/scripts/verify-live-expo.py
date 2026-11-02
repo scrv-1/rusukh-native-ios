@@ -9,7 +9,8 @@ from pathlib import Path
 from urllib.parse import urlsplit, urlunsplit
 
 headers = {"Expo-Platform": "ios", "Accept": "application/expo+json"}
-evidence = Path("evidence/v04")
+expected_version = json.loads(Path('app.json').read_text())["expo"]["version"]
+evidence = Path("evidence") / ("v" + expected_version.replace('.', ''))
 evidence.mkdir(parents=True, exist_ok=True)
 with urllib.request.urlopen(urllib.request.Request("http://127.0.0.1:8081/", headers=headers), timeout=60) as response:
     local = json.load(response)
@@ -27,7 +28,7 @@ with tempfile.TemporaryDirectory(prefix="rusukh-expo-verify-") as tmp:
     manifest_status = fetch("https://" + host + "/", manifest_path, manifest=True)
     manifest = json.loads(manifest_path.read_text())
 client = manifest["extra"]["expoClient"]
-assert client["version"] == "0.4.0", client["version"]
+assert client["version"] == expected_version, client["version"]
 parsed = urlsplit(manifest["launchAsset"]["url"])
 bundle = urlunsplit(("https", parsed.netloc, parsed.path, parsed.query, parsed.fragment))
 digest, size = hashlib.sha256(), 0

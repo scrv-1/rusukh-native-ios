@@ -1,0 +1,21 @@
+✔ accepts actual-model draft format with verbatim source evidence (1.694175ms)
+✔ rejects evidence fabricated by a model (0.618219ms)
+✔ rejects an incomplete or prose-wrapped model answer (0.176856ms)
+✔ source exceeding context budget is rejected, never silently truncated (0.124807ms)
+✔ source substitution on bridge is rejected (0.474954ms)
+✔ bridge revalidates model fields instead of trusting a JS result (0.165388ms)
+✔ English-only output is not accepted as Arabic study support (0.178128ms)
+✔ source instructions are encoded as data, not a system prompt (0.251808ms)
+✔ no empty output is mislabeled a useful generation (0.224778ms)
+✔ regression: real Qwen output copying the old evidence placeholder is rejected (0.304568ms)
+✔ constrained decoding permits only exact source sentences as evidence (0.583557ms)
+✔ oversized individual evidence is refused, not silently shortened (0.812241ms)
+✔ newline-delimited evidence does not silently lose the first sentence (0.644408ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 125.371343

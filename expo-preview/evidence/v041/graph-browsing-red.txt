@@ -1,0 +1,1857 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> rusukh-ios@0.4.0 test:ui
+> jest --runInBand --runTestsByPath tests/graph.ui.test.jsx
+
+FAIL iOS tests/graph.ui.test.jsx
+  ● all notes can be paged while the canvas remains bounded to 24 nodes
+
+    Unable to find an element with testID: /^graph-node-/
+
+    [36m<View>[39m
+      [36m<View>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0mشبكة أفكاري[0m
+          [36m</Text>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"تصغير الشبكة"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0m−[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<Text>[39m
+              [0m100[0m
+              [0m%[0m
+            [36m</Text>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"تكبير الشبكة"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0m+[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33mtestID[39m=[32m"graph-viewport"[39m
+        [36m>[39m
+          [36m<RCTScrollView>[39m
+            [36m<View>[39m
+              [36m<RCTScrollView>[39m
+                [36m<View>[39m
+                  [36m<View[39m
+                    [33mtestID[39m=[32m"graph-canvas"[39m
+                  [36m>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 1[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 2[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 3[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 4[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 5[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 6[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 7[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 8[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 9[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 10[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 11[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 12[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 13[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 14[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 15[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 16[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 17[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 18[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 19[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 20[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 21[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 22[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 23[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 24[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                  [36m</View>[39m
+                [36m</View>[39m
+              [36m</RCTScrollView>[39m
+            [36m</View>[39m
+          [36m</RCTScrollView>[39m
+        [36m</View>[39m
+        [36m<Text>[39m
+          [0mتبدأ الشبكة بنظرة عامة تلائم العرض. كبّر لقراءة العقد واسحب للتحريك، أو افتح الملاحظات من قائمة العلاقات أدناه.[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mتُعرض أول 24 ملاحظة في هذه النسخة لتحسين الأداء.[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<Text>[39m
+        [0mالعلاقات المكتشفة ([0m
+        [0m0[0m
+        [0m)[0m
+      [36m</Text>[39m
+      [36m<View>[39m
+        [36m<Text>[39m
+          [0mلا توجد علاقات بعد[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mاكتب [[عنوان ملاحظة]] داخل ملاحظة أخرى[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+    [36m</View>[39m
+
+      51 | test('all notes can be paged while the canvas remains bounded to 24 nodes', async () => {
+      52 |   await render(<KnowledgeGraph notes={manyNotes} p={light} onOpen={() => {}} />);
+    > 53 |   expect(screen.getAllByTestId(/^graph-node-/)).toHaveLength(24);
+         |                 ^
+      54 |   expect(screen.queryByTestId('graph-node-n24')).toBeNull();
+      55 |   await fireEvent.press(screen.getByRole('button', { name: 'صفحة الملاحظات التالية' }));
+      56 |   expect(screen.getAllByTestId(/^graph-node-/)).toHaveLength(1);
+
+      at Object.getAllByTestId (tests/graph.ui.test.jsx:53:17)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● Arabic title search finds an offscreen isolated note and opens it
+
+    Unable to find an element with accessibility label: ابحث في جميع عناوين الملاحظات
+
+    [36m<View>[39m
+      [36m<View>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0mشبكة أفكاري[0m
+          [36m</Text>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"تصغير الشبكة"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0m−[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<Text>[39m
+              [0m100[0m
+              [0m%[0m
+            [36m</Text>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"تكبير الشبكة"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0m+[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33mtestID[39m=[32m"graph-viewport"[39m
+        [36m>[39m
+          [36m<RCTScrollView>[39m
+            [36m<View>[39m
+              [36m<RCTScrollView>[39m
+                [36m<View>[39m
+                  [36m<View[39m
+                    [33mtestID[39m=[32m"graph-canvas"[39m
+                  [36m>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 1[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 2[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 3[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 4[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 5[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 6[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 7[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 8[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 9[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 10[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 11[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 12[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 13[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 14[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 15[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 16[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 17[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 18[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 19[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 20[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 21[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 22[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 23[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 24[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                  [36m</View>[39m
+                [36m</View>[39m
+              [36m</RCTScrollView>[39m
+            [36m</View>[39m
+          [36m</RCTScrollView>[39m
+        [36m</View>[39m
+        [36m<Text>[39m
+          [0mتبدأ الشبكة بنظرة عامة تلائم العرض. كبّر لقراءة العقد واسحب للتحريك، أو افتح الملاحظات من قائمة العلاقات أدناه.[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mتُعرض أول 24 ملاحظة في هذه النسخة لتحسين الأداء.[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<Text>[39m
+        [0mالعلاقات المكتشفة ([0m
+        [0m0[0m
+        [0m)[0m
+      [36m</Text>[39m
+      [36m<View>[39m
+        [36m<Text>[39m
+          [0mلا توجد علاقات بعد[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mاكتب [[عنوان ملاحظة]] داخل ملاحظة أخرى[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+    [36m</View>[39m
+
+      64 |   const onOpen = jest.fn();
+      65 |   await render(<KnowledgeGraph notes={manyNotes.map(n => ({ ...n, body: '' }))} p={light} onOpen={onOpen} />);
+    > 66 |   await fireEvent.changeText(screen.getByLabelText('ابحث في جميع عناوين الملاحظات'), 'اخيرة');
+         |                                     ^
+      67 |   expect(screen.getAllByTestId(/^graph-node-/)).toHaveLength(1);
+      68 |   await fireEvent.press(screen.getByRole('button', { name: 'عرض الملاحظات كقائمة' }));
+      69 |   await fireEvent.press(screen.getByRole('button', { name: 'فتح ملاحظة أخيرة من قائمة الشبكة' }));
+
+      at Object.getByLabelText (tests/graph.ui.test.jsx:66:37)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● cross-page relationships remain discoverable in both directions
+
+    Unable to find an element with role: button, name: فتح ملاحظة أخيرة المرتبطة بـ ملاحظة 1
+
+    [36m<View>[39m
+      [36m<View>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0mشبكة أفكاري[0m
+          [36m</Text>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"تصغير الشبكة"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0m−[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<Text>[39m
+              [0m100[0m
+              [0m%[0m
+            [36m</Text>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"تكبير الشبكة"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0m+[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33mtestID[39m=[32m"graph-viewport"[39m
+        [36m>[39m
+          [36m<RCTScrollView>[39m
+            [36m<View>[39m
+              [36m<RCTScrollView>[39m
+                [36m<View>[39m
+                  [36m<View[39m
+                    [33mtestID[39m=[32m"graph-canvas"[39m
+                  [36m>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 1[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 2[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 3[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 4[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 5[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 6[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 7[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 8[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 9[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 10[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 11[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 12[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 13[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 14[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 15[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 16[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 17[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 18[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 19[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 20[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 21[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 22[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 23[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 24[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                  [36m</View>[39m
+                [36m</View>[39m
+              [36m</RCTScrollView>[39m
+            [36m</View>[39m
+          [36m</RCTScrollView>[39m
+        [36m</View>[39m
+        [36m<Text>[39m
+          [0mتبدأ الشبكة بنظرة عامة تلائم العرض. كبّر لقراءة العقد واسحب للتحريك، أو افتح الملاحظات من قائمة العلاقات أدناه.[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mتُعرض أول 24 ملاحظة في هذه النسخة لتحسين الأداء.[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<Text>[39m
+        [0mالعلاقات المكتشفة ([0m
+        [0m0[0m
+        [0m)[0m
+      [36m</Text>[39m
+      [36m<View>[39m
+        [36m<Text>[39m
+          [0mلا توجد علاقات بعد[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mاكتب [[عنوان ملاحظة]] داخل ملاحظة أخرى[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+    [36m</View>[39m
+
+      74 |   const onOpen = jest.fn();
+      75 |   await render(<KnowledgeGraph notes={manyNotes} p={light} onOpen={onOpen} />);
+    > 76 |   await fireEvent.press(screen.getByRole('button', { name: 'فتح ملاحظة أخيرة المرتبطة بـ ملاحظة 1' }));
+         |                                ^
+      77 |   expect(onOpen).toHaveBeenLastCalledWith(manyNotes[24]);
+      78 |   await fireEvent.press(screen.getByRole('button', { name: 'صفحة الملاحظات التالية' }));
+      79 |   await fireEvent.press(screen.getByRole('button', { name: 'فتح ملاحظة 1 المرتبطة بـ ملاحظة أخيرة' }));
+
+      at Object.getByRole (tests/graph.ui.test.jsx:76:32)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● no-result search can be cleared and resets to the first page
+
+    Unable to find an element with role: button, name: صفحة الملاحظات التالية
+
+    [36m<View>[39m
+      [36m<View>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0mشبكة أفكاري[0m
+          [36m</Text>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"تصغير الشبكة"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0m−[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<Text>[39m
+              [0m100[0m
+              [0m%[0m
+            [36m</Text>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"تكبير الشبكة"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0m+[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33mtestID[39m=[32m"graph-viewport"[39m
+        [36m>[39m
+          [36m<RCTScrollView>[39m
+            [36m<View>[39m
+              [36m<RCTScrollView>[39m
+                [36m<View>[39m
+                  [36m<View[39m
+                    [33mtestID[39m=[32m"graph-canvas"[39m
+                  [36m>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 1[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 2[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 3[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 4[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 5[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 6[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 7[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 8[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 9[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 10[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 11[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 12[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 13[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 14[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 15[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 16[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 17[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 18[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 19[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 20[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 21[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 22[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 23[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 24[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                  [36m</View>[39m
+                [36m</View>[39m
+              [36m</RCTScrollView>[39m
+            [36m</View>[39m
+          [36m</RCTScrollView>[39m
+        [36m</View>[39m
+        [36m<Text>[39m
+          [0mتبدأ الشبكة بنظرة عامة تلائم العرض. كبّر لقراءة العقد واسحب للتحريك، أو افتح الملاحظات من قائمة العلاقات أدناه.[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mتُعرض أول 24 ملاحظة في هذه النسخة لتحسين الأداء.[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<Text>[39m
+        [0mالعلاقات المكتشفة ([0m
+        [0m0[0m
+        [0m)[0m
+      [36m</Text>[39m
+      [36m<View>[39m
+        [36m<Text>[39m
+          [0mلا توجد علاقات بعد[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mاكتب [[عنوان ملاحظة]] داخل ملاحظة أخرى[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+    [36m</View>[39m
+
+      83 | test('no-result search can be cleared and resets to the first page', async () => {
+      84 |   await render(<KnowledgeGraph notes={manyNotes} p={light} onOpen={() => {}} />);
+    > 85 |   await fireEvent.press(screen.getByRole('button', { name: 'صفحة الملاحظات التالية' }));
+         |                                ^
+      86 |   await fireEvent.changeText(screen.getByLabelText('ابحث في جميع عناوين الملاحظات'), 'غير موجودة');
+      87 |   expect(screen.getByText('لا توجد نتائج')).toBeTruthy();
+      88 |   expect(screen.queryByTestId('graph-canvas')).toBeNull();
+
+      at Object.getByRole (tests/graph.ui.test.jsx:85:32)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● deleting notes clamps an invalid page instead of leaving a blank graph
+
+    Unable to find an element with role: button, name: صفحة الملاحظات التالية
+
+    [36m<View>[39m
+      [36m<View>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0mشبكة أفكاري[0m
+          [36m</Text>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"تصغير الشبكة"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0m−[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<Text>[39m
+              [0m100[0m
+              [0m%[0m
+            [36m</Text>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"تكبير الشبكة"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0m+[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33mtestID[39m=[32m"graph-viewport"[39m
+        [36m>[39m
+          [36m<RCTScrollView>[39m
+            [36m<View>[39m
+              [36m<RCTScrollView>[39m
+                [36m<View>[39m
+                  [36m<View[39m
+                    [33mtestID[39m=[32m"graph-canvas"[39m
+                  [36m>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 1[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 2[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 3[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 4[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 5[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 6[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 7[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 8[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 9[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 10[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 11[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 12[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 13[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 14[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 15[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 16[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 17[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 18[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 19[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 20[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 21[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 22[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 23[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mملاحظة 24[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                  [36m</View>[39m
+                [36m</View>[39m
+              [36m</RCTScrollView>[39m
+            [36m</View>[39m
+          [36m</RCTScrollView>[39m
+        [36m</View>[39m
+        [36m<Text>[39m
+          [0mتبدأ الشبكة بنظرة عامة تلائم العرض. كبّر لقراءة العقد واسحب للتحريك، أو افتح الملاحظات من قائمة العلاقات أدناه.[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mتُعرض أول 24 ملاحظة في هذه النسخة لتحسين الأداء.[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<Text>[39m
+        [0mالعلاقات المكتشفة ([0m
+        [0m0[0m
+        [0m)[0m
+      [36m</Text>[39m
+      [36m<View>[39m
+        [36m<Text>[39m
+          [0mلا توجد علاقات بعد[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mاكتب [[عنوان ملاحظة]] داخل ملاحظة أخرى[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+    [36m</View>[39m
+
+      94 | test('deleting notes clamps an invalid page instead of leaving a blank graph', async () => {
+      95 |   const view = await render(<KnowledgeGraph notes={manyNotes} p={light} onOpen={() => {}} />);
+    > 96 |   await fireEvent.press(screen.getByRole('button', { name: 'صفحة الملاحظات التالية' }));
+         |                                ^
+      97 |   await view.rerender(<KnowledgeGraph notes={manyNotes.slice(0, 2)} p={light} onOpen={() => {}} />);
+      98 |   expect(screen.getByText('الملاحظات 1–2 من 2')).toBeTruthy();
+      99 |   expect(screen.getByTestId('graph-node-n0')).toBeTruthy();
+
+      at Object.getByRole (tests/graph.ui.test.jsx:96:32)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● large relationship lists are paged and include links beyond the canvas
+
+    Unable to find an element with testID: /^graph-relation-/
+
+    [36m<View>[39m
+      [36m<View>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0mشبكة أفكاري[0m
+          [36m</Text>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"تصغير الشبكة"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0m−[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<Text>[39m
+              [0m100[0m
+              [0m%[0m
+            [36m</Text>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"تكبير الشبكة"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0m+[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33mtestID[39m=[32m"graph-viewport"[39m
+        [36m>[39m
+          [36m<RCTScrollView>[39m
+            [36m<View>[39m
+              [36m<RCTScrollView>[39m
+                [36m<View>[39m
+                  [36m<View[39m
+                    [33mtestID[39m=[32m"graph-canvas"[39m
+                  [36m>[39m
+                    [36m<View />[39m
+                    [36m<View />[39m
+                    [36m<View />[39m
+                    [36m<View />[39m
+                    [36m<View />[39m
+                    [36m<View />[39m
+                    [36m<View />[39m
+                    [36m<View />[39m
+                    [36m<View />[39m
+                    [36m<View />[39m
+                    [36m<View />[39m
+                    [36m<View />[39m
+                    [36m<View />[39m
+                    [36m<View />[39m
+                    [36m<View />[39m
+                    [36m<View />[39m
+                    [36m<View />[39m
+                    [36m<View />[39m
+                    [36m<View />[39m
+                    [36m<View />[39m
+                    [36m<View />[39m
+                    [36m<View />[39m
+                    [36m<View />[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mموضوع 0[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mموضوع 1[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mموضوع 2[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mموضوع 3[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mموضوع 4[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mموضوع 5[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mموضوع 6[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mموضوع 7[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mموضوع 8[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mموضوع 9[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mموضوع 10[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mموضوع 11[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mموضوع 12[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mموضوع 13[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mموضوع 14[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mموضوع 15[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mموضوع 16[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mموضوع 17[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mموضوع 18[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mموضوع 19[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mموضوع 20[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mموضوع 21[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mموضوع 22[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<Text>[39m
+                        [0mموضوع 23[0m
+                      [36m</Text>[39m
+                    [36m</View>[39m
+                  [36m</View>[39m
+                [36m</View>[39m
+              [36m</RCTScrollView>[39m
+            [36m</View>[39m
+          [36m</RCTScrollView>[39m
+        [36m</View>[39m
+        [36m<Text>[39m
+          [0mتبدأ الشبكة بنظرة عامة تلائم العرض. كبّر لقراءة العقد واسحب للتحريك، أو افتح الملاحظات من قائمة العلاقات أدناه.[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mتُعرض أول 24 ملاحظة في هذه النسخة لتحسين الأداء.[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<Text>[39m
+        [0mالعلاقات المكتشفة ([0m
+        [0m23[0m
+        [0m)[0m
+      [36m</Text>[39m
+      [36m<View[39m
+        [33maccessibilityLabel[39m=[32m"فتح موضوع 1 المرتبطة بـ موضوع 0"[39m
+        [33maccessibilityRole[39m=[32m"button"[39m
+        [33maccessible[39m=[32m{true}[39m
+      [36m>[39m
+        [36m<Text>[39m
+          [0mموضوع 0[0m
+          [0m ← [0m
+          [0mموضوع 1[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<View[39m
+        [33maccessibilityLabel[39m=[32m"فتح موضوع 2 المرتبطة بـ موضوع 0"[39m
+        [33maccessibilityRole[39m=[32m"button"[39m
+        [33maccessible[39m=[32m{true}[39m
+      [36m>[39m
+        [36m<Text>[39m
+          [0mموضوع 0[0m
+          [0m ← [0m
+          [0mموضوع 2[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<View[39m
+        [33maccessibilityLabel[39m=[32m"فتح موضوع 3 المرتبطة بـ موضوع 0"[39m
+        [33maccessibilityRole[39m=[32m"button"[39m
+        [33maccessible[39m=[32m{true}[39m
+      [36m>[39m
+        [36m<Text>[39m
+          [0mموضوع 0[0m
+          [0m ← [0m
+          [0mموضوع 3[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<View[39m
+        [33maccessibilityLabel[39m=[32m"فتح موضوع 4 المرتبطة بـ موضوع 0"[39m
+        [33maccessibilityRole[39m=[32m"button"[39m
+        [33maccessible[39m=[32m{true}[39m
+      [36m>[39m
+        [36m<Text>[39m
+          [0mموضوع 0[0m
+          [0m ← [0m
+          [0mموضوع 4[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<View[39m
+        [33maccessibilityLabel[39m=[32m"فتح موضوع 5 المرتبطة بـ موضوع 0"[39m
+        [33maccessibilityRole[39m=[32m"button"[39m
+        [33maccessible[39m=[32m{true}[39m
+      [36m>[39m
+        [36m<Text>[39m
+          [0mموضوع 0[0m
+          [0m ← [0m
+          [0mموضوع 5[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<View[39m
+        [33maccessibilityLabel[39m=[32m"فتح موضوع 6 المرتبطة بـ موضوع 0"[39m
+        [33maccessibilityRole[39m=[32m"button"[39m
+        [33maccessible[39m=[32m{true}[39m
+      [36m>[39m
+        [36m<Text>[39m
+          [0mموضوع 0[0m
+          [0m ← [0m
+          [0mموضوع 6[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<View[39m
+        [33maccessibilityLabel[39m=[32m"فتح موضوع 7 المرتبطة بـ موضوع 0"[39m
+        [33maccessibilityRole[39m=[32m"button"[39m
+        [33maccessible[39m=[32m{true}[39m
+      [36m>[39m
+        [36m<Text>[39m
+          [0mموضوع 0[0m
+          [0m ← [0m
+          [0mموضوع 7[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<View[39m
+        [33maccessibilityLabel[39m=[32m"فتح موضوع 8 المرتبطة بـ موضوع 0"[39m
+        [33maccessibilityRole[39m=[32m"button"[39m
+        [33maccessible[39m=[32m{true}[39m
+      [36m>[39m
+        [36m<Text>[39m
+          [0mموضوع 0[0m
+          [0m ← [0m
+          [0mموضوع 8[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<View[39m
+        [33maccessibilityLabel[39m=[32m"فتح موضوع 9 المرتبطة بـ موضوع 0"[39m
+        [33maccessibilityRole[39m=[32m"button"[39m
+        [33maccessible[39m=[32m{true}[39m
+      [36m>[39m
+        [36m<Text>[39m
+          [0mموضوع 0[0m
+          [0m ← [0m
+          [0mموضوع 9[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<View[39m
+        [33maccessibilityLabel[39m=[32m"فتح موضوع 10 المرتبطة بـ موضوع 0"[39m
+        [33maccessibilityRole[39m=[32m"button"[39m
+        [33maccessible[39m=[32m{true}[39m
+      [36m>[39m
+        [36m<Text>[39m
+          [0mموضوع 0[0m
+          [0m ← [0m
+          [0mموضوع 10[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<View[39m
+        [33maccessibilityLabel[39m=[32m"فتح موضوع 11 المرتبطة بـ موضوع 0"[39m
+        [33maccessibilityRole[39m=[32m"button"[39m
+        [33maccessible[39m=[32m{true}[39m
+      [36m>[39m
+        [36m<Text>[39m
+          [0mموضوع 0[0m
+          [0m ← [0m
+          [0mموضوع 11[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<View[39m
+        [33maccessibilityLabel[39m=[32m"فتح موضوع 12 المرتبطة بـ موضوع 0"[39m
+        [33maccessibilityRole[39m=[32m"button"[39m
+        [33maccessible[39m=[32m{true}[39m
+      [36m>[39m
+        [36m<Text>[39m
+          [0mموضوع 0[0m
+          [0m ← [0m
+          [0mموضوع 12[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<View[39m
+        [33maccessibilityLabel[39m=[32m"فتح موضوع 13 المرتبطة بـ موضوع 0"[39m
+        [33maccessibilityRole[39m=[32m"button"[39m
+        [33maccessible[39m=[32m{true}[39m
+      [36m>[39m
+        [36m<Text>[39m
+          [0mموضوع 0[0m
+          [0m ← [0m
+          [0mموضوع 13[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<View[39m
+        [33maccessibilityLabel[39m=[32m"فتح موضوع 14 المرتبطة بـ موضوع 0"[39m
+        [33maccessibilityRole[39m=[32m"button"[39m
+        [33maccessible[39m=[32m{true}[39m
+      [36m>[39m
+        [36m<Text>[39m
+          [0mموضوع 0[0m
+          [0m ← [0m
+          [0mموضوع 14[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<View[39m
+        [33maccessibilityLabel[39m=[32m"فتح موضوع 15 المرتبطة بـ موضوع 0"[39m
+        [33maccessibilityRole[39m=[32m"button"[39m
+        [33maccessible[39m=[32m{true}[39m
+      [36m>[39m
+        [36m<Text>[39m
+          [0mموضوع 0[0m
+          [0m ← [0m
+          [0mموضوع 15[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<View[39m
+        [33maccessibilityLabel[39m=[32m"فتح موضوع 16 المرتبطة بـ موضوع 0"[39m
+        [33maccessibilityRole[39m=[32m"button"[39m
+        [33maccessible[39m=[32m{true}[39m
+      [36m>[39m
+        [36m<Text>[39m
+          [0mموضوع 0[0m
+          [0m ← [0m
+          [0mموضوع 16[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<View[39m
+        [33maccessibilityLabel[39m=[32m"فتح موضوع 17 المرتبطة بـ موضوع 0"[39m
+        [33maccessibilityRole[39m=[32m"button"[39m
+        [33maccessible[39m=[32m{true}[39m
+      [36m>[39m
+        [36m<Text>[39m
+          [0mموضوع 0[0m
+          [0m ← [0m
+          [0mموضوع 17[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<View[39m
+        [33maccessibilityLabel[39m=[32m"فتح موضوع 18 المرتبطة بـ موضوع 0"[39m
+        [33maccessibilityRole[39m=[32m"button"[39m
+        [33maccessible[39m=[32m{true}[39m
+      [36m>[39m
+        [36m<Text>[39m
+          [0mموضوع 0[0m
+          [0m ← [0m
+          [0mموضوع 18[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<View[39m
+        [33maccessibilityLabel[39m=[32m"فتح موضوع 19 المرتبطة بـ موضوع 0"[39m
+        [33maccessibilityRole[39m=[32m"button"[39m
+        [33maccessible[39m=[32m{true}[39m
+      [36m>[39m
+        [36m<Text>[39m
+          [0mموضوع 0[0m
+          [0m ← [0m
+          [0mموضوع 19[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<View[39m
+        [33maccessibilityLabel[39m=[32m"فتح موضوع 20 المرتبطة بـ موضوع 0"[39m
+        [33maccessibilityRole[39m=[32m"button"[39m
+        [33maccessible[39m=[32m{true}[39m
+      [36m>[39m
+        [36m<Text>[39m
+          [0mموضوع 0[0m
+          [0m ← [0m
+          [0mموضوع 20[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<View[39m
+        [33maccessibilityLabel[39m=[32m"فتح موضوع 21 المرتبطة بـ موضوع 0"[39m
+        [33maccessibilityRole[39m=[32m"button"[39m
+        [33maccessible[39m=[32m{true}[39m
+      [36m>[39m
+        [36m<Text>[39m
+          [0mموضوع 0[0m
+          [0m ← [0m
+          [0mموضوع 21[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<View[39m
+        [33maccessibilityLabel[39m=[32m"فتح موضوع 22 المرتبطة بـ موضوع 0"[39m
+        [33maccessibilityRole[39m=[32m"button"[39m
+        [33maccessible[39m=[32m{true}[39m
+      [36m>[39m
+        [36m<Text>[39m
+          [0mموضوع 0[0m
+          [0m ← [0m
+          [0mموضوع 22[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<View[39m
+        [33maccessibilityLabel[39m=[32m"فتح موضوع 23 المرتبطة بـ موضوع 0"[39m
+        [33maccessibilityRole[39m=[32m"button"[39m
+        [33maccessible[39m=[32m{true}[39m
+      [36m>[39m
+        [36m<Text>[39m
+          [0mموضوع 0[0m
+          [0m ← [0m
+          [0mموضوع 23[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+    [36m</View>[39m
+
+      106 |   const onOpen = jest.fn();
+      107 |   await render(<KnowledgeGraph notes={linked} p={light} onOpen={onOpen} />);
+    > 108 |   expect(screen.getAllByTestId(/^graph-relation-/)).toHaveLength(24);
+          |                 ^
+      109 |   expect(screen.getByText('علاقات هذه الصفحة: 30 من إجمالي 30 علاقة')).toBeTruthy();
+      110 |   await fireEvent.press(screen.getByRole('button', { name: 'صفحة العلاقات التالية' }));
+      111 |   expect(screen.getAllByTestId(/^graph-relation-/)).toHaveLength(6);
+
+      at Object.getAllByTestId (tests/graph.ui.test.jsx:108:17)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 1 failed, 1 total
+Tests:       6 failed, 3 passed, 9 total
+Snapshots:   0 total
+Time:        2.987 s
+Ran all test suites within paths "tests/graph.ui.test.jsx".
