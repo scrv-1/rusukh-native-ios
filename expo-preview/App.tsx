@@ -9,8 +9,12 @@ import * as Sharing from 'expo-sharing';
 import * as DocumentPicker from 'expo-document-picker';
 import { arabicRow, Button, Empty, Field, Icon, Label, Panel, Palette, dark, light } from './src/ui';
 import { KnowledgeGraph } from './src/KnowledgeGraph';
+import { RecoveryBoundary } from './src/RecoveryBoundary';
 import { StudyHome } from './src/StudyHome';
 import { useNoteDraft } from './src/useNoteDraft';
+import { SourcesWorkbench } from './src/SourcesWorkbench';
+import { AIWorkspace } from './src/AIWorkspace';
+import { RemindersPanel } from './src/reminders/RemindersPanel';
 import { WorkspaceEditor } from './src/WorkspaceEditor';
 import { defaultWorkspace, MODULES, ModuleId, pinnedModules, readWorkspace, Workspace, WORKSPACE_KEY } from './src/workspace';
 import { markdownNote, matchesSearch, MAX_NOTE_CHARS, MAX_SOURCE_BYTES, prepareSource } from './src/sources';
@@ -21,7 +25,7 @@ import {
   readAll, recordReview, restoreBackup, saveCard, saveNoteAndCards, setSetting,
 } from './src/storage';
 
-type Tab = 'home' | 'notes' | 'review' | 'graph' | 'settings' | 'sources' | 'tools';
+type Tab = 'home' | 'notes' | 'review' | 'graph' | 'settings' | 'sources' | 'tools' | 'ai';
 const TABS: { id: Tab; label: string; symbol: string }[] = [
   { id: 'home', label: 'الرئيسية', symbol: 'house.fill' },
   { id: 'notes', label: 'الملاحظات', symbol: 'note.text' },
@@ -30,7 +34,7 @@ const TABS: { id: Tab; label: string; symbol: string }[] = [
   { id: 'settings', label: 'الإعدادات', symbol: 'gearshape.fill' },
 ];
 const screenTitle: Record<Tab, string> = {
-  home: 'رُسوخ', notes: 'ملاحظاتي', review: 'المراجعة', graph: 'شبكة أفكاري', settings: 'الإعدادات', sources: 'مصادري', tools: 'كل الأدوات',
+  home: 'رُسوخ', notes: 'ملاحظاتي', review: 'المراجعة', graph: 'شبكة أفكاري', settings: 'الإعدادات', sources: 'مصادري', tools: 'كل الأدوات', ai: 'مساعد الدراسة المحلي',
 };
 
 function AppContent() {
@@ -412,20 +416,11 @@ function AppContent() {
   }
 
   function sourcesScreen() {
-    return <View style={{ gap: 16 }}>
-      {header('مصادري', 'من الملفات إلى ملاحظاتك، دون رفع المحتوى إلى خادم')}
-      <Panel p={p}>
-        <Label p={p} size={19} weight="700">أضف نصًا أو تفريغ محاضرة</Label>
-        <Label p={p} color={p.muted} size={14}>استورد TXT أو Markdown أو ترجمة SRT / VTT حتى 1 ميغابايت بترميز UTF-8. ستراجع النص قبل حفظه كملاحظة جديدة.</Label>
-        <Button p={p} title="اختيار مصدر من الملفات" icon="square.and.arrow.down" onPress={() => void importSource()} />
-      </Panel>
-      <Panel p={p}>
-        <Label p={p} weight="700">من محاضرة إلى بطاقات</Label>
-        <Label p={p} size={14}>استورد ملف تفريغ تملكه أو يتيحه صاحب المقطع. احتفظ بتوقيتاته، ثم أضف أسئلتك بصيغة س: وج: واضغط «حفظ واستخراج بطاقات».</Label>
-        <Label p={p} size={13} color={p.muted}>هذه قراءة نصوص واستخراج أسئلة مكتوبة، وليست توليدًا بالذكاء الاصطناعي. جلب روابط YouTube وقراءة PDF تلقائيًا غير متاحين في هذه النسخة.</Label>
-      </Panel>
-      <Button p={p} title="عرض الملاحظات المحفوظة" tone="secondary" onPress={() => setTab('notes')} />
-    </View>;
+    return <SourcesWorkbench p={p} notes={notes} onImportText={() => void importSource()}
+      onDraft={value => beginEditor({editingId:null,...value})} />;
+  }
+  function aiScreen() {
+    return <AIWorkspace p={p} notes={notes} onDraft={value => beginEditor({editingId:null,...value})} />;
   }
   function notesScreen() {
     const filtered = notes.filter(n => matchesSearch(n.title, n.body, search));
@@ -498,15 +493,16 @@ function AppContent() {
         <Button title={isDark ? 'فاتح' : 'داكن'} p={p} tone="secondary" onPress={() => void toggleDark()} />
       </View>
     </Panel>
+    {db && <RemindersPanel db={db} p={p} />}
     <Panel p={p}>
       <Label p={p} size={17} weight="700">النسخ الاحتياطي</Label>
-      <Label p={p} size={13} color={p.muted}>صدّر ملف JSON إلى تطبيق الملفات. الاستيراد يستبدل المحتوى الحالي بعد التأكيد.</Label>
+      <Label p={p} size={13} color={p.muted}>صدّر ملاحظاتك وبطاقاتك ومراجعاتك في ملف JSON. الصور والتسجيلات تُصدّر منفردة من مصادري. الاستيراد يستبدل محتوى الدراسة بعد التأكيد.</Label>
       <Button p={p} title="تصدير نسخة إلى الملفات" icon="square.and.arrow.up" onPress={() => void exportData()} />
       <Button p={p} title="استيراد نسخة من الملفات" tone="secondary" icon="square.and.arrow.down" onPress={() => void importData()} />
     </Panel>
     <Panel p={p}>
       <Label p={p} weight="700">عن النسخة</Label>
-      <Label p={p} size={13} color={p.muted}>رُسوخ 0.3 — واجهة أهدأ، مسودات محلية واستيراد نصوص. جدولة المراجعة مبسطة وليست FSRS. شبكة العلاقات تعتمد على الروابط [[العنوان]]، ولا يوجد اتصال ذكاء اصطناعي أو مزامنة سحابية بعد.</Label>
+      <Label p={p} size={13} color={p.muted}>رُسوخ 0.4 — مصادر PDF وYouTube، كاميرا وصوت وتذكيرات محلية. مساعد الدراسة يشغّل نموذج GGUF اختياريًا على CPU داخل الجهاز؛ ميزته تجريبية وتتطلب مراجعة النتائج. جدولة المراجعة مبسطة وليست FSRS. الروابط [[العنوان]] تبني شبكة أفكارك. لا مزامنة سحابية.</Label>
     </Panel>
   </View>; }
   function modalHeader(title: string, close: () => void) {
@@ -542,7 +538,7 @@ function AppContent() {
       </Pressable>
     </View>
     {tab === 'notes' ? notesScreen() : <ScrollView key={tab} keyboardShouldPersistTaps="handled" contentContainerStyle={{ paddingHorizontal: 20, paddingTop: 14, paddingBottom: 32, gap: 2 }}>
-      {tab === 'home' ? homeScreen() : tab === 'review' ? reviewScreen() : tab === 'graph' ? graphScreen() : tab === 'sources' ? sourcesScreen() : tab === 'tools' ? toolsScreen() : settingsScreen()}
+      {tab === 'home' ? homeScreen() : tab === 'review' ? reviewScreen() : tab === 'graph' ? graphScreen() : tab === 'sources' ? sourcesScreen() : tab === 'ai' ? aiScreen() : tab === 'tools' ? toolsScreen() : settingsScreen()}
     </ScrollView>}
     <View style={{ flexDirection: arabicRow, borderTopWidth: 1, borderColor: p.border, backgroundColor: p.surface, paddingTop: 8, paddingBottom: 6 }}>
       {visibleTabs.map(t => <Pressable key={t.id} accessibilityRole="tab" accessibilityState={{ selected: tab === t.id }}
@@ -633,5 +629,5 @@ function AppContent() {
 }
 
 export default function App() {
-  return <SafeAreaProvider><AppContent /></SafeAreaProvider>;
+  return <SafeAreaProvider><RecoveryBoundary><AppContent /></RecoveryBoundary></SafeAreaProvider>;
 }

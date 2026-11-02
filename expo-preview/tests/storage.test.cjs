@@ -50,6 +50,11 @@ test('rejected import leaves existing notes and workspace untouched', async()=>{
     await setSetting(db,WORKSPACE_KEY,JSON.stringify(defaultWorkspace()));
     const before=await readAll(db);
     await assert.rejects(restoreBackup(db,{format:'rusukh-backup',version:99}));
+    for(const change of [{id:''},{id:'n'.repeat(201)},{title:'ع'.repeat(161)}]) {
+      const incompatible=makeBackup([{...before.notes[0],...change}],[],[]);
+      await assert.rejects(restoreBackup(db,incompatible));
+      assert.deepEqual(await readAll(db),before);
+    }
     assert.deepEqual(await readAll(db),before);
     assert.deepEqual(readWorkspace(await getSetting(db,WORKSPACE_KEY)),defaultWorkspace());
   } finally {raw.close();}

@@ -1,3 +1,5 @@
+import { utf8ByteLength } from './core';
+
 export const MAX_SOURCE_BYTES = 1024 * 1024;
 export const MAX_NOTE_CHARS = 1000000;
 
@@ -5,9 +7,9 @@ export const MAX_NOTE_CHARS = 1000000;
 export function prepareSource(filename: string, text: string): { title: string; body: string } {
   const extension = filename.split('.').pop()?.toLowerCase();
   if (!['txt', 'md', 'srt', 'vtt'].includes(extension ?? '')) {
-    throw new Error('اختر ملف TXT أو MD أو SRT أو VTT. قراءة PDF ليست مضافة لهذه النسخة.');
+    throw new Error('اختر ملف TXT أو MD أو SRT أو VTT. لاستخراج نص PDF افتح أداة «قراءة PDF» في مصادري.');
   }
-  if (text.length > MAX_SOURCE_BYTES) throw new Error('النص أكبر من الحد المسموح.');
+  if (utf8ByteLength(text) > MAX_SOURCE_BYTES) throw new Error('النص أكبر من الحد المسموح.');
   const clean = text.replace(/^\uFEFF/, '').replace(/\r\n?/g, '\n').trim();
   if (!clean || clean.includes('\u0000') || clean.includes('\uFFFD')) throw new Error('الملف فارغ أو ترميزه غير مدعوم. استخدم UTF-8.');
   const body = `المصدر: ${filename}\n\n${clean}`;

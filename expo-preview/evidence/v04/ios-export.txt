@@ -1,0 +1,11 @@
+Starting Metro Bundler
+
+iOS Bundled 9066ms node_modules/expo/AppEntry.js (906 modules)
+
+› ios bundles (1):
+_expo/static/js/ios/AppEntry-b9761b34131628f6fa73e5f127166480.hbc (48MB)
+
+› Files (1):
+metadata.json (145B)
+
+Exported: dist-v04

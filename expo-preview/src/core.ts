@@ -129,11 +129,15 @@ export function validateBackup(value: unknown): value is Backup {
       !Array.isArray(data.notes) || !Array.isArray(data.cards) || !Array.isArray(data.reviews) ||
       data.notes.length > 10000 || data.cards.length > 50000 || data.reviews.length > 100000) return false;
   const str = (x: unknown) => typeof x === 'string' && x.length <= 1000000;
+  // Restored identifiers and titles must also fit the editor's recovery slot.
+  // Reject incompatible input before the restore transaction replaces data.
+  const id = (x: unknown) => typeof x === 'string' && x.length > 0 && x.length <= 200;
+  const noteTitle = (x: unknown) => typeof x === 'string' && x.trim().length > 0 && x.length <= 160;
   const time = (x: unknown) => typeof x === 'number' && Number.isFinite(x) && x >= 0;
   const noteIds = new Set<string>();
   const noteTitles = new Set<string>();
   for (const item of data.notes) {
-    if (!item || !str(item.id) || !str(item.title) || !str(item.body) ||
+    if (!item || !id(item.id) || !noteTitle(item.title) || !str(item.body) ||
         !time(item.createdAt) || !time(item.updatedAt) || noteIds.has(item.id)) return false;
     const title = normalizeTitle(item.title);
     if (noteTitles.has(title)) return false;
@@ -142,7 +146,7 @@ export function validateBackup(value: unknown): value is Backup {
   }
   const cardIds = new Set<string>();
   for (const item of data.cards) {
-    if (!item || !str(item.id) || !str(item.noteId) || !noteIds.has(item.noteId) ||
+    if (!item || !id(item.id) || !id(item.noteId) || !noteIds.has(item.noteId) ||
         !str(item.question) || !str(item.answer) || !time(item.dueAt) || !time(item.updatedAt) ||
         !Number.isFinite(item.intervalDays) || item.intervalDays < 0 || item.intervalDays > 365000 ||
         !Number.isFinite(item.ease) || item.ease < 1 || item.ease > 5 ||
@@ -151,7 +155,7 @@ export function validateBackup(value: unknown): value is Backup {
   }
   const reviewIds = new Set<string>();
   for (const item of data.reviews) {
-    if (!item || !str(item.id) || !str(item.cardId) || !cardIds.has(item.cardId) ||
+    if (!item || !id(item.id) || !id(item.cardId) || !cardIds.has(item.cardId) ||
         !['again', 'hard', 'good', 'easy'].includes(item.grade) || !time(item.reviewedAt) || reviewIds.has(item.id)) return false;
     reviewIds.add(item.id);
   }

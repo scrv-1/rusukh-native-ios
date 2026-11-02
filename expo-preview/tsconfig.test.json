@@ -8,5 +8,16 @@
     "strict": true,
     "skipLibCheck": true
   },
-  "include": ["src/core.ts", "src/types.ts", "src/workspace.ts", "src/sources.ts", "src/storage.ts"]
+  "include": [
+    "src/core.ts",
+    "src/types.ts",
+    "src/workspace.ts",
+    "src/sources.ts",
+    "src/storage.ts",
+    "src/youtube.ts",
+    "src/pdf/contracts.ts",
+    "src/pdf/layout.ts",
+    "src/studyChunks.ts",
+    "src/ai/contracts.ts"
+  ]
 }

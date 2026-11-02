@@ -90,6 +90,27 @@ test('quiz options have one correct and no duplicates',()=>{
   for(const item of q){assert.equal(item.options.filter(x=>x===item.answer).length,1);assert.equal(new Set(item.options).size,item.options.length);}
 });
 test('valid backup passes',()=>assert.equal(validateBackup(exampleBackup()),true));
+test('backup notes must remain editable and recoverable by the note editor',()=>{
+  for (const changes of [{id:''},{id:'n'.repeat(201)},{title:''},{title:'   '},{title:'ع'.repeat(161)}]) {
+    const b=exampleBackup();
+    b.notes[0]={...b.notes[0],...changes};
+    b.cards[0].noteId=b.notes[0].id;
+    assert.equal(validateBackup(b),false,`incompatible restored note: ${JSON.stringify(changes)}`);
+  }
+  const b=exampleBackup();
+  b.notes[0].id='n'.repeat(200);b.cards[0].noteId=b.notes[0].id;
+  b.notes[0].title='ع'.repeat(160);
+  assert.equal(validateBackup(b),true);
+});
+test('backup card and review identifiers follow the same nonempty bounded contract',()=>{
+  for(const collection of ['cards','reviews']) {
+    for(const id of ['', 'x'.repeat(201)]) {
+      const b=exampleBackup();b[collection][0].id=id;
+      if(collection==='cards') b.reviews[0].cardId=id;
+      assert.equal(validateBackup(b),false);
+    }
+  }
+});
 test('malformed backup fails',()=>{
   assert.equal(validateBackup(null),false);
   assert.equal(validateBackup({}),false);
@@ -169,4 +190,25 @@ test('Arabic backup one byte over 15 MiB is refused before writing a file',()=>{
   const b=arabicBackupAtBytes(15*1024*1024+1);
   assert.equal(validateBackup(b),true);
   assert.throws(()=>serializeBackup(b),/15/);
+});
+
+test('text source size limit counts Arabic UTF-8 bytes even without file metadata',()=>{
+  const { prepareSource, MAX_SOURCE_BYTES }=require('../.test-build/sources.js');
+  const boundary='ع'.repeat(MAX_SOURCE_BYTES/2);
+  assert.equal(Buffer.byteLength(boundary,'utf8'),MAX_SOURCE_BYTES);
+  assert.ok(prepareSource('محاضرة.txt',boundary).body.endsWith(boundary));
+  assert.throws(()=>prepareSource('محاضرة.txt',boundary+'x'),/أكبر/);
+  const previouslyAccepted='ع'.repeat(600000);
+  assert.ok(previouslyAccepted.length<MAX_SOURCE_BYTES);
+  assert.ok(Buffer.byteLength(previouslyAccepted,'utf8')>MAX_SOURCE_BYTES);
+  assert.throws(()=>prepareSource('محاضرة.txt',previouslyAccepted),/أكبر/);
+});
+
+test('text source byte limit includes emoji and the UTF-8 BOM before normalization',()=>{
+  const { prepareSource, MAX_SOURCE_BYTES }=require('../.test-build/sources.js');
+  const emoji='📚'.repeat(MAX_SOURCE_BYTES/4);
+  assert.equal(Buffer.byteLength(emoji,'utf8'),MAX_SOURCE_BYTES);
+  assert.ok(prepareSource('كتب.txt',emoji).body.endsWith(emoji));
+  assert.throws(()=>prepareSource('كتب.txt',emoji+'x'),/أكبر/);
+  assert.throws(()=>prepareSource('كتب.txt','\uFEFF'+emoji),/أكبر/);
 });

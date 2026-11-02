@@ -4,7 +4,8 @@ export const MODULES = [
   { id: 'notes', title: 'ملاحظاتي', detail: 'أفكارك وروابطك وملاحظاتك الأخيرة', symbol: 'note.text' },
   { id: 'graph', title: 'شبكة أفكاري', detail: 'العلاقات بين الملاحظات المترابطة', symbol: 'point.3.connected.trianglepath.dotted' },
   { id: 'quiz', title: 'اختبار سريع', detail: 'اختبر نفسك من بطاقاتك المحفوظة', symbol: 'checkmark.circle' },
-  { id: 'sources', title: 'مصادري', detail: 'استيراد نص أو تفريغ محاضرة من الملفات', symbol: 'doc.text' },
+  { id: 'sources', title: 'مصادري', detail: 'PDF وYouTube والملفات والكاميرا والصوت', symbol: 'doc.text' },
+  { id: 'ai', title: 'مساعد الدراسة المحلي', detail: 'أسئلة من مصادرك بنموذج تختاره على جهازك', symbol: 'sparkles' },
 ] as const;
 
 export type ModuleId = typeof MODULES[number]['id'];

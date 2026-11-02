@@ -7,4 +7,4 @@ dist/
 .env.*
 .DS_Store
 dist-ios/
-dist-v03/
+dist-v*/

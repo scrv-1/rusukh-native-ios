@@ -1,0 +1,12 @@
+{
+  "engine": "@wllama/wllama",
+  "version": "3.8.1",
+  "compatVersion": "3.8.1",
+  "license": "MIT",
+  "mode": "CPU/single-thread/Asyncify",
+  "wasmBytes": 16005007,
+  "wasmSHA256": "2db3f67d0bcc19cdf8f14f129e46cab691bff898954808f8a2dc4c586eb5bb68",
+  "nativeHTMLBytes": 21853334,
+  "nativeHTMLSHA256": "d95ab1e48e5a1cc9a3a9adf7a1b447ddac95ad82a91a5f359622083e3b7f1c60",
+  "diagnosticHTMLBytes": 21853333
+}

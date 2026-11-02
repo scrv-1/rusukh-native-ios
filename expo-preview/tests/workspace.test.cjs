@@ -35,7 +35,7 @@ test('hiding every module is valid and does not mutate original preferences', ()
 test('reorder respects boundaries and preserves each module exactly once', () => {
   const original = defaultWorkspace();
   assert.deepEqual(moveModule(original, 'review', -1), original);
-  assert.deepEqual(moveModule(original, 'sources', 1), original);
+  assert.deepEqual(moveModule(original, 'ai', 1), original);
   const next = moveModule(original,'notes',-1);
   assert.deepEqual(pinnedModules(next),['notes','review']);
   assert.deepEqual(moveModule(next,'notes',1),original);
@@ -73,4 +73,11 @@ test('source limit includes metadata so every accepted source can be reimported 
   const note = prepareSource('x.txt','a'.repeat(MAX_NOTE_CHARS-headerLength));
   assert.ok(validateBackup({format:'rusukh-backup',version:1,notes:[{...note,id:'n',createdAt:1,updatedAt:1}],cards:[],reviews:[]}));
   assert.throws(()=>prepareSource('x.txt','a'.repeat(MAX_NOTE_CHARS-headerLength+1)));
+});
+
+test('adding the AI module preserves prior layout and keeps the new tool hidden', () => {
+  const old = {version:1,density:'compact',modules:defaultWorkspace().modules.filter(m=>m.id!=='ai')};
+  const restored = readWorkspace(JSON.stringify(old));
+  assert.deepEqual(restored.modules.slice(0,-1),old.modules);
+  assert.deepEqual(restored.modules.at(-1),{id:'ai',enabled:false});
 });
