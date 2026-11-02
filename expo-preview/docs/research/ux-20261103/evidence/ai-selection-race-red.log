@@ -1,0 +1,62 @@
+✔ worker failure during generation unloads immediately and rejects a late completion (6.357944ms)
+✔ worker failure while loading reports an error without waiting for the watchdog (2.77473ms)
+✔ late worker events from a disposed runtime cannot stop a new generation (2.232565ms)
+✔ delayed failed-runtime cleanup preserves a new generation and its WASM URL (2.424913ms)
+✔ a newer model selection supersedes a selection waiting for old-runtime cleanup (1.600444ms)
+✔ a rejected load does not publish a stale error after newer-runtime startup (1.470289ms)
+✔ superseded header reads cannot publish invalid-header or read errors over a newer generation (2.477984ms)
+✔ an invalid replacement keeps the loaded model available (1.92363ms)
+✔ an oversized replacement does not dispose a working model (1.209667ms)
+✔ a failed replacement header read preserves a working model (1.017229ms)
+✔ unload cancels a replacement still reading its header (2.430117ms)
+✖ a rejected replacement header cannot mark a newer generation ready or disable cancellation (2.603372ms)
+✖ a valid replacement header cannot cancel a generation started after its selection (2.653507ms)
+✔ the file change handler retains an unaccepted draft after preflight rejection (2.675921ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 12
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 141.129899
+
+✖ failing tests:
+
+test at ai-lab/engine-runtime.test.mjs:250:1
+✖ a rejected replacement header cannot mark a newer generation ready or disable cancellation (2.603372ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'ready'
+  - 'generating'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/ai-lab/engine-runtime.test.mjs:263:12)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'ready',
+    expected: 'generating',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ai-lab/engine-runtime.test.mjs:271:1
+✖ a valid replacement header cannot cancel a generation started after its selection (2.653507ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'ready'
+  - 'generating'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/ai-lab/engine-runtime.test.mjs:281:10)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'ready',
+    expected: 'generating',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

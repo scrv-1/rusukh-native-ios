@@ -3,12 +3,21 @@ import { ActivityIndicator, Linking, View } from 'react-native';
 import { File } from 'expo-file-system';
 import * as DocumentPicker from 'expo-document-picker';
 import { arabicRow, Button, Field, Label, Palette, Panel } from './ui';
-import { MAX_SOURCE_BYTES } from './sources';
+import { MAX_SOURCE_BYTES, prepareSource } from './sources';
 import { parseYouTubeUrl, prepareYouTubeSource, TranscriptFormat, YouTubeSource } from './youtube';
 import { MAX_PDF_BYTES, PdfRequest, PdfResult } from './pdf/contracts';
 import type { Note } from './types';
 
 type Mode = 'text' | 'pdf' | 'youtube' | 'media';
+type FormatChoice = TranscriptFormat | 'auto';
+
+/** A hint only: the existing parser still validates every cue and its timestamps. */
+function detectedFormat(text: string): TranscriptFormat {
+  const start = text.replace(/^\uFEFF/, '').trimStart();
+  if (/^WEBVTT(?:\s|$)/.test(start)) return 'vtt';
+  if (start.split('\n', 3).some(line => /^\d{2,}:\d{2}:\d{2}[,.]\d{3}\s+-->/.test(line.trim()))) return 'srt';
+  return 'text';
+}
 type Props = { p: Palette; notes: Note[]; onDraft: (draft: {title:string;body:string}) => void; onImportText: () => void };
 const MODES: {id:Mode;title:string}[] = [{id:'text',title:'نص وملفات'}, {id:'pdf',title:'قراءة PDF'}, {id:'youtube',title:'فيديو YouTube'}, {id:'media',title:'كاميرا وصوت'}];
 
@@ -18,10 +27,14 @@ export function SourcesWorkbench({p, notes, onDraft, onImportText}: Props) {
   const [busy,setBusy] = useState(false);
   const [error,setError] = useState('');
   const [message,setMessage] = useState('');
+  const [pastedText,setPastedText] = useState('');
+  const [textTitle,setTextTitle] = useState('');
+  const [showTextTitle,setShowTextTitle] = useState(false);
+  const [showVideoOptions,setShowVideoOptions] = useState(false);
   const [videoUrl,setVideoUrl] = useState('');
   const [videoTitle,setVideoTitle] = useState('تفريغ YouTube');
   const [transcript,setTranscript] = useState('');
-  const [format,setFormat] = useState<TranscriptFormat>('text');
+  const [format,setFormat] = useState<FormatChoice>('auto');
   const [videoPreview,setVideoPreview] = useState<YouTubeSource|null>(null);
   const [pdfRequest,setPdfRequest] = useState<PdfRequest|null>(null);
   const [pdfPreview,setPdfPreview] = useState<PdfResult|null>(null);
@@ -46,8 +59,20 @@ export function SourcesWorkbench({p, notes, onDraft, onImportText}: Props) {
     if (!safe) { setError('رابط الفيديو غير صالح.'); return; }
     try { await Linking.openURL(url); } catch { if (alive.current) setError('تعذّر فتح YouTube. حاول فتح الرابط من متصفحك.'); }
   }
+  function reviewPastedText() {
+    try {
+      setError('');
+      const firstLine = pastedText.trim().split('\n', 1)[0].trim();
+      const title = (textTitle.trim() || firstLine || 'نص ملصق').replace(/[\r\n]/g, ' ').slice(0, 160);
+      if (title.includes('\u0000')) throw new Error('العنوان يحتوي على محرف غير صالح. عدّل العنوان ثم حاول مجددًا.');
+      const draft = prepareSource(`${title}.txt`, pastedText);
+      onDraft({ title: draft.title, body: draft.body.replace(/^المصدر: [^\n]+\n\n/, 'المصدر: نص ملصق\n\n') });
+    } catch (failure) {
+      setError(failure instanceof Error ? failure.message : 'تعذّرت قراءة النص.');
+    }
+  }
   function makeVideoPreview() {
-    try { setError(''); setVideoPreview(prepareYouTubeSource(videoUrl,transcript,format,videoTitle)); }
+    try { setError(''); setVideoPreview(prepareYouTubeSource(videoUrl,transcript,format === 'auto' ? detectedFormat(transcript) : format,videoTitle)); }
     catch(error) { setVideoPreview(null); setError(error instanceof Error ? error.message : 'تعذّرت قراءة التفريغ.'); }
   }
   async function pickTranscript() {
@@ -94,17 +119,24 @@ export function SourcesWorkbench({p, notes, onDraft, onImportText}: Props) {
   return <View style={{gap:16}}>
     <View style={{gap:5}}>
       <Label p={p} size={30} weight="800" role="header">مصادري</Label>
-      <Label p={p} size={13} color={p.muted}>اختر أداة واحدة. راجع النص قبل إضافته إلى ملاحظاتك.</Label>
+      <Label p={p} size={13} color={p.muted}>أضف مصدرًا، راجع مسودته، ثم احفظه للدراسة. لا يحتاج النص وPDF إلى نموذج ذكاء اصطناعي.</Label>
     </View>
     <View style={{flexDirection:arabicRow,flexWrap:'wrap',gap:8}}>
-      {MODES.map(item=><Button key={item.id} p={p} title={item.title} tone={mode === item.id ? 'primary' : 'secondary'} onPress={()=>chooseMode(item.id)} />)}
+      {MODES.map(item=><Button key={item.id} p={p} title={item.title} tone={mode === item.id ? 'primary' : 'secondary'} selected={mode === item.id} onPress={()=>chooseMode(item.id)} />)}
     </View>
-    {!!message && <Label p={p} size={13} color={p.muted}>{message}</Label>}
-    {!!error && <Label p={p} color={p.danger}>{error}</Label>}
+    {!!message && <View accessibilityLiveRegion="polite"><Label p={p} size={13} color={p.muted}>{message}</Label></View>}
+    {!!error && <Label p={p} color={p.danger} role="alert">{error}</Label>}
     {mode === 'text' && <Panel p={p}>
-      <Label p={p} size={19} weight="700" role="header">أضف نصًا أو تفريغ محاضرة</Label>
+      <Label p={p} size={19} weight="700" role="header">الصق نصًا وابدأ</Label>
+      <Field p={p} label="النص الذي تريد دراسته" multiline value={pastedText} maxLength={1000000}
+        placeholder="الصق فقرة، ملاحظاتك، أو تفريغ محاضرة…" onChangeText={value=>{setPastedText(value);setError('');}} />
+      <Label p={p} size={12} color={p.muted}>العنوان من أول سطر تلقائيًا. ستراجع النص في محرر الملاحظة قبل حفظه.</Label>
+      <Button p={p} title={showTextTitle ? 'إخفاء عنوان النص' : 'تعديل عنوان النص'} tone="plain" selected={showTextTitle} onPress={()=>setShowTextTitle(value=>!value)} />
+      {showTextTitle && <Field p={p} label="عنوان النص" value={textTitle} maxLength={160} placeholder="اتركه فارغًا لاستخدام أول سطر" onChangeText={setTextTitle} />}
+      <Button p={p} title="مراجعة النص كمسودة" disabled={!pastedText.trim()} onPress={reviewPastedText} />
+      <Label p={p} size={16} weight="700" role="header">أو اختر ملفًا محفوظًا</Label>
       <Label p={p} size={14} color={p.muted}>TXT وMarkdown وSRT وVTT حتى 1 ميغابايت. تختار ملفًا من جهازك ثم تراجعه في محرر الملاحظة.</Label>
-      <Button p={p} title="اختيار مصدر من الملفات" icon="square.and.arrow.down" onPress={onImportText} />
+      <Button p={p} title="اختيار مصدر من الملفات" tone="secondary" icon="square.and.arrow.down" onPress={onImportText} />
       <Label p={p} size={12} color={p.muted}>{notes.length} ملاحظة محفوظة. لا تُرفع النصوص تلقائيًا إلى خادم.</Label>
     </Panel>}
     {mode === 'youtube' && <>
@@ -112,12 +144,16 @@ export function SourcesWorkbench({p, notes, onDraft, onImportText}: Props) {
         <Label p={p} size={19} weight="700" role="header">فيديو وتفريغ موثّق</Label>
         <Label p={p} size={13} color={p.muted}>أضف رابط الفيديو وتفريغًا تملكه أو يتيحه صاحبه. لا تُنزّل هذه الأداة الصوت أو الترجمة تلقائيًا.</Label>
         <Field p={p} label="رابط YouTube" value={videoUrl} onChangeText={v=>changedVideo(()=>setVideoUrl(v))} maxLength={2048} editable={!busy} placeholder="https://www.youtube.com/watch?v=…" />
-        <Field p={p} label="عنوان المصدر" value={videoTitle} onChangeText={v=>changedVideo(()=>setVideoTitle(v))} maxLength={160} editable={!busy} />
         <Button p={p} title="اختيار ملف تفريغ" tone="secondary" disabled={busy} onPress={()=>void pickTranscript()} />
         <Field p={p} label="نص التفريغ" multiline value={transcript} onChangeText={v=>changedVideo(()=>setTranscript(v))} editable={!busy} maxLength={1000000} placeholder="الصق التفريغ هنا، أو اختر ملف SRT / VTT" />
-        <View style={{flexDirection:arabicRow,flexWrap:'wrap',gap:8}}>
-          {([['text','نص عادي'],['srt','SRT'],['vtt','VTT']] as [TranscriptFormat,string][]).map(([kind,label])=><Button p={p} key={kind} title={label} tone={format === kind ? 'primary' : 'secondary'} compact disabled={busy} onPress={()=>changedVideo(()=>setFormat(kind))} />)}
-        </View>
+        <Label p={p} size={12} color={p.muted}>{format === 'auto' ? 'نتعرّف على النص وSRT وVTT تلقائيًا. راجع التوقيتات في المعاينة.' : `صيغة محددة: ${format === 'text' ? 'نص عادي' : format.toUpperCase()}`}</Label>
+        <Button p={p} title={showVideoOptions ? 'إخفاء خيارات التفريغ' : 'خيارات التفريغ'} tone="plain" selected={showVideoOptions} onPress={()=>setShowVideoOptions(value=>!value)} />
+        {showVideoOptions && <View style={{gap:12}}>
+          <Field p={p} label="عنوان المصدر" value={videoTitle} onChangeText={v=>changedVideo(()=>setVideoTitle(v))} maxLength={160} editable={!busy} />
+          <View style={{flexDirection:arabicRow,flexWrap:'wrap',gap:8}}>
+            {([['auto','تلقائي'],['text','نص عادي'],['srt','SRT'],['vtt','VTT']] as [FormatChoice,string][]).map(([kind,label])=><Button p={p} key={kind} title={label} tone={format === kind ? 'primary' : 'secondary'} selected={format === kind} compact disabled={busy} onPress={()=>changedVideo(()=>setFormat(kind))} />)}
+          </View>
+        </View>}
         <Button p={p} title="معاينة التفريغ" disabled={busy} onPress={makeVideoPreview} />
         <Button p={p} title="فتح الفيديو في YouTube" tone="plain" disabled={!parseYouTubeUrl(videoUrl)} onPress={()=>void openVideo(videoUrl.trim())} />
       </Panel>

@@ -1,0 +1,489 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+FAIL iOS tests/ai-workspace.ui.test.jsx
+  ● official model setup explains its size and never opens a download automatically
+
+    expect(received).toBeNull()
+
+    Received: <Text allowFontScaling={true} style={[{"color": "#111214", "fontSize": 14, "fontWeight": "400", "lineHeight": 21, "textAlign": "right", "writingDirection": "rtl"}, undefined]}>Qwen3-0.6B-Q8_0.gguf</Text>
+
+      13 | test('official model setup explains its size and never opens a download automatically',async()=>{
+      14 |  await render(<AIWorkspace {...props()}/>);
+    > 15 |  expect(screen.queryByText('Qwen3-0.6B-Q8_0.gguf')).toBeNull();
+         |                                                     ^
+      16 |  await fireEvent.press(screen.getByRole('button',{name:'أحتاج النموذج المرجعي'}));
+      17 |  expect(screen.getByText('Qwen3-0.6B-Q8_0.gguf')).toBeTruthy();
+      18 |  expect(screen.getByText(/639 MB \(610 MiB\)/)).toBeTruthy();
+
+      at Object.toBeNull (tests/ai-workspace.ui.test.jsx:15:53)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● download button opens only the exact pinned official model URL
+
+    Unable to find an element with role: button, name: أحتاج النموذج المرجعي
+
+    [36m<View>[39m
+      [36m<Text[39m
+        [33maccessibilityRole[39m=[32m"header"[39m
+      [36m>[39m
+        [0mمساعد الدراسة المحلي[0m
+      [36m</Text>[39m
+      [36m<Text>[39m
+        [0mاختر مقتطفًا ثم حمّل نموذجك من الملفات. يعمل التوليد على CPU داخل الجهاز، دون إرسال نصك لخادم. تشغيله في Expo Go تجريبي وقد يوقفه النظام إذا لم تكفِ الذاكرة.[0m
+      [36m</Text>[39m
+      [36m<View>[39m
+        [36m<Text[39m
+          [33maccessibilityRole[39m=[32m"header"[39m
+        [36m>[39m
+          [0mتجهيز النموذج من الملفات[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mQwen3-0.6B-Q8_0.gguf[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mالنموذج الرسمي من Qwen · ترخيص [0m
+          [0mApache-2.0[0m
+          [0m · نحو 639 MB (610 MiB). التنزيل قد يستهلك باقة الإنترنت.[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mالملف غير مضمّن في التطبيق ولا يُنزّل تلقائيًا. افتح الرابط في المتصفح، واحفظ النموذج في «الملفات»، ثم عد واختره داخل المحرك المحلي.[0m
+        [36m</Text>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح تنزيل النموذج الرسمي"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mفتح تنزيل النموذج الرسمي[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0mالبحث عن مصدر محفوظ[0m
+          [36m</Text>[39m
+          [36m<TextInput[39m
+            [33maccessibilityLabel[39m=[32m"البحث عن مصدر محفوظ"[39m
+            [33meditable[39m=[32m{true}[39m
+            [33mvalue[39m=[32m""[39m
+          [36m/>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"استخدام: التعلّم"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mاستخدام: التعلّم[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<Text>[39m
+          [0mيمكنك أيضًا لصق مقطع من PDF أو تفريغ YouTube. يظل النص الكامل محفوظًا في ملاحظتك؛ اختر الجزء الذي تريد دراسته هنا.[0m
+        [36m</Text>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0mالنص المصدري للمساعد[0m
+          [36m</Text>[39m
+          [36m<TextInput[39m
+            [33maccessibilityLabel[39m=[32m"النص المصدري للمساعد"[39m
+            [33meditable[39m=[32m{true}[39m
+            [33mvalue[39m=[32m""[39m
+          [36m/>[39m
+        [36m</View>[39m
+        [36m<Text>[39m
+          [0m0[0m
+          [0m / 1600 حرف[0m
+        [36m</Text>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح المحرك المحلي"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mفتح المحرك المحلي[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</View>[39m
+
+      22 | test('download button opens only the exact pinned official model URL',async()=>{
+      23 |  const p=props();await render(<AIWorkspace {...p}/>);
+    > 24 |  await fireEvent.press(screen.getByRole('button',{name:'أحتاج النموذج المرجعي'}));
+         |                               ^
+      25 |  await fireEvent.press(screen.getByRole('button',{name:'فتح تنزيل النموذج الرسمي'}));
+      26 |  expect(Linking.openURL).toHaveBeenCalledTimes(1);
+      27 |  expect(Linking.openURL).toHaveBeenCalledWith('https://huggingface.co/Qwen/Qwen3-0.6B-GGUF/resolve/23749fefcc72300e3a2ad315e1317431b06b590a/Qwen3-0.6B-Q8_0.gguf?download=true');
+
+      at Object.getByRole (tests/ai-workspace.ui.test.jsx:24:31)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● a failed browser launch displays an actionable error without changing the source
+
+    Unable to find an element with role: button, name: أحتاج النموذج المرجعي
+
+    [36m<View>[39m
+      [36m<Text[39m
+        [33maccessibilityRole[39m=[32m"header"[39m
+      [36m>[39m
+        [0mمساعد الدراسة المحلي[0m
+      [36m</Text>[39m
+      [36m<Text>[39m
+        [0mاختر مقتطفًا ثم حمّل نموذجك من الملفات. يعمل التوليد على CPU داخل الجهاز، دون إرسال نصك لخادم. تشغيله في Expo Go تجريبي وقد يوقفه النظام إذا لم تكفِ الذاكرة.[0m
+      [36m</Text>[39m
+      [36m<View>[39m
+        [36m<Text[39m
+          [33maccessibilityRole[39m=[32m"header"[39m
+        [36m>[39m
+          [0mتجهيز النموذج من الملفات[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mQwen3-0.6B-Q8_0.gguf[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mالنموذج الرسمي من Qwen · ترخيص [0m
+          [0mApache-2.0[0m
+          [0m · نحو 639 MB (610 MiB). التنزيل قد يستهلك باقة الإنترنت.[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mالملف غير مضمّن في التطبيق ولا يُنزّل تلقائيًا. افتح الرابط في المتصفح، واحفظ النموذج في «الملفات»، ثم عد واختره داخل المحرك المحلي.[0m
+        [36m</Text>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح تنزيل النموذج الرسمي"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mفتح تنزيل النموذج الرسمي[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0mالبحث عن مصدر محفوظ[0m
+          [36m</Text>[39m
+          [36m<TextInput[39m
+            [33maccessibilityLabel[39m=[32m"البحث عن مصدر محفوظ"[39m
+            [33meditable[39m=[32m{true}[39m
+            [33mvalue[39m=[32m""[39m
+          [36m/>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"استخدام: التعلّم"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mاستخدام: التعلّم[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<Text>[39m
+          [0mيمكنك أيضًا لصق مقطع من PDF أو تفريغ YouTube. يظل النص الكامل محفوظًا في ملاحظتك؛ اختر الجزء الذي تريد دراسته هنا.[0m
+        [36m</Text>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0mالنص المصدري للمساعد[0m
+          [36m</Text>[39m
+          [36m<TextInput[39m
+            [33maccessibilityLabel[39m=[32m"النص المصدري للمساعد"[39m
+            [33meditable[39m=[32m{true}[39m
+            [33mvalue[39m=[32m"المراجعة المتباعدة توزع جلسات المراجعة على فترات زمنية وتساعد على استرجاع المعلومات."[39m
+          [36m/>[39m
+        [36m</View>[39m
+        [36m<Text>[39m
+          [0m84[0m
+          [0m / 1600 حرف[0m
+        [36m</Text>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح المحرك المحلي"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mفتح المحرك المحلي[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</View>[39m
+
+      33 |  await render(<AIWorkspace {...props()}/>);
+      34 |  await fireEvent.changeText(screen.getByLabelText('النص المصدري للمساعد'),text);
+    > 35 |  await fireEvent.press(screen.getByRole('button',{name:'أحتاج النموذج المرجعي'}));
+         |                               ^
+      36 |  await fireEvent.press(screen.getByRole('button',{name:'فتح تنزيل النموذج الرسمي'}));
+      37 |  expect(await screen.findByText('تعذّر فتح رابط النموذج. حاول مجددًا بعد التأكد من اتصال الإنترنت.')).toBeTruthy();
+      38 |  expect(screen.getByLabelText('النص المصدري للمساعد').props.value).toBe(text);
+
+      at Object.getByRole (tests/ai-workspace.ui.test.jsx:35:31)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● model preparation choices preserve the study source and expose their selected state
+
+    Unable to find an element with role: button, name: لدي نموذج GGUF
+
+    [36m<View>[39m
+      [36m<Text[39m
+        [33maccessibilityRole[39m=[32m"header"[39m
+      [36m>[39m
+        [0mمساعد الدراسة المحلي[0m
+      [36m</Text>[39m
+      [36m<Text>[39m
+        [0mاختر مقتطفًا ثم حمّل نموذجك من الملفات. يعمل التوليد على CPU داخل الجهاز، دون إرسال نصك لخادم. تشغيله في Expo Go تجريبي وقد يوقفه النظام إذا لم تكفِ الذاكرة.[0m
+      [36m</Text>[39m
+      [36m<View>[39m
+        [36m<Text[39m
+          [33maccessibilityRole[39m=[32m"header"[39m
+        [36m>[39m
+          [0mتجهيز النموذج من الملفات[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mQwen3-0.6B-Q8_0.gguf[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mالنموذج الرسمي من Qwen · ترخيص [0m
+          [0mApache-2.0[0m
+          [0m · نحو 639 MB (610 MiB). التنزيل قد يستهلك باقة الإنترنت.[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mالملف غير مضمّن في التطبيق ولا يُنزّل تلقائيًا. افتح الرابط في المتصفح، واحفظ النموذج في «الملفات»، ثم عد واختره داخل المحرك المحلي.[0m
+        [36m</Text>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح تنزيل النموذج الرسمي"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mفتح تنزيل النموذج الرسمي[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0mالبحث عن مصدر محفوظ[0m
+          [36m</Text>[39m
+          [36m<TextInput[39m
+            [33maccessibilityLabel[39m=[32m"البحث عن مصدر محفوظ"[39m
+            [33meditable[39m=[32m{true}[39m
+            [33mvalue[39m=[32m""[39m
+          [36m/>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"استخدام: التعلّم"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mاستخدام: التعلّم[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<Text>[39m
+          [0mيمكنك أيضًا لصق مقطع من PDF أو تفريغ YouTube. يظل النص الكامل محفوظًا في ملاحظتك؛ اختر الجزء الذي تريد دراسته هنا.[0m
+        [36m</Text>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0mالنص المصدري للمساعد[0m
+          [36m</Text>[39m
+          [36m<TextInput[39m
+            [33maccessibilityLabel[39m=[32m"النص المصدري للمساعد"[39m
+            [33meditable[39m=[32m{true}[39m
+            [33mvalue[39m=[32m"المراجعة المتباعدة توزع جلسات المراجعة على فترات زمنية وتساعد على استرجاع المعلومات."[39m
+          [36m/>[39m
+        [36m</View>[39m
+        [36m<Text>[39m
+          [0m84[0m
+          [0m / 1600 حرف[0m
+        [36m</Text>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح المحرك المحلي"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mفتح المحرك المحلي[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</View>[39m
+
+      80 |  await render(<AIWorkspace {...props()}/>);
+      81 |  await fireEvent.changeText(screen.getByLabelText('النص المصدري للمساعد'),text);
+    > 82 |  expect(screen.getByRole('button',{name:'لدي نموذج GGUF'}).props.accessibilityState.selected).toBe(true);
+         |                ^
+      83 |  await fireEvent.press(screen.getByRole('button',{name:'أحتاج النموذج المرجعي'}));
+      84 |  expect(screen.getByRole('button',{name:'أحتاج النموذج المرجعي'}).props.accessibilityState.selected).toBe(true);
+      85 |  expect(screen.getByRole('button',{name:'فتح تنزيل النموذج الرسمي'})).toBeTruthy();
+
+      at Object.getByRole (tests/ai-workspace.ui.test.jsx:82:16)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● a ready sample fills only the draft source without opening a model or saving study data
+
+    Unable to find an element with role: button, name: تجربة بمثال قصير
+
+    [36m<View>[39m
+      [36m<Text[39m
+        [33maccessibilityRole[39m=[32m"header"[39m
+      [36m>[39m
+        [0mمساعد الدراسة المحلي[0m
+      [36m</Text>[39m
+      [36m<Text>[39m
+        [0mاختر مقتطفًا ثم حمّل نموذجك من الملفات. يعمل التوليد على CPU داخل الجهاز، دون إرسال نصك لخادم. تشغيله في Expo Go تجريبي وقد يوقفه النظام إذا لم تكفِ الذاكرة.[0m
+      [36m</Text>[39m
+      [36m<View>[39m
+        [36m<Text[39m
+          [33maccessibilityRole[39m=[32m"header"[39m
+        [36m>[39m
+          [0mتجهيز النموذج من الملفات[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mQwen3-0.6B-Q8_0.gguf[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mالنموذج الرسمي من Qwen · ترخيص [0m
+          [0mApache-2.0[0m
+          [0m · نحو 639 MB (610 MiB). التنزيل قد يستهلك باقة الإنترنت.[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mالملف غير مضمّن في التطبيق ولا يُنزّل تلقائيًا. افتح الرابط في المتصفح، واحفظ النموذج في «الملفات»، ثم عد واختره داخل المحرك المحلي.[0m
+        [36m</Text>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح تنزيل النموذج الرسمي"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mفتح تنزيل النموذج الرسمي[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0mالبحث عن مصدر محفوظ[0m
+          [36m</Text>[39m
+          [36m<TextInput[39m
+            [33maccessibilityLabel[39m=[32m"البحث عن مصدر محفوظ"[39m
+            [33meditable[39m=[32m{true}[39m
+            [33mvalue[39m=[32m""[39m
+          [36m/>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"استخدام: التعلّم"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mاستخدام: التعلّم[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<Text>[39m
+          [0mيمكنك أيضًا لصق مقطع من PDF أو تفريغ YouTube. يظل النص الكامل محفوظًا في ملاحظتك؛ اختر الجزء الذي تريد دراسته هنا.[0m
+        [36m</Text>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0mالنص المصدري للمساعد[0m
+          [36m</Text>[39m
+          [36m<TextInput[39m
+            [33maccessibilityLabel[39m=[32m"النص المصدري للمساعد"[39m
+            [33meditable[39m=[32m{true}[39m
+            [33mvalue[39m=[32m""[39m
+          [36m/>[39m
+        [36m</View>[39m
+        [36m<Text>[39m
+          [0m0[0m
+          [0m / 1600 حرف[0m
+        [36m</Text>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح المحرك المحلي"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mفتح المحرك المحلي[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</View>[39m
+
+      92 | test('a ready sample fills only the draft source without opening a model or saving study data',async()=>{
+      93 |  const p=props();await render(<AIWorkspace {...p}/>);
+    > 94 |  await fireEvent.press(screen.getByRole('button',{name:'تجربة بمثال قصير'}));
+         |                               ^
+      95 |  expect(screen.getByLabelText('النص المصدري للمساعد').props.value).toMatch(/المراجعة المتباعدة/);
+      96 |  expect(screen.getByLabelText('النص المصدري للمساعد').props.value.length).toBeGreaterThanOrEqual(30);
+      97 |  expect(screen.queryByRole('button',{name:'إغلاق المحرك وتحرير الذاكرة'})).toBeNull();
+
+      at Object.getByRole (tests/ai-workspace.ui.test.jsx:94:31)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 1 failed, 1 total
+Tests:       5 failed, 3 passed, 8 total
+Snapshots:   0 total
+Time:        0.912 s
+Ran all test suites matching tests/ai-workspace.ui.test.jsx.

@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { Linking, View } from 'react-native';
-import { Button, Field, Label, Palette, Panel } from './ui';
+import { arabicRow, Button, Field, Label, Palette, Panel } from './ui';
 import type { Note } from './types';
 import type { LocalAIDraft } from './ai/contracts';
 import { OFFICIAL_MODEL } from './ai/contracts';
@@ -22,6 +22,7 @@ export function AIWorkspace({p,notes,onDraft}:Props) {
   const [result,setResult] = useState<LocalAIDraft|null>(null);
   const [error,setError] = useState('');
   const [downloadError,setDownloadError] = useState('');
+  const [modelSetup,setModelSetup] = useState<'file'|'reference'>('file');
   // Deliberately do not import the embedded WASM/HTML until the student opts in.
   const Engine = running ? require('./ai/LocalAILab').LocalAILab : null;
   function changeSource(text:string,title=sourceTitle) { setSourceText(text);setSourceTitle(title);setResult(null);setError(''); }
@@ -45,16 +46,24 @@ export function AIWorkspace({p,notes,onDraft}:Props) {
   }
   return <View style={{gap:16}}>
     <Label p={p} size={28} weight="800" role="header">مساعد الدراسة المحلي</Label>
-    <Label p={p} color={p.muted}>اختر مقتطفًا ثم حمّل نموذجك من الملفات. يعمل التوليد على CPU داخل الجهاز، دون إرسال نصك لخادم. تشغيله في Expo Go تجريبي وقد يوقفه النظام إذا لم تكفِ الذاكرة.</Label>
+    <Label p={p} color={p.muted}>حوّل مقطعًا قصيرًا إلى مسودة سؤال وإجابة على جهازك. تشغيل النموذج في Expo Go تجريبي، ويحتاج ملفًا محفوظًا؛ لم يُختبر على آيفونك بعد.</Label>
     {!running && <Panel p={p}>
-      <Label p={p} weight="700" role="header">تجهيز النموذج من الملفات</Label>
-      <Label p={p} size={14}>{OFFICIAL_MODEL.name}</Label>
-      <Label p={p} size={13} color={p.muted}>النموذج الرسمي من Qwen · ترخيص {OFFICIAL_MODEL.license} · نحو 639 MB (610 MiB). التنزيل قد يستهلك باقة الإنترنت.</Label>
-      <Label p={p} size={13} color={p.muted}>الملف غير مضمّن في التطبيق ولا يُنزّل تلقائيًا. افتح الرابط في المتصفح، واحفظ النموذج في «الملفات»، ثم عد واختره داخل المحرك المحلي.</Label>
-      <Button p={p} title="فتح تنزيل النموذج الرسمي" tone="secondary" onPress={()=>void openModelDownload()} />
-      {!!downloadError && <Label p={p} color={p.danger} role="alert">{downloadError}</Label>}
+      <Label p={p} weight="700" role="header">تجهيز النموذج</Label>
+      <View style={{flexDirection:arabicRow,flexWrap:'wrap',gap:8}}>
+        <Button p={p} title="لدي نموذج GGUF" tone={modelSetup==='file'?'primary':'secondary'} selected={modelSetup==='file'} onPress={()=>setModelSetup('file')} />
+        <Button p={p} title="أحتاج النموذج المرجعي" tone={modelSetup==='reference'?'primary':'secondary'} selected={modelSetup==='reference'} onPress={()=>setModelSetup('reference')} />
+      </View>
+      {modelSetup==='file' ? <Label p={p} size={13} color={p.muted}>اختر المصدر أدناه وافتح المحرك، ثم اختر ملف النموذج. يمكنك تبديل ملف GGUF داخل المحرك؛ دعم الملفات الأخرى والعربية غير مضمون.</Label> : <>
+        <Label p={p} size={14}>{OFFICIAL_MODEL.name}</Label>
+        <Label p={p} size={13} color={p.muted}>النموذج الرسمي من Qwen · ترخيص {OFFICIAL_MODEL.license} · نحو 639 MB (610 MiB). التنزيل قد يستهلك باقة الإنترنت.</Label>
+        <Label p={p} size={13} color={p.muted}>الملف غير مضمّن في التطبيق ولا يُنزّل تلقائيًا. احفظه من المتصفح في «على الـ iPhone»، ثم عد واختره من المحرك. وجود الملف في iCloud قد يتطلب تنزيله أولًا.</Label>
+        <Button p={p} title="فتح تنزيل النموذج الرسمي" tone="secondary" onPress={()=>void openModelDownload()} />
+        {!!downloadError && <Label p={p} color={p.danger} role="alert">{downloadError}</Label>}
+      </>}
     </Panel>}
     {!running && <Panel p={p}>
+      <Label p={p} weight="700" role="header">المصدر الذي تريد دراسته</Label>
+      {!sourceText.trim() && <Button p={p} title="تجربة بمثال قصير" tone="secondary" onPress={()=>{setSelectedNote(null);setChunkPage(0);changeSource('المراجعة المتباعدة توزع جلسات التعلم على فترات زمنية. يساعد استرجاع المعلومة قبل كشف الإجابة على تدريب الذاكرة. ويمكن ربط الملاحظات المتشابهة لفهم العلاقة بين الأفكار.','مثال تجريبي');}} />}
       <Field p={p} label="البحث عن مصدر محفوظ" value={query} onChangeText={setQuery} />
       {notes.filter(n=>matchesSearch(n.title,n.body,query)).slice(0,5).map(n=><Button key={n.id} p={p} tone="secondary" title={`استخدام: ${n.title}`} onPress={()=>{setSelectedNote(n);setChunkPage(0);changeSource(n.body,n.title);}} />)}
       <Label p={p} size={13} color={p.muted}>يمكنك أيضًا لصق مقطع من PDF أو تفريغ YouTube. يظل النص الكامل محفوظًا في ملاحظتك؛ اختر الجزء الذي تريد دراسته هنا.</Label>
@@ -67,7 +76,7 @@ export function AIWorkspace({p,notes,onDraft}:Props) {
       </View>}
       <Field p={p} label="النص المصدري للمساعد" value={sourceText} onChangeText={text=>changeSource(text,'نص مختار')} multiline />
       <Label p={p} size={12} color={p.muted}>{sourceText.trim().length} / 1600 حرف</Label>
-      {!!error && <Label p={p} color={p.danger}>{error}</Label>}
+      {!!error && <Label p={p} color={p.danger} role="alert">{error}</Label>}
       <Button p={p} title="فتح المحرك المحلي" onPress={start} />
     </Panel>}
     {running && <Panel p={p}>

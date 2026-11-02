@@ -3,7 +3,7 @@
     "name": "رُسوخ",
     "slug": "rusukh-ios",
     "scheme": "rusukh",
-    "version": "0.4.2",
+    "version": "0.5.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
@@ -44,7 +44,7 @@
       "expo-asset"
     ],
     "extra": {
-      "appVersion": "0.4.2"
+      "appVersion": "0.5.0"
     }
   }
 }

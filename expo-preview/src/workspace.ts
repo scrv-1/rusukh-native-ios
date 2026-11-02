@@ -20,6 +20,14 @@ export const defaultWorkspace = (): Workspace => ({
   modules: MODULES.map(m => ({ id: m.id, enabled: m.id === 'review' || m.id === 'notes' })),
 });
 
+/** Presets replace presentation only; callers still explicitly save or cancel. */
+export function workspacePreset(id: 'simple' | 'reading' | 'all'): Workspace {
+  if (id === 'simple') return defaultWorkspace();
+  const order: ModuleId[] = id === 'reading' ? ['notes', 'sources', 'graph', 'review', 'quiz', 'ai'] : MODULES.map(m => m.id);
+  return { version: 1, density: id === 'all' ? 'compact' : 'comfortable',
+    modules: order.map(module => ({ id: module, enabled: id === 'all' || ['notes', 'sources', 'graph'].includes(module) })) };
+}
+
 export function readWorkspace(raw: string | null): Workspace {
   const fallback = defaultWorkspace();
   if (!raw || raw.length > 10000) return fallback;

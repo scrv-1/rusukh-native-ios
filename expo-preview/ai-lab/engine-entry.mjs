@@ -11,6 +11,7 @@ let modelName = '';
 let phase = 'idle';
 let abort = null;
 let operation = 0;
+let selection = 0;
 let requestId = '';
 let draft = null;
 let startedAt = 0;
@@ -74,8 +75,9 @@ const selectedFilesOnlyCache = new CacheManager([{
   write: async () => { throw new Error('Model caching is disabled; select a local GGUF file.'); },
 }]);
 
-async function unload(message = 'أُفرغ النموذج من الذاكرة. اختر ملف GGUF لبدء جلسة جديدة.') {
+async function unload(message = 'أُفرغ النموذج من الذاكرة. اختر ملف GGUF لبدء جلسة جديدة.', preserveSelection = false) {
   const token = ++operation;
+  if (!preserveSelection) selection++;
   clearTimer();
   abort?.abort();
   abort = null;
@@ -95,15 +97,18 @@ async function unload(message = 'أُفرغ النموذج من الذاكرة. 
 }
 
 async function loadModel(blob, name) {
-  const cleanupToken = await unload('جارٍ تجهيز المحرك المحلي…');
-  if (cleanupToken !== operation) return;
-  const token = ++operation;
+  // Reject an invalid size/header before disposing a usable model or draft.
+  // Passing this preflight does not guarantee that the runtime can load the GGUF.
+  const candidate = ++selection;
   if (!(blob instanceof Blob) || blob.size < 16 || blob.size > MAX_MODEL_BYTES) throw new Error('اختر نموذج GGUF لا يتجاوز 768 ميبيبايت.');
   let header;
   try { header = new Uint8Array(await blob.slice(0, 4).arrayBuffer()); }
-  catch (error) { if (token === operation) throw error; return; }
-  if (token !== operation) return;
+  catch (error) { if (candidate === selection) throw error; return; }
+  if (candidate !== selection) return;
   if (String.fromCharCode(...header) !== 'GGUF') throw new Error('هذا الملف ليس نموذج GGUF.');
+  const cleanupToken = await unload('جارٍ تجهيز المحرك المحلي…', true);
+  if (cleanupToken !== operation || candidate !== selection) return;
+  const token = ++operation;
   selectedModel = blob;
   modelName = String(name).slice(0, 160);
   startedAt = performance.now();
@@ -133,8 +138,8 @@ async function loadModel(blob, name) {
   } catch (error) {
     if (token !== operation) return;
     clearTimer();
-    const failedOperation = await unload();
-    if (failedOperation === operation) throw error;
+    const failedOperation = await unload(undefined, true);
+    if (failedOperation === operation && candidate === selection) throw error;
   }
 }
 
@@ -142,6 +147,9 @@ async function generate(smoke = false) {
   if (!engine?.isModelLoaded() || phase === 'generating' || phase === 'loading') return;
   const source = smoke ? '' : boundSource($('source').value);
   const responseFormat = smoke ? null : studyResponseFormat(source);
+  // A newer generation owns the active model; a slow previous file selection
+  // may neither unload it nor report a selection error over its busy controls.
+  selection++;
   const token = ++operation;
   const runtime = engine;
   const sourceRequest = requestId;
@@ -190,7 +198,18 @@ window.RusukhAI = {
   },
 };
 $('source').maxLength = MAX_SOURCE_CHARACTERS;
-$('model').addEventListener('change', event => { const file = event.target.files?.[0]; if (file) void loadModel(file, file.name).catch(fail); });
+$('model').addEventListener('change', event => {
+  const file = event.target.files?.[0];
+  if (!file) return;
+  const loading = loadModel(file, file.name);
+  const candidate = selection;
+  void loading.catch(error => {
+    if (candidate !== selection) return;
+    const message = error instanceof Error ? error.message : String(error);
+    if (engine?.isModelLoaded()) status(phase, `${message.slice(0, 500)} النموذج السابق ما زال محمّلًا.`);
+    else fail(error);
+  });
+});
 $('generate').addEventListener('click', () => void generate().catch(fail));
 $('smoke').addEventListener('click', () => void generate(true).catch(fail));
 $('cancel').addEventListener('click', () => void unload('أوقفت العملية وأفرغنا النموذج. أعد اختيار الملف للبدء.'));

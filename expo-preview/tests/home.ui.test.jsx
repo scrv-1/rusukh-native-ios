@@ -71,3 +71,23 @@ test('muted text keeps WCAG normal-text contrast on every light content surface'
     expect((Math.max(a, b) + .05) / (Math.min(a, b) + .05)).toBeGreaterThanOrEqual(4.5);
   }
 });
+
+test('capture and search are reachable before every home module', async () => {
+  const value = props(); await render(<StudyHome {...value} />);
+  const names = screen.getAllByRole('button').map(row => row.props.accessibilityLabel);
+  for (const name of ['ملاحظة جديدة', 'إضافة مصدر', 'البحث في ملاحظاتي']) {
+    expect(names.indexOf(name)).toBeGreaterThanOrEqual(0);
+    expect(names.indexOf(name)).toBeLessThan(names.indexOf('ابدأ المراجعة'));
+  }
+  await fireEvent.press(screen.getByRole('button', { name: 'إضافة مصدر' }));
+  expect(value.onModule).toHaveBeenCalledWith('sources');
+  await fireEvent.press(screen.getByRole('button', { name: 'البحث في ملاحظاتي' }));
+  expect(value.onModule).toHaveBeenCalledWith('notes');
+});
+
+test('empty review offers card creation path instead of starting an empty session', async () => {
+  const value = props({ cardsCount: 0, dueCount: 0 }); await render(<StudyHome {...value} />);
+  expect(screen.queryByRole('button', { name: 'ابدأ المراجعة' })).toBeNull();
+  await fireEvent.press(screen.getByRole('button', { name: 'أضف بطاقات من ملاحظاتك' }));
+  expect(value.onModule).toHaveBeenCalledWith('notes');
+});

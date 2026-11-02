@@ -6,7 +6,7 @@
   "mode": "CPU/single-thread/Asyncify",
   "wasmBytes": 16005007,
   "wasmSHA256": "2db3f67d0bcc19cdf8f14f129e46cab691bff898954808f8a2dc4c586eb5bb68",
-  "nativeHTMLBytes": 21853419,
-  "nativeHTMLSHA256": "4fdc0f15534de4bd1a959634563bd299a12dcb7260c163e6e659739913ab223a",
-  "diagnosticHTMLBytes": 21853418
+  "nativeHTMLBytes": 21853775,
+  "nativeHTMLSHA256": "00f1de9bb4db7f0dcd20ab93b68c031937ec1ea267ce33eb605cdeb7718f288d",
+  "diagnosticHTMLBytes": 21853774
 }

@@ -43,8 +43,16 @@ export function StudyHome({ p, workspace, notes, cardsCount, dueCount, todayRevi
       <Label p={p} size={15} color={p.muted}>خطوة صغيرة اليوم. تعلّم يبقى.</Label>
     </View>
 
-    <View style={{ flexDirection: stacked ? 'column' : arabicRow, flexWrap: 'wrap', gap: 8 }}>
-      <Button title="تخصيص مساحتي" p={p} tone="secondary" icon="slider.horizontal.3" onPress={onCustomize} />
+    <View style={{ gap: 8 }}>
+      <View style={{ flexDirection: stacked ? 'column' : arabicRow, gap: 8 }}>
+        <Button title="ملاحظة جديدة" p={p} icon="square.and.pencil" onPress={onNewNote} style={{ flex: 1 }} />
+        <Button title="إضافة مصدر" p={p} tone="secondary" icon="doc.text" onPress={() => onModule('sources')} style={{ flex: 1 }} />
+      </View>
+      <Button title="البحث في ملاحظاتي" p={p} tone="secondary" icon="magnifyingglass" onPress={() => onModule('notes')} />
+    </View>
+
+    <View style={{ flexDirection: arabicRow, flexWrap: 'wrap', gap: 8 }}>
+      <Button title="تخصيص مساحتي" p={p} tone="plain" icon="slider.horizontal.3" onPress={onCustomize} />
       <Button title="كل الأدوات" p={p} tone="plain" onPress={onTools} />
     </View>
 
@@ -84,15 +92,14 @@ export function StudyHome({ p, workspace, notes, cardsCount, dueCount, todayRevi
         </Pressable>)}
 
         {item.id === 'notes' && notes.length === 0 && <Label p={p} size={14} color={p.muted}>
-          ابدأ بفكرة أو ملخّص قصير. أضف ملاحظتك الأولى من الزر أسفل الصفحة.
+          ابدأ بفكرة قصيرة أو أضف مصدرًا. يمكنك إنشاء بطاقات من داخل الملاحظة.
         </Label>}
 
-        <Button p={p} title={item.id === 'review' ? 'ابدأ المراجعة' : item.id === 'quiz' ? 'ابدأ الاختبار' : `فتح ${module.title}`}
-          tone={item.id === 'review' ? 'primary' : 'secondary'} onPress={() => onModule(item.id)} />
+        <Button p={p} title={item.id === 'review' ? (dueCount > 0 ? 'ابدأ المراجعة' : cardsCount > 0 ? 'عرض بطاقاتي' : 'أضف بطاقات من ملاحظاتك') : item.id === 'notes' && notes.length === 0 ? 'إضافة أول ملاحظة' : item.id === 'quiz' ? 'ابدأ الاختبار' : `فتح ${module.title}`}
+          tone={item.id === 'review' && dueCount > 0 ? 'primary' : 'secondary'} onPress={() => item.id === 'notes' && notes.length === 0 ? onNewNote() : onModule(item.id === 'review' && cardsCount === 0 ? 'notes' : item.id)} />
       </Panel>;
     })}
 
-    <Button p={p} title="ملاحظة جديدة" tone="secondary" icon="square.and.pencil" onPress={onNewNote} />
     <View style={{ flexDirection: arabicRow, alignItems: 'center', justifyContent: 'center', gap: 7, paddingBottom: 2 }}>
       <Icon name="internaldrive" p={p} size={14} color={p.muted} />
       <Label p={p} size={12} color={p.muted} style={{ flexShrink: 1 }}>محتواك محفوظ على جهازك. صدّر نسخة احتياطية من الإعدادات.</Label>

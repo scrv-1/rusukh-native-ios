@@ -1,0 +1,36 @@
+✔ worker failure during generation unloads immediately and rejects a late completion (10.636562ms)
+✔ worker failure while loading reports an error without waiting for the watchdog (3.389227ms)
+✔ late worker events from a disposed runtime cannot stop a new generation (4.39037ms)
+✔ delayed failed-runtime cleanup preserves a new generation and its WASM URL (6.352461ms)
+✔ a newer model selection supersedes a selection waiting for old-runtime cleanup (2.555572ms)
+✔ a rejected load does not publish a stale error after newer-runtime startup (2.131712ms)
+✔ superseded header reads cannot publish invalid-header or read errors over a newer generation (4.11565ms)
+✔ an invalid replacement keeps the loaded model available (2.52181ms)
+✔ an oversized replacement does not dispose a working model (1.710358ms)
+✔ a failed replacement header read preserves a working model (1.805174ms)
+✔ unload cancels a replacement still reading its header (3.585101ms)
+✔ a rejected replacement header cannot mark a newer generation ready or disable cancellation (5.702577ms)
+✔ a valid replacement header cannot cancel a generation started after its selection (2.227882ms)
+✔ the file change handler retains an unaccepted draft after preflight rejection (3.266828ms)
+✔ a replacement that passes preflight but fails runtime loading reports failure without promising rollback (2.345451ms)
+✔ accepts actual-model draft format with verbatim source evidence (2.200921ms)
+✔ rejects evidence fabricated by a model (0.601912ms)
+✔ rejects an incomplete or prose-wrapped model answer (0.248433ms)
+✔ source exceeding context budget is rejected, never silently truncated (0.222795ms)
+✔ source substitution on bridge is rejected (0.309186ms)
+✔ bridge revalidates model fields instead of trusting a JS result (0.239386ms)
+✔ English-only output is not accepted as Arabic study support (0.247922ms)
+✔ source instructions are encoded as data, not a system prompt (0.694744ms)
+✔ no empty output is mislabeled a useful generation (0.813817ms)
+✔ regression: real Qwen output copying the old evidence placeholder is rejected (0.667654ms)
+✔ constrained decoding permits only exact source sentences as evidence (0.458214ms)
+✔ oversized individual evidence is refused, not silently shortened (0.179113ms)
+✔ newline-delimited evidence does not silently lose the first sentence (0.775445ms)
+ℹ tests 28
+ℹ suites 0
+ℹ pass 28
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 280.421444

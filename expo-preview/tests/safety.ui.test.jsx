@@ -68,6 +68,14 @@ test('review answer stays hidden before reveal instead of leaking in card list',
   expect(screen.getByText('جواب')).toBeTruthy();
 });
 
+test('note title cannot reveal the answer before the student requests it', async()=>{
+  storage.readAll.mockResolvedValueOnce({notes:[{...mockNotes[0],title:'عنوان يكشف الجواب'}],cards:mockCards,reviews:[]});
+  await openApp(); await fireEvent.press(screen.getByRole('tab',{name:'المراجعة'}));
+  expect(screen.queryByText('عنوان يكشف الجواب')).toBeNull();
+  await fireEvent.press(screen.getByRole('button',{name:'إظهار الإجابة'}));
+  expect(screen.getByText('عنوان يكشف الجواب')).toBeTruthy();
+});
+
 test('closing a changed note asks before discarding', async()=>{
   await openApp(); await fireEvent.press(screen.getByRole('button',{name:'فتح التعلُّم النشط'}));
   await fireEvent.changeText(screen.getByLabelText('المحتوى'),'تعديل يجب ألا يضيع');

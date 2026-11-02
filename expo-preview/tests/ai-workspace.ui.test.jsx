@@ -12,6 +12,8 @@ beforeEach(()=>{jest.spyOn(Linking,'openURL').mockResolvedValue(undefined);});
 afterEach(()=>{jest.restoreAllMocks();});
 test('official model setup explains its size and never opens a download automatically',async()=>{
  await render(<AIWorkspace {...props()}/>);
+ expect(screen.queryByText('Qwen3-0.6B-Q8_0.gguf')).toBeNull();
+ await fireEvent.press(screen.getByRole('button',{name:'أحتاج النموذج المرجعي'}));
  expect(screen.getByText('Qwen3-0.6B-Q8_0.gguf')).toBeTruthy();
  expect(screen.getByText(/639 MB \(610 MiB\)/)).toBeTruthy();
  expect(screen.getByText(/غير مضمّن في التطبيق ولا يُنزّل تلقائيًا/)).toBeTruthy();
@@ -19,6 +21,7 @@ test('official model setup explains its size and never opens a download automati
 });
 test('download button opens only the exact pinned official model URL',async()=>{
  const p=props();await render(<AIWorkspace {...p}/>);
+ await fireEvent.press(screen.getByRole('button',{name:'أحتاج النموذج المرجعي'}));
  await fireEvent.press(screen.getByRole('button',{name:'فتح تنزيل النموذج الرسمي'}));
  expect(Linking.openURL).toHaveBeenCalledTimes(1);
  expect(Linking.openURL).toHaveBeenCalledWith('https://huggingface.co/Qwen/Qwen3-0.6B-GGUF/resolve/23749fefcc72300e3a2ad315e1317431b06b590a/Qwen3-0.6B-Q8_0.gguf?download=true');
@@ -29,6 +32,7 @@ test('a failed browser launch displays an actionable error without changing the 
  Linking.openURL.mockRejectedValueOnce(new Error('cannot open browser'));
  await render(<AIWorkspace {...props()}/>);
  await fireEvent.changeText(screen.getByLabelText('النص المصدري للمساعد'),text);
+ await fireEvent.press(screen.getByRole('button',{name:'أحتاج النموذج المرجعي'}));
  await fireEvent.press(screen.getByRole('button',{name:'فتح تنزيل النموذج الرسمي'}));
  expect(await screen.findByText('تعذّر فتح رابط النموذج. حاول مجددًا بعد التأكد من اتصال الإنترنت.')).toBeTruthy();
  expect(screen.getByLabelText('النص المصدري للمساعد').props.value).toBe(text);
@@ -69,4 +73,29 @@ test('metadata cannot inject additional flashcards into a reviewed AI draft',asy
  const {parseQuestionAnswer}=require('../src/core');
  expect(parseQuestionAnswer(p.onDraft.mock.calls[0][0].body)).toHaveLength(1);
  expect(p.onDraft.mock.calls[0][0].title).not.toMatch(/[\r\n]/);
+});
+
+
+test('model preparation choices preserve the study source and expose their selected state',async()=>{
+ await render(<AIWorkspace {...props()}/>);
+ await fireEvent.changeText(screen.getByLabelText('النص المصدري للمساعد'),text);
+ expect(screen.getByRole('button',{name:'لدي نموذج GGUF'}).props.accessibilityState.selected).toBe(true);
+ await fireEvent.press(screen.getByRole('button',{name:'أحتاج النموذج المرجعي'}));
+ expect(screen.getByRole('button',{name:'أحتاج النموذج المرجعي'}).props.accessibilityState.selected).toBe(true);
+ expect(screen.getByRole('button',{name:'فتح تنزيل النموذج الرسمي'})).toBeTruthy();
+ await fireEvent.press(screen.getByRole('button',{name:'لدي نموذج GGUF'}));
+ expect(screen.queryByRole('button',{name:'فتح تنزيل النموذج الرسمي'})).toBeNull();
+ expect(screen.getByLabelText('النص المصدري للمساعد').props.value).toBe(text);
+ expect(Linking.openURL).not.toHaveBeenCalled();
+});
+
+test('a ready sample fills only the draft source without opening a model or saving study data',async()=>{
+ const p=props();await render(<AIWorkspace {...p}/>);
+ await fireEvent.press(screen.getByRole('button',{name:'تجربة بمثال قصير'}));
+ expect(screen.getByLabelText('النص المصدري للمساعد').props.value).toMatch(/المراجعة المتباعدة/);
+ expect(screen.getByLabelText('النص المصدري للمساعد').props.value.length).toBeGreaterThanOrEqual(30);
+ expect(screen.queryByRole('button',{name:'إغلاق المحرك وتحرير الذاكرة'})).toBeNull();
+ expect(Linking.openURL).not.toHaveBeenCalled();
+ expect(p.onDraft).not.toHaveBeenCalled();
+ expect(p.notes[0].body).toBe(text);
 });

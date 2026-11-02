@@ -1,0 +1,6 @@
+{
+  "surface": "Existing visual-preview React Native Web harness, synthetic notes only",
+  "checks": ["390 light: create/source/search precede modules", "320 dark: labels wrap without horizontal clipping", "All sections preset shows6 switches", "Hide all+save exposes restore affordance", "Reading preset restores notes/sources/graph"],
+  "screenshots": ["home-web-390.jpg", "home-web-320-dark.jpg"],
+  "limits": "Browser frames are not iOS viewports. Web symbol fallbacks appear as dots. Does not verify Dynamic Type, native modal focus, VoiceOver, SQLite, Files or device execution."
+}
