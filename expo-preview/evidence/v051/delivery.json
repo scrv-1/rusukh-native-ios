@@ -1,0 +1,29 @@
+{
+  "version": "0.5.1",
+  "observedAtUTC": "2026-11-02T23:22:12.237363+00:00",
+  "branch": "work/expo-usability-20261103",
+  "testedProductCommit": "ad86e57de8a3a2cc80fc27d197b8420eec112d6d",
+  "previousCheckpoint": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+  "base": "work/expo-device-readiness-20261103",
+  "draftPR": "https://github.com/scrv-1/rusukh-native-ios/pull/9",
+  "sourceFilesVerified": 92,
+  "testCounts": {
+    "core": 111,
+    "ui": 208,
+    "ai": 28,
+    "total": 347
+  },
+  "audit": {
+    "independentFindings": 47,
+    "bugs": 16,
+    "gaps": 14,
+    "risks": 17,
+    "fixedVerified": 6,
+    "open": 41
+  },
+  "limits": [
+    "No physical iPhone test",
+    "No complete model-manager or unified source-to-study workflow",
+    "No SwiftUI build/installation or merge"
+  ]
+}

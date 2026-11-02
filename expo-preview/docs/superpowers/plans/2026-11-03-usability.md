@@ -50,7 +50,7 @@
 - [x] Verify 100 unique advice IDs and 50 distinct YouTube video URLs; label transcript versus metadata.
 - [x] Build concise decision register mapping actual implementation and outstanding work.
 - [x] Fresh reviewer audits branch and fixes; full release verification once final code is ready.
-- [ ] Apply verified patch to branch work/expo-usability-20261103 based on93f5adb; push draft PR.
+- [x] Apply verified patch to branch work/expo-usability-20261103 based on93f5adb; pushed and opened draft PR9.
 - [x] Verify live Expo manifest and iOS bundle and record actual current link (0.5.1; evidence/v051).
 
 ## Execution ledger
@@ -74,3 +74,5 @@ The user rejected a quota-driven list and requested an evidenced product audit. 
 - Local and remote source hashes match for92 files. Remote347 tests pass; typecheck, Expo compatibility, Doctor20/20, iOS909 modules, live0.5.1 manifest/bundle HTTP200.
 - Review baseline2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0 is the real Codespaces checkpoint. Audited SwiftUI93f5adb stays separate.
 - No iPhone trial, paid service, model/dependency addition, merge, or MacCI run performed.
+
+- Delivery: tested product commit ad86e57de8a3a2cc80fc27d197b8420eec112d6d pushed; draft PR9 opened at https://github.com/scrv-1/rusukh-native-ios/pull/9. Subsequent delivery metadata changes do not alter the92 tested source files.
