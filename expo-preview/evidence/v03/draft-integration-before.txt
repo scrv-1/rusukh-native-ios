@@ -1,0 +1,25 @@
+Observed command: npx jest tests/draft-integration.ui.test.jsx --runInBand
+Observed exit code: 1
+
+FAIL iOS tests/draft-integration.ui.test.jsx
+  ● opening manual-card editor after reverting a note clears the obsolete draft
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "null"
+    Received: "{\"editingId\":\"n1\",\"title\":\"التعلُّم النشط\",\"body\":\"تعديل قديم تم التراجع عنه\",\"updatedAt\":1793630948166,\"version\":1}"
+
+      167 |   await fireEvent.press(screen.getByRole('button',{name:'بطاقة يدوية للملاحظة'}));
+      168 |   await screen.findByLabelText('السؤال');
+    > 169 |   expect(mockSettings.get(NOTE_DRAFT_KEY)).toBe('null');
+          |                                            ^
+      170 | });
+      171 |
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 9 passed, 10 total
+Snapshots:   0 total
+Time:        1.859 s, estimated 2 s
+Ran all test suites matching tests/draft-integration.ui.test.jsx.
+
+This is the captured failure before the parent fixed App.tsx openCardEditor.

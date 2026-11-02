@@ -1,18 +1,20 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
-  ActivityIndicator, Alert, AppState, KeyboardAvoidingView, Modal, Platform, Pressable,
+  AccessibilityInfo, ActivityIndicator, Alert, AppState, FlatList, KeyboardAvoidingView, Modal, Platform, Pressable,
   ScrollView, StatusBar, TextInput, View,
 } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { File, Paths } from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import * as DocumentPicker from 'expo-document-picker';
-import { Button, Empty, Field, Icon, Label, Panel, Palette, dark, light } from './src/ui';
+import { arabicRow, Button, Empty, Field, Icon, Label, Panel, Palette, dark, light } from './src/ui';
 import { KnowledgeGraph } from './src/KnowledgeGraph';
+import { StudyHome } from './src/StudyHome';
+import { useNoteDraft } from './src/useNoteDraft';
 import { WorkspaceEditor } from './src/WorkspaceEditor';
 import { defaultWorkspace, MODULES, ModuleId, pinnedModules, readWorkspace, Workspace, WORKSPACE_KEY } from './src/workspace';
 import { markdownNote, matchesSearch, MAX_NOTE_CHARS, MAX_SOURCE_BYTES, prepareSource } from './src/sources';
-import { dueCards, graphEdges, makeId, makeQuiz, normalizeTitle, parseQuestionAnswer, validateBackup } from './src/core';
+import { dueCards, graphEdges, makeId, makeQuiz, normalizeTitle, parseQuestionAnswer, validateBackup, MAX_BACKUP_BYTES, serializeBackup, utf8ByteLength } from './src/core';
 import type { Backup, Note, StudyCard, ReviewEvent, Grade } from './src/types';
 import {
   Database, deleteCard, deleteNote, getSetting, makeBackup, openStorage,
@@ -47,7 +49,14 @@ function AppContent() {
   const [cardEditorNoteId, setCardEditorNoteId] = useState<string | null>(null);
   const [question, setQuestion] = useState('');
   const [answer, setAnswer] = useState('');
-  const [revealed, setRevealed] = useState(false);
+  const [revealedId, setRevealedId] = useState<string | null>(null);
+  const [showCards, setShowCards] = useState(false);
+  const [loadAttempt, setLoadAttempt] = useState(0);
+  const [dataStale, setDataStale] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(true);
+  const draft = useNoteDraft(db);
+  const draftTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const editorBaseline = useRef({title:'', body:''});
   const [quizData, setQuizData] = useState<ReturnType<typeof makeQuiz>>([]);
   const [quizIndex, setQuizIndex] = useState(0);
   const [quizSelected, setQuizSelected] = useState<string | null>(null);
@@ -71,20 +80,44 @@ function AppContent() {
 
   useEffect(() => {
     let active = true;
+    setBusy(true);
     (async () => {
       try {
-        const opened = await openStorage();
+        const opened = db ?? await openStorage();
         if (!active) return;
         const [data, mode, layout] = await Promise.all([readAll(opened), getSetting(opened, 'darkMode'), getSetting(opened, WORKSPACE_KEY)]);
         if (!active) return;
         setClock(Date.now()); setDb(opened); setNotes(data.notes); setCards(data.cards); setReviews(data.reviews);
-        setIsDark(mode === 'true'); setWorkspace(readWorkspace(layout));
+        setIsDark(mode === 'true'); setWorkspace(readWorkspace(layout)); setDataStale(false);
       } catch (err) {
         Alert.alert('خطأ في فتح قاعدة البيانات', String(err));
       } finally { if (active) setBusy(false); }
     })();
     return () => { active = false; };
+  }, [loadAttempt]);
+
+  useEffect(() => {
+    let active = true;
+    AccessibilityInfo.isReduceMotionEnabled().then(value => { if (active) setReducedMotion(value); }).catch(() => {});
+    const subscription = AccessibilityInfo.addEventListener('reduceMotionChanged', setReducedMotion);
+    return () => { active = false; subscription.remove(); };
   }, []);
+
+  const dirty = draftTitle !== editorBaseline.current.title || draftBody !== editorBaseline.current.body;
+  useEffect(() => {
+    if (!editorOpen || !dirty || saving || draft.loading) return;
+    draftTimer.current = setTimeout(() => { void draft.persist({editingId, title:draftTitle, body:draftBody, updatedAt:Date.now()}); }, 700);
+    return () => { if (draftTimer.current) clearTimeout(draftTimer.current); };
+  }, [editorOpen, dirty, draftTitle, draftBody, editingId, saving, draft.loading]);
+
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', state => {
+      if (state !== 'active' && editorOpen && dirty && !saving && !draft.loading) {
+        stopDraftTimer(); void draft.persist({editingId,title:draftTitle,body:draftBody,updatedAt:Date.now()});
+      }
+    });
+    return () => subscription.remove();
+  }, [editorOpen,dirty,saving,draft.loading,editingId,draftTitle,draftBody]);
 
   useEffect(() => {
     const timer = setInterval(() => setClock(Date.now()), 30000);
@@ -107,7 +140,7 @@ function AppContent() {
 
   function openModule(id: ModuleId) {
     if (id === 'quiz') startQuiz();
-    else { setRevealed(false); setTab(id); }
+    else { setRevealedId(null); setTab(id); }
   }
 
   async function importSource() {
@@ -118,7 +151,7 @@ function AppContent() {
       const file = new File(asset.uri);
       if (Math.max(asset.size ?? 0, file.size ?? 0) > MAX_SOURCE_BYTES) throw new Error('الحد الأقصى للملف 1 ميغابايت.');
       const draft = prepareSource(asset.name, await file.text());
-      setEditingId(null); setDraftTitle(draft.title); setDraftBody(draft.body); setEditorOpen(true);
+      beginEditor({editingId:null,title:draft.title,body:draft.body});
     } catch (error) { Alert.alert('تعذّر قراءة المصدر', String(error)); }
   }
 
@@ -136,17 +169,64 @@ function AppContent() {
     setClock(Date.now()); setNotes(data.notes); setCards(data.cards); setReviews(data.reviews);
   }
   async function action(fn: (d: Database) => Promise<void>): Promise<boolean> {
-    if (!db || actionLock.current) return false;
+    if (!db || dataStale || actionLock.current) return false;
     actionLock.current = true; setSaving(true);
-    try { await fn(db); await refresh(db); return true; }
+    try {
+      await fn(db);
+      // A committed write remains successful even when its follow-up read fails.
+      try { await refresh(db); } catch { setDataStale(true); }
+      return true;
+    }
     catch (error) { Alert.alert('تعذّر إكمال العملية', String(error)); return false; }
     finally { actionLock.current = false; setSaving(false); }
   }
-  function openNew() {
-    setEditingId(null); setDraftTitle(''); setDraftBody(''); setEditorOpen(true);
+  function editDraft(value: {editingId:string|null; title:string; body:string}, recovered = false) {
+    if (recovered && value.editingId && !notes.some(n => n.id === value.editingId)) {
+      Alert.alert('الملاحظة الأصلية غير موجودة', 'يمكنك تصدير المسودة أو حفظها كملاحظة جديدة.');
+      value = {...value, editingId:null};
+    }
+    setEditingId(value.editingId); setDraftTitle(value.title); setDraftBody(value.body);
+    const original = value.editingId ? notes.find(n => n.id === value.editingId) : null;
+    editorBaseline.current = recovered || value.editingId === null ? {title:original?.title ?? '', body:original?.body ?? ''} : {title:value.title, body:value.body};
+    setEditorOpen(true);
   }
-  function openNote(note: Note) {
-    setEditingId(note.id); setDraftTitle(note.title); setDraftBody(note.body); setEditorOpen(true);
+  function beginEditor(value: {editingId:string|null; title:string; body:string}) {
+    if (draft.loading) return;
+    if (draft.status === 'error' && !draft.recoveredDraft) {
+      Alert.alert('تعذّر قراءة المسودة السابقة', 'يمكنك إعادة فتح التطبيق للمحاولة مجددًا، أو تجاهل المسودة القديمة لبدء التحرير.', [
+        {text:'إلغاء', style:'cancel'}, {text:'تجاهل المسودة القديمة',style:'destructive',onPress:() => {void draft.clear().then(ok => {if (ok) editDraft(value);});}},
+      ]); return;
+    }
+    if (draft.recoveredDraft) {
+      Alert.alert('لديك مسودة محفوظة', 'استعدها أولًا، أو تجاهلها لفتح ملاحظة أخرى.', [
+        {text:'إلغاء', style:'cancel'},
+        {text:'استعادة المسودة', onPress:() => editDraft(draft.recoveredDraft!, true)},
+        {text:'تجاهل المسودة', style:'destructive', onPress:() => { void draft.clear().then(ok => { if (ok) editDraft(value); }); }},
+      ]);
+      return;
+    }
+    editDraft(value);
+  }
+  function openNew() { beginEditor({editingId:null,title:'',body:''}); }
+  function openNote(note: Note) { beginEditor({editingId:note.id,title:note.title,body:note.body}); }
+  function stopDraftTimer() { if (draftTimer.current) clearTimeout(draftTimer.current); }
+  async function finishDraftClose(keep: boolean) {
+    if (actionLock.current) return;
+    actionLock.current = true; setSaving(true); stopDraftTimer();
+    try {
+      const ok = keep ? await draft.persist({editingId,title:draftTitle,body:draftBody,updatedAt:Date.now()}) : await draft.clear();
+      if (ok) setEditorOpen(false);
+      else Alert.alert('تعذّر تحديث المسودة', 'النص ما زال في المحرر. حاول مجددًا أو صدّره إلى الملفات.');
+    } finally { actionLock.current = false; setSaving(false); }
+  }
+  function closeNote() {
+    if (saving) return;
+    if (!dirty) { void finishDraftClose(false); return; }
+    Alert.alert('لديك مسودة غير منشورة', 'احتفظ بها على جهازك لتكمل لاحقًا، أو تابع التحرير.', [
+      {text:'متابعة التحرير', style:'cancel'},
+      {text:'حفظ مسودة وإغلاق', onPress:() => { void finishDraftClose(true); }},
+      {text:'تجاهل التعديل', style:'destructive', onPress:() => { void finishDraftClose(false); }},
+    ]);
   }
   async function commitNote(autoCards = false) {
     const name = draftTitle.trim();
@@ -174,19 +254,35 @@ function AppContent() {
     const created = additions.length;
     const saved = await action(d => saveNoteAndCards(d, note, additions));
     if (!saved) return;
-    setEditorOpen(false);
+    stopDraftTimer(); setEditorOpen(false);
+    if (!(await draft.clear())) Alert.alert('حُفظت الملاحظة', 'تعذّر تنظيف المسودة القديمة. يمكنك تجاهلها من الرئيسية.');
     if (autoCards) Alert.alert('البطاقات', created > 0 ? `أُنشئت ${created} بطاقة من أسطر س: وج:.` : 'لم أجد أسئلة جديدة بصيغة س: وج:.');
   }
   function confirmDelete(note: Note) {
     Alert.alert('حذف الملاحظة؟', 'ستُحذف أيضًا بطاقاتها وسجل مراجعاتها، ولا يمكن التراجع.', [
       { text: 'إلغاء', style: 'cancel' },
       { text: 'حذف', style: 'destructive', onPress: () => void action(async d => {
-        await deleteNote(d, note.id); setEditorOpen(false);
+        await deleteNote(d, note.id); stopDraftTimer(); setEditorOpen(false); if (!(await draft.clear())) Alert.alert('حُذفت الملاحظة', 'تعذّر تنظيف المسودة القديمة. يمكنك تجاهلها من الرئيسية.');
       }) },
     ]);
   }
-  function openCardEditor(noteId: string) {
+  async function openCardEditor(noteId: string) {
+    if (editorOpen && dirty) {
+      Alert.alert('احفظ الملاحظة أولًا', 'احفظ تعديلاتك قبل فتح محرر البطاقة حتى لا تفقدها.'); return;
+    }
+    if (saving || actionLock.current) return;
+    if (editorOpen) {
+      actionLock.current = true; setSaving(true); stopDraftTimer();
+      const cleared = await draft.clear();
+      actionLock.current = false; setSaving(false);
+      if (!cleared) { Alert.alert('تعذّر تحديث المسودة', 'حاول فتح البطاقة مرة أخرى.'); return; }
+    }
     setCardEditorNoteId(noteId); setQuestion(''); setAnswer(''); setEditorOpen(false);
+  }
+  function closeCard() {
+    if (saving) return;
+    if (!question.trim() && !answer.trim()) { setCardEditorNoteId(null); return; }
+    Alert.alert('تجاهل البطاقة غير المحفوظة؟','يمكنك متابعة كتابتها ثم حفظها.',[{text:'متابعة التحرير',style:'cancel'},{text:'تجاهل',style:'destructive',onPress:()=>setCardEditorNoteId(null)}]);
   }
   async function commitCard() {
     if (!cardEditorNoteId || !question.trim() || !answer.trim()) {
@@ -195,6 +291,7 @@ function AppContent() {
     if (cards.some(c => c.noteId === cardEditorNoteId && normalizeTitle(c.question) === normalizeTitle(question))) {
       Alert.alert('بطاقة مكررة', 'هذا السؤال موجود في الملاحظة.'); return;
     }
+    if (question.length > MAX_NOTE_CHARS || answer.length > MAX_NOTE_CHARS) { Alert.alert('النص طويل جدًا', 'الحد الأقصى مليون حرف لكل حقل.'); return; }
     const now = Date.now();
     const saved = await action(async d => saveCard(d, { id: makeId('card'), noteId: cardEditorNoteId,
       question: question.trim(), answer: answer.trim(), dueAt: now, intervalDays: 0,
@@ -208,8 +305,7 @@ function AppContent() {
     ]);
   }
   async function review(card: StudyCard, grade: Grade) {
-    await action(d => recordReview(d, card, grade));
-    setRevealed(false);
+    if (await action(d => recordReview(d, card, grade))) setRevealedId(null);
   }
   function startQuiz() {
     const questions = makeQuiz(cards, 8);
@@ -220,9 +316,10 @@ function AppContent() {
   }
   async function exportData() {
     try {
+      const json = serializeBackup(makeBackup(notes, cards, reviews));
       const file = new File(Paths.cache, `rusukh-backup-${Date.now()}.json`);
       file.create();
-      await file.write(JSON.stringify(makeBackup(notes, cards, reviews), null, 2));
+      await file.write(json);
       if (!(await Sharing.isAvailableAsync())) throw new Error('المشاركة غير متوفرة على الجهاز');
       await Sharing.shareAsync(file.uri, { mimeType: 'application/json', UTI: 'public.json' });
     } catch (error) { Alert.alert('تعذّر تصدير النسخة', String(error)); }
@@ -233,14 +330,16 @@ function AppContent() {
       const picked = await DocumentPicker.getDocumentAsync({ type: 'application/json', copyToCacheDirectory: true });
       if (picked.canceled || !picked.assets[0]) return;
       const file = new File(picked.assets[0].uri);
-      if (file.size && file.size > 15 * 1024 * 1024) throw new Error('الملف أكبر من 15 ميغابايت');
-      const parsed: unknown = JSON.parse(await file.text());
+      if (Math.max(file.size ?? 0, picked.assets[0].size ?? 0) > MAX_BACKUP_BYTES) throw new Error('الملف أكبر من 15 ميغابايت');
+      const text = await file.text();
+      if (utf8ByteLength(text) > MAX_BACKUP_BYTES) throw new Error('الملف أكبر من 15 ميغابايت');
+      const parsed: unknown = JSON.parse(text);
       if (!validateBackup(parsed)) throw new Error('النسخة غير صالحة أو ليست من رُسوخ');
       const backup = parsed as Backup;
       Alert.alert('استبدال البيانات الحالية؟',
         `سيتم استبدال ${notes.length} ملاحظة بـ ${backup.notes.length} ملاحظة. احفظ نسخة احتياطية أولًا.`, [
           { text: 'إلغاء', style: 'cancel' },
-          { text: 'استبدال', style: 'destructive', onPress: () => void action(d => restoreBackup(d, backup)) },
+          { text: 'استبدال', style: 'destructive', onPress: () => void action(async d => { await restoreBackup(d, backup); if (!(await draft.clear())) Alert.alert('استُعيدت النسخة', 'تعذّر تنظيف المسودة القديمة. راجعها قبل استعادتها.'); setRevealedId(null); setQuizOpen(false); }) },
         ]);
     } catch (error) { Alert.alert('تعذّر استيراد النسخة', String(error)); }
   }
@@ -253,8 +352,8 @@ function AppContent() {
   }
 
   function header(title: string, detail?: string) {
-    return <View style={{ gap: 5, marginBottom: 17 }}>
-      <Label p={p} size={30} weight="800">{title}</Label>
+    return <View style={{ gap: 5, marginBottom: 12 }}>
+      <Label p={p} size={30} weight="800" role="header">{title}</Label>
       {detail ? <Label p={p} size={13} color={p.muted}>{detail}</Label> : null}
     </View>;
   }
@@ -268,7 +367,7 @@ function AppContent() {
     const cardCount = cards.filter(c => c.noteId === note.id).length;
     return <Panel key={note.id} p={p} style={{ padding: 16, gap: 11 }}>
       <Pressable onPress={() => openNote(note)} accessibilityRole="button" accessibilityLabel={`فتح ${note.title}`}>
-        <View style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', gap: 10 }}>
+        <View style={{ flexDirection: arabicRow, justifyContent: 'space-between', gap: 10 }}>
           <View style={{ flex: 1, gap: 5 }}>
             <Label p={p} size={16} weight="700" numberOfLines={1}>{note.title}</Label>
             <Label p={p} size={12} color={p.muted} numberOfLines={compact ? 1 : 2}>
@@ -277,7 +376,7 @@ function AppContent() {
           <Icon name="chevron.left" size={16} p={p} color={p.muted} />
         </View>
       </Pressable>
-      <View style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', alignItems: 'center' }}>
+      <View style={{ flexDirection: arabicRow, justifyContent: 'space-between', alignItems: 'center' }}>
         <Label p={p} size={12} color={p.muted}>{cardCount} بطاقة</Label>
         <Button title="بطاقة جديدة" tone="secondary" compact p={p} onPress={() => openCardEditor(note.id)} icon="plus" />
       </View>
@@ -285,37 +384,18 @@ function AppContent() {
   }
 
   function homeScreen() {
-    const shown = workspace.modules.filter(m => m.enabled);
-    const compact = workspace.density === 'compact';
-    return <View style={{ gap: 16 }}>
-      {header('مساحتي', 'تعلّم يبقى. وأدوات تختارها أنت.')}
-      <View style={{ flexDirection: 'row-reverse', flexWrap: 'wrap', gap: 8 }}>
-        <Button title="تخصيص مساحتي" p={p} tone="secondary" icon="slider.horizontal.3" onPress={() => setCustomizing(true)} />
-        <Button title="كل الأدوات" p={p} tone="plain" onPress={() => setTab('tools')} />
-      </View>
-      <Label p={p} size={13} color={p.muted}>{notes.length} ملاحظة · {cards.length} بطاقة · {todayReviewed} مراجعة اليوم</Label>
-      {shown.length === 0 && <Panel p={p}>
-        <Empty p={p} title="مساحة هادئة على ذوقك" detail="بياناتك محفوظة. أضف أداة أو افتحها من كل الأدوات." />
-        <Button p={p} title="إضافة أدوات لمساحتي" onPress={() => setCustomizing(true)} />
+    return <View style={{gap:16}}>
+      {draft.recoveredDraft && <Panel p={p}>
+        <Label p={p} role="header" weight="700">أكمل مسودتك</Label>
+        <Label p={p} color={p.muted} numberOfLines={2}>{draft.recoveredDraft.title || 'ملاحظة بلا عنوان'}</Label>
+        <Button p={p} title="استعادة المسودة" onPress={() => editDraft(draft.recoveredDraft!, true)} />
+        <Button p={p} title="تجاهل المسودة" tone="plain" onPress={() => Alert.alert('تجاهل المسودة؟','ستبقى الملاحظة المنشورة كما هي.',[
+          {text:'إلغاء',style:'cancel'}, {text:'تجاهل',style:'destructive',onPress:()=>{void draft.clear();}},
+        ])} />
       </Panel>}
-      {shown.map(item => {
-        const module = MODULES.find(m => m.id === item.id)!;
-        return <Panel key={item.id} p={p} style={{ padding: compact ? 15 : 20, gap: 12 }}>
-          <View style={{ flexDirection: 'row-reverse', alignItems: 'center', gap: 10 }}>
-            <Icon name={module.symbol} p={p} />
-            <View style={{ flex: 1 }}><Label p={p} size={18} weight="800">{module.title}</Label></View>
-          </View>
-          <Label p={p} color={p.muted} size={13}>{item.id === 'review' ? `${due.length} بطاقة مستحقة الآن` : item.id === 'graph' ? `${links.length} علاقة بين أفكارك` : module.detail}</Label>
-          {!compact && item.id === 'notes' && notes.slice(0, 2).map(note =>
-            <Pressable key={note.id} accessibilityRole="button" accessibilityLabel={`فتح ${note.title}`} onPress={() => openNote(note)}
-              style={{ minHeight: 44, justifyContent: 'center', borderBottomWidth: 1, borderColor: p.border }}>
-              <Label p={p} numberOfLines={1}>{note.title}</Label>
-            </Pressable>)}
-          <Button p={p} title={item.id === 'review' ? 'ابدأ المراجعة' : item.id === 'quiz' ? 'ابدأ الاختبار' : `فتح ${module.title}`}
-            tone={item.id === 'review' ? 'primary' : 'secondary'} onPress={() => openModule(item.id)} />
-        </Panel>;
-      })}
-      <Button p={p} title="ملاحظة جديدة" tone="secondary" icon="square.and.pencil" onPress={openNew} />
+      <StudyHome p={p} workspace={workspace} notes={notes} cardsCount={cards.length} dueCount={due.length}
+        todayReviewed={todayReviewed} linksCount={links.length} onCustomize={() => setCustomizing(true)}
+        onTools={() => setTab('tools')} onModule={openModule} onOpenNote={openNote} onNewNote={openNew} />
     </View>;
   }
 
@@ -349,48 +429,54 @@ function AppContent() {
   }
   function notesScreen() {
     const filtered = notes.filter(n => matchesSearch(n.title, n.body, search));
-    return <View style={{ gap: 14 }}>
-      {header('ملاحظاتي', `${notes.length} ملاحظة محفوظة على جهازك`)}
-      <View style={{ flexDirection: 'row-reverse', gap: 9 }}>
-        <TextInput value={search} onChangeText={setSearch} placeholder="ابحث في الملاحظات..."
-          placeholderTextColor={p.muted} textAlign="right" accessibilityLabel="البحث في الملاحظات"
-          style={{ flex: 1, color: p.ink, backgroundColor: p.surface, borderRadius: 15, paddingHorizontal: 14,
-            borderWidth: 1, borderColor: p.border, minHeight: 48 }} />
-        <Button p={p} title="+ جديد" compact onPress={openNew} />
-      </View>
-      {filtered.map(n => noteTile(n))}
-      {!filtered.length && <Empty p={p} title="لا توجد نتائج" detail="جرّب عبارة أخرى أو أضف ملاحظة" />}
-    </View>;
+    return <FlatList data={filtered} keyExtractor={note => note.id} keyboardShouldPersistTaps="handled"
+      contentContainerStyle={{paddingHorizontal:20,paddingTop:14,paddingBottom:32,gap:14}}
+      initialNumToRender={10} windowSize={7} renderItem={({item}) => noteTile(item)}
+      ListHeaderComponent={<View style={{gap:14}}>
+        {header('ملاحظاتي', `${notes.length} ملاحظة محفوظة على جهازك`)}
+        <View style={{ flexDirection: arabicRow, gap: 9 }}>
+          <TextInput value={search} onChangeText={setSearch} placeholder="ابحث في الملاحظات..."
+            placeholderTextColor={p.muted} textAlign="right" accessibilityLabel="البحث في الملاحظات"
+            style={{ flex: 1, color: p.ink, backgroundColor: p.surface, borderRadius: 15, paddingHorizontal: 14,
+              borderWidth: 1, borderColor: p.border, minHeight: 48 }} />
+          <Button p={p} title="+ جديد" compact onPress={openNew} />
+        </View>
+      </View>}
+      ListEmptyComponent={<Panel p={p}><Empty p={p} title={notes.length ? 'لا توجد نتائج' : 'ابدأ بملاحظتك الأولى'}
+        detail={notes.length ? 'جرّب عبارة أقصر أو امسح البحث' : 'اكتب فكرة قصيرة أو استورد نصًا من ملفاتك'} />
+        {search ? <Button p={p} title="مسح البحث" tone="secondary" onPress={() => setSearch('')} /> :
+          <Button p={p} title="إضافة أول ملاحظة" onPress={openNew} />}</Panel>}
+    />;
   }
   function reviewScreen() {
     const current = due[0];
     return <View style={{ gap: 16 }}>
       {header('المراجعة', 'تذكّر الإجابة أولًا، ثم قيّم سهولتها')}
-      <View style={{ flexDirection: 'row-reverse', gap: 10 }}>
+      <View style={{ flexDirection: arabicRow, gap: 10 }}>
         {stat(due.length, 'مستحقة الآن')}{stat(todayReviewed, 'مُراجعة اليوم')}
       </View>
       {current ? <Panel p={p} style={{ minHeight: 290, padding: 22, justifyContent: 'space-between' }}>
         <Label p={p} size={12} color={p.muted}>{notes.find(n => n.id === current.noteId)?.title ?? 'بطاقة'}</Label>
         <Label p={p} size={23} weight="700" style={{ marginVertical: 17 }}>{current.question}</Label>
-        {revealed ? <View style={{ gap: 12 }}>
+        {revealedId === current.id ? <View style={{ gap: 12 }}>
           <View style={{ backgroundColor: p.subtle, padding: 17, borderRadius: 15 }}>
             <Label p={p} size={17}>{current.answer}</Label>
           </View>
           <Label p={p} size={12} color={p.muted}>اختر تقييمًا لتحديد موعد المراجعة القادمة.</Label>
-          <View style={{ flexDirection: 'row-reverse', flexWrap: 'wrap', gap: 7 }}>
+          <View style={{ flexDirection: arabicRow, flexWrap: 'wrap', gap: 7 }}>
             {([['again','مُجددًا'],['hard','صعب'],['good','جيد'],['easy','سهل']] as [Grade,string][]).map(([grade,label]) =>
               <Button key={grade} p={p} title={label} tone={grade === 'good' ? 'primary' : 'secondary'}
                 compact disabled={saving} onPress={() => void review(current,grade)} style={{ flexGrow: 1 }} />)}
           </View>
-        </View> : <Button title="إظهار الإجابة" p={p} onPress={() => setRevealed(true)} />}
+        </View> : <Button title="إظهار الإجابة" p={p} onPress={() => setRevealedId(current.id)} />}
       </Panel> : <Panel p={p}><Empty p={p} title="لا توجد بطاقات مستحقة الآن" detail="يمكنك إضافة بطاقات أو إجراء اختبار سريع" /></Panel>}
       <Button title="اختبار اختيارات" p={p} tone="secondary" icon="checkmark.circle" onPress={startQuiz} />
-      <Label p={p} size={17} weight="800">كل البطاقات ({cards.length})</Label>
-      {cards.map(c => <Panel key={c.id} p={p} style={{ padding: 14, gap: 8 }}>
+      <Button p={p} title={showCards ? 'إخفاء إدارة البطاقات' : `إدارة البطاقات (${cards.length})`} tone="plain" onPress={() => setShowCards(v => !v)} />
+      {showCards && cards.map(c => <Panel key={c.id} p={p} style={{ padding: 14, gap: 8 }}>
         <Label p={p} size={14} weight="700">{c.question}</Label>
         <Label p={p} size={13} color={p.muted}>{c.answer}</Label>
-        <View style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Label p={p} size={11} color={p.muted}>{c.dueAt <= Date.now() ? 'مستحقة الآن' : `قادمة: ${new Date(c.dueAt).toLocaleDateString('ar-SA')}`}</Label>
+        <View style={{ flexDirection: arabicRow, justifyContent: 'space-between', alignItems: 'center' }}>
+          <Label p={p} size={12} color={p.muted}>{c.dueAt <= clock ? 'مستحقة الآن' : `قادمة: ${new Date(c.dueAt).toLocaleDateString('ar-SA')}`}</Label>
           <Button title="حذف" p={p} compact tone="danger" onPress={() => confirmCardDelete(c)} />
         </View>
       </Panel>)}
@@ -407,7 +493,7 @@ function AppContent() {
       <Label p={p} size={12} color={p.muted}>اختيارات الواجهة محفوظة على هذا الجهاز، منفصلة عن نسخة محتوى الدراسة.</Label>
     </Panel>
     <Panel p={p}>
-      <View style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', alignItems: 'center' }}>
+      <View style={{ flexDirection: arabicRow, justifyContent: 'space-between', alignItems: 'center' }}>
         <Label p={p} size={16} weight="700">المظهر {isDark ? 'الداكن' : 'الفاتح'}</Label>
         <Button title={isDark ? 'فاتح' : 'داكن'} p={p} tone="secondary" onPress={() => void toggleDark()} />
       </View>
@@ -420,13 +506,13 @@ function AppContent() {
     </Panel>
     <Panel p={p}>
       <Label p={p} weight="700">عن النسخة</Label>
-      <Label p={p} size={13} color={p.muted}>رُسوخ 0.2 — مساحة قابلة للتخصيص واستيراد نصوص. جدولة المراجعة مبسطة وليست FSRS. شبكة العلاقات تعتمد على الروابط [[العنوان]]، ولا يوجد اتصال ذكاء اصطناعي أو مزامنة سحابية بعد.</Label>
+      <Label p={p} size={13} color={p.muted}>رُسوخ 0.3 — واجهة أهدأ، مسودات محلية واستيراد نصوص. جدولة المراجعة مبسطة وليست FSRS. شبكة العلاقات تعتمد على الروابط [[العنوان]]، ولا يوجد اتصال ذكاء اصطناعي أو مزامنة سحابية بعد.</Label>
     </Panel>
   </View>; }
   function modalHeader(title: string, close: () => void) {
-    return <View style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', alignItems: 'center', paddingBottom: 14 }}>
-      <Label p={p} size={21} weight="800">{title}</Label>
-      <Button p={p} title="إغلاق" tone="secondary" compact onPress={close} />
+    return <View style={{ flexDirection: arabicRow, justifyContent: 'space-between', alignItems: 'center', paddingBottom: 14 }}>
+      <Label p={p} size={21} weight="800" role="header" style={{flex:1}}>{title}</Label>
+      <Button p={p} title="إغلاق" tone="secondary" compact disabled={saving} onPress={close} />
     </View>;
   }
 
@@ -434,12 +520,17 @@ function AppContent() {
     <ActivityIndicator color={p.ink} /><Label p={p}>جاري فتح رُسوخ…</Label>
   </SafeAreaView>;
   if (!db) return <SafeAreaView style={{ flex: 1, justifyContent: 'center', padding: 30, backgroundColor: p.bg }}>
-    <Empty p={p} title="تعذّر تشغيل رُسوخ" detail="راجع رسالة الخطأ ثم أعد تشغيل التطبيق" />
+    <Empty p={p} title="تعذّر تشغيل رُسوخ" detail="بياناتك لم تُحذف. حاول فتحها مرة أخرى." /><Button p={p} title="إعادة المحاولة" onPress={() => setLoadAttempt(n => n+1)} />
+  </SafeAreaView>;
+  if (dataStale) return <SafeAreaView style={{flex:1,padding:24,justifyContent:'center',backgroundColor:p.bg,gap:16}}>
+    <Label p={p} size={22} weight="700">حُفظ التغيير؛ تعذّر تحديث العرض</Label>
+    <Label p={p}>أعد تحميل البيانات لعرض آخر نسخة. لن نكرر عملية الحفظ.</Label>
+    <Button p={p} title="إعادة تحميل البيانات" onPress={() => setLoadAttempt(n => n+1)} />
   </SafeAreaView>;
   return <SafeAreaView style={{ flex: 1, backgroundColor: p.bg }}>
     <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} />
-    <View style={{ paddingHorizontal: 22, height: 56, flexDirection: 'row-reverse', alignItems: 'center', justifyContent: 'space-between' }}>
-      <View style={{ flexDirection: 'row-reverse', alignItems: 'center', gap: 9 }}>
+    <View style={{ paddingHorizontal: 22, minHeight: 56, paddingVertical: 6, flexDirection: arabicRow, alignItems: 'center', justifyContent: 'space-between' }}>
+      <View style={{ flexDirection: arabicRow, alignItems: 'center', gap: 9 }}>
         <View style={{ backgroundColor: p.accent, width: 33, height: 33, borderRadius: 10, justifyContent: 'center', alignItems: 'center' }}>
           <Label p={p} size={22} color={p.accentInk} weight="800">ر</Label>
         </View>
@@ -450,29 +541,30 @@ function AppContent() {
         <Icon name="square.grid.2x2" p={p} size={22} />
       </Pressable>
     </View>
-    <ScrollView key={tab} keyboardShouldPersistTaps="handled" contentContainerStyle={{ paddingHorizontal: 20, paddingTop: 14, paddingBottom: 32, gap: 2 }}>
-      {tab === 'home' ? homeScreen() : tab === 'notes' ? notesScreen() : tab === 'review' ? reviewScreen() : tab === 'graph' ? graphScreen() : tab === 'sources' ? sourcesScreen() : tab === 'tools' ? toolsScreen() : settingsScreen()}
-    </ScrollView>
-    <View style={{ flexDirection: 'row-reverse', borderTopWidth: 1, borderColor: p.border, backgroundColor: p.surface, paddingTop: 8, paddingBottom: 6 }}>
+    {tab === 'notes' ? notesScreen() : <ScrollView key={tab} keyboardShouldPersistTaps="handled" contentContainerStyle={{ paddingHorizontal: 20, paddingTop: 14, paddingBottom: 32, gap: 2 }}>
+      {tab === 'home' ? homeScreen() : tab === 'review' ? reviewScreen() : tab === 'graph' ? graphScreen() : tab === 'sources' ? sourcesScreen() : tab === 'tools' ? toolsScreen() : settingsScreen()}
+    </ScrollView>}
+    <View style={{ flexDirection: arabicRow, borderTopWidth: 1, borderColor: p.border, backgroundColor: p.surface, paddingTop: 8, paddingBottom: 6 }}>
       {visibleTabs.map(t => <Pressable key={t.id} accessibilityRole="tab" accessibilityState={{ selected: tab === t.id }}
-        accessibilityLabel={t.label} onPress={() => { setTab(t.id); setRevealed(false); }}
-        style={{ flex: 1, minHeight: 57, alignItems: 'center', justifyContent: 'center', gap: 3, opacity: tab === t.id ? 1 : .55 }}>
-        <Icon name={t.symbol} p={p} size={22} />
-        <Label p={p} size={10} weight={tab === t.id ? '700' : '400'}>{t.label}</Label>
+        accessibilityLabel={t.label} onPress={() => { setTab(t.id); setRevealedId(null); }}
+        style={{ flex: 1, minHeight: 57, alignItems: 'center', justifyContent: 'center', gap: 3, paddingHorizontal: 4 }}>
+        <Icon name={t.symbol} p={p} size={22} color={tab === t.id ? p.ink : p.muted} />
+        <Label p={p} size={11} color={tab === t.id ? p.ink : p.muted} style={{textAlign:'center'}} weight={tab === t.id ? '700' : '400'}>{t.label}</Label>
       </Pressable>)}
     </View>
 
-    {customizing && <WorkspaceEditor value={workspace} p={p} onCancel={() => setCustomizing(false)} onSave={saveWorkspace} />}
+    {customizing && <WorkspaceEditor reducedMotion={reducedMotion} value={workspace} p={p} onCancel={() => setCustomizing(false)} onSave={saveWorkspace} />}
 
-    <Modal visible={editorOpen} animationType="slide" presentationStyle="pageSheet" onRequestClose={() => setEditorOpen(false)}>
+    <Modal visible={editorOpen} animationType={reducedMotion ? "none" : "slide"} presentationStyle="pageSheet" onRequestClose={closeNote}>
       <SafeAreaView style={{ flex: 1, backgroundColor: p.bg }}>
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1 }}>
           <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ padding: 20, gap: 17 }}>
-            {modalHeader(editingId ? 'تعديل الملاحظة' : 'ملاحظة جديدة', () => setEditorOpen(false))}
-            <Field p={p} label="العنوان" value={draftTitle} onChangeText={setDraftTitle} placeholder="عنوان الملاحظة" />
-            <Field p={p} label="المحتوى" multiline numberOfLines={12} value={draftBody} onChangeText={setDraftBody}
+            {modalHeader(editingId ? 'تعديل الملاحظة' : 'ملاحظة جديدة', closeNote)}
+            <Label p={p} size={12} color={draft.status === 'error' ? p.danger : p.muted}>{draft.status === 'saved' && draft.recoveredDraft?.editingId === editingId && draft.recoveredDraft?.title === draftTitle && draft.recoveredDraft?.body === draftBody ? 'مسودة محفوظة على جهازك' : draft.status === 'saving' ? 'جارٍ حفظ المسودة…' : draft.status === 'error' ? 'تعذّر حفظ المسودة؛ احفظ الملاحظة أو صدّر النص' : 'التعديلات تُحفظ كمسودة محلية'}</Label>
+            <Field p={p} label="العنوان" maxLength={160} editable={!saving} value={draftTitle} onChangeText={setDraftTitle} placeholder="عنوان الملاحظة" />
+            <Field p={p} label="المحتوى" maxLength={MAX_NOTE_CHARS} editable={!saving} multiline numberOfLines={12} value={draftBody} onChangeText={setDraftBody}
               placeholder="اكتب هنا… للربط استخدم [[عنوان ملاحظة]]" />
-            <Label p={p} size={12} color={p.muted}>توليد بطاقات من نصك: اكتب سؤالًا في س: والإجابة في ج: على سطر منفصل.</Label>
+            <Label p={p} size={12} color={p.muted}>استخراج أسئلة مكتوبة: اكتب سؤالًا في س: والإجابة في ج: على سطر منفصل.</Label>
             <Button p={p} title="تصدير النص إلى الملفات (Markdown)" tone="plain" onPress={() => void exportMarkdown()} />
             <Button p={p} title="حفظ الملاحظة" onPress={() => void commitNote()} disabled={saving} />
             <Button p={p} title="حفظ واستخراج بطاقات س/ج" onPress={() => void commitNote(true)} tone="secondary" disabled={saving} />
@@ -488,18 +580,18 @@ function AppContent() {
       </SafeAreaView>
     </Modal>
 
-    <Modal visible={!!cardEditorNoteId} animationType="slide" presentationStyle="pageSheet" onRequestClose={() => setCardEditorNoteId(null)}>
+    <Modal visible={!!cardEditorNoteId} animationType={reducedMotion ? "none" : "slide"} presentationStyle="pageSheet" onRequestClose={closeCard}>
       <SafeAreaView style={{ flex: 1, backgroundColor: p.bg }}>
-        <ScrollView contentContainerStyle={{ padding: 20, gap: 17 }} keyboardShouldPersistTaps="handled">
-          {modalHeader('بطاقة تعليمية', () => setCardEditorNoteId(null))}
-          <Field p={p} label="السؤال" value={question} onChangeText={setQuestion} placeholder="ماذا تريد أن تتذكر؟" />
-          <Field p={p} label="الإجابة" value={answer} onChangeText={setAnswer} multiline placeholder="الإجابة المختصرة" />
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{flex:1}}><ScrollView contentContainerStyle={{ padding: 20, gap: 17 }} keyboardShouldPersistTaps="handled">
+          {modalHeader('بطاقة تعليمية', closeCard)}
+          <Field p={p} label="السؤال" maxLength={MAX_NOTE_CHARS} editable={!saving} value={question} onChangeText={setQuestion} placeholder="ماذا تريد أن تتذكر؟" />
+          <Field p={p} label="الإجابة" maxLength={MAX_NOTE_CHARS} editable={!saving} value={answer} onChangeText={setAnswer} multiline placeholder="الإجابة المختصرة" />
           <Button p={p} title="إنشاء البطاقة" onPress={() => void commitCard()} disabled={saving} />
-        </ScrollView>
+        </ScrollView></KeyboardAvoidingView>
       </SafeAreaView>
     </Modal>
 
-    <Modal visible={quizOpen} animationType="slide" presentationStyle="pageSheet" onRequestClose={() => setQuizOpen(false)}>
+    <Modal visible={quizOpen} animationType={reducedMotion ? "none" : "slide"} presentationStyle="pageSheet" onRequestClose={() => setQuizOpen(false)}>
       <SafeAreaView style={{ flex: 1, backgroundColor: p.bg }}>
         <ScrollView contentContainerStyle={{ padding: 22, gap: 18 }}>
           {modalHeader('الاختبار السريع', () => setQuizOpen(false))}

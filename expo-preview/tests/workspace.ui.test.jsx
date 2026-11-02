@@ -100,11 +100,11 @@ test('source import opens an editable draft and cancellation writes no content',
 
 test('returning to active app refreshes due counts without editing cards', async()=>{
   const now=Date.now(); mockCards[0].dueAt=now+60000;
-  let listener;
-  jest.spyOn(AppState,'addEventListener').mockImplementation((event,fn)=>{listener=fn;return {remove:jest.fn()};});
+  const listeners = new Set();
+  jest.spyOn(AppState,'addEventListener').mockImplementation((event,fn)=>{listeners.add(fn);return {remove:()=>listeners.delete(fn)};});
   await openApp(); expect(screen.getByText('0 بطاقة مستحقة الآن')).toBeTruthy();
   jest.spyOn(Date,'now').mockReturnValue(now+60001);
-  await act(async()=>listener('active'));
+  await act(async()=>{for (const listener of listeners) listener('active');});
   expect(screen.getByText('1 بطاقة مستحقة الآن')).toBeTruthy();
   expect(storage.recordReview).not.toHaveBeenCalled();
 });

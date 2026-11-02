@@ -1,0 +1,8 @@
+{
+  "expo": {
+    "name": "Rusukh Visual Lab",
+    "slug": "rusukh-visual-lab",
+    "version": "0.0.1",
+    "web": { "bundler": "metro" }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "version": "0.3.0",
+  "host": "c-svrv-3wychf-mvzej8uvaluwv510.on.expo.app",
+  "bundle": "http://c-svrv-3wychf-mvzej8uvaluwv510.on.expo.app/node_modules/expo/AppEntry.bundle?platform=ios&dev=true&hot=false&lazy=true&transform.engine=hermes&transform.bytecode=1&transform.routerRoot=app&unstable_transformProfile=hermes-stable",
+  "runtime": "exposdk:58.0.0",
+  "verifiedAt": "2026-11-02T15:19:24.979Z",
+  "manifestHTTP": 200,
+  "bundleHTTP": 200,
+  "bundleBytes": 4647951,
+  "bundleSHA256": "5f04d2909d4daa0dc2d702aa9e54b2d3af5bcad7aa8c638b69ce6c7a53514304",
+  "expoGoURL": "exp://c-svrv-3wychf-mvzej8uvaluwv510.on.expo.app"
+}

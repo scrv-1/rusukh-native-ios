@@ -1,6 +1,7 @@
 import * as SQLite from 'expo-sqlite';
 import type { Backup, Note, ReviewEvent, StudyCard, Grade } from './types';
-import { makeId, scheduleReview, validateBackup } from './core';
+import { makeId, normalizeTitle, scheduleReview, validateBackup } from './core';
+import { MAX_NOTE_CHARS } from './sources';
 
 export type Database = SQLite.SQLiteDatabase;
 
@@ -73,7 +74,31 @@ export async function deleteNote(db: Database, id: string): Promise<void> {
 
 export async function saveNoteAndCards(db: Database, note: Note, cards: StudyCard[]): Promise<void> {
   await db.withExclusiveTransactionAsync(async tx => {
-    await saveNote(tx, note);
+    const previous = await tx.getFirstAsync<{ title: string }>('SELECT title FROM notes WHERE id = ?', note.id);
+    let savedNote = note;
+    if (previous && previous.title !== note.title) {
+      const oldTitle = normalizeTitle(previous.title);
+      const retarget = (body: string) => {
+        // Parse complete links; never interpolate a user title into a RegExp or
+        // replacement string. Aliases and surrounding prose stay unchanged.
+        const updated = body.replace(/\[\[([^\]|\n]+)(\|[^\]\n]*)?\]\]/g, (full, target: string, alias: string | undefined) => {
+          if (normalizeTitle(target) !== oldTitle) return full;
+          if (/[\]|\r\n]/.test(note.title)) throw new Error('العنوان الجديد يحتوي محارف لا تدعمها الروابط. اختر عنوانًا آخر.');
+          return `[[${note.title}${alias ?? ''}]]`;
+        });
+        if (updated.length > MAX_NOTE_CHARS) throw new Error('النص طويل جدًا بعد تحديث الروابط. اختر عنوانًا أقصر.');
+        return updated;
+      };
+      savedNote = { ...note, body: retarget(note.body) };
+      const others = await tx.getAllAsync<Note>('SELECT * FROM notes WHERE id <> ?', note.id);
+      for (const linked of others) {
+        const body = retarget(linked.body);
+        if (body !== linked.body) {
+          await tx.runAsync('UPDATE notes SET body=?, updatedAt=? WHERE id=?', body, Math.max(linked.updatedAt, note.updatedAt), linked.id);
+        }
+      }
+    }
+    await saveNote(tx, savedNote);
     for (const card of cards) await saveCard(tx, card);
   });
 }

@@ -1,15 +1,22 @@
 import React, { useMemo, useState } from 'react';
-import { ScrollView, View, Pressable } from 'react-native';
+import { ScrollView, View, Pressable, useWindowDimensions } from 'react-native';
 import Svg, { Circle, G, Line, Text as SvgText } from 'react-native-svg';
 import type { Note } from './types';
 import { graphEdges } from './core';
-import { Button, Empty, Label, Palette, Panel } from './ui';
+import { arabicRow, Button, Empty, Label, Palette, Panel } from './ui';
 
 const BASE_W = 680;
 const BASE_H = 540;
 
 export function KnowledgeGraph({ notes, p, onOpen }: { notes: Note[]; p: Palette; onOpen: (note: Note) => void }) {
   const [zoom, setZoom] = useState(1);
+  const { width: windowWidth } = useWindowDimensions();
+  const [viewportWidth, setViewportWidth] = useState(0);
+  // Fit to this component's measured viewport, not the screen: the graph can
+  // also appear in a narrower pane. Zoom remains relative to this overview.
+  const fit = Math.min(405 / BASE_H, (viewportWidth || Math.max(160, windowWidth - 68)) / BASE_W);
+  const canvasWidth = BASE_W * fit * zoom;
+  const canvasHeight = BASE_H * fit * zoom;
   const shown = notes.slice(0, 24);
   const edges = useMemo(() => graphEdges(shown), [notes]);
   const positions = useMemo(() => {
@@ -26,17 +33,22 @@ export function KnowledgeGraph({ notes, p, onOpen }: { notes: Note[]; p: Palette
   if (!notes.length) return <Empty p={p} title="لا توجد ملاحظات" detail="أضف ملاحظات لتظهر هنا" />;
   return <View style={{ gap: 14 }}>
     <Panel p={p} style={{ padding: 13 }}>
-      <View style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', alignItems: 'center' }}>
+      <View style={{ flexDirection: arabicRow, flexWrap: 'wrap', gap: 8, justifyContent: 'space-between', alignItems: 'center' }}>
         <Label p={p} size={14} weight="700">شبكة أفكاري</Label>
         <View style={{ flexDirection: 'row', gap: 6 }}>
-          <Button p={p} title="−" tone="secondary" compact onPress={() => setZoom(z => Math.max(0.7, +(z - 0.2).toFixed(1)))} />
+          <Button p={p} title="−" accessibilityLabel="تصغير الشبكة" tone="secondary" compact disabled={zoom <= 0.7} onPress={() => setZoom(z => Math.max(0.7, +(z - 0.2).toFixed(1)))} />
           <Label p={p} size={13} color={p.muted} style={{ textAlignVertical: 'center' }}>{Math.round(zoom * 100)}%</Label>
-          <Button p={p} title="+" tone="secondary" compact onPress={() => setZoom(z => Math.min(2.0, +(z + 0.2).toFixed(1)))} />
+          <Button p={p} title="+" accessibilityLabel="تكبير الشبكة" tone="secondary" compact disabled={zoom >= 2} onPress={() => setZoom(z => Math.min(2.0, +(z + 0.2).toFixed(1)))} />
         </View>
       </View>
+      {zoom !== 1 && <Button p={p} title="ملاءمة الشبكة" tone="plain" compact onPress={() => setZoom(1)} />}
+      <View testID="graph-viewport" onLayout={event => {
+        const measured = event.nativeEvent.layout.width;
+        if (Number.isFinite(measured) && measured > 0) setViewportWidth(measured);
+      }}>
       <ScrollView horizontal nestedScrollEnabled style={{ maxHeight: 405 }} contentContainerStyle={{ minWidth: '100%' }}>
-        <ScrollView nestedScrollEnabled style={{ maxHeight: 405 }} contentContainerStyle={{ minHeight: 360 }}>
-          <Svg width={BASE_W * zoom} height={BASE_H * zoom} viewBox={`0 0 ${BASE_W} ${BASE_H}`}>
+        <ScrollView nestedScrollEnabled style={{ width: canvasWidth, maxHeight: 405 }}>
+          <Svg testID="graph-canvas" width={canvasWidth} height={canvasHeight} viewBox={`0 0 ${BASE_W} ${BASE_H}`}>
             {edges.map((e, i) => <Line key={i} x1={positions[e.from]?.x ?? 0} y1={positions[e.from]?.y ?? 0}
               x2={positions[e.to]?.x ?? 0} y2={positions[e.to]?.y ?? 0} stroke={p.muted} strokeOpacity={0.65} strokeWidth={1.6} />)}
             {shown.map((note) => {
@@ -51,7 +63,8 @@ export function KnowledgeGraph({ notes, p, onOpen }: { notes: Note[]; p: Palette
           </Svg>
         </ScrollView>
       </ScrollView>
-      <Label p={p} size={12} color={p.muted}>اضغط العقدة لفتح الملاحظة. اسحب لتحريك الشبكة واستخدم + / − للتكبير.</Label>
+      </View>
+      <Label p={p} size={12} color={p.muted}>تبدأ الشبكة بنظرة عامة تلائم العرض. كبّر لقراءة العقد واسحب للتحريك، أو افتح الملاحظات من قائمة العلاقات أدناه.</Label>
       {notes.length > shown.length ? <Label p={p} size={12} color={p.muted}>تُعرض أول 24 ملاحظة في هذه النسخة لتحسين الأداء.</Label> : null}
     </Panel>
     <Label p={p} size={17} weight="700">العلاقات المكتشفة ({edges.length})</Label>
@@ -60,7 +73,8 @@ export function KnowledgeGraph({ notes, p, onOpen }: { notes: Note[]; p: Palette
         const a = notes.find(n => n.id === edge.from);
         const b = notes.find(n => n.id === edge.to);
         return <Pressable key={i} onPress={() => b && onOpen(b)} accessibilityRole="button"
-          style={{ padding: 14, borderRadius: 15, backgroundColor: p.surface, borderWidth: 1, borderColor: p.border }}>
+          accessibilityLabel={`فتح ${b?.title} المرتبطة بـ ${a?.title}`}
+          style={{ minHeight: 44, padding: 14, borderRadius: 15, backgroundColor: p.surface, borderWidth: 1, borderColor: p.border }}>
           <Label p={p} size={13}>{a?.title} ← {b?.title}</Label>
         </Pressable>;
       })}

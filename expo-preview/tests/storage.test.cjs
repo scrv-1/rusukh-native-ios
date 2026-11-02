@@ -11,6 +11,7 @@ Module._load = function(name,...rest) { return name === 'expo-sqlite' ? {} : ori
 const { saveNoteAndCards, saveNote, saveCard, readAll, setSetting, getSetting, makeBackup, restoreBackup } = require('../.test-build/storage.js');
 Module._load = originalLoad;
 const { defaultWorkspace, toggleModule, readWorkspace, WORKSPACE_KEY } = require('../.test-build/workspace.js');
+const { graphEdges } = require('../.test-build/core.js');
 function adapter(raw) { return {
   runAsync: async(sql,...args)=>raw.prepare(sql).run(...args),
   getFirstAsync: async(sql,...args)=>raw.prepare(sql).get(...args) ?? null,
@@ -67,4 +68,62 @@ test('failure while creating cards rolls back the note and every previous card',
     const after=await readAll(db);
     assert.equal(after.notes[0].title,'بعد');assert.equal(after.cards.length,1);
   } finally {raw.close();}
+});
+
+test('renaming a note preserves incoming graph links, aliases and unrelated text atomically', async()=>{
+  const raw=new DatabaseSync(':memory:');schema(raw);const db=adapter(raw);
+  try {
+    const target={id:'target',title:'ملف (A)+',body:'قبل',createdAt:1,updatedAt:1};
+    const linked={id:'linked',title:'الرابط',body:'بداية [[  ملف   (a)+  |اسم ثابت]] ثم [[ملف (A)+]] ونص ملف (A)+ و[[ملف (A)+ آخر]] نهاية',createdAt:1,updatedAt:2};
+    const other={id:'other',title:'غير مرتبط',body:'[[ملف (A)+ آخر]] و [ملف (A)+] ونص عادي',createdAt:1,updatedAt:3};
+    for(const n of [target,linked,other]) await saveNote(db,n);
+    assert.deepEqual(graphEdges((await readAll(db)).notes),[{from:'linked',to:'target'}]);
+    await saveNoteAndCards(db,{...target,title:'درس $& جديد',body:'تمرير [[ملف (A)+|ذاتي]]',updatedAt:10},[]);
+    const after=await readAll(db);const byId=Object.fromEntries(after.notes.map(n=>[n.id,n]));
+    assert.equal(byId.linked.body,'بداية [[درس $& جديد|اسم ثابت]] ثم [[درس $& جديد]] ونص ملف (A)+ و[[ملف (A)+ آخر]] نهاية');
+    assert.equal(byId.linked.updatedAt,10);
+    assert.equal(byId.target.body,'تمرير [[درس $& جديد|ذاتي]]');
+    assert.deepEqual({...byId.other},other);
+    assert.deepEqual(graphEdges(after.notes),[{from:'linked',to:'target'}]);
+  } finally { raw.close(); }
+});
+
+test('card insertion failure rolls back renamed title and all rewritten backlinks', async()=>{
+  const raw=new DatabaseSync(':memory:');schema(raw);const db=adapter(raw);
+  raw.exec("CREATE TRIGGER fail_rename_card BEFORE INSERT ON cards BEGIN SELECT RAISE(ABORT,'simulated insert failure'); END;");
+  try {
+    const target={id:'target',title:'قديم',body:'[[قديم]]',createdAt:1,updatedAt:1};
+    await saveNote(db,target);
+    await saveNote(db,{id:'linked',title:'رابط',body:'[[قديم|اسم]]',createdAt:1,updatedAt:2});
+    const before=await readAll(db);
+    const card={id:'failed',noteId:'target',question:'س',answer:'ج',dueAt:1,intervalDays:0,ease:2.5,repetitions:0,updatedAt:1};
+    await assert.rejects(saveNoteAndCards(db,{...target,title:'جديد',updatedAt:10},[card]));
+    assert.deepEqual(await readAll(db),before);
+  } finally { raw.close(); }
+});
+
+test('renaming refuses oversized rewritten content without changing any note', async()=>{
+  const raw=new DatabaseSync(':memory:');schema(raw);const db=adapter(raw);
+  try {
+    const target={id:'target',title:'أ',body:'',createdAt:1,updatedAt:1};
+    await saveNote(db,target);
+    await saveNote(db,{id:'linked',title:'الرابط',body:'x'.repeat(999995)+'[[أ]]',createdAt:1,updatedAt:2});
+    const before=await readAll(db);
+    await assert.rejects(saveNoteAndCards(db,{...target,title:'عنوان أطول',updatedAt:10},[]),/طويل/);
+    assert.deepEqual(await readAll(db),before);
+  } finally { raw.close(); }
+});
+
+test('renaming to an unrepresentable wiki target never corrupts existing links', async()=>{
+  const raw=new DatabaseSync(':memory:');schema(raw);const db=adapter(raw);
+  try {
+    const target={id:'target',title:'قديم',body:'',createdAt:1,updatedAt:1};
+    await saveNote(db,target);
+    await saveNote(db,{id:'linked',title:'رابط',body:'[[قديم|وصف]]',createdAt:1,updatedAt:2});
+    const before=await readAll(db);
+    for(const title of ['جديد]]','جديد|جزء','سطر\nجديد']) {
+      await assert.rejects(saveNoteAndCards(db,{...target,title,updatedAt:10},[]),/محارف/);
+      assert.deepEqual(await readAll(db),before);
+    }
+  } finally { raw.close(); }
 });

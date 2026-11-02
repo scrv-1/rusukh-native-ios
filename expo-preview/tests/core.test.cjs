@@ -2,7 +2,8 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const {
   normalizeTitle, wikiLinks, graphEdges, parseQuestionAnswer, scheduleReview,
-  dueCards, makeQuiz, validateBackup, makeId, MS_DAY
+  dueCards, makeQuiz, validateBackup, makeId, MS_DAY,
+  MAX_BACKUP_BYTES, utf8ByteLength, serializeBackup
 } = require('../.test-build/core.js');
 
 const exampleCard = {
@@ -12,7 +13,7 @@ const exampleCard = {
 function exampleBackup(){ return {
   format:'rusukh-backup', version:1, exportedAt:'2026-10-31',
   notes:[{id:'n1',title:'عنوان',body:'محتوى',createdAt:100,updatedAt:200}],
-  cards:[exampleCard], reviews:[{id:'r1',cardId:'c1',grade:'good',reviewedAt:300}]
+  cards:[{...exampleCard}], reviews:[{id:'r1',cardId:'c1',grade:'good',reviewedAt:300}]
 }; }
 
 test('Arabic title normalisation ignores extra whitespace/case', () => {
@@ -107,4 +108,65 @@ test('backup rejects invalid grades and time values',()=>{
 test('new IDs have supplied prefix and differ',()=>{
   const a=makeId('note',100); const b=makeId('note',100);
   assert.ok(a.startsWith('note-'));assert.notEqual(a,b);
+});
+
+test('backup rejects ambiguous normalized note titles without rejecting distinct legacy titles',()=>{
+  for (const title of ['عنوان', '  عنوان  ']) {
+    const b=exampleBackup(); b.notes.push({...b.notes[0],id:'n2',title});
+    assert.equal(validateBackup(b),false);
+  }
+  const b=exampleBackup(); b.notes[0].title='Study  Notes';
+  b.notes.push({...b.notes[0],id:'n2',title:' study notes '});
+  assert.equal(validateBackup(b),false);
+  b.notes[1].title='درس آخر';
+  assert.equal(validateBackup(b),true);
+});
+
+test('UTF-8 byte count matches canonical encoding for Arabic, emoji and unmatched surrogates',()=>{
+  for (const text of ['', 'ascii', 'رُسوخ', 'علم 📚', '漢字', '\ud800', 'a\udc00z']) {
+    assert.equal(utf8ByteLength(text),Buffer.byteLength(text,'utf8'));
+  }
+});
+
+test('serialized backup preserves version-one data and remains importable',()=>{
+  const b=exampleBackup();
+  const text=serializeBackup(b);
+  assert.deepEqual(JSON.parse(text),b);
+  assert.equal(validateBackup(JSON.parse(text)),true);
+  assert.equal(text,JSON.stringify(b,null,2));
+});
+
+test('serializer refuses invalid content before producing an export',()=>{
+  const b=exampleBackup(); b.cards[0].answer='a'.repeat(1000001);
+  assert.throws(()=>serializeBackup(b),/غير صالح/);
+});
+
+// Use Node's independent UTF-8 implementation to construct the exact wire-size boundary.
+function arabicBackupAtBytes(bytes) {
+  const b={...exampleBackup(),notes:Array.from({length:16},(_,i)=>({
+    id:`n${i}`,title:`درس ${i}`,body:'',createdAt:1,updatedAt:1
+  })),cards:[],reviews:[]};
+  let remaining=bytes-Buffer.byteLength(JSON.stringify(b,null,2),'utf8');
+  for (const note of b.notes) {
+    const count=Math.min(1000000,Math.floor(remaining/2));
+    note.body='ع'.repeat(count); remaining-=count*2;
+    if (remaining===1 && note.body.length<1000000) { note.body+='x';remaining=0; }
+  }
+  assert.equal(remaining,0);
+  assert.equal(Buffer.byteLength(JSON.stringify(b,null,2),'utf8'),bytes);
+  return b;
+}
+
+test('Arabic backup exactly at 15 MiB can be exported and reimported',()=>{
+  assert.equal(MAX_BACKUP_BYTES,15*1024*1024);
+  const b=arabicBackupAtBytes(15*1024*1024);
+  const text=serializeBackup(b);
+  assert.equal(Buffer.byteLength(text,'utf8'),MAX_BACKUP_BYTES);
+  assert.equal(validateBackup(JSON.parse(text)),true);
+});
+
+test('Arabic backup one byte over 15 MiB is refused before writing a file',()=>{
+  const b=arabicBackupAtBytes(15*1024*1024+1);
+  assert.equal(validateBackup(b),true);
+  assert.throws(()=>serializeBackup(b),/15/);
 });

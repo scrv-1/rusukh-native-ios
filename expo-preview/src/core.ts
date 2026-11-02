@@ -1,6 +1,28 @@
 import type { Note, StudyCard, Grade, Backup } from './types';
 
 export const MS_DAY = 24 * 60 * 60 * 1000;
+// Import and export must use the same UTF-8 wire-size limit.
+export const MAX_BACKUP_BYTES = 15 * 1024 * 1024;
+
+export function utf8ByteLength(text: string): number {
+  let bytes = 0;
+  // Iterate code points so surrogate pairs count as four bytes. Unmatched
+  // surrogates encode as the three-byte replacement character, as in UTF-8.
+  for (const character of text) {
+    const point = character.codePointAt(0)!;
+    bytes += point <= 0x7f ? 1 : point <= 0x7ff ? 2 : point <= 0xffff ? 3 : 4;
+  }
+  return bytes;
+}
+
+export function serializeBackup(backup: Backup): string {
+  if (!validateBackup(backup)) throw new Error('ملف النسخة الاحتياطية غير صالح للاستعادة.');
+  const text = JSON.stringify(backup, null, 2);
+  if (utf8ByteLength(text) > MAX_BACKUP_BYTES) {
+    throw new Error('النسخة أكبر من 15 ميغابايت، وهو حد الاستيراد الحالي. لم يُنشأ ملف نسخة احتياطية.');
+  }
+  return text;
+}
 
 export function makeId(prefix: string, now = Date.now()): string {
   return `${prefix}-${now.toString(36)}-${Math.random().toString(36).slice(2, 9)}`;
@@ -109,10 +131,14 @@ export function validateBackup(value: unknown): value is Backup {
   const str = (x: unknown) => typeof x === 'string' && x.length <= 1000000;
   const time = (x: unknown) => typeof x === 'number' && Number.isFinite(x) && x >= 0;
   const noteIds = new Set<string>();
+  const noteTitles = new Set<string>();
   for (const item of data.notes) {
     if (!item || !str(item.id) || !str(item.title) || !str(item.body) ||
         !time(item.createdAt) || !time(item.updatedAt) || noteIds.has(item.id)) return false;
+    const title = normalizeTitle(item.title);
+    if (noteTitles.has(title)) return false;
     noteIds.add(item.id);
+    noteTitles.add(title);
   }
   const cardIds = new Set<string>();
   for (const item of data.cards) {

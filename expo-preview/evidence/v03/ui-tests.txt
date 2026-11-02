@@ -1,0 +1,16 @@
+
+> rusukh-ios@0.3.0 test:ui
+> jest --runInBand
+
+PASS iOS tests/graph.ui.test.jsx
+PASS iOS tests/draft-integration.ui.test.jsx
+PASS iOS tests/workspace.ui.test.jsx
+PASS iOS tests/safety.ui.test.jsx
+PASS iOS tests/draft.ui.test.jsx
+PASS iOS tests/home.ui.test.jsx
+
+Test Suites: 6 passed, 6 total
+Tests:       40 passed, 40 total
+Snapshots:   0 total
+Time:        5.016 s, estimated 7 s
+Ran all test suites.
