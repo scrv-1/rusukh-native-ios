@@ -6,6 +6,7 @@ const root = path.resolve(__dirname, '..');
 const version = require('../package.json').version;
 if (!/^\d+\.\d+\.\d+$/.test(version)) throw new Error('Expected a stable semver version');
 if (require('../app.json').expo.version !== version) throw new Error('App and package versions differ');
+if (require('../app.json').expo.extra.appVersion !== version) throw new Error('Extra app version differs');
 const tag = 'v' + version.replaceAll('.', '');
 const out = path.join(root, 'evidence', tag);
 fs.mkdirSync(out,{recursive:true});

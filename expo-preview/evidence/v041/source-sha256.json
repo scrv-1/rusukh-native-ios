@@ -46,6 +46,6 @@
   "src/youtube.ts": "cb9a5a61644421e4240c88b9234ea25afe6b61ad9ed2804536cc6a2c80770425",
   "package.json": "9d8ef41b13e16bd885b0df17d651ca193b8d56e9bd552e60e15c9a39bc0cc613",
   "package-lock.json": "f2075dd22f8f31f2c7e4660de11477e7d03a0082ba60e782cd085be81e3667ef",
-  "app.json": "1e3446206dff04514a2989cb0e6dcb830a21577aabb71ad68eab841be49bb028",
-  "scripts/verify-release.cjs": "9837b5db00392daf6f73583b0a0a36b1f897bf655fa5aa4dd21af429593cbe7a"
+  "app.json": "aca5e311ec5ef8f2393ffa9459f24b1c0158fe06d7d8e8f853f855f262e2afd2",
+  "scripts/verify-release.cjs": "38e9f59cd413606f972a768ad2c8f01d6745421c3bd91718e061b2c4f25d0b64"
 }

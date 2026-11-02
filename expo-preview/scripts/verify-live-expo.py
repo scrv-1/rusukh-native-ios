@@ -29,6 +29,7 @@ with tempfile.TemporaryDirectory(prefix="rusukh-expo-verify-") as tmp:
     manifest = json.loads(manifest_path.read_text())
 client = manifest["extra"]["expoClient"]
 assert client["version"] == expected_version, client["version"]
+assert client.get("extra", {}).get("appVersion") == expected_version, client.get("extra")
 parsed = urlsplit(manifest["launchAsset"]["url"])
 bundle = urlunsplit(("https", parsed.netloc, parsed.path, parsed.query, parsed.fragment))
 digest, size = hashlib.sha256(), 0
@@ -41,7 +42,7 @@ with tempfile.TemporaryDirectory(prefix="rusukh-expo-bundle-") as tmp:
             size += len(chunk)
 result = {
     "observedAtUTC": datetime.datetime.now(datetime.timezone.utc).isoformat(),
-    "version": client["version"], "sdkVersion": client["sdkVersion"],
+    "version": client["version"], "extraAppVersion": client["extra"]["appVersion"], "sdkVersion": client["sdkVersion"],
     "expoGoURL": "exp://" + host, "manifestHTTPStatus": manifest_status,
     "bundleHTTPStatus": bundle_status, "bundleBytes": size, "bundleSHA256": digest.hexdigest(),
     "limits": "HTTP verification from Codespaces; not an iPhone launch. The development tunnel requires a running Codespace."

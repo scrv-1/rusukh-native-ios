@@ -2,8 +2,8 @@
 > rusukh-ios@0.4.1 test:ui
 > jest --runInBand
 
+PASS iOS tests/backup-app-integration.ui.test.jsx
 PASS iOS tests/portable-backup.ui.test.jsx
-PASS iOS tests/backup-app-integration.ui.test.jsx (9.765 s)
 PASS iOS tests/draft-integration.ui.test.jsx
   ● Console
 
@@ -27,9 +27,6 @@ PASS iOS tests/draft-integration.ui.test.jsx
       at Object.require (App.tsx:20:1)
       at Object.require (tests/draft-integration.ui.test.jsx:4:1)
 
-PASS iOS tests/reminders.ui.test.jsx
-PASS iOS tests/sources-workbench.ui.test.jsx
-PASS iOS tests/graph.ui.test.jsx
 PASS iOS tests/workspace.ui.test.jsx
   ● Console
 
@@ -53,13 +50,6 @@ PASS iOS tests/workspace.ui.test.jsx
       at Object.require (App.tsx:20:1)
       at Object.require (tests/workspace.ui.test.jsx:4:1)
 
-PASS iOS tests/portable-panel.ui.test.jsx
-PASS iOS tests/backup-recovery-panel.ui.test.jsx
-PASS iOS tests/media-panel.ui.test.jsx
-PASS iOS tests/media-library.ui.test.jsx
-PASS iOS tests/draft.ui.test.jsx
-PASS iOS tests/ai-workspace.ui.test.jsx
-PASS iOS tests/media-session.ui.test.jsx
 PASS iOS tests/safety.ui.test.jsx
   ● Console
 
@@ -83,14 +73,24 @@ PASS iOS tests/safety.ui.test.jsx
       at Object.require (App.tsx:20:1)
       at Object.require (tests/safety.ui.test.jsx:4:1)
 
-PASS iOS tests/home.ui.test.jsx
+PASS iOS tests/media-panel.ui.test.jsx
+PASS iOS tests/graph.ui.test.jsx
+PASS iOS tests/sources-workbench.ui.test.jsx
+PASS iOS tests/portable-panel.ui.test.jsx
+PASS iOS tests/reminders.ui.test.jsx
 PASS iOS tests/pdf.ui.test.jsx
+PASS iOS tests/ai-workspace.ui.test.jsx
+PASS iOS tests/backup-recovery-panel.ui.test.jsx
+PASS iOS tests/home.ui.test.jsx
 PASS iOS tests/ai-bridge.ui.test.jsx
-PASS iOS tests/media-native.ui.test.jsx
+PASS iOS tests/draft.ui.test.jsx
+PASS iOS tests/media-library.ui.test.jsx
 PASS iOS tests/recovery.ui.test.jsx
+PASS iOS tests/media-session.ui.test.jsx
+PASS iOS tests/media-native.ui.test.jsx
 
 Test Suites: 20 passed, 20 total
 Tests:       152 passed, 152 total
 Snapshots:   0 total
-Time:        20.466 s
+Time:        6.395 s, estimated 21 s
 Ran all test suites.
