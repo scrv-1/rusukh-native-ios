@@ -21,9 +21,9 @@ export function WorkspaceEditor({ value, p, onCancel, onSave, reducedMotion = tr
           <Label p={p} weight="700">حجم البطاقات في الرئيسية</Label>
           <View style={{ flexDirection: arabicRow, gap: 8, flexWrap: 'wrap' }}>
             <Button p={p} title="مريح" tone={draft.density === 'comfortable' ? 'primary' : 'secondary'}
-              disabled={saving} onPress={() => setDraft(d => ({ ...d, density: 'comfortable' }))} />
+              selected={draft.density === 'comfortable'} disabled={saving} onPress={() => setDraft(d => ({ ...d, density: 'comfortable' }))} />
             <Button p={p} title="مختصر" tone={draft.density === 'compact' ? 'primary' : 'secondary'}
-              disabled={saving} onPress={() => setDraft(d => ({ ...d, density: 'compact' }))} />
+              selected={draft.density === 'compact'} disabled={saving} onPress={() => setDraft(d => ({ ...d, density: 'compact' }))} />
           </View>
         </Panel>
         {draft.modules.map((item, index) => {

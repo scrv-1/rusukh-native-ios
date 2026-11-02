@@ -1,0 +1,10 @@
+✔ probe: an old invalid header read cannot publish over a newer session (7.91538ms)
+✔ probe: an old rejected header read cannot publish over a newer session (1.716258ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 112.760488

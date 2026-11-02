@@ -79,6 +79,17 @@ async function publishMetadata(root: Directory, item: MediaItem, destination: Fi
   try { await temporary.write(JSON.stringify(item)); await temporary.move(destination, { overwrite: false }); }
   finally { removeTemporary(originalURI); }
 }
+async function matchesMediaMetadata(file: File, item: MediaItem, sizeBytes: number): Promise<boolean> {
+  try {
+    requireSize(file, MAX_PREFERENCES_BYTES);
+    const existing: unknown = JSON.parse(await file.text());
+    return isMediaItem(existing) && existing.id === item.id
+      && existing.fileName === item.fileName && existing.sizeBytes === sizeBytes;
+  } catch {
+    // Preserve unreadable metadata and treat it as a collision, never as a reusable file.
+    return false;
+  }
+}
 function checkedFile(value: CheckedFile, limit: number) {
   return value && Number.isSafeInteger(value.bytes) && value.bytes > 0 && value.bytes <= limit
     && typeof value.sha256 === 'string' && shaPattern.test(value.sha256);
@@ -192,9 +203,7 @@ export async function mergePortableMedia(preview: PortablePreview, operation?: P
         added++; continue;
       }
       if (target.exists && metadata.exists && await digest(target) === entry.sha256) {
-        requireSize(metadata, MAX_PREFERENCES_BYTES);
-        const existing: unknown = JSON.parse(await metadata.text());
-        if (isMediaItem(existing) && existing.id === item.id && existing.fileName === item.fileName && existing.sizeBytes === target.size) { reused++; continue; }
+        if (await matchesMediaMetadata(metadata, item, target.size)) { reused++; continue; }
       }
       // Stable collision IDs make retries idempotent without overwriting old files.
       const id = `import-${item.id.slice(0, 35)}-${entry.sha256.slice(0, 24)}`;
@@ -206,9 +215,7 @@ export async function mergePortableMedia(preview: PortablePreview, operation?: P
           added++; continue;
         }
         if (target.exists && metadata.exists && await digest(target) === entry.sha256) {
-          requireSize(metadata, MAX_PREFERENCES_BYTES);
-          const existing: unknown = JSON.parse(await metadata.text());
-          if (isMediaItem(existing) && existing.fileName === item.fileName && existing.sizeBytes === target.size) { reused++; continue; }
+          if (await matchesMediaMetadata(metadata, item, target.size)) { reused++; continue; }
         }
         throw new Error('تعارض ملف موجود مع وسيط مستورد. لم يُستبدل الملف السابق؛ قد تكون أضيفت وسائط قبل التوقف.');
       }

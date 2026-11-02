@@ -18,6 +18,17 @@ export type CaptureDependencies = {
   save(input: CapturedMedia): Promise<MediaItem>;
 };
 
+// Expo's recording mode applies to every recorder in the process. Keep ownership
+// until a departing screen finishes saving and native cleanup, so its finalizer
+// cannot disable a recorder started by a freshly mounted screen.
+let captureOwnership = Promise.resolve();
+function acquireCaptureOwnership(): Promise<() => void> {
+  const previous = captureOwnership;
+  let release!: () => void;
+  captureOwnership = new Promise<void>(resolve => { release = resolve; });
+  return previous.then(() => release);
+}
+
 /** Explicit ownership keeps the native recorder alive until stop + durable save finish. */
 export class AudioCaptureSession {
   snapshot: CaptureSnapshot = { state: 'idle', durationMs: 0, canRetry: false };
@@ -26,6 +37,7 @@ export class AudioCaptureSession {
   private starting?: Promise<void>;
   private stopping?: Promise<void>;
   private pending?: CapturedMedia;
+  private releaseOwnership?: () => void;
   private active = true;
   private closed = false;
   private generation = 0;
@@ -40,6 +52,19 @@ export class AudioCaptureSession {
     this.snapshot = { ...this.snapshot, ...next };
     if (!this.closed) this.listeners.forEach(listener => listener(this.snapshot));
   }
+  private async releaseRecordingMode() {
+    const release = this.releaseOwnership;
+    if (!release) return;
+    this.releaseOwnership = undefined;
+    try { await this.deps.setRecordingMode(false); }
+    finally { release(); }
+  }
+  private async cleanupRecorder() {
+    const recorder = this.recorder;
+    this.recorder = undefined;
+    try { recorder?.release(); }
+    finally { await this.releaseRecordingMode(); }
+  }
   start(): Promise<void> {
     if (this.starting) return this.starting;
     if (this.closed || !this.active || this.recorder || this.stopping || this.pending) return Promise.resolve();
@@ -51,14 +76,16 @@ export class AudioCaptureSession {
         const permission = await this.deps.requestPermission();
         if (cancelled()) { this.update({ state: 'idle' }); return; }
         if (!permission.granted) { this.update({ state: 'denied' }); return; }
+        this.releaseOwnership = await acquireCaptureOwnership();
+        if (cancelled()) { await this.releaseRecordingMode(); this.update({ state: 'idle' }); return; }
         await this.deps.setRecordingMode(true);
-        if (cancelled()) { await this.deps.setRecordingMode(false); this.update({ state: 'idle' }); return; }
+        if (cancelled()) { await this.releaseRecordingMode(); this.update({ state: 'idle' }); return; }
         this.id = newMediaId();
         const recorder = this.deps.createRecorder(this.id);
         this.recorder = recorder;
         await recorder.prepare();
         if (cancelled()) {
-          try { await recorder.stop(); } finally { recorder.release(); this.recorder = undefined; await this.deps.setRecordingMode(false); }
+          try { await recorder.stop(); } finally { await this.cleanupRecorder(); }
           this.update({ state: 'idle' });
           return;
         }
@@ -67,9 +94,8 @@ export class AudioCaptureSession {
       } catch {
         if (this.recorder) {
           try { await this.recorder.stop(); } catch { /* Native preparation may have failed before a recording existed. */ }
-          this.recorder.release(); this.recorder = undefined;
         }
-        try { await this.deps.setRecordingMode(false); } catch { /* Original failure is shown below. */ }
+        try { await this.cleanupRecorder(); } catch { /* Original failure is shown below. */ }
         this.update({ state: 'error', error: 'تعذّر بدء التسجيل. تحقق من إذن الميكروفون ومساحة الجهاز.', canRetry: false });
       }
     })().finally(() => { this.starting = undefined; });
@@ -93,9 +119,7 @@ export class AudioCaptureSession {
       } catch {
         this.update({ state: 'error', canRetry: !!this.pending, error: 'تعذّر حفظ التسجيل. إن وُجد ملف صوتي محفوظ فسيُستعاد عند فتح المكتبة مجددًا.' });
       } finally {
-        recorder.release();
-        this.recorder = undefined;
-        try { await this.deps.setRecordingMode(false); } catch { /* Recording is stopped and native resource released. */ }
+        try { await this.cleanupRecorder(); } catch { /* Stop/save outcome is known; ownership is released even if native cleanup fails. */ }
       }
     })().finally(() => { this.stopping = undefined; });
     return this.stopping;

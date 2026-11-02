@@ -1,0 +1,4 @@
+core_exit=0
+ui_exit=0
+ai_exit=0
+typecheck_exit=0

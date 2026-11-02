@@ -1,0 +1,64 @@
+✖ probe: an old invalid header read cannot publish over a newer session (7.477519ms)
+✖ probe: an old rejected header read cannot publish over a newer session (2.407996ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 126.72208
+
+✖ failing tests:
+
+test at ../../data_review_probes/ai-header-runtime.test.mjs:172:48
+✖ probe: an old invalid header read cannot publish over a newer session (7.477519ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + Error: هذا الملف ليس نموذج GGUF.
+  +     at Object.loadModel (evalmachine.<anonymous>:100:56)
+  +     at async TestContext.<anonymous> (file:///workspace/scratch/97ad5d4fb9f4/data_review_probes/ai-header-runtime.test.mjs:187:3)
+  +     at async Test.run (node:internal/test_runner/test:1409:7)
+  +     at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+  - undefined
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/97ad5d4fb9f4/data_review_probes/ai-header-runtime.test.mjs:188:10)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: Error: هذا الملف ليس نموذج GGUF.
+        at Object.loadModel (evalmachine.<anonymous>:100:56)
+        at async TestContext.<anonymous> (file:///workspace/scratch/97ad5d4fb9f4/data_review_probes/ai-header-runtime.test.mjs:187:3)
+        at async Test.run (node:internal/test_runner/test:1409:7)
+        at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3),
+    expected: undefined,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ../../data_review_probes/ai-header-runtime.test.mjs:172:48
+✖ probe: an old rejected header read cannot publish over a newer session (2.407996ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + Error: old read failed
+  +     at TestContext.<anonymous> (file:///workspace/scratch/97ad5d4fb9f4/data_review_probes/ai-header-runtime.test.mjs:186:22)
+  +     at async Test.run (node:internal/test_runner/test:1409:7)
+  +     at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  - undefined
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/97ad5d4fb9f4/data_review_probes/ai-header-runtime.test.mjs:188:10)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: Error: old read failed
+        at TestContext.<anonymous> (file:///workspace/scratch/97ad5d4fb9f4/data_review_probes/ai-header-runtime.test.mjs:186:22)
+        at async Test.run (node:internal/test_runner/test:1409:7)
+        at async Test.processPendingSubtests (node:internal/test_runner/test:974:7),
+    expected: undefined,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

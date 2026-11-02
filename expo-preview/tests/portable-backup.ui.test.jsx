@@ -190,3 +190,30 @@ test('round-trips audio payload and duration alongside photographs', async () =>
   expect(await new File(Paths.document, 'rusukh-media', 'audio-1.m4a').text()).toBe('SOUND');
   expect(JSON.parse(await new File(Paths.document, 'rusukh-media', 'audio-1.json').text())).toEqual(audio);
 });
+
+test('corrupt original metadata falls back to an additive collision id and preserves the original files', async () => {
+  const folder = await makeFolder();
+  const preview = await inspectPortableFolder(folder);
+  const metadataURI = 'file:///app/rusukh-media/photo-1.json';
+  mockFiles.set(metadataURI, Buffer.from('{broken'));
+  expect(await mergePortableMedia(preview)).toMatchObject({added:1,reused:0});
+  expect(mockFiles.get(metadataURI).toString()).toBe('{broken');
+  expect(mockFiles.get('file:///app/rusukh-media/photo-1.jpg').toString()).toBe('PHOTO');
+  const restored = [...mockFiles.keys()].filter(k => k.includes('/rusukh-media/import-') && k.endsWith('.json'));
+  expect(restored).toHaveLength(1);
+  expect(await mergePortableMedia(preview)).toMatchObject({added:0,reused:1});
+});
+
+test('corrupt metadata at both original and stable collision paths fails explicitly without replacing either', async () => {
+  const folder = await makeFolder();
+  const preview = await inspectPortableFolder(folder);
+  seedMedia('OLDER');
+  await mergePortableMedia(preview);
+  const originalURI = 'file:///app/rusukh-media/photo-1.json';
+  const collisionURI = [...mockFiles.keys()].find(k => k.includes('/rusukh-media/import-') && k.endsWith('.json'));
+  mockFiles.set(originalURI, Buffer.from('{original-broken'));
+  mockFiles.set(collisionURI, Buffer.from('{collision-broken'));
+  const before = [...mockFiles.entries()].filter(([key]) => key.startsWith('file:///app/'));
+  await expect(mergePortableMedia(preview)).rejects.toThrow('تعارض ملف موجود');
+  expect([...mockFiles.entries()].filter(([key]) => key.startsWith('file:///app/'))).toEqual(before);
+});

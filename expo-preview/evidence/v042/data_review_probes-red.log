@@ -1,0 +1,85 @@
+FAIL iOS tests/backup-app-integration.ui.test.jsx
+  ● pending JSON import stops if another committed operation fails to refresh
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: true
+
+      226 |   expect(screen.getByText('حُفظ التغيير؛ تعذّر تحديث العرض')).toBeTruthy();
+      227 |   await act(async () => { releaseRead(JSON.stringify(backup)); await mockFileText; });
+    > 228 |   expect(Alert.alert.mock.calls.some(call => call[0] === 'استبدال البيانات الحالية؟')).toBe(false);
+          |                                                                                        ^
+      229 |   expect(storage.restoreBackup).not.toHaveBeenCalled();
+      230 | });
+      231 |
+
+      at Object.toBe (tests/backup-app-integration.ui.test.jsx:228:88)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● restore callback from an earlier render respects the live failed-refresh barrier
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: true
+
+      243 |     result = await delayedRestore(backup);
+      244 |   });
+    > 245 |   expect(result).toBe(false);
+          |                  ^
+      246 |   expect(storage.restoreBackup).not.toHaveBeenCalled();
+      247 |   expect(draftWasCleared()).toBe(false);
+      248 |   expect(mockSettings.get(NOTE_DRAFT_KEY)).toBe(retainedDraft);
+
+      at Object.toBe (tests/backup-app-integration.ui.test.jsx:245:18)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+FAIL iOS tests/portable-backup.ui.test.jsx
+  ● corrupt original metadata falls back to an additive collision id and preserves the original files
+
+    SyntaxError: Expected property name or '}' in JSON at position 1 (line 1 column 2)
+        at JSON.parse (<anonymous>)
+
+      194 |       if (target.exists && metadata.exists && await digest(target) === entry.sha256) {
+      195 |         requireSize(metadata, MAX_PREFERENCES_BYTES);
+    > 196 |         const existing: unknown = JSON.parse(await metadata.text());
+          |                                        ^
+      197 |         if (isMediaItem(existing) && existing.id === item.id && existing.fileName === item.fileName && existing.sizeBytes === target.size) { reused++; continue; }
+      198 |       }
+      199 |       // Stable collision IDs make retries idempotent without overwriting old files.
+
+      at parse (src/backup/portable.ts:196:40)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● corrupt metadata at both original and stable collision paths fails explicitly without replacing either
+
+    expect(received).rejects.toThrow(expected)
+
+    Expected substring: "تعارض ملف موجود"
+    Received message:   "Expected property name or '}' in JSON at position 1 (line 1 column 2)"
+
+          208 |         if (target.exists && metadata.exists && await digest(target) === entry.sha256) {
+          209 |           requireSize(metadata, MAX_PREFERENCES_BYTES);
+        > 210 |           const existing: unknown = JSON.parse(await metadata.text());
+              |                                          ^
+          211 |           if (isMediaItem(existing) && existing.fileName === item.fileName && existing.sizeBytes === target.size) { reused++; continue; }
+          212 |         }
+          213 |         throw new Error('تعارض ملف موجود مع وسيط مستورد. لم يُستبدل الملف السابق؛ قد تكون أضيفت وسائط قبل التوقف.');
+
+      at parse (src/backup/portable.ts:210:42)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+      at Object.toThrow (node_modules/expect/build/index.js:2155:20)
+      at Object.toThrow (tests/portable-backup.ui.test.jsx:218:53)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 2 failed, 2 total
+Tests:       4 failed, 25 passed, 29 total
+Snapshots:   0 total
+Time:        1.951 s
+Ran all test suites matching tests/backup-app-integration.ui.test.jsx|tests/portable-backup.ui.test.jsx.

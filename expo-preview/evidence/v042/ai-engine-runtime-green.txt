@@ -1,0 +1,15 @@
+✔ worker failure during generation unloads immediately and rejects a late completion (7.005974ms)
+✔ worker failure while loading reports an error without waiting for the watchdog (1.51768ms)
+✔ late worker events from a disposed runtime cannot stop a new generation (1.861477ms)
+✔ delayed failed-runtime cleanup preserves a new generation and its WASM URL (2.971103ms)
+✔ a newer model selection supersedes a selection waiting for old-runtime cleanup (1.326823ms)
+✔ a rejected load does not publish a stale error after newer-runtime startup (1.94353ms)
+✔ superseded header reads cannot publish invalid-header or read errors over a newer generation (3.239477ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 110.994337
