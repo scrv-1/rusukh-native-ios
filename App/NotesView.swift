@@ -6,6 +6,7 @@ import AVFoundation
 private struct EditingNote: Identifiable {
     let id = UUID()
     let note: StudyNote?
+    var pdfDraft: PDFImportDraft? = nil
 }
 
 struct NotesView: View {
@@ -14,6 +15,7 @@ struct NotesView: View {
     @State private var search = ""
     @State private var choosingPDF = false
     @State private var importingPDF = false
+    @State private var importTask: Task<Void, Never>?
 
     private var results: [StudyNote] {
         let query = search.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -40,6 +42,7 @@ struct NotesView: View {
                             Image(systemName: "chevron.left").font(.caption).foregroundStyle(.tertiary)
                         }
                     }
+                    .disabled(importingPDF)
                     .swipeActions {
                         Button("حذف", role: .destructive) { library.delete(note) }
                     }
@@ -59,14 +62,16 @@ struct NotesView: View {
                 if importingPDF { ProgressView("استخراج النص") }
                 Button { editing = EditingNote(note: nil) } label: { Image(systemName: "plus") }
                     .accessibilityLabel("ملاحظة جديدة").accessibilityIdentifier("notes.add")
+                    .disabled(importingPDF)
             }
-            .sheet(item: $editing) { route in NoteEditorView(note: route.note) }
+            .sheet(item: $editing) { route in NoteEditorView(note: route.note, pdfDraft: route.pdfDraft) }
             .fileImporter(isPresented: $choosingPDF, allowedContentTypes: [.pdf]) { result in
                 switch result {
                 case .success(let url): importPDF(url)
                 case .failure(let error): library.message = error.localizedDescription
                 }
             }
+            .onDisappear { importTask?.cancel() }
         }
     }
 
@@ -74,18 +79,28 @@ struct NotesView: View {
         guard !importingPDF else { return }
         importingPDF = true
         let access = url.startAccessingSecurityScopedResource()
-        let name = String(url.deletingPathExtension().lastPathComponent.prefix(500))
-        Task {
+        let name = url.lastPathComponent
+        importTask = Task {
             defer {
                 if access { url.stopAccessingSecurityScopedResource() }
                 importingPDF = false
+                importTask = nil
             }
             do {
-                let text = try await Task.detached(priority: .userInitiated) { try PDFTextImport.read(from: url) }.value
-                if let note = library.saveNote(title: name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? "ملف PDF" : name, body: text, imageJPEG: nil) {
-                    _ = library.importQACards(for: note.id)
+                let worker = Task.detached(priority: .userInitiated) {
+                    try PDFImportDraft(document: PDFTextImport.readDocument(from: url), sourceFileName: name)
                 }
-            } catch { library.message = error.localizedDescription }
+                let draft = try await withTaskCancellationHandler {
+                    try await worker.value
+                } onCancel: {
+                    worker.cancel()
+                }
+                try Task.checkCancellation()
+                // Extraction is only a proposal. The editor's Save is the first write.
+                editing = EditingNote(note: nil, pdfDraft: draft)
+            } catch is CancellationError {
+                // A canceled import must not open a late editor or mutate the library.
+            } catch { if !Task.isCancelled { library.message = error.localizedDescription } }
         }
     }
 }
@@ -96,16 +111,20 @@ struct NoteEditorView: View {
     @Environment(\.scenePhase) private var scenePhase
     @StateObject private var voice: VoiceAttachment
     let note: StudyNote?
+    let pdfDraft: PDFImportDraft?
     @State private var title: String
     @State private var noteBody: String
     @State private var imageJPEG: Data?
     @State private var cameraOpen = false
     @State private var photoError = false
+    @State private var importWrittenCards: Bool
 
-    init(note: StudyNote?) {
+    init(note: StudyNote?, pdfDraft: PDFImportDraft? = nil) {
         self.note = note
-        _title = State(initialValue: note?.title ?? "")
-        _noteBody = State(initialValue: note?.body ?? "")
+        self.pdfDraft = pdfDraft
+        _title = State(initialValue: note?.title ?? pdfDraft?.title ?? "")
+        _noteBody = State(initialValue: note?.body ?? pdfDraft?.body ?? "")
+        _importWrittenCards = State(initialValue: pdfDraft == nil)
         _imageJPEG = State(initialValue: note?.imageJPEG)
         _voice = StateObject(wrappedValue: VoiceAttachment(data: note?.audioM4A))
     }
@@ -113,6 +132,23 @@ struct NoteEditorView: View {
     var body: some View {
         NavigationStack {
             Form {
+                if let pdfDraft {
+                    Section("مراجعة استيراد PDF") {
+                        Text("راجع النص وترتيبه قبل الحفظ. تُحفظ الملاحظة مع اسم المصدر وأرقام الصفحات؛ لا تُحفظ نسخة من ملف PDF الأصلي.")
+                            .font(.footnote).accessibilityIdentifier("pdf.review-notice")
+                        Text("عدد صفحات المصدر: \(pdfDraft.totalPages)")
+                            .font(.caption)
+                        if !pdfDraft.pagesWithoutText.isEmpty {
+                            Text("لم يُستخرج نص من الصفحات: \(pdfDraft.pagesWithoutText.map(String.init).joined(separator: "، ")). قد تكون فارغة أو مصوّرة؛ لم يُجرَ تعرّف ضوئي عليها.")
+                                .font(.footnote).foregroundStyle(.secondary)
+                                .accessibilityIdentifier("pdf.missing-pages")
+                        }
+                        Toggle("إضافة بطاقات من صيغ س: وج: المكتوبة", isOn: $importWrittenCards)
+                            .accessibilityIdentifier("pdf.import-written-cards")
+                        Text("هذه قراءة للنص المكتوب وليست توليد أسئلة بالذكاء الاصطناعي.")
+                            .font(.caption).foregroundStyle(.secondary)
+                    }
+                }
                 Section("العنوان") {
                     TextField("مثال: التعلّم النشط", text: $title).accessibilityIdentifier("note.title")
                 }
@@ -153,14 +189,14 @@ struct NoteEditorView: View {
                     } label: { Label("التقاط صورة", systemImage: "camera") }
                 }
             }
-            .navigationTitle(note == nil ? "ملاحظة جديدة" : "تحرير الملاحظة")
+            .navigationTitle(pdfDraft != nil ? "مراجعة PDF" : (note == nil ? "ملاحظة جديدة" : "تحرير الملاحظة"))
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) { Button("إلغاء") { dismiss() } }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("حفظ") {
                         guard voice.finish() else { return }
                         if let saved = library.saveNote(id: note?.id, title: title, body: noteBody, imageJPEG: imageJPEG, audioM4A: voice.data) {
-                            _ = library.importQACards(for: saved.id)
+                            if importWrittenCards { _ = library.importQACards(for: saved.id) }
                             dismiss()
                         }
                     }

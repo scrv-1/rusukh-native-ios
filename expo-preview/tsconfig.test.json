@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "Node16",
+    "moduleResolution": "Node16",
+    "outDir": ".test-build",
+    "rootDir": "src",
+    "strict": true,
+    "skipLibCheck": true
+  },
+  "include": [
+    "src/core.ts",
+    "src/types.ts",
+    "src/workspace.ts",
+    "src/sources.ts",
+    "src/storage.ts",
+    "src/youtube.ts",
+    "src/pdf/contracts.ts",
+    "src/pdf/layout.ts",
+    "src/studyChunks.ts",
+    "src/ai/contracts.ts"
+  ]
+}

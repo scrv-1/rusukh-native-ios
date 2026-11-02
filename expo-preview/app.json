@@ -1,0 +1,50 @@
+{
+  "expo": {
+    "name": "رُسوخ",
+    "slug": "rusukh-ios",
+    "scheme": "rusukh",
+    "version": "0.4.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "backgroundColor": "#101011",
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "app.rusukh.study",
+      "buildNumber": "1",
+      "infoPlist": {
+        "CFBundleAllowMixedLocalizations": true
+      }
+    },
+    "plugins": [
+      "expo-document-picker",
+      "expo-font",
+      [
+        "expo-audio",
+        {
+          "microphonePermission": "يسجل رُسوخ صوت المحاضرة بإذنك ويحفظه محليًا.",
+          "enableBackgroundRecording": false
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "اختر صورة دراسية لحفظها في رُسوخ.",
+          "cameraPermission": "التقط صورة دراسية لحفظها على جهازك.",
+          "microphonePermission": false
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "enableBackgroundRemoteNotifications": false,
+          "enableRemoteNotifications": false
+        }
+      ],
+      "expo-asset"
+    ],
+    "extra": {
+      "appVersion": "0.4.0"
+    }
+  }
+}

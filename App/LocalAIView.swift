@@ -1,14 +1,14 @@
 import SwiftUI
+import UIKit
 
 struct LocalAIView: View {
     @EnvironmentObject private var library: LibraryStore
+    @Environment(\.scenePhase) private var scenePhase
     @StateObject private var inferenceGate = LocalInferenceGate()
+    @StateObject private var appleModel = AppleModelController()
     @State private var prompt = ""
-    @State private var answer = ""
-    @State private var busy = false
     @State private var selectedLanguage = "ar-SA"
     @State private var selectedNoteID: UUID?
-    @State private var errorText: String?
 
     private let engine = NativeAIEngine()
     private var selectedNote: StudyNote? { library.snapshot.notes.first(where: { $0.id == selectedNoteID }) }
@@ -29,6 +29,7 @@ struct LocalAIView: View {
                             Text("English").tag("en-US")
                         }
                         .pickerStyle(.segmented)
+                        .disabled(inferenceGate.busy)
                         Text("قد لا تدعم Apple العربية في نموذج Foundation Models. يختبر رُسوخ ذلك على الجهاز نفسه بدل الادعاء بوجود دعم.")
                             .font(.caption).foregroundStyle(.secondary)
                     }
@@ -42,30 +43,40 @@ struct LocalAIView: View {
                             Text(note.title).tag(Optional(note.id))
                         }
                     }
+                    .disabled(inferenceGate.busy)
                     TextField("اكتب سؤالك هنا...", text: $prompt, axis: .vertical)
                         .accessibilityIdentifier("ai.prompt")
                         .lineLimit(3...6)
                         .textFieldStyle(.roundedBorder)
+                        .disabled(inferenceGate.busy)
+                    Text("حد السؤال 1500 محرف، والملاحظة المرجعية 2000 محرف. الملاحظة الأطول تُرفض كاملةً ولا تُقتطع خفيةً.")
+                        .font(.caption).foregroundStyle(.secondary)
                     ArabicModelView(prompt: prompt, context: selectedNote?.body, gate: inferenceGate)
                     Button {
-                        Task { await perform() }
+                        appleModel.generate(prompt: prompt, context: selectedNote?.body, locale: selectedLocale, gate: inferenceGate)
                     } label: {
                         HStack {
-                            if busy { ProgressView() }
+                            if appleModel.busy { ProgressView() }
                             Text("تشغيل محرك Apple")
                             Image(systemName: "sparkles")
                         }
                         .frame(maxWidth: .infinity)
                     }
                     .buttonStyle(.borderedProminent).tint(.primary)
-                    .disabled(busy || inferenceGate.busy || prompt.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-                    if let errorText {
+                    .disabled(inferenceGate.busy || prompt.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                    if appleModel.busy {
+                        Button("إيقاف محرك Apple") { appleModel.stop() }
+                            .accessibilityIdentifier("apple-model-cancel")
+                    }
+                    if let errorText = appleModel.error {
                         Text(errorText).foregroundStyle(.red).font(.footnote)
                     }
-                    if !answer.isEmpty {
+                    if !appleModel.answer.isEmpty {
                         VStack(alignment: .leading, spacing: 8) {
                             Text("نتيجة النموذج").font(.headline)
-                            Text(answer).textSelection(.enabled)
+                            Text(appleModel.answer).textSelection(.enabled)
+                            Text("نتيجة مولّدة محليًا؛ راجع دقتها قبل استخدامها.")
+                                .font(.caption).foregroundStyle(.secondary)
                         }
                         .padding(16)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -85,22 +96,12 @@ struct LocalAIView: View {
                 .padding(18)
             }
             .navigationTitle("الذكاء المحلي")
-        }
-    }
-
-    @MainActor
-    private func perform() async {
-        guard inferenceGate.acquire() else { return }
-        defer { inferenceGate.release() }
-        busy = true
-        answer = ""
-        errorText = nil
-        defer { busy = false }
-        let context = selectedNote.map { "\nStudy note:\n\(String($0.body.prefix(1200)))" } ?? ""
-        do {
-            answer = try await engine.generate(prompt: prompt + context, locale: selectedLocale)
-        } catch {
-            errorText = error.localizedDescription
+            .onChange(of: scenePhase) { _, phase in if phase == .background { appleModel.stop() } }
+            .onDisappear { appleModel.stop() }
+            .onReceive(NotificationCenter.default.publisher(for: UIApplication.didReceiveMemoryWarningNotification)) { _ in appleModel.stop() }
+            .onReceive(NotificationCenter.default.publisher(for: ProcessInfo.thermalStateDidChangeNotification)) { _ in
+                if [.serious, .critical].contains(ProcessInfo.processInfo.thermalState) { appleModel.stop() }
+            }
         }
     }
 }

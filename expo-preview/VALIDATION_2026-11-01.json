@@ -1,0 +1,67 @@
+{
+  "platform": "Linux x86_64 cloud executor; not physical iPhone",
+  "checked_at": "2026-11-01T14:24:56.906374+00:00",
+  "checks": [
+    {
+      "check": "Core logic tests",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "exit_code": 0,
+      "output": "\n> rusukh-ios@0.1.0 test\n> tsc -p tsconfig.test.json && node --test tests/*.test.cjs\n\n✔ Arabic title normalisation ignores extra whitespace/case (1.725953ms)\n✔ wiki link parser supports alias and deduplicates (0.905405ms)\n✔ wiki parser ignores incomplete links and empty targets (0.115204ms)\n✔ graph builds directed links between known note titles only (0.302346ms)\n✔ graph does not create self-links (0.150136ms)\n✔ extract Arabic Q/A pairs and ignores incomplete (0.579884ms)\n✔ extract English Q/A pairs (0.272762ms)\n✔ repeat grade schedules after 10 minutes (0.180002ms)\n✔ good grade intervals progress 1,3 then more (0.200783ms)\n✔ easy first review is four days (0.257118ms)\n✔ hard grade still schedules >= day (0.187603ms)\n✔ ease always bounded for repeated failures (0.142515ms)\n✔ dueCards include only due, ascending (0.132931ms)\n✔ quiz requires two distinct answers (0.19922ms)\n✔ quiz options have one correct and no duplicates (0.506805ms)\n✔ valid backup passes (0.300163ms)\n✔ malformed backup fails (0.084037ms)\n✔ backup rejects cards referencing nonexistent notes (0.12573ms)\n✔ backup rejects duplicate identifiers (0.220623ms)\n✔ backup rejects invalid grades and time values (0.128404ms)\n✔ new IDs have supplied prefix and differ (0.126892ms)\nℹ tests 21\nℹ suites 0\nℹ pass 21\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 104.354286\nnpm warn Unknown env config \"http-proxy\". This will stop working in the next major version of npm.\n"
+    },
+    {
+      "check": "TypeScript",
+      "command": [
+        "./node_modules/.bin/tsc",
+        "--noEmit"
+      ],
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "check": "SDK dependency compatibility",
+      "command": [
+        "./node_modules/.bin/expo",
+        "install",
+        "--check"
+      ],
+      "exit_code": 0,
+      "output": "Dependencies are up to date\n"
+    },
+    {
+      "check": "Expo Doctor",
+      "command": [
+        "npm",
+        "exec",
+        "--yes",
+        "--package=expo-doctor",
+        "--",
+        "expo-doctor"
+      ],
+      "exit_code": 0,
+      "output": "Running 20 checks on your project...\n20/20 checks passed. No issues detected!\nnpm warn Unknown env config \"http-proxy\". This will stop working in the next major version of npm.\n"
+    },
+    {
+      "check": "iOS JavaScript bundle",
+      "command": [
+        "./node_modules/.bin/expo",
+        "export",
+        "--platform",
+        "ios",
+        "--output-dir",
+        "../ios-bundle-final"
+      ],
+      "exit_code": 0,
+      "output": "Starting Metro Bundler\n\n| (node:246) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n| (Use `node --trace-warnings ...` to show where the warning was created)\n| (node:246) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n| (Use `node --trace-warnings ...` to show where the warning was created)\n| (node:246) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n| (Use `node --trace-warnings ...` to show where the warning was created)\n| (node:246) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n| (Use `node --trace-warnings ...` to show where the warning was created)\n| (node:246) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n| (Use `node --trace-warnings ...` to show where the warning was created)\n| (node:246) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n| (Use `node --trace-warnings ...` to show where the warning was created)\niOS Bundled 5821ms node_modules/expo/AppEntry.js (799 modules)\n\n› ios bundles (1):\n_expo/static/js/ios/AppEntry-92a4910a8ecf10d9d3348b4ee9d7df9e.hbc (2MB)\n\n› Files (1):\nmetadata.json (145B)\n\nExported: ../ios-bundle-final\n"
+    }
+  ],
+  "not_verified": [
+    "Expo Go runtime on iPhone",
+    "SQLite persistence on physical device",
+    "Live reachable preview URL",
+    "Expo account login",
+    "Feature parity with SwiftUI app"
+  ]
+}

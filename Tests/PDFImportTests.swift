@@ -24,6 +24,31 @@ final class PDFImportTests: XCTestCase {
     func testRejectsTooManyPagesWithoutTruncation() throws {
         XCTAssertThrowsError(try PDFTextImport.text(from: makePDF(pages: Array(repeating: "page", count: 101))))
     }
+    func testStructuredExtractionKeepsEmptyPagePositionsAndFinalPage() throws {
+        let data = try makePDF(pages: ["First page", "", "Last page"])
+        let document = try PDFTextImport.document(from: data)
+        XCTAssertEqual(document.pages.map(\.number), [1, 2, 3])
+        XCTAssertEqual(document.pagesWithoutText, [2])
+        XCTAssertTrue(document.pages[0].text.contains("First page"))
+        XCTAssertTrue(document.pages[2].text.contains("Last page"))
+        let draft = try PDFImportDraft(document: document, sourceFileName: "lecture.pdf")
+        XCTAssertTrue(draft.body.contains("[صفحة 3]"))
+        XCTAssertTrue(draft.body.contains("Last page"))
+    }
+    @MainActor
+    func testCancelledExtractionDoesNotReturnAPartialDocument() async throws {
+        let data = try makePDF(pages: ["First page", "Last page"])
+        let task = Task { try PDFTextImport.document(from: data) }
+        task.cancel()
+        do {
+            _ = try await task.value
+            XCTFail("A canceled import must not return a draft")
+        } catch is CancellationError {
+            // Expected: canceled before entering PDFKit parsing.
+        } catch {
+            XCTFail("Unexpected error: \(error)")
+        }
+    }
     private func makePDF(pages: [String]) throws -> Data {
         let data = NSMutableData()
         let consumer = try XCTUnwrap(CGDataConsumer(data: data as CFMutableData))

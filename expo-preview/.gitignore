@@ -1,0 +1,10 @@
+node_modules/
+.expo/
+.test-build/
+dist/
+*.log
+.env
+.env.*
+.DS_Store
+dist-ios/
+dist-v*/

@@ -1,0 +1,18 @@
+
+> rusukh-ios@0.2.0 test:ui
+> jest --runInBand
+
+PASS iOS tests/workspace.ui.test.jsx
+  ✓ hide every tool, save, remount and reopen preserved notes through all tools (409 ms)
+  ✓ cancel discards draft; reset defaults takes effect only after save (150 ms)
+  ✓ failed save keeps draft available for retry and does not apply layout (79 ms)
+  ✓ reorder and compact preference survive restart (53 ms)
+  ✓ source import opens an editable draft and cancellation writes no content (33 ms)
+  ✓ returning to active app refreshes due counts without editing cards (15 ms)
+  ✓ new cards become due immediately without waiting for the periodic clock (46 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       7 passed, 7 total
+Snapshots:   0 total
+Time:        2.215 s, estimated 12 s
+Ran all test suites.

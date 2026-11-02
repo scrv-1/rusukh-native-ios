@@ -1,0 +1,13 @@
+SWIFT_SHA256_VERIFIED added_tokens.json
+SWIFT_SHA256_VERIFIED chat_template.jinja
+SWIFT_SHA256_VERIFIED config.json
+SWIFT_SHA256_VERIFIED generation_config.json
+SWIFT_SHA256_VERIFIED merges.txt
+SWIFT_SHA256_VERIFIED model.safetensors
+SWIFT_SHA256_VERIFIED model.safetensors.index.json
+SWIFT_SHA256_VERIFIED special_tokens_map.json
+SWIFT_SHA256_VERIFIED tokenizer.json
+SWIFT_SHA256_VERIFIED tokenizer_config.json
+SWIFT_SHA256_VERIFIED vocab.json
+SWIFT_SHA256_VERIFIED LICENSE
+MODEL_INTEGRITY_TESTS_PASSED valid, corruption, truncation, oversize

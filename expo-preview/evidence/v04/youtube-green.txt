@@ -1,0 +1,22 @@
+✔ recognizes official watch, short, live, embed and no-cookie video URLs (1.937771ms)
+✔ rejects deceptive hosts, credentials, unsupported protocol, ports and paths (0.21981ms)
+✔ rejects missing, invalid, ambiguous and malformed video identifiers (0.161022ms)
+✔ normalizes valid timestamps while discarding tracking parameters (0.409925ms)
+✔ rejects invalid and excessive timestamps rather than guessing (0.316025ms)
+✔ parses SRT milliseconds, original text, cue labels and line provenance (0.765961ms)
+✔ parses VTT identifiers, settings, BOM, short timestamps and markup without exposing markup as questions (0.398729ms)
+✔ malformed or missing timings fail instead of silently dropping transcript evidence (0.55317ms)
+✔ preserves original cue order and overlaps without manufacturing chronology (0.936006ms)
+✔ plain pasted transcript has no fabricated video timestamps (0.220241ms)
+✔ extracts only explicit written Q/A across cues with both source references (0.68555ms)
+✔ ordinary narration never becomes an invented question or answer (0.144938ms)
+✔ ignores incomplete pairs and captures Arabic or English explicit markers (0.240221ms)
+✔ rejects empty, corrupted, excessive or unsupported transcript input (12.350172ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 125.414791

@@ -1,0 +1,27 @@
+Building for debugging...
+[Constructing description]
+[Planning deferred tasks]
+[6 / 16] RusukhCoreTests-product
+[13 / 16] RusukhCoreTests-product
+[17 / 19] RusukhCoreTests-test-runner
+[21 / 21] RusukhCoreTests-test-runner
+Build complete! (1.49 secs)
+Test Suite 'Selected tests' started at 2026-11-01 14:19:19.490
+Test Suite 'BackupSafetyTests' started at 2026-11-01 14:19:19.491
+Test Case 'BackupSafetyTests.testLegacyEditedContentKeepsOriginalIdentity' started at 2026-11-01 14:19:19.491
+/workspace/scratch/4555e7a855cf/fsrs-integration-20261101/Tests/BackupSafetyTests.swift:24: error: BackupSafetyTests.testLegacyEditedContentKeepsOriginalIdentity : XCTAssertEqual failed: ("7460FE6E-AA9D-416B-B355-58702777F09E") is not equal to ("062ED3F2-8FD6-4FEA-902C-F0DF9710A139") - 
+/workspace/scratch/4555e7a855cf/fsrs-integration-20261101/Tests/BackupSafetyTests.swift:25: error: BackupSafetyTests.testLegacyEditedContentKeepsOriginalIdentity : XCTAssertEqual failed: ("97DF8A10-1838-4375-8C90-4B70D7175604") is not equal to ("BA6B8B59-E043-4570-9310-42183AF89939") - 
+/workspace/scratch/4555e7a855cf/fsrs-integration-20261101/Tests/BackupSafetyTests.swift:26: error: BackupSafetyTests.testLegacyEditedContentKeepsOriginalIdentity : XCTAssertEqual failed: ("3122A78E-8A56-4B8C-8CD0-EC5A26C5DFD7") is not equal to ("A0D1776A-4551-4F18-AB23-F9D7F93B4674") - 
+Test Case 'BackupSafetyTests.testLegacyEditedContentKeepsOriginalIdentity' failed (0.002 seconds)
+Test Case 'BackupSafetyTests.testLegacyImportIdentityIsStableAcrossRepeatedReads' started at 2026-11-01 14:19:19.493
+/workspace/scratch/4555e7a855cf/fsrs-integration-20261101/Tests/BackupSafetyTests.swift:15: error: BackupSafetyTests.testLegacyImportIdentityIsStableAcrossRepeatedReads : XCTAssertEqual failed: ("[FD83EF64-72D0-4086-A67F-0B3AF986693E]") is not equal to ("[DFF2758D-60B8-41FA-B059-AA7534F85273]") - 
+/workspace/scratch/4555e7a855cf/fsrs-integration-20261101/Tests/BackupSafetyTests.swift:16: error: BackupSafetyTests.testLegacyImportIdentityIsStableAcrossRepeatedReads : XCTAssertEqual failed: ("[FD0D6B0E-9EFC-4BBB-BE06-D4BBF25F28FF]") is not equal to ("[5A31E276-A3D5-4EEE-808F-99B0EB665765]") - 
+/workspace/scratch/4555e7a855cf/fsrs-integration-20261101/Tests/BackupSafetyTests.swift:17: error: BackupSafetyTests.testLegacyImportIdentityIsStableAcrossRepeatedReads : XCTAssertEqual failed: ("[814AEDF0-AF1D-4403-9519-C3DD1EC45778]") is not equal to ("[332CE36F-DCD6-4DB3-AE85-976B878F6664]") - 
+/workspace/scratch/4555e7a855cf/fsrs-integration-20261101/Tests/BackupSafetyTests.swift:18: error: BackupSafetyTests.testLegacyImportIdentityIsStableAcrossRepeatedReads : XCTAssertEqual failed: ("StudySnapshot(format: "rusukh-native-backup", version: 1, notes: [RusukhCore.StudyNote(id: FD83EF64-72D0-4086-A67F-0B3AF986693E, title: "قديم", body: "معرفة", createdAt: 2026-09-21 14:13:20 +0000, updatedAt: 2026-09-21 14:13:20 +0000, imageJPEG: nil, audioM4A: nil)], cards: [RusukhCore.StudyCard(id: FD0D6B0E-9EFC-4BBB-BE06-D4BBF25F28FF, noteID: FD83EF64-72D0-4086-A67F-0B3AF986693E, question: "س", answer: "ج", dueAt: 2026-09-21 14:13:20 +0000, intervalDays: 0, ease: 2.5, repetitions: 0, updatedAt: 2026-09-21 14:13:20 +0000, fsrs: nil)], reviews: [RusukhCore.ReviewEvent(id: 814AEDF0-AF1D-4403-9519-C3DD1EC45778, cardID: FD0D6B0E-9EFC-4BBB-BE06-D4BBF25F28FF, grade: RusukhCore.ReviewGrade.good, at: 2026-09-21 14:13:20 +0000)])") is not equal to ("StudySnapshot(format: "rusukh-native-backup", version: 1, notes: [RusukhCore.StudyNote(id: DFF2758D-60B8-41FA-B059-AA7534F85273, title: "قديم", body: "معرفة", createdAt: 2026-09-21 14:13:20 +0000, updatedAt: 2026-09-21 14:13:20 +0000, imageJPEG: nil, audioM4A: nil)], cards: [RusukhCore.StudyCard(id: 5A31E276-A3D5-4EEE-808F-99B0EB665765, noteID: DFF2758D-60B8-41FA-B059-AA7534F85273, question: "س", answer: "ج", dueAt: 2026-09-21 14:13:20 +0000, intervalDays: 0, ease: 2.5, repetitions: 0, updatedAt: 2026-09-21 14:13:20 +0000, fsrs: nil)], reviews: [RusukhCore.ReviewEvent(id: 332CE36F-DCD6-4DB3-AE85-976B878F6664, cardID: 5A31E276-A3D5-4EEE-808F-99B0EB665765, grade: RusukhCore.ReviewGrade.good, at: 2026-09-21 14:13:20 +0000)])") - 
+Test Case 'BackupSafetyTests.testLegacyImportIdentityIsStableAcrossRepeatedReads' failed (0.001 seconds)
+Test Suite 'BackupSafetyTests' failed at 2026-11-01 14:19:19.494
+	 Executed 2 tests, with 7 failures (0 unexpected) in 0.003 (0.003) seconds
+Test Suite 'Selected tests' failed at 2026-11-01 14:19:19.494
+	 Executed 2 tests, with 7 failures (0 unexpected) in 0.003 (0.003) seconds
+Note: Some test targets reported failures:
+  - RusukhCoreTests (XCTest)

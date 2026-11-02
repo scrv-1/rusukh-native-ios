@@ -1,0 +1,1 @@
+/Users/runner/work/_temp/device-build/Build/Products/Release-iphoneos/RusukhNative.app/PrivacyInfo.xcprivacy: OK
