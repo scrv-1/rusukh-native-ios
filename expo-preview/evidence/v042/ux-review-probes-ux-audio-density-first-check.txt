@@ -1,0 +1,25 @@
+FAIL iOS tests/media-session.ui.test.jsx
+  ● unmount during preparation stops prepared recorder, releases after stopping and does not save an empty clip
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > -1
+    Received:   -1
+
+      61 |   expect(recorder.record).not.toHaveBeenCalled();
+      62 |   expect(deps.save).not.toHaveBeenCalled();
+    > 63 |   expect(events.indexOf('release')).toBeGreaterThan(events.indexOf('stop'));
+         |                                     ^
+      64 | });
+      65 |
+      66 | test('background stops and commits recording once, without background recording', async () => {
+
+      at Object.toBeGreaterThan (tests/media-session.ui.test.jsx:63:37)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 1 failed, 1 passed, 2 total
+Tests:       1 failed, 18 passed, 19 total
+Snapshots:   0 total
+Time:        2.939 s
+Ran all test suites within paths "tests/media-session.ui.test.jsx", "tests/workspace.ui.test.jsx".

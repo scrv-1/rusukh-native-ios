@@ -1,5 +1,6 @@
 import React from 'react';
 import { Alert } from 'react-native';
+import * as DocumentPicker from 'expo-document-picker';
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react-native';
 import App from '../App';
 import { NOTE_DRAFT_KEY } from '../src/useNoteDraft';
@@ -15,6 +16,7 @@ const mockNotes = [{id:'n1',title:'ملاحظة أصلية',body:'محتوى م�
 let mockData;
 let mockDatabase;
 let mockTransactions;
+let mockFileText;
 jest.mock('../src/backup/RecoveryPointsPanel', () => ({
   RecoveryPointsPanel: props => { mockRecoveryProps = props; return null; },
 }));
@@ -34,7 +36,7 @@ jest.mock('../src/storage', () => ({
 }));
 jest.mock('react-native-safe-area-context', () => require('react-native-safe-area-context/jest/mock').default);
 jest.mock('expo-symbols', () => ({SymbolView: () => null}));
-jest.mock('expo-file-system', () => ({Paths:{cache:'/cache'},File: class {size=30;uri='/cache/file';text=async()=>'';create(){};write=async()=>{};}}));
+jest.mock('expo-file-system', () => ({Paths:{cache:'/cache'},File: class {size=30;uri='/cache/file';text=async()=>await mockFileText;create(){};write=async()=>{};}}));
 jest.mock('expo-sharing', () => ({isAvailableAsync:jest.fn(async()=>true),shareAsync:jest.fn(async()=>{})}));
 jest.mock('expo-document-picker', () => ({getDocumentAsync:jest.fn()}));
 
@@ -43,6 +45,7 @@ const backup = {format:'rusukh-backup',version:1,exportedAt:'2026-11-02T00:00:00
 
 beforeEach(() => {
   jest.useFakeTimers();
+  mockFileText = ''; DocumentPicker.getDocumentAsync.mockReset();
   mockSettings.clear(); mockRecoveryProps = undefined; mockPortableProps = undefined;
   mockData = {notes:mockNotes,cards:[],reviews:[]}; mockTransactions = [];
   // Deliberately distinct tx handles catch reads/writes accidentally using db.
@@ -205,4 +208,42 @@ test('snapshot read failure rejects instead of exporting stale in-memory study c
   storage.readAll.mockRejectedValueOnce(new Error('SQLITE_IOERR'));
   await expect(mockPortableProps.getSnapshot()).rejects.toThrow('SQLITE_IOERR');
   expect(storage.makeBackup).not.toHaveBeenCalled(); expect(storage.setSetting).not.toHaveBeenCalled();
+});
+
+test('pending JSON import stops if another committed operation fails to refresh', async () => {
+  await openSettings();
+  let releaseRead;
+  mockFileText = new Promise(resolve => { releaseRead = resolve; });
+  DocumentPicker.getDocumentAsync.mockResolvedValueOnce({canceled:false,assets:[{uri:'file:///backup.json',size:50}]});
+  await fireEvent.press(screen.getByRole('button',{name:'استيراد نسخة من الملفات'}));
+  storage.readAll.mockRejectedValueOnce(new Error('SQLITE_IOERR'));
+  await act(async () => {
+    const pending = mockRecoveryProps.onRestore(point);
+    chooseRestore('استعادة');
+    await pending;
+  });
+  expect(screen.getByText('حُفظ التغيير؛ تعذّر تحديث العرض')).toBeTruthy();
+  await act(async () => { releaseRead(JSON.stringify(backup)); await mockFileText; });
+  expect(Alert.alert.mock.calls.some(call => call[0] === 'استبدال البيانات الحالية؟')).toBe(false);
+  expect(storage.restoreBackup).not.toHaveBeenCalled();
+});
+
+test('restore callback from an earlier render respects the live failed-refresh barrier', async () => {
+  await openSettings();
+  const delayedRestore = mockPortableProps.restoreStudy;
+  const retainedDraft = JSON.stringify({version:1,editingId:'n1',title:'مسودة',body:'تعديل محفوظ',updatedAt:1});
+  storage.readAll.mockRejectedValueOnce(new Error('SQLITE_IOERR'));
+  let result;
+  await act(async () => {
+    await mockPortableProps.applyPreferences({isDark:true,workspace:defaultWorkspace()});
+    // Invoking before a React render also checks the synchronous write barrier.
+    mockSettings.set(NOTE_DRAFT_KEY,retainedDraft);
+    storage.setSetting.mockClear();
+    result = await delayedRestore(backup);
+  });
+  expect(result).toBe(false);
+  expect(storage.restoreBackup).not.toHaveBeenCalled();
+  expect(draftWasCleared()).toBe(false);
+  expect(mockSettings.get(NOTE_DRAFT_KEY)).toBe(retainedDraft);
+  expect(screen.getByText('حُفظ التغيير؛ تعذّر تحديث العرض')).toBeTruthy();
 });

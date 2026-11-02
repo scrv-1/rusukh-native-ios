@@ -1,0 +1,44 @@
+✔ worker failure during generation unloads immediately and rejects a late completion (7.705285ms)
+✔ worker failure while loading reports an error without waiting for the watchdog (1.931782ms)
+✔ late worker events from a disposed runtime cannot stop a new generation (1.980725ms)
+✔ delayed failed-runtime cleanup preserves a new generation and its WASM URL (2.585054ms)
+✔ a newer model selection supersedes a selection waiting for old-runtime cleanup (1.416278ms)
+✔ a rejected load does not publish a stale error after newer-runtime startup (5.446612ms)
+✖ superseded header reads cannot publish invalid-header or read errors over a newer generation (4.054901ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 6
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 107.906068
+
+✖ failing tests:
+
+test at ai-lab/engine-runtime.test.mjs:171:1
+✖ superseded header reads cannot publish invalid-header or read errors over a newer generation (4.054901ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + Error: هذا الملف ليس نموذج GGUF.
+  +     at Object.loadModel (evalmachine.<anonymous>:100:56)
+  +     at async TestContext.<anonymous> (file:///workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/ai-lab/engine-runtime.test.mjs:185:5)
+  +     at async Test.run (node:internal/test_runner/test:1409:7)
+  +     at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  - undefined
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/ai-lab/engine-runtime.test.mjs:186:12)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: Error: هذا الملف ليس نموذج GGUF.
+        at Object.loadModel (evalmachine.<anonymous>:100:56)
+        at async TestContext.<anonymous> (file:///workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/ai-lab/engine-runtime.test.mjs:185:5)
+        at async Test.run (node:internal/test_runner/test:1409:7)
+        at async Test.processPendingSubtests (node:internal/test_runner/test:974:7),
+    expected: undefined,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

@@ -75,39 +75,49 @@ const selectedFilesOnlyCache = new CacheManager([{
 }]);
 
 async function unload(message = 'أُفرغ النموذج من الذاكرة. اختر ملف GGUF لبدء جلسة جديدة.') {
-  operation++;
+  const token = ++operation;
   clearTimer();
   abort?.abort();
   abort = null;
   const old = engine;
+  const oldWasmURL = wasmURL;
   engine = null;
+  wasmURL = null;
   selectedModel = null;
   draft = null;
   $('model').value = '';
   $('result').textContent = '';
   status('cancelled', message);
   try { await old?.exit(); } catch { /* Terminated worker is already unavailable. */ }
-  if (wasmURL) { URL.revokeObjectURL(wasmURL); wasmURL = null; }
+  // A newer session may have started while the old worker was exiting.
+  if (oldWasmURL) URL.revokeObjectURL(oldWasmURL);
+  return token;
 }
 
 async function loadModel(blob, name) {
-  await unload('جارٍ تجهيز المحرك المحلي…');
+  const cleanupToken = await unload('جارٍ تجهيز المحرك المحلي…');
+  if (cleanupToken !== operation) return;
   const token = ++operation;
   if (!(blob instanceof Blob) || blob.size < 16 || blob.size > MAX_MODEL_BYTES) throw new Error('اختر نموذج GGUF لا يتجاوز 768 ميبيبايت.');
-  const header = new Uint8Array(await blob.slice(0, 4).arrayBuffer());
-  if (String.fromCharCode(...header) !== 'GGUF') throw new Error('هذا الملف ليس نموذج GGUF.');
+  let header;
+  try { header = new Uint8Array(await blob.slice(0, 4).arrayBuffer()); }
+  catch (error) { if (token === operation) throw error; return; }
   if (token !== operation) return;
+  if (String.fromCharCode(...header) !== 'GGUF') throw new Error('هذا الملف ليس نموذج GGUF.');
   selectedModel = blob;
   modelName = String(name).slice(0, 160);
   startedAt = performance.now();
   status('loading', 'جارٍ تحميل النموذج محليًا. قد يستغرق ذلك وقتًا ويستهلك الذاكرة.');
   const quiet = () => {};
   const workerError = error => {
-    if (token !== operation) return;
+    // Generation changes operation, but this worker still owns its runtime.
+    if (engine !== runtime) return;
     if (error?.type === 'error' && typeof error.message === 'string') {
       // wllama's Worker.onerror otherwise only logs and leaves the request pending.
       // Fail promptly instead of making the user wait for the watchdog timeout.
-      void unload().then(() => fail(`تعذّر تشغيل عامل WASM: ${error.message}`));
+      void unload().then(failedOperation => {
+        if (failedOperation === operation) fail(`تعذّر تشغيل عامل WASM: ${error.message}`);
+      });
     }
   };
   const runtime = new EmbeddedCompatWllama({ default: makeWasmURL() }, { cacheManager: selectedFilesOnlyCache, suppressNativeLog: true, logger: { debug: quiet, log: quiet, warn: quiet, error: workerError } });
@@ -123,8 +133,8 @@ async function loadModel(blob, name) {
   } catch (error) {
     if (token !== operation) return;
     clearTimer();
-    await unload();
-    throw error;
+    const failedOperation = await unload();
+    if (failedOperation === operation) throw error;
   }
 }
 

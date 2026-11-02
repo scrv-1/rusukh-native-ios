@@ -34,13 +34,13 @@ export function Icon({ name, p, size = 21, color }: {
   return <SymbolView name={name as any} size={size} tintColor={color ?? p.ink} fallback={<Text style={{ color: p.ink }}>•</Text>} />;
 }
 
-export function Button({ title, p, onPress, tone = 'primary', icon, disabled, compact = false, style, accessibilityLabel }: {
+export function Button({ title, p, onPress, tone = 'primary', icon, disabled, compact = false, style, accessibilityLabel, selected }: {
   title: string; p: Palette; onPress: () => void; tone?: 'primary' | 'secondary' | 'danger' | 'plain';
-  icon?: string; disabled?: boolean; compact?: boolean; style?: ViewStyle; accessibilityLabel?: string;
+  icon?: string; disabled?: boolean; compact?: boolean; style?: ViewStyle; accessibilityLabel?: string; selected?: boolean;
 }) {
   const bg = tone === 'primary' ? p.accent : tone === 'secondary' ? p.subtle : 'transparent';
   const fg = tone === 'primary' ? p.accentInk : tone === 'danger' ? p.danger : p.ink;
-  return <Pressable onPress={onPress} disabled={disabled} accessibilityRole="button" accessibilityLabel={accessibilityLabel ?? title} accessibilityState={{ disabled: !!disabled }}
+  return <Pressable onPress={onPress} disabled={disabled} accessibilityRole="button" accessibilityLabel={accessibilityLabel ?? title} accessibilityState={{ disabled: !!disabled, selected }}
     style={({ pressed }) => [
       { minHeight: 45, minWidth: 44, maxWidth: '100%', flexShrink: 1,
         paddingHorizontal: compact ? 13 : 17, paddingVertical: 10, borderRadius: 15,

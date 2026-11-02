@@ -86,6 +86,18 @@ test('reorder and compact preference survive restart', async()=>{
   expect(screen.queryByRole('button',{name:'فتح التعلُّم النشط'})).toBeNull();
 });
 
+test('density choices expose the current selection to assistive technology', async()=>{
+  await openApp(); await customize();
+  expect(screen.getByRole('button',{name:'مريح',selected:true})).toBeTruthy();
+  expect(screen.getByRole('button',{name:'مختصر',selected:false})).toBeTruthy();
+  await fireEvent.press(screen.getByRole('button',{name:'مختصر'}));
+  expect(screen.getByRole('button',{name:'مختصر',selected:true})).toBeTruthy();
+  expect(screen.getByRole('button',{name:'مريح',selected:false})).toBeTruthy();
+  await fireEvent.press(screen.getByRole('button',{name:'حفظ مساحتي'}));
+  await customize();
+  expect(screen.getByRole('button',{name:'مختصر',selected:true})).toBeTruthy();
+});
+
 test('source import opens an editable draft and cancellation writes no content', async()=>{
   picker.getDocumentAsync.mockResolvedValue({canceled:false,assets:[{uri:'/file',name:'محاضرة.srt',size:30}]});
   await openApp(); await fireEvent.press(screen.getAllByRole('button',{name:'كل الأدوات'})[0]);

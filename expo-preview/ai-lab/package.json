@@ -2,7 +2,7 @@
   "name": "rusukh-local-ai-engine-build",
   "private": true,
   "type": "module",
-  "scripts": { "build": "node build.mjs", "test": "node test.mjs" },
+  "scripts": { "build": "node build.mjs", "test": "node --test test.mjs engine-runtime.test.mjs" },
   "devDependencies": {
     "@wllama/wllama": "3.8.1",
     "@wllama/wllama-compat": "3.8.1",

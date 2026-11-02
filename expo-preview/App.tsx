@@ -60,6 +60,8 @@ function AppContent() {
   const [showCards, setShowCards] = useState(false);
   const [loadAttempt, setLoadAttempt] = useState(0);
   const [dataStale, setDataStale] = useState(false);
+  // Delayed picker and confirmation callbacks must see the current write barrier.
+  const dataStaleRef = useRef(false);
   const [reducedMotion, setReducedMotion] = useState(true);
   const draft = useNoteDraft(db);
   const draftTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -95,7 +97,7 @@ function AppContent() {
         const [data, mode, layout] = await Promise.all([readAll(opened), getSetting(opened, 'darkMode'), getSetting(opened, WORKSPACE_KEY)]);
         if (!active) return;
         setClock(Date.now()); setDb(opened); setNotes(data.notes); setCards(data.cards); setReviews(data.reviews);
-        setIsDark(mode === 'true'); setWorkspace(readWorkspace(layout)); setDataStale(false);
+        setIsDark(mode === 'true'); setWorkspace(readWorkspace(layout)); dataStaleRef.current = false; setDataStale(false);
       } catch (err) {
         Alert.alert('خطأ في فتح قاعدة البيانات', String(err));
       } finally { if (active) setBusy(false); }
@@ -176,12 +178,12 @@ function AppContent() {
     setClock(Date.now()); setNotes(data.notes); setCards(data.cards); setReviews(data.reviews);
   }
   async function action(fn: (d: Database) => Promise<void>): Promise<boolean> {
-    if (!db || dataStale || actionLock.current) return false;
+    if (!db || dataStaleRef.current || actionLock.current) return false;
     actionLock.current = true; setSaving(true);
     try {
       await fn(db);
       // A committed write remains successful even when its follow-up read fails.
-      try { await refresh(db); } catch { setDataStale(true); }
+      try { await refresh(db); } catch { dataStaleRef.current = true; setDataStale(true); }
       return true;
     }
     catch (error) { Alert.alert('تعذّر إكمال العملية', String(error)); return false; }
@@ -322,7 +324,7 @@ function AppContent() {
     setQuizData(questions); setQuizIndex(0); setQuizScore(0); setQuizSelected(null); setQuizOpen(true);
   }
   async function exportData() {
-    if (!db || dataStale || actionLock.current) return;
+    if (!db || dataStaleRef.current || actionLock.current) return;
     actionLock.current = true; setSaving(true);
     try {
       const snapshot = await capturePortableSnapshot();
@@ -336,7 +338,7 @@ function AppContent() {
     finally { actionLock.current = false; setSaving(false); }
   }
   async function capturePortableSnapshot() {
-    if (!db || dataStale) throw new Error('أعد تحميل البيانات قبل إنشاء النسخة.');
+    if (!db || dataStaleRef.current) throw new Error('أعد تحميل البيانات قبل إنشاء النسخة.');
     let snapshot!: { study: Backup; preferences: { isDark: boolean; workspace: Workspace } };
     await db.withExclusiveTransactionAsync(async tx => {
       const data = await readAll(tx);
@@ -378,13 +380,14 @@ function AppContent() {
     });
   }
   async function importData() {
-    if (!db) return;
+    if (!db || dataStaleRef.current || actionLock.current) return;
     try {
       const picked = await DocumentPicker.getDocumentAsync({ type: 'application/json', copyToCacheDirectory: true });
-      if (picked.canceled || !picked.assets[0]) return;
+      if (picked.canceled || !picked.assets[0] || dataStaleRef.current || actionLock.current) return;
       const file = new File(picked.assets[0].uri);
       if (Math.max(file.size ?? 0, picked.assets[0].size ?? 0) > MAX_BACKUP_BYTES) throw new Error('الملف أكبر من 15 ميغابايت');
       const text = await file.text();
+      if (dataStaleRef.current || actionLock.current) return;
       if (utf8ByteLength(text) > MAX_BACKUP_BYTES) throw new Error('الملف أكبر من 15 ميغابايت');
       const parsed: unknown = JSON.parse(text);
       if (!validateBackup(parsed)) throw new Error('النسخة غير صالحة أو ليست من رُسوخ');
@@ -554,7 +557,7 @@ function AppContent() {
       restoreStudy={restorePortableStudy} applyPreferences={applyPortablePreferences} />}
     <Panel p={p}>
       <Label p={p} weight="700">عن النسخة</Label>
-      <Label p={p} size={13} color={p.muted}>رُسوخ 0.4.1 — استيراد قابل للتراجع، واختبارات متنوعة، وتصفح جميع ملاحظات الشبكة. مساعد الدراسة المحلي تجريبي ويحتاج مراجعة النتائج. جدولة المراجعة مبسطة وليست FSRS. لا مزامنة سحابية.</Label>
+      <Label p={p} size={13} color={p.muted}>رُسوخ 0.4.2 — استيراد محمي، واستعادة وسائط آمنة، وتحسين استمرارية التسجيل. مساعد الدراسة المحلي تجريبي ويحتاج مراجعة النتائج. جدولة المراجعة مبسطة وليست FSRS. لا مزامنة سحابية.</Label>
     </Panel>
   </View>; }
   function modalHeader(title: string, close: () => void) {

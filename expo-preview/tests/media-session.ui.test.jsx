@@ -51,10 +51,11 @@ test('background while permission prompt is open prevents late recording', async
 
 test('unmount during preparation stops prepared recorder, releases after stopping and does not save an empty clip', async () => {
   const preparing = deferred();
+  const enteredPrepare = deferred();
   const { session, recorder, deps, events } = setup();
-  recorder.prepare.mockImplementation(async () => { await preparing.promise; });
+  recorder.prepare.mockImplementation(async () => { enteredPrepare.resolve(); await preparing.promise; });
   const start = session.start();
-  await Promise.resolve(); await Promise.resolve();
+  await enteredPrepare.promise;
   const disposing = session.dispose();
   preparing.resolve();
   await Promise.all([start, disposing]);
@@ -113,4 +114,80 @@ test('missing recording URI never produces success or a saved metadata item', as
   await session.start(); await session.stop();
   expect(session.snapshot.state).toBe('error');
   expect(deps.save).not.toHaveBeenCalled();
+});
+
+test('a remounted capture waits for old durable save and cleanup before starting its recorder', async () => {
+  const saving = deferred();
+  const mode = jest.fn(async () => {});
+  const first = setup({ setRecordingMode: mode, save: () => saving.promise });
+  const second = setup({ setRecordingMode: mode });
+  await first.session.start();
+  const disposing = first.session.dispose();
+  const starting = second.session.start();
+  try {
+    for (let i = 0; i < 5; i++) await Promise.resolve();
+    expect(second.recorder.record).not.toHaveBeenCalled();
+    saving.resolve({ id: 'old', kind: 'audio' });
+    await Promise.all([disposing, starting]);
+    expect(second.recorder.record).toHaveBeenCalledTimes(1);
+    expect(mode.mock.calls.map(([enabled]) => enabled)).toEqual([true, false, true]);
+    expect(second.session.snapshot.state).toBe('recording');
+  } finally {
+    saving.resolve({ id: 'old', kind: 'audio' });
+    await Promise.all([disposing, starting]);
+    await second.session.stop();
+  }
+});
+
+test('permission failure in another session cannot disable the active recorder', async () => {
+  const mode = jest.fn(async () => {});
+  const first = setup({ setRecordingMode: mode });
+  const second = setup({ setRecordingMode: mode, requestPermission: async () => { throw new Error('permission unavailable'); } });
+  await first.session.start();
+  try {
+    await second.session.start();
+    expect(second.session.snapshot.state).toBe('error');
+    expect(mode.mock.calls.map(([enabled]) => enabled)).toEqual([true]);
+  } finally { await first.session.stop(); }
+});
+
+test('disposing a queued capture skips its recorder and releases ownership for the next screen', async () => {
+  const first = setup();
+  const second = setup();
+  const third = setup();
+  await first.session.start();
+  const queued = second.session.start();
+  for (let i = 0; i < 5; i++) await Promise.resolve();
+  const cancelled = second.session.dispose();
+  const next = third.session.start();
+  try {
+    expect(second.deps.createRecorder).not.toHaveBeenCalled();
+    expect(third.deps.createRecorder).not.toHaveBeenCalled();
+    await first.session.stop();
+    await Promise.all([queued, cancelled, next]);
+    expect(second.deps.createRecorder).not.toHaveBeenCalled();
+    expect(second.deps.save).not.toHaveBeenCalled();
+    expect(second.session.snapshot.state).toBe('idle');
+    expect(third.recorder.record).toHaveBeenCalledTimes(1);
+    expect(third.session.snapshot.state).toBe('recording');
+  } finally {
+    await first.session.stop();
+    await Promise.all([queued, cancelled, next]);
+    await third.session.stop();
+  }
+});
+
+test('native release failure cannot keep the microphone owned after a successful save', async () => {
+  const first = setup();
+  const second = setup();
+  first.recorder.release.mockImplementation(() => { throw new Error('native object already released'); });
+  await first.session.start();
+  await first.session.stop();
+  expect(first.session.snapshot.state).toBe('saved');
+  expect(first.deps.save).toHaveBeenCalledTimes(1);
+  await second.session.start();
+  try {
+    expect(second.recorder.record).toHaveBeenCalledTimes(1);
+    expect(second.session.snapshot.state).toBe('recording');
+  } finally { await second.session.stop(); }
 });

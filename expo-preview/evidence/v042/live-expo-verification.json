@@ -1,0 +1,12 @@
+{
+  "observedAtUTC": "2026-11-02T21:22:22.485735+00:00",
+  "version": "0.4.2",
+  "extraAppVersion": "0.4.2",
+  "sdkVersion": "58.0.0",
+  "expoGoURL": "exp://c-svrv-3wychf-mvzq3y7dzkjliz0o.on.expo.app",
+  "manifestHTTPStatus": 200,
+  "bundleHTTPStatus": 200,
+  "bundleBytes": 28736319,
+  "bundleSHA256": "78f3d11a36903abd8f54ba5007bf2db84c411807bd47dff8511d1327d08f34c2",
+  "limits": "HTTP verification from Codespaces; not an iPhone launch. The development tunnel requires a running Codespace."
+}

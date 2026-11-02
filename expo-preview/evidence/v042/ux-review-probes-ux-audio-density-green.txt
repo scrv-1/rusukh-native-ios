@@ -1,0 +1,6 @@
+
+Test Suites: 5 passed, 5 total
+Tests:       35 passed, 35 total
+Snapshots:   0 total
+Time:        3.258 s
+Ran all test suites within paths "tests/media-session.ui.test.jsx", "tests/workspace.ui.test.jsx", "tests/home.ui.test.jsx", "tests/media-native.ui.test.jsx", "tests/media-panel.ui.test.jsx".

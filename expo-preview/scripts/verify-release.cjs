@@ -19,11 +19,11 @@ function hashSource(relative) {
     sourceHashes[relative] = createHash('sha256').update(fs.readFileSync(file)).digest('hex');
   }
 }
-for (const relative of ['App.tsx','src','package.json','package-lock.json','app.json','scripts/verify-release.cjs']) hashSource(relative);
+for (const relative of ['App.tsx','src','tests','ai-lab/engine-entry.mjs','ai-lab/engine-runtime.test.mjs','ai-lab/test.mjs','ai-lab/package.json','package.json','package-lock.json','app.json','scripts/verify-release.cjs','scripts/verify-live-expo.py']) hashSource(relative);
 fs.writeFileSync(path.join(out,'source-sha256.json'), JSON.stringify(sourceHashes,null,2)+'\n');
 const checks = [
   ['core-tests','npm',['test']],
-  ['ai-contract-tests','node',['--test','ai-lab/test.mjs']],
+  ['ai-contract-tests','node',['--test','ai-lab/test.mjs','ai-lab/engine-runtime.test.mjs']],
   ['ui-tests','npm',['run','test:ui']],
   ['typecheck','npm',['run','typecheck']],
   ['expo-compatibility','npx',['expo','install','--check']],

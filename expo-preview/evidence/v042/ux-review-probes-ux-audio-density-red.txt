@@ -1,0 +1,703 @@
+FAIL iOS tests/workspace.ui.test.jsx
+  ● Console
+
+    console.warn
+      expo-notifications: Android Push notifications (remote notifications) functionality provided by expo-notifications was removed from Expo Go with the release of SDK 53. Use a development build instead of Expo Go. Learn more at https://docs.expo.dev/develop/development-builds/introduction/.
+
+      1 | import { Platform } from 'react-native';
+    > 2 | import * as Notifications from 'expo-notifications';
+        | ^
+      3 | import { REMINDER_OWNER, type Permission, type ReminderGateway } from './service';
+      4 |
+      5 | const CHANNEL = 'rusukh-local-study';
+
+      at warn (node_modules/expo-notifications/build/warnOfExpoGoPushUsage.ts:13:15)
+      at addPushTokenListener (node_modules/expo-notifications/build/TokenEmitter.ts:44:3)
+      at Object.<anonymous> (node_modules/expo-notifications/build/DevicePushTokenAutoRegistration.fx.ts:109:3)
+      at Object.require (node_modules/expo-notifications/build/getExpoPushTokenAsync.ts:5:1)
+      at Object.require (node_modules/expo-notifications/build/index.ts:16:1)
+      at Object.require (src/reminders/expoGateway.ts:2:1)
+      at Object.require (src/reminders/RemindersPanel.tsx:5:1)
+      at Object.require (App.tsx:20:1)
+      at Object.require (tests/workspace.ui.test.jsx:4:1)
+
+  ● density choices expose the current selection to assistive technology
+
+    Unable to find an element with role: button, name: مريح, selected state: true
+
+    [36m<RNCSafeAreaView>[39m
+      [36m<View>[39m
+        [36m<View>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mر[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<Text>[39m
+            [0mرُسوخ[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"كل الأدوات"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m/>[39m
+      [36m</View>[39m
+      [36m<RCTScrollView>[39m
+        [36m<View>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mالاثنين، ٢ نوفمبر[0m
+                [36m</Text>[39m
+                [36m<Text[39m
+                  [33maccessibilityRole[39m=[32m"header"[39m
+                [36m>[39m
+                  [0mمساحتي[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0mخطوة صغيرة اليوم. تعلّم يبقى.[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<View[39m
+                  [33maccessibilityLabel[39m=[32m"تخصيص مساحتي"[39m
+                  [33maccessibilityRole[39m=[32m"button"[39m
+                  [33maccessibilityState[39m=[32m{
+                    {
+                      "disabled": false,
+                    }
+                  }[39m
+                  [33maccessible[39m=[32m{true}[39m
+                [36m>[39m
+                  [36m<Text>[39m
+                    [0mتخصيص مساحتي[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+                [36m<View[39m
+                  [33maccessibilityLabel[39m=[32m"كل الأدوات"[39m
+                  [33maccessibilityRole[39m=[32m"button"[39m
+                  [33maccessibilityState[39m=[32m{
+                    {
+                      "disabled": false,
+                    }
+                  }[39m
+                  [33maccessible[39m=[32m{true}[39m
+                [36m>[39m
+                  [36m<Text>[39m
+                    [0mكل الأدوات[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mابدأ بما يناسب وقتك[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0m1[0m
+                  [0m ملاحظة · [0m
+                  [0m1[0m
+                  [0m بطاقة · [0m
+                  [0m0[0m
+                  [0m مراجعة اليوم[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<View />[39m
+                  [36m<View>[39m
+                    [36m<Text[39m
+                      [33maccessibilityRole[39m=[32m"header"[39m
+                    [36m>[39m
+                      [0mمراجعة اليوم[0m
+                    [36m</Text>[39m
+                    [36m<Text>[39m
+                      [0m1 بطاقة مستحقة الآن[0m
+                    [36m</Text>[39m
+                  [36m</View>[39m
+                [36m</View>[39m
+                [36m<Text>[39m
+                  [0mحاول تذكّر الإجابة قبل كشفها. يمكنك التوقف متى شئت.[0m
+                [36m</Text>[39m
+                [36m<View[39m
+                  [33maccessibilityLabel[39m=[32m"ابدأ المراجعة"[39m
+                  [33maccessibilityRole[39m=[32m"button"[39m
+                  [33maccessibilityState[39m=[32m{
+                    {
+                      "disabled": false,
+                    }
+                  }[39m
+                  [33maccessible[39m=[32m{true}[39m
+                [36m>[39m
+                  [36m<Text>[39m
+                    [0mابدأ المراجعة[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<View />[39m
+                  [36m<View>[39m
+                    [36m<Text[39m
+                      [33maccessibilityRole[39m=[32m"header"[39m
+                    [36m>[39m
+                      [0mملاحظاتي[0m
+                    [36m</Text>[39m
+                    [36m<Text>[39m
+                      [0m1 ملاحظة محفوظة على جهازك[0m
+                    [36m</Text>[39m
+                  [36m</View>[39m
+                [36m</View>[39m
+                [36m<View[39m
+                  [33maccessibilityLabel[39m=[32m"فتح التعلُّم النشط"[39m
+                  [33maccessibilityRole[39m=[32m"button"[39m
+                  [33maccessible[39m=[32m{true}[39m
+                [36m>[39m
+                  [36m<View>[39m
+                    [36m<Text>[39m
+                      [0mالتعلُّم النشط[0m
+                    [36m</Text>[39m
+                  [36m</View>[39m
+                [36m</View>[39m
+                [36m<View[39m
+                  [33maccessibilityLabel[39m=[32m"فتح ملاحظاتي"[39m
+                  [33maccessibilityRole[39m=[32m"button"[39m
+                  [33maccessibilityState[39m=[32m{
+                    {
+                      "disabled": false,
+                    }
+                  }[39m
+                  [33maccessible[39m=[32m{true}[39m
+                [36m>[39m
+                  [36m<Text>[39m
+                    [0mفتح ملاحظاتي[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"ملاحظة جديدة"[39m
+                [33maccessibilityRole[39m=[32m"button"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "disabled": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mملاحظة جديدة[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mمحتواك محفوظ على جهازك. صدّر نسخة احتياطية من الإعدادات.[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</RCTScrollView>[39m
+      [36m<View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"الرئيسية"[39m
+          [33maccessibilityRole[39m=[32m"tab"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "selected": true,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mالرئيسية[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"مراجعة اليوم"[39m
+          [33maccessibilityRole[39m=[32m"tab"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "selected": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mمراجعة اليوم[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"ملاحظاتي"[39m
+          [33maccessibilityRole[39m=[32m"tab"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "selected": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظاتي[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"الإعدادات"[39m
+          [33maccessibilityRole[39m=[32m"tab"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "selected": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mالإعدادات[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<Modal>[39m
+        [36m<RNCSafeAreaView>[39m
+          [36m<RCTScrollView>[39m
+            [36m<View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mخصّص مساحتك[0m
+                [36m</Text>[39m
+                [36m<View[39m
+                  [33maccessibilityLabel[39m=[32m"إلغاء التخصيص"[39m
+                  [33maccessibilityRole[39m=[32m"button"[39m
+                  [33maccessibilityState[39m=[32m{
+                    {
+                      "disabled": false,
+                    }
+                  }[39m
+                  [33maccessible[39m=[32m{true}[39m
+                [36m>[39m
+                  [36m<Text>[39m
+                    [0mإلغاء التخصيص[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+              [36m<Text>[39m
+                [0mأظهر ما تحتاجه ورتّبه. إخفاء أداة لا يحذف محتواها؛ ستجدها دائمًا في «كل الأدوات».[0m
+              [36m</Text>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mحجم البطاقات في الرئيسية[0m
+                [36m</Text>[39m
+                [36m<View>[39m
+                  [36m<View[39m
+                    [33maccessibilityLabel[39m=[32m"مريح"[39m
+                    [33maccessibilityRole[39m=[32m"button"[39m
+                    [33maccessibilityState[39m=[32m{
+                      {
+                        "disabled": false,
+                      }
+                    }[39m
+                    [33maccessible[39m=[32m{true}[39m
+                  [36m>[39m
+                    [36m<Text>[39m
+                      [0mمريح[0m
+                    [36m</Text>[39m
+                  [36m</View>[39m
+                  [36m<View[39m
+                    [33maccessibilityLabel[39m=[32m"مختصر"[39m
+                    [33maccessibilityRole[39m=[32m"button"[39m
+                    [33maccessibilityState[39m=[32m{
+                      {
+                        "disabled": false,
+                      }
+                    }[39m
+                    [33maccessible[39m=[32m{true}[39m
+                  [36m>[39m
+                    [36m<Text>[39m
+                      [0mمختصر[0m
+                    [36m</Text>[39m
+                  [36m</View>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<View>[39m
+                    [36m<Text>[39m
+                      [0mمراجعة اليوم[0m
+                    [36m</Text>[39m
+                    [36m<Text>[39m
+                      [0mظاهرة في مساحتك[0m
+                    [36m</Text>[39m
+                  [36m</View>[39m
+                  [36m<RCTSwitch[39m
+                    [33maccessibilityLabel[39m=[32m"إظهار مراجعة اليوم"[39m
+                    [33maccessibilityRole[39m=[32m"switch"[39m
+                    [33mvalue[39m=[32m{true}[39m
+                  [36m/>[39m
+                [36m</View>[39m
+                [36m<View>[39m
+                  [36m<View[39m
+                    [33maccessibilityLabel[39m=[32m"تقديم مراجعة اليوم"[39m
+                    [33maccessibilityRole[39m=[32m"button"[39m
+                    [33maccessibilityState[39m=[32m{
+                      {
+                        "disabled": true,
+                      }
+                    }[39m
+                    [33maccessible[39m=[32m{true}[39m
+                  [36m>[39m
+                    [36m<Text>[39m
+                      [0mتقديم مراجعة اليوم[0m
+                    [36m</Text>[39m
+                  [36m</View>[39m
+                  [36m<View[39m
+                    [33maccessibilityLabel[39m=[32m"تأخير مراجعة اليوم"[39m
+                    [33maccessibilityRole[39m=[32m"button"[39m
+                    [33maccessibilityState[39m=[32m{
+                      {
+                        "disabled": false,
+                      }
+                    }[39m
+                    [33maccessible[39m=[32m{true}[39m
+                  [36m>[39m
+                    [36m<Text>[39m
+                      [0mتأخير مراجعة اليوم[0m
+                    [36m</Text>[39m
+                  [36m</View>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<View>[39m
+                    [36m<Text>[39m
+                      [0mملاحظاتي[0m
+                    [36m</Text>[39m
+                    [36m<Text>[39m
+                      [0mظاهرة في مساحتك[0m
+                    [36m</Text>[39m
+                  [36m</View>[39m
+                  [36m<RCTSwitch[39m
+                    [33maccessibilityLabel[39m=[32m"إظهار ملاحظاتي"[39m
+                    [33maccessibilityRole[39m=[32m"switch"[39m
+                    [33mvalue[39m=[32m{true}[39m
+                  [36m/>[39m
+                [36m</View>[39m
+                [36m<View>[39m
+                  [36m<View[39m
+                    [33maccessibilityLabel[39m=[32m"تقديم ملاحظاتي"[39m
+                    [33maccessibilityRole[39m=[32m"button"[39m
+                    [33maccessibilityState[39m=[32m{
+                      {
+                        "disabled": false,
+                      }
+                    }[39m
+                    [33maccessible[39m=[32m{true}[39m
+                  [36m>[39m
+                    [36m<Text>[39m
+                      [0mتقديم ملاحظاتي[0m
+                    [36m</Text>[39m
+                  [36m</View>[39m
+                  [36m<View[39m
+                    [33maccessibilityLabel[39m=[32m"تأخير ملاحظاتي"[39m
+                    [33maccessibilityRole[39m=[32m"button"[39m
+                    [33maccessibilityState[39m=[32m{
+                      {
+                        "disabled": false,
+                      }
+                    }[39m
+                    [33maccessible[39m=[32m{true}[39m
+                  [36m>[39m
+                    [36m<Text>[39m
+                      [0mتأخير ملاحظاتي[0m
+                    [36m</Text>[39m
+                  [36m</View>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<View>[39m
+                    [36m<Text>[39m
+                      [0mشبكة أفكاري[0m
+                    [36m</Text>[39m
+                    [36m<Text>[39m
+                      [0mمتاحة في كل الأدوات[0m
+                    [36m</Text>[39m
+                  [36m</View>[39m
+                  [36m<RCTSwitch[39m
+                    [33maccessibilityLabel[39m=[32m"إظهار شبكة أفكاري"[39m
+                    [33maccessibilityRole[39m=[32m"switch"[39m
+                    [33mvalue[39m=[32m{false}[39m
+                  [36m/>[39m
+                [36m</View>[39m
+                [36m<View>[39m
+                  [36m<View[39m
+                    [33maccessibilityLabel[39m=[32m"تقديم شبكة أفكاري"[39m
+                    [33maccessibilityRole[39m=[32m"button"[39m
+                    [33maccessibilityState[39m=[32m{
+                      {
+                        "disabled": false,
+                      }
+                    }[39m
+                    [33maccessible[39m=[32m{true}[39m
+                  [36m>[39m
+                    [36m<Text>[39m
+                      [0mتقديم شبكة أفكاري[0m
+                    [36m</Text>[39m
+                  [36m</View>[39m
+                  [36m<View[39m
+                    [33maccessibilityLabel[39m=[32m"تأخير شبكة أفكاري"[39m
+                    [33maccessibilityRole[39m=[32m"button"[39m
+                    [33maccessibilityState[39m=[32m{
+                      {
+                        "disabled": false,
+                      }
+                    }[39m
+                    [33maccessible[39m=[32m{true}[39m
+                  [36m>[39m
+                    [36m<Text>[39m
+                      [0mتأخير شبكة أفكاري[0m
+                    [36m</Text>[39m
+                  [36m</View>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<View>[39m
+                    [36m<Text>[39m
+                      [0mاختبار سريع[0m
+                    [36m</Text>[39m
+                    [36m<Text>[39m
+                      [0mمتاحة في كل الأدوات[0m
+                    [36m</Text>[39m
+                  [36m</View>[39m
+                  [36m<RCTSwitch[39m
+                    [33maccessibilityLabel[39m=[32m"إظهار اختبار سريع"[39m
+                    [33maccessibilityRole[39m=[32m"switch"[39m
+                    [33mvalue[39m=[32m{false}[39m
+                  [36m/>[39m
+                [36m</View>[39m
+                [36m<View>[39m
+                  [36m<View[39m
+                    [33maccessibilityLabel[39m=[32m"تقديم اختبار سريع"[39m
+                    [33maccessibilityRole[39m=[32m"button"[39m
+                    [33maccessibilityState[39m=[32m{
+                      {
+                        "disabled": false,
+                      }
+                    }[39m
+                    [33maccessible[39m=[32m{true}[39m
+                  [36m>[39m
+                    [36m<Text>[39m
+                      [0mتقديم اختبار سريع[0m
+                    [36m</Text>[39m
+                  [36m</View>[39m
+                  [36m<View[39m
+                    [33maccessibilityLabel[39m=[32m"تأخير اختبار سريع"[39m
+                    [33maccessibilityRole[39m=[32m"button"[39m
+                    [33maccessibilityState[39m=[32m{
+                      {
+                        "disabled": false,
+                      }
+                    }[39m
+                    [33maccessible[39m=[32m{true}[39m
+                  [36m>[39m
+                    [36m<Text>[39m
+                      [0mتأخير اختبار سريع[0m
+                    [36m</Text>[39m
+                  [36m</View>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<View>[39m
+                    [36m<Text>[39m
+                      [0mمصادري[0m
+                    [36m</Text>[39m
+                    [36m<Text>[39m
+                      [0mمتاحة في كل الأدوات[0m
+                    [36m</Text>[39m
+                  [36m</View>[39m
+                  [36m<RCTSwitch[39m
+                    [33maccessibilityLabel[39m=[32m"إظهار مصادري"[39m
+                    [33maccessibilityRole[39m=[32m"switch"[39m
+                    [33mvalue[39m=[32m{false}[39m
+                  [36m/>[39m
+                [36m</View>[39m
+                [36m<View>[39m
+                  [36m<View[39m
+                    [33maccessibilityLabel[39m=[32m"تقديم مصادري"[39m
+                    [33maccessibilityRole[39m=[32m"button"[39m
+                    [33maccessibilityState[39m=[32m{
+                      {
+                        "disabled": false,
+                      }
+                    }[39m
+                    [33maccessible[39m=[32m{true}[39m
+                  [36m>[39m
+                    [36m<Text>[39m
+                      [0mتقديم مصادري[0m
+                    [36m</Text>[39m
+                  [36m</View>[39m
+                  [36m<View[39m
+                    [33maccessibilityLabel[39m=[32m"تأخير مصادري"[39m
+                    [33maccessibilityRole[39m=[32m"button"[39m
+                    [33maccessibilityState[39m=[32m{
+                      {
+                        "disabled": false,
+                      }
+                    }[39m
+                    [33maccessible[39m=[32m{true}[39m
+                  [36m>[39m
+                    [36m<Text>[39m
+                      [0mتأخير مصادري[0m
+                    [36m</Text>[39m
+                  [36m</View>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<View>[39m
+                    [36m<Text>[39m
+                      [0mمساعد الدراسة المحلي[0m
+                    [36m</Text>[39m
+                    [36m<Text>[39m
+                      [0mمتاحة في كل الأدوات[0m
+                    [36m</Text>[39m
+                  [36m</View>[39m
+                  [36m<RCTSwitch[39m
+                    [33maccessibilityLabel[39m=[32m"إظهار مساعد الدراسة المحلي"[39m
+                    [33maccessibilityRole[39m=[32m"switch"[39m
+                    [33mvalue[39m=[32m{false}[39m
+                  [36m/>[39m
+                [36m</View>[39m
+                [36m<View>[39m
+                  [36m<View[39m
+                    [33maccessibilityLabel[39m=[32m"تقديم مساعد الدراسة المحلي"[39m
+                    [33maccessibilityRole[39m=[32m"button"[39m
+                    [33maccessibilityState[39m=[32m{
+                      {
+                        "disabled": false,
+                      }
+                    }[39m
+                    [33maccessible[39m=[32m{true}[39m
+                  [36m>[39m
+                    [36m<Text>[39m
+                      [0mتقديم مساعد الدراسة المحلي[0m
+                    [36m</Text>[39m
+                  [36m</View>[39m
+                  [36m<View[39m
+                    [33maccessibilityLabel[39m=[32m"تأخير مساعد الدراسة المحلي"[39m
+                    [33maccessibilityRole[39m=[32m"button"[39m
+                    [33maccessibilityState[39m=[32m{
+                      {
+                        "disabled": true,
+                      }
+                    }[39m
+                    [33maccessible[39m=[32m{true}[39m
+                  [36m>[39m
+                    [36m<Text>[39m
+                      [0mتأخير مساعد الدراسة المحلي[0m
+                    [36m</Text>[39m
+                  [36m</View>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+              [36m<Text>[39m
+                [0mشريط التنقّل يثبّت أول ثلاث أدوات ظاهرة تدعم صفحة مستقلة. الاختبار يفتح كجلسة منفصلة.[0m
+              [36m</Text>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"استعادة الترتيب الافتراضي"[39m
+                [33maccessibilityRole[39m=[32m"button"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "disabled": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mاستعادة الترتيب الافتراضي[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</RCTScrollView>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"حفظ مساحتي"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0mحفظ مساحتي[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</RNCSafeAreaView>[39m
+      [36m</Modal>[39m
+    [36m</RNCSafeAreaView>[39m
+
+      89 | test('density choices expose the current selection to assistive technology', async()=>{
+      90 |   await openApp(); await customize();
+    > 91 |   expect(screen.getByRole('button',{name:'مريح',selected:true})).toBeTruthy();
+         |                 ^
+      92 |   expect(screen.getByRole('button',{name:'مختصر',selected:false})).toBeTruthy();
+      93 |   await fireEvent.press(screen.getByRole('button',{name:'مختصر'}));
+      94 |   expect(screen.getByRole('button',{name:'مختصر',selected:true})).toBeTruthy();
+
+      at Object.getByRole (tests/workspace.ui.test.jsx:91:17)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+FAIL iOS tests/media-session.ui.test.jsx
+  ● a remounted capture waits for old durable save and cleanup before starting its recorder
+
+    expect(jest.fn()).not.toHaveBeenCalled()
+
+    Expected number of calls: 0
+    Received number of calls: 1
+
+    1: called with 0 arguments
+
+      126 |   try {
+      127 |     for (let i = 0; i < 5; i++) await Promise.resolve();
+    > 128 |     expect(second.recorder.record).not.toHaveBeenCalled();
+          |                                        ^
+      129 |     saving.resolve({ id: 'old', kind: 'audio' });
+      130 |     await Promise.all([disposing, starting]);
+      131 |     expect(second.recorder.record).toHaveBeenCalledTimes(1);
+
+      at Object.toHaveBeenCalled (tests/media-session.ui.test.jsx:128:40)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● permission failure in another session cannot disable the active recorder
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 0
+    + Received  + 1
+
+      Array [
+        true,
+    +   false,
+      ]
+
+      147 |     await second.session.start();
+      148 |     expect(second.session.snapshot.state).toBe('error');
+    > 149 |     expect(mode.mock.calls.map(([enabled]) => enabled)).toEqual([true]);
+          |                                                         ^
+      150 |   } finally { await first.session.stop(); }
+      151 | });
+      152 |
+
+      at Object.toEqual (tests/media-session.ui.test.jsx:149:57)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 2 failed, 2 total
+Tests:       3 failed, 16 passed, 19 total
+Snapshots:   0 total
+Time:        1.95 s, estimated 8 s
+Ran all test suites within paths "tests/media-session.ui.test.jsx", "tests/workspace.ui.test.jsx".
