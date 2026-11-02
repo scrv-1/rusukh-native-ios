@@ -40,9 +40,11 @@ final class BackupUITests: XCTestCase {
         app.buttons["backup.mode.replace"].tap()
         try reveal(app.buttons["backup.apply"], in: app)
         app.buttons["backup.apply"].tap()
-        try require(app.buttons["backup.confirm-replace"], in: app)
+        // iOS 27 exposes this one visible action as nested buttons with the same
+        // identifier and frame. Select its first node, then still verify the data.
+        try require(app.buttons["backup.confirm-replace"].firstMatch, in: app)
         capture("backup-02-replacement-confirmation")
-        app.buttons["backup.confirm-replace"].tap()
+        app.buttons["backup.confirm-replace"].firstMatch.tap()
         try require(app.staticTexts["backup.status"], in: app)
         try expect(app.staticTexts["backup.status"].label.contains("اكتمل الاستيراد"),
                    "Replacement must complete before proceeding", in: app)
@@ -69,8 +71,8 @@ final class BackupUITests: XCTestCase {
         capture("backup-04-recovery-preview")
         try reveal(app.buttons["backup.apply"], in: app)
         app.buttons["backup.apply"].tap()
-        try require(app.buttons["backup.confirm-replace"], in: app)
-        app.buttons["backup.confirm-replace"].tap()
+        try require(app.buttons["backup.confirm-replace"].firstMatch, in: app)
+        app.buttons["backup.confirm-replace"].firstMatch.tap()
         try require(app.staticTexts["backup.status"], in: app)
         try expect(app.staticTexts["backup.status"].label.contains("استُعيدت النسخة"),
                    "Recovery must finish before checking persisted data", in: app)
