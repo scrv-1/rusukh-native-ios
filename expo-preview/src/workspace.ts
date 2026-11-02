@@ -17,12 +17,13 @@ export type Workspace = {
 export const WORKSPACE_KEY = 'workspace.v1';
 export const defaultWorkspace = (): Workspace => ({
   version: 1, density: 'comfortable',
-  modules: MODULES.map(m => ({ id: m.id, enabled: m.id === 'review' || m.id === 'notes' })),
+  modules: MODULES.map(m => ({ id: m.id, enabled: false })),
 });
 
 /** Presets replace presentation only; callers still explicitly save or cancel. */
 export function workspacePreset(id: 'simple' | 'reading' | 'all'): Workspace {
-  if (id === 'simple') return defaultWorkspace();
+  if (id === 'simple') return { version: 1, density: 'comfortable',
+    modules: MODULES.map(m => ({ id: m.id, enabled: m.id === 'review' || m.id === 'notes' })) };
   const order: ModuleId[] = id === 'reading' ? ['notes', 'sources', 'graph', 'review', 'quiz', 'ai'] : MODULES.map(m => m.id);
   return { version: 1, density: id === 'all' ? 'compact' : 'comfortable',
     modules: order.map(module => ({ id: module, enabled: id === 'all' || ['notes', 'sources', 'graph'].includes(module) })) };

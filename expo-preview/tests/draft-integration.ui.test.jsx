@@ -3,6 +3,7 @@ import { Alert } from 'react-native';
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react-native';
 import App from '../App';
 import { NOTE_DRAFT_KEY } from '../src/useNoteDraft';
+import { WORKSPACE_KEY, workspacePreset } from '../src/workspace';
 import * as storage from '../src/storage';
 import * as picker from 'expo-document-picker';
 
@@ -35,6 +36,7 @@ async function chooseAlert(title, text) {
 beforeEach(() => {
   jest.useFakeTimers();
   mockSettings.clear();
+  mockSettings.set(WORKSPACE_KEY, JSON.stringify(workspacePreset('simple')));
   storage.readAll.mockImplementation(async () => ({notes:mockNotes,cards:mockCards,reviews:[]}));
   storage.getSetting.mockImplementation(async (_,key) => mockSettings.get(key) ?? null);
   storage.setSetting.mockImplementation(async (_,key,value) => {mockSettings.set(key,value);});

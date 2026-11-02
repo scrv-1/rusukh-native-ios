@@ -51,7 +51,7 @@
 - [x] Build concise decision register mapping actual implementation and outstanding work.
 - [x] Fresh reviewer audits branch and fixes; full release verification once final code is ready.
 - [ ] Apply verified patch to branch work/expo-usability-20261103 based on93f5adb; push draft PR.
-- [ ] Verify live Expo manifest and iOS bundle and record actual current link.
+- [x] Verify live Expo manifest and iOS bundle and record actual current link (0.5.1; evidence/v051).
 
 ## Execution ledger
 - Baseline: remote93f5adb1c2ee43195e0ceda35d39a9992c11e320; local synthetic checkpoint7ff0641, not an upstream commit.
@@ -66,3 +66,11 @@
 - Ruling: header/sizevalidation retainsoldmodel; a structurallyinvalidGGUF rejectedlater mayunloadit. Documentedandtested; no dualmodelload memoryrisk.
 - Ruling: SwiftUI findings stayseparate; no MacCI rerun or unverifiednativepatch inExpo release.
 - Whole-branch review findings addressed; finalresearch/titlecopyincrement requires finalverification of updatedsourcehashes.
+
+## User-directed second audit and 0.5.1
+The user rejected a quota-driven list and requested an evidenced product audit. The fresh audit retains 47 independent findings:16 bugs,14 gaps,17 risks; six fixed,41 open. The previous whole-branch review statement applied to its selected patch regressions, not complete product readiness. The unified source-to-study journey and model manager remain incomplete.
+
+- Six confirmed fixes: empty storage bootstrap and canvas, draft restore barrier, grade interval ordering, audio replay at end, AI error contrast.
+- Local and remote source hashes match for92 files. Remote347 tests pass; typecheck, Expo compatibility, Doctor20/20, iOS909 modules, live0.5.1 manifest/bundle HTTP200.
+- Review baseline2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0 is the real Codespaces checkpoint. Audited SwiftUI93f5adb stays separate.
+- No iPhone trial, paid service, model/dependency addition, merge, or MacCI run performed.

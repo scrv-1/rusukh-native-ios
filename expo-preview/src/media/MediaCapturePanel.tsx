@@ -24,7 +24,13 @@ function AudioPreview({ uri, p }: { uri: string; p: Palette }) {
     try {
       setError('');
       if (status.playing) player.pause();
-      else { if (status.didJustFinish) await player.seekTo(0); player.play(); }
+      else {
+        // didJustFinish lasts for one native status event; later updates retain the end position.
+        const atEnd = Number.isFinite(status.duration) && status.duration > 0
+          && Number.isFinite(status.currentTime) && status.currentTime >= status.duration;
+        if (status.didJustFinish || atEnd) await player.seekTo(0);
+        player.play();
+      }
     } catch { setError('تعذّر تشغيل الملف الصوتي.'); }
   }
   return <View style={{ gap: 8 }}>

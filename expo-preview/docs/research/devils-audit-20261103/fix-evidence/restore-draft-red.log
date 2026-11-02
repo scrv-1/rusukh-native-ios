@@ -1,0 +1,324 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+FAIL iOS tests/backup-app-integration.ui.test.jsx
+  ● successful recovery without a draft waits for SQL and never writes a draft tombstone
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: true
+
+      127 |   let result;
+      128 |   await act(async () => { release(); result = await pending; });
+    > 129 |   expect(result).toBe(true); expect(mockSettings.has(NOTE_DRAFT_KEY)).toBe(false);
+          |                                                                       ^
+      130 |   await act(async () => { jest.advanceTimersByTime(1500); });
+      131 |   expect(draftWasCleared()).toBe(false);
+      132 | });
+
+      at Object.toBe (tests/backup-app-integration.ui.test.jsx:129:71)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● portable restore blocks a live unpublished editor before SQL
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: true
+
+      143 |   await openSettings(); await editAndAutosave();
+      144 |   let result; await act(async () => { result = await mockPortableProps.restoreStudy(backup); });
+    > 145 |   expect(result).toBe(false); expect(storage.restoreBackup).not.toHaveBeenCalled();
+          |                  ^
+      146 |   expect(JSON.parse(mockSettings.get(NOTE_DRAFT_KEY)).body).toBe('مسودة عربية يجب ألا تضيع');
+      147 |   expect(screen.getByLabelText('المحتوى').props.value).toBe('مسودة عربية يجب ألا تضيع');
+      148 |   expect(draftWasCleared()).toBe(false);
+
+      at Object.toBe (tests/backup-app-integration.ui.test.jsx:145:18)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● json restore preserves a retained draft with its editor closed and does not run SQL
+
+    expect(jest.fn()).not.toHaveBeenCalled()
+
+    Expected number of calls: 0
+    Received number of calls: 1
+
+    1: {"withExclusiveTransactionAsync": [Function mockConstructor]}, {"cards": [], "exportedAt": "2026-11-02T00:00:00.000Z", "format": "rusukh-backup", "notes": [], "reviews": [], "version": 1}
+
+      273 |   await openSettings();
+      274 |   await performRestore(path);
+    > 275 |   expect(storage.restoreBackup).not.toHaveBeenCalled(); expect(storage.restoreRecoveryPoint).not.toHaveBeenCalled();
+          |                                     ^
+      276 |   expect(mockSettings.get(NOTE_DRAFT_KEY)).toBe(previous); expect(draftWasCleared()).toBe(false);
+      277 |   expect(Alert.alert.mock.calls.some(call=>String(call[1]).includes('مسودة'))).toBe(true);
+      278 | });
+
+      at toHaveBeenCalled (tests/backup-app-integration.ui.test.jsx:275:37)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● folder restore preserves a retained draft with its editor closed and does not run SQL
+
+    expect(jest.fn()).not.toHaveBeenCalled()
+
+    Expected number of calls: 0
+    Received number of calls: 1
+
+    1: {"withExclusiveTransactionAsync": [Function mockConstructor]}, {"cards": [], "exportedAt": "2026-11-02T00:00:00.000Z", "format": "rusukh-backup", "notes": [], "reviews": [], "version": 1}
+
+      273 |   await openSettings();
+      274 |   await performRestore(path);
+    > 275 |   expect(storage.restoreBackup).not.toHaveBeenCalled(); expect(storage.restoreRecoveryPoint).not.toHaveBeenCalled();
+          |                                     ^
+      276 |   expect(mockSettings.get(NOTE_DRAFT_KEY)).toBe(previous); expect(draftWasCleared()).toBe(false);
+      277 |   expect(Alert.alert.mock.calls.some(call=>String(call[1]).includes('مسودة'))).toBe(true);
+      278 | });
+
+      at toHaveBeenCalled (tests/backup-app-integration.ui.test.jsx:275:37)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● point restore preserves a retained draft with its editor closed and does not run SQL
+
+    expect(jest.fn()).not.toHaveBeenCalled()
+
+    Expected number of calls: 0
+    Received number of calls: 1
+
+    1: {"withExclusiveTransactionAsync": [Function mockConstructor]}, 7
+
+      273 |   await openSettings();
+      274 |   await performRestore(path);
+    > 275 |   expect(storage.restoreBackup).not.toHaveBeenCalled(); expect(storage.restoreRecoveryPoint).not.toHaveBeenCalled();
+          |                                                                                                  ^
+      276 |   expect(mockSettings.get(NOTE_DRAFT_KEY)).toBe(previous); expect(draftWasCleared()).toBe(false);
+      277 |   expect(Alert.alert.mock.calls.some(call=>String(call[1]).includes('مسودة'))).toBe(true);
+      278 | });
+
+      at toHaveBeenCalled (tests/backup-app-integration.ui.test.jsx:275:98)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● json restore can replace study when the live state and database have no draft
+
+    expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+    Expected: {"withExclusiveTransactionAsync": [Function mockConstructor]}, "noteDraft.v1"
+
+    Number of calls: 0
+
+      282 |   await performRestore(path);
+      283 |   expect(path==='point'?storage.restoreRecoveryPoint:storage.restoreBackup).toHaveBeenCalledTimes(1);
+    > 284 |   expect(storage.getSetting).toHaveBeenCalledWith(mockDatabase,NOTE_DRAFT_KEY);
+          |                              ^
+      285 |   expect(mockSettings.get(NOTE_DRAFT_KEY)).toBe('null'); expect(draftWasCleared()).toBe(false);
+      286 | });
+      287 |
+
+      at toHaveBeenCalledWith (tests/backup-app-integration.ui.test.jsx:284:30)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● folder restore can replace study when the live state and database have no draft
+
+    expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+    Expected: {"withExclusiveTransactionAsync": [Function mockConstructor]}, "noteDraft.v1"
+
+    Number of calls: 0
+
+      282 |   await performRestore(path);
+      283 |   expect(path==='point'?storage.restoreRecoveryPoint:storage.restoreBackup).toHaveBeenCalledTimes(1);
+    > 284 |   expect(storage.getSetting).toHaveBeenCalledWith(mockDatabase,NOTE_DRAFT_KEY);
+          |                              ^
+      285 |   expect(mockSettings.get(NOTE_DRAFT_KEY)).toBe('null'); expect(draftWasCleared()).toBe(false);
+      286 | });
+      287 |
+
+      at toHaveBeenCalledWith (tests/backup-app-integration.ui.test.jsx:284:30)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● point restore can replace study when the live state and database have no draft
+
+    expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+    Expected: {"withExclusiveTransactionAsync": [Function mockConstructor]}, "noteDraft.v1"
+
+    Number of calls: 0
+
+      282 |   await performRestore(path);
+      283 |   expect(path==='point'?storage.restoreRecoveryPoint:storage.restoreBackup).toHaveBeenCalledTimes(1);
+    > 284 |   expect(storage.getSetting).toHaveBeenCalledWith(mockDatabase,NOTE_DRAFT_KEY);
+          |                              ^
+      285 |   expect(mockSettings.get(NOTE_DRAFT_KEY)).toBe('null'); expect(draftWasCleared()).toBe(false);
+      286 | });
+      287 |
+
+      at toHaveBeenCalledWith (tests/backup-app-integration.ui.test.jsx:284:30)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● JSON selection started before a new draft cannot discard the newer editor or autosave
+
+    expect(jest.fn()).not.toHaveBeenCalled()
+
+    Expected number of calls: 0
+    Received number of calls: 1
+
+    1: {"withExclusiveTransactionAsync": [Function mockConstructor]}, {"cards": [], "exportedAt": "2026-11-02T00:00:00.000Z", "format": "rusukh-backup", "notes": [], "reviews": [], "version": 1}
+
+      295 |   await act(async()=>{resolvePicker({canceled:false,assets:[{uri:'file:///backup.json',size:30}]});});
+      296 |   await act(async()=>{importAlert()[2].find(item=>item.text==='استبدال').onPress();});
+    > 297 |   expect(storage.restoreBackup).not.toHaveBeenCalled();
+          |                                     ^
+      298 |   expect(mockSettings.get(NOTE_DRAFT_KEY)).toBe(previous); expect(draftWasCleared()).toBe(false);
+      299 |   expect(screen.getByLabelText('المحتوى').props.value).toBe('مسودة عربية يجب ألا تضيع');
+      300 | });
+
+      at Object.toHaveBeenCalled (tests/backup-app-integration.ui.test.jsx:297:37)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● a stale recovery confirmation reads the newly retained database draft at commit time
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: true
+
+      305 |   const previous=JSON.stringify(retainedDraft); mockSettings.set(NOTE_DRAFT_KEY,previous);
+      306 |   let result; await act(async()=>{chooseRestore('استعادة');result=await pending;});
+    > 307 |   expect(result).toBe(false); expect(storage.restoreRecoveryPoint).not.toHaveBeenCalled();
+          |                  ^
+      308 |   expect(mockSettings.get(NOTE_DRAFT_KEY)).toBe(previous); expect(draftWasCleared()).toBe(false);
+      309 | });
+      310 |
+
+      at Object.toBe (tests/backup-app-integration.ui.test.jsx:307:18)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● a portable callback captured before a draft was written reads the current database slot
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: true
+
+      313 |   const previous=JSON.stringify(retainedDraft);mockSettings.set(NOTE_DRAFT_KEY,previous);
+      314 |   let result;await act(async()=>{result=await restore(backup);});
+    > 315 |   expect(result).toBe(false);expect(storage.restoreBackup).not.toHaveBeenCalled();
+          |                  ^
+      316 |   expect(mockSettings.get(NOTE_DRAFT_KEY)).toBe(previous);expect(draftWasCleared()).toBe(false);
+      317 | });
+      318 |
+
+      at Object.toBe (tests/backup-app-integration.ui.test.jsx:315:18)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● restore blocks an open card editor even when no note draft is retained
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: true
+
+      325 |   storage.setSetting.mockClear();
+      326 |   let result;await act(async()=>{result=await restore(backup);});
+    > 327 |   expect(result).toBe(false);expect(storage.restoreBackup).not.toHaveBeenCalled();
+          |                  ^
+      328 |   expect(screen.getByLabelText('السؤال').props.value).toBe('سؤال غير محفوظ');expect(draftWasCleared()).toBe(false);
+      329 | });
+      330 |
+
+      at Object.toBe (tests/backup-app-integration.ui.test.jsx:327:18)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● a database draft read failure at replacement time fails closed
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: true
+
+      333 |   storage.getSetting.mockRejectedValueOnce(new Error('SQLITE_IOERR'));
+      334 |   let result;await act(async()=>{result=await mockPortableProps.restoreStudy(backup);});
+    > 335 |   expect(result).toBe(false);expect(storage.restoreBackup).not.toHaveBeenCalled();expect(draftWasCleared()).toBe(false);
+          |                  ^
+      336 |   expect(Alert.alert).toHaveBeenCalledWith('تعذّر إكمال العملية',expect.stringContaining('المسودة'));
+      337 | });
+      338 |
+
+      at Object.toBe (tests/backup-app-integration.ui.test.jsx:335:18)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● restore does not run while initial draft recovery is still loading
+
+    Unable to find an element with text: مساحتي
+
+    [36m<RNCSafeAreaView>[39m
+      [36m<View>[39m
+        [36m<Text>[39m
+          [0mتعذّر تشغيل رُسوخ[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mبياناتك لم تُحذف. حاول فتحها مرة أخرى.[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<View[39m
+        [33maccessibilityLabel[39m=[32m"إعادة المحاولة"[39m
+        [33maccessibilityRole[39m=[32m"button"[39m
+        [33maccessibilityState[39m=[32m{
+          {
+            "disabled": false,
+          }
+        }[39m
+        [33maccessible[39m=[32m{true}[39m
+      [36m>[39m
+        [36m<Text>[39m
+          [0mإعادة المحاولة[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+    [36m</RNCSafeAreaView>[39m
+
+      67 |
+      68 | async function openSettings() {
+    > 69 |   await render(<App />); await screen.findAllByText('مساحتي');
+         |                                       ^
+      70 |   await fireEvent.press(screen.getByRole('tab',{name:'الإعدادات'}));
+      71 |   await waitFor(() => expect(mockPortableProps).toBeTruthy());
+      72 | }
+
+      at findAllByText (tests/backup-app-integration.ui.test.jsx:69:39)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● a failed initial draft read prevents replacement even if a later database read could return null
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: true
+
+      352 |   storage.getSetting.mockImplementation(async(db,key)=>(db.settings??mockSettings).get(key)??null);
+      353 |   let result;await act(async()=>{result=await mockPortableProps.restoreStudy(backup);});
+    > 354 |   expect(result).toBe(false);expect(storage.restoreBackup).not.toHaveBeenCalled();expect(draftWasCleared()).toBe(false);
+          |                  ^
+      355 | });
+      356 |
+
+      at Object.toBe (tests/backup-app-integration.ui.test.jsx:354:18)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 1 failed, 1 total
+Tests:       15 failed, 9 passed, 24 total
+Snapshots:   0 total
+Time:        2.444 s
+Ran all test suites matching tests/backup-app-integration.ui.test.jsx.

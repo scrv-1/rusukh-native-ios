@@ -1,0 +1,254 @@
+✖ fresh bootstrap creates the schema and a completely empty study library (14.846002ms)
+✖ repeated disk reopen of a new library never inserts sample content or a seeded flag (9.774633ms)
+✔ existing library with a seeded flag survives every bootstrap unchanged (30.545946ms)
+✖ existing library without a seeded flag survives every bootstrap unchanged (32.22593ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 1
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 194.135977
+
+✖ failing tests:
+
+test at tests/bootstrap.test.cjs:85:1
+✖ fresh bootstrap creates the schema and a completely empty study library (14.846002ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+  +   cards: [
+  +     [Object: null prototype] {
+  +       answer: 'تقوية القدرة على تذكّر المعلومات.',
+  +       dueAt: 1793660348935,
+  +       ease: 2.5,
+  +       id: 'card-mvzv26tj-rmhhgwx',
+  +       intervalDays: 0,
+  +       noteId: 'note-mvzv26tj-ys0d1gx',
+  +       question: 'ما فائدة الاسترجاع النشط؟',
+  +       repetitions: 0,
+  +       updatedAt: 1793660348935
+  +     },
+  +     [Object: null prototype] {
+  +       answer: 'توزيع المراجعات على فترات زمنية.',
+  +       dueAt: 1793660348935,
+  +       ease: 2.5,
+  +       id: 'card-mvzv26tj-cutj1xi',
+  +       intervalDays: 0,
+  +       noteId: 'note-mvzv26tk-6xuz69y',
+  +       question: 'ما فكرة المراجعة المتباعدة؟',
+  +       repetitions: 0,
+  +       updatedAt: 1793660348935
+  +     }
+  +   ],
+  +   notes: [
+  +     [Object: null prototype] {
+  +       body: 'التعلّم النشط يعني استرجاع المعرفة بدل الاكتفاء بإعادة القراءة.\n' +
+  +         '\n' +
+  +         'يرتبط بـ [[المراجعة المتباعدة]].\n' +
+  +         '\n' +
+  +         'س: ما الفرق بين التعلّم النشط وإعادة القراءة؟\n' +
+  +         'ج: التعلّم النشط يتطلب استدعاء المعلومة من الذاكرة.',
+  +       createdAt: 1793660348935,
+  +       id: 'note-mvzv26tj-ys0d1gx',
+  +       title: 'التعلّم النشط',
+  +       updatedAt: 1793660348935
+  +     },
+  +     [Object: null prototype] {
+  +       body: 'المراجعة المتباعدة تعني توزيع جلسات المراجعة عبر فترات زمنية.\n' +
+  +         '\n' +
+  +         'انظر [[التعلّم النشط]].\n' +
+  +         '\n' +
+  +         'س: ما المقصود بالمراجعة المتباعدة؟\n' +
+  +         'ج: مراجعة المعلومات في أوقات متباعدة لتعزيز الاحتفاظ بها.',
+  +       createdAt: 1793660348935,
+  +       id: 'note-mvzv26tk-6xuz69y',
+  +       title: 'المراجعة المتباعدة',
+  +       updatedAt: 1793660348935
+  +     }
+  +   ],
+  -   cards: [],
+  -   notes: [],
+      reviews: []
+    }
+  
+      at /workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/tests/bootstrap.test.cjs:88:12
+      at async withDatabase (/workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/tests/bootstrap.test.cjs:46:9)
+      at async TestContext.<anonymous> (/workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/tests/bootstrap.test.cjs:86:3)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { notes: [ [Object], [Object] ], cards: [ [Object], [Object] ], reviews: [] },
+    expected: { notes: [], cards: [], reviews: [] },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/bootstrap.test.cjs:100:1
+✖ repeated disk reopen of a new library never inserts sample content or a seeded flag (9.774633ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+  +   cards: [
+  +     [Object: null prototype] {
+  +       answer: 'تقوية القدرة على تذكّر المعلومات.',
+  +       dueAt: 1793660348948,
+  +       ease: 2.5,
+  +       id: 'card-mvzv26tw-iddvxm3',
+  +       intervalDays: 0,
+  +       noteId: 'note-mvzv26tw-uowu4vs',
+  +       question: 'ما فائدة الاسترجاع النشط؟',
+  +       repetitions: 0,
+  +       updatedAt: 1793660348948
+  +     },
+  +     [Object: null prototype] {
+  +       answer: 'توزيع المراجعات على فترات زمنية.',
+  +       dueAt: 1793660348948,
+  +       ease: 2.5,
+  +       id: 'card-mvzv26tw-mo1myzy',
+  +       intervalDays: 0,
+  +       noteId: 'note-mvzv26tx-k26q1wr',
+  +       question: 'ما فكرة المراجعة المتباعدة؟',
+  +       repetitions: 0,
+  +       updatedAt: 1793660348948
+  +     }
+  +   ],
+  +   notes: [
+  +     [Object: null prototype] {
+  +       body: 'التعلّم النشط يعني استرجاع المعرفة بدل الاكتفاء بإعادة القراءة.\n' +
+  +         '\n' +
+  +         'يرتبط بـ [[المراجعة المتباعدة]].\n' +
+  +         '\n' +
+  +         'س: ما الفرق بين التعلّم النشط وإعادة القراءة؟\n' +
+  +         'ج: التعلّم النشط يتطلب استدعاء المعلومة من الذاكرة.',
+  +       createdAt: 1793660348948,
+  +       id: 'note-mvzv26tw-uowu4vs',
+  +       title: 'التعلّم النشط',
+  +       updatedAt: 1793660348948
+  +     },
+  +     [Object: null prototype] {
+  +       body: 'المراجعة المتباعدة تعني توزيع جلسات المراجعة عبر فترات زمنية.\n' +
+  +         '\n' +
+  +         'انظر [[التعلّم النشط]].\n' +
+  +         '\n' +
+  +         'س: ما المقصود بالمراجعة المتباعدة؟\n' +
+  +         'ج: مراجعة المعلومات في أوقات متباعدة لتعزيز الاحتفاظ بها.',
+  +       createdAt: 1793660348948,
+  +       id: 'note-mvzv26tx-k26q1wr',
+  +       title: 'المراجعة المتباعدة',
+  +       updatedAt: 1793660348948
+  +     }
+  +   ],
+  -   cards: [],
+  -   notes: [],
+      reviews: []
+    }
+  
+      at /workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/tests/bootstrap.test.cjs:104:14
+      at async withDatabase (/workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/tests/bootstrap.test.cjs:46:9)
+      at async TestContext.<anonymous> (/workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/tests/bootstrap.test.cjs:101:3)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { notes: [ [Object], [Object] ], cards: [ [Object], [Object] ], reviews: [] },
+    expected: { notes: [], cards: [], reviews: [] },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/bootstrap.test.cjs:114:3
+✖ existing library without a seeded flag survives every bootstrap unchanged (32.22593ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  ... Skipped lines
+  
+    {
+      cards: [
+        [Object: null prototype] {
+  +       answer: 'تقوية القدرة على تذكّر المعلومات.',
+  +       dueAt: 1793660349008,
+  +       ease: 2.5,
+  +       id: 'card-mvzv26vk-i2u0kb6',
+  +       intervalDays: 0,
+  +       noteId: 'note-mvzv26vk-oe4j3cn',
+  +       question: 'ما فائدة الاسترجاع النشط؟',
+  +       repetitions: 0,
+  +       updatedAt: 1793660349008
+  +     },
+  +     [Object: null prototype] {
+  +       answer: 'توزيع المراجعات على فترات زمنية.',
+  +       dueAt: 1793660349008,
+  +       ease: 2.5,
+  +       id: 'card-mvzv26vk-l2liaif',
+  +       intervalDays: 0,
+  +       noteId: 'note-mvzv26vl-70c2hrw',
+  +       question: 'ما فكرة المراجعة المتباعدة؟',
+  +       repetitions: 0,
+  +       updatedAt: 1793660349008
+  +     },
+  +     [Object: null prototype] {
+          answer: 'جواب محفوظ',
+          dueAt: 20,
+          ease: 2.5,
+          id: 'old-card',
+          intervalDays: 3,
+  ...
+        [Object: null prototype] {
+  +       key: 'seeded',
+  +       value: '1'
+  +     },
+  +     [Object: null prototype] {
+          key: 'workspace.v1',
+          value: '{"version":1,"density":"compact","modules":[]}'
+        }
+      ],
+      notes: [
+  ...
+        [Object: null prototype] {
+  +       body: 'التعلّم النشط يعني استرجاع المعرفة بدل الاكتفاء بإعادة القراءة.\n' +
+  +         '\n' +
+  +         'يرتبط بـ [[المراجعة المتباعدة]].\n' +
+  +         '\n' +
+  +         'س: ما الفرق بين التعلّم النشط وإعادة القراءة؟\n' +
+  +         'ج: التعلّم النشط يتطلب استدعاء المعلومة من الذاكرة.',
+  +       createdAt: 1793660349008,
+  +       id: 'note-mvzv26vk-oe4j3cn',
+  +       title: 'التعلّم النشط',
+  +       updatedAt: 1793660349008
+  +     },
+  +     [Object: null prototype] {
+  +       body: 'المراجعة المتباعدة تعني توزيع جلسات المراجعة عبر فترات زمنية.\n' +
+  +         '\n' +
+  +         'انظر [[التعلّم النشط]].\n' +
+  +         '\n' +
+  +         'س: ما المقصود بالمراجعة المتباعدة؟\n' +
+  +         'ج: مراجعة المعلومات في أوقات متباعدة لتعزيز الاحتفاظ بها.',
+  +       createdAt: 1793660349008,
+  +       id: 'note-mvzv26vl-70c2hrw',
+  +       title: 'المراجعة المتباعدة',
+  +       updatedAt: 1793660349008
+  +     },
+  +     [Object: null prototype] {
+          body: 'محتوى لا يُمس',
+          createdAt: 3,
+          id: 'personal',
+          title: 'ملاحظتي الخاصة',
+          updatedAt: 6
+  
+      at /workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/tests/bootstrap.test.cjs:119:16
+      at async withDatabase (/workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/tests/bootstrap.test.cjs:46:9)
+      at async TestContext.<anonymous> (/workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/tests/bootstrap.test.cjs:115:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { notes: [ [Object], [Object], [Object], [Object], [Object] ], cards: [ [Object], [Object], [Object] ], reviews: [ [Object] ], meta: [ [Object], [Object], [Object], [Object] ], study_recovery_v1: [ [Object] ] },
+    expected: { notes: [ [Object], [Object], [Object] ], cards: [ [Object] ], reviews: [ [Object] ], meta: [ [Object], [Object], [Object] ], study_recovery_v1: [ [Object] ] },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

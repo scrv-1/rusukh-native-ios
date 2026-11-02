@@ -1,0 +1,17 @@
+{"case":"S002","question":"اذكر عددًا أوليًا","options":["3","2"],"accepted":"2","alsoValid":"3"}
+{"case":"S003","prior":4,"hard":5,"good":3}
+{"case":"S004","body":"س: ما الشرطان معًا؟\nج: الشرط الأول.\nوالشرط الثاني أيضًا.","actual":[{"question":"ما الشرطان معًا؟","answer":"الشرط الأول."}]}
+{"case":"S005","title":"الجزء | الأول","parsed":["الجزء"],"edges":[]}
+✔ S002: an automatically built open-question MCQ contains two mathematically valid choices (2.226855ms)
+✔ S003: after first Easy, Hard waits longer than Good for the same card state (0.318839ms)
+✔ S004: answer continuation lines are silently omitted by extraction (0.445209ms)
+✔ S005: a title accepted by the editor cannot be represented as its documented wikilink (0.42562ms)
+✔ positive control: ordinary link and a one-line Q/A still work (0.197617ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 92.635294

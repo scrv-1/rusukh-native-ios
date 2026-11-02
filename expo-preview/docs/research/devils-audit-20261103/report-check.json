@@ -1,0 +1,33 @@
+{
+  "checked_at_utc": "2026-11-02T23:12:26.849Z",
+  "result": "pass",
+  "method": "JSDOM runs the generated HTML script; no visual rendering or iPhone test",
+  "checks": [
+    "47 unique cards",
+    "fixed6/open41",
+    "reproduced8",
+    "search by ID",
+    "Arabic diacritic normalization",
+    "empty results/reset",
+    "combined area/severity"
+  ],
+  "limitations": [
+    "Chromium runtime executable is absent; attempted browser rendering did not start. No claim of visual/mobile layout validation.",
+    "No external dependency added. JSDOM was already installed."
+  ],
+  "browser_check": {
+    "observed_at_utc": "2026-11-02T23:19:36.136176+00:00",
+    "environment": "Cloud Chromium, live Codespaces preview",
+    "result": "pass",
+    "checks": [
+      "Rendered47 findings",
+      "Fixed status filter shows6",
+      "D003 search shows1",
+      "Expanded D003 shows evidence and fix verification",
+      "Reset restores47"
+    ],
+    "limitations": [
+      "Desktop viewport only; no physical iPhone or VoiceOver"
+    ]
+  }
+}

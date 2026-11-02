@@ -1,0 +1,2 @@
+D001 REPRODUCED: openStorage() on fresh SQLite creates {"notes":2,"cards":2,"reviews":0,"titles":["التعلّم النشط","المراجعة المتباعدة"]}
+D002 REPRODUCED: individually allowed notes save successfully but export and protected replacement fail {"notes":9,"charsPerNote":999990,"serializedUTF8Bytes":18001085,"backupLimitBytes":15728640,"preservedAfterRejectedRestore":true}

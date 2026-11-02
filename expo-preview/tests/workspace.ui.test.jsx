@@ -2,7 +2,7 @@ import React from 'react';
 import { Alert, AppState } from 'react-native';
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react-native';
 import App from '../App';
-import { WORKSPACE_KEY, defaultWorkspace } from '../src/workspace';
+import { WORKSPACE_KEY, defaultWorkspace, workspacePreset } from '../src/workspace';
 import * as storage from '../src/storage';
 import * as picker from 'expo-document-picker';
 
@@ -32,6 +32,7 @@ async function hideDefault() {
 }
 beforeEach(()=>{
   mockSettings.clear(); mockCards[0].dueAt=0;
+  mockSettings.set(WORKSPACE_KEY, JSON.stringify(workspacePreset('simple')));
   mockText = 'س: ماذا نتعلم؟\nج: العلم';
   storage.readAll.mockImplementation(async () => ({notes:mockNotes,cards:mockCards,reviews:[]}));
   storage.setSetting.mockImplementation(async (_,key,value)=>{mockSettings.set(key,value);});
@@ -42,10 +43,10 @@ afterEach(()=>{ jest.restoreAllMocks(); });
 test('hide every tool, save, remount and reopen preserved notes through all tools', async()=>{
   await openApp(); await customize(); await hideDefault();
   await fireEvent.press(screen.getByRole('button',{name:'حفظ مساحتي'}));
-  await screen.findByText('مساحة هادئة على ذوقك');
+  await screen.findByRole('button',{name:'إضافة أداة'});
   expect(storage.deleteNote).not.toHaveBeenCalled(); expect(storage.restoreBackup).not.toHaveBeenCalled();
   await screen.unmount(); await openApp();
-  expect(screen.getByText('مساحة هادئة على ذوقك')).toBeTruthy();
+  expect(screen.getByRole('button',{name:'إضافة أداة'})).toBeTruthy();
   await fireEvent.press(screen.getAllByRole('button',{name:'كل الأدوات'})[0]);
   await fireEvent.press(screen.getByRole('button',{name:'فتح ملاحظاتي'}));
   expect(screen.getByRole('button',{name:'فتح التعلُّم النشط'})).toBeTruthy();
@@ -70,9 +71,9 @@ test('failed save keeps draft available for retry and does not apply layout', as
   await fireEvent.press(screen.getByRole('button',{name:'حفظ مساحتي'}));
   await waitFor(()=>expect(Alert.alert).toHaveBeenCalledWith('لم يُحفظ الترتيب',expect.any(String)));
   expect(screen.getByRole('button',{name:'حفظ مساحتي'})).toBeEnabled();
-  expect(mockSettings.has(WORKSPACE_KEY)).toBe(false);
+  expect(JSON.parse(mockSettings.get(WORKSPACE_KEY))).toEqual(workspacePreset('simple'));
   await fireEvent.press(screen.getByRole('button',{name:'حفظ مساحتي'}));
-  await screen.findByText('مساحة هادئة على ذوقك');
+  await screen.findByRole('button',{name:'إضافة أداة'});
 });
 
 test('reorder and compact preference survive restart', async()=>{
@@ -96,7 +97,7 @@ test('all-tools preset is a reversible draft and hiding every panel keeps fixed 
   await customize();
   await fireEvent.press(screen.getByRole('button',{name:'إخفاء كل الأقسام'}));
   await fireEvent.press(screen.getByRole('button',{name:'حفظ مساحتي'}));
-  await screen.findByText('مساحة هادئة على ذوقك');
+  await screen.findByRole('button',{name:'إضافة أداة'});
   expect(screen.getAllByRole('tab').map(t=>t.props.accessibilityLabel)).toEqual(['الرئيسية','الملاحظات','المراجعة','الأدوات','الإعدادات']);
   await fireEvent.press(screen.getByRole('tab',{name:'الملاحظات'}));
   expect(screen.getByRole('button',{name:'فتح التعلُّم النشط'})).toBeTruthy();
@@ -114,11 +115,43 @@ test('tools search retains hidden modules and provides a clear no-result recover
 });
 
 test('first-run review tab offers a direct path to create study material', async()=>{
+  mockSettings.delete(WORKSPACE_KEY);
   storage.readAll.mockResolvedValueOnce({notes:[],cards:[],reviews:[]});
   await openApp(); await fireEvent.press(screen.getByRole('tab',{name:'المراجعة'}));
   await fireEvent.press(screen.getByRole('button',{name:'إنشاء بطاقات من الملاحظات'}));
   expect(screen.getByRole('button',{name:'إضافة أول ملاحظة'})).toBeTruthy();
   expect(storage.recordReview).not.toHaveBeenCalled();
+});
+
+test('no saved layout leaves the home canvas blank and capture available before customization', async()=>{
+  mockSettings.clear();
+  storage.readAll.mockResolvedValueOnce({notes:[],cards:[],reviews:[]});
+  await openApp();
+  expect(screen.getAllByText('مساحتي')).toHaveLength(1);
+  expect(screen.queryByText('مراجعة اليوم')).toBeNull();
+  expect(screen.queryByText('ملاحظاتي')).toBeNull();
+  expect(screen.queryByText('ابدأ بما يناسب وقتك')).toBeNull();
+  expect(screen.queryByText('مساحة هادئة على ذوقك')).toBeNull();
+  expect(screen.getByRole('button',{name:'إضافة مادة'})).toBeTruthy();
+  expect(screen.getByRole('button',{name:'إضافة أداة'})).toBeTruthy();
+  await fireEvent.press(screen.getByRole('button',{name:'ملاحظة جديدة'}));
+  expect(screen.getByLabelText('المحتوى')).toBeTruthy();
+  expect(mockSettings.has(WORKSPACE_KEY)).toBe(false);
+  expect(storage.saveNoteAndCards).not.toHaveBeenCalled();
+});
+
+test('add tool on a blank canvas can restore one hidden section without changing its data', async()=>{
+  mockSettings.set(WORKSPACE_KEY, JSON.stringify(defaultWorkspace()));
+  await openApp();
+  await fireEvent.press(screen.getByRole('button',{name:'إضافة أداة'}));
+  expect(screen.getAllByRole('switch').every(control=>control.props.value === false)).toBe(true);
+  await fireEvent(screen.getByLabelText('إظهار شبكة أفكاري'),'valueChange',true);
+  await fireEvent.press(screen.getByRole('button',{name:'حفظ مساحتي'}));
+  await screen.findByRole('button',{name:'فتح شبكة أفكاري'});
+  expect(JSON.parse(mockSettings.get(WORKSPACE_KEY)).modules.filter(module=>module.enabled).map(module=>module.id)).toEqual(['graph']);
+  expect(screen.queryByRole('button',{name:'ابدأ المراجعة'})).toBeNull();
+  expect(storage.deleteNote).not.toHaveBeenCalled();
+  expect(storage.saveNoteAndCards).not.toHaveBeenCalled();
 });
 
 test('late source file read never replaces a newer edited pasted draft', async()=>{

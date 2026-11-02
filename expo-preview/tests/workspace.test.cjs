@@ -1,21 +1,31 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { defaultWorkspace, readWorkspace, toggleModule, moveModule, pinnedModules, MODULES } = require('../.test-build/workspace.js');
+const { defaultWorkspace, readWorkspace, toggleModule, moveModule, pinnedModules, workspacePreset, MODULES } = require('../.test-build/workspace.js');
 const { prepareSource, MAX_SOURCE_BYTES, matchesSearch, markdownNote } = require('../.test-build/sources.js');
 
-test('new workspace is calm and independent between callers', () => {
-  const a = defaultWorkspace(); a.modules[0].enabled = false;
-  assert.deepEqual(pinnedModules(defaultWorkspace()), ['review', 'notes']);
+test('new workspace starts with no installed sections and is independent between callers', () => {
+  const a = defaultWorkspace();
+  assert.ok(a.modules.every(module => module.enabled === false));
+  assert.deepEqual(pinnedModules(a), []);
+  a.modules[0].enabled = true;
+  assert.ok(defaultWorkspace().modules.every(module => module.enabled === false));
+});
+test('simple remains an optional review and notes preset rather than the empty first workspace', () => {
+  const chosen = workspacePreset('simple');
+  assert.deepEqual(pinnedModules(chosen), ['review', 'notes']);
+  assert.equal(chosen.density, 'comfortable');
+  assert.deepEqual(pinnedModules(defaultWorkspace()), []);
 });
 test('invalid settings recover without throwing', () => {
   for (const raw of [null, '', '{', 'null', '[]', '{"version":2}', 'x'.repeat(10001)]) {
     assert.deepEqual(readWorkspace(raw), defaultWorkspace());
   }
 });
-test('saved settings round trip with order, density and hidden tools intact', () => {
-  const edited = moveModule(toggleModule(defaultWorkspace(), 'graph'), 'graph', -1);
+test('existing saved settings retain their selected sections, order and density', () => {
+  const edited = moveModule(toggleModule(workspacePreset('simple'), 'graph'), 'graph', -1);
   edited.density = 'compact';
   assert.deepEqual(readWorkspace(JSON.stringify(edited)), edited);
+  assert.deepEqual(pinnedModules(readWorkspace(JSON.stringify(edited))), ['review', 'graph', 'notes']);
 });
 test('unknown and duplicate IDs never produce duplicate or unsupported tools', () => {
   const result = readWorkspace(JSON.stringify({version:1, modules:[{id:'notes',enabled:false},{id:'notes',enabled:true},{id:'evil',enabled:true},{id:'review',enabled:'yes'},null]}));
@@ -25,7 +35,7 @@ test('unknown and duplicate IDs never produce duplicate or unsupported tools', (
   assert.ok(result.modules.every(m=>!m.enabled));
 });
 test('hiding every module is valid and does not mutate original preferences', () => {
-  const original = defaultWorkspace();
+  const original = workspacePreset('simple');
   let next = original;
   for (const m of original.modules.filter(m=>m.enabled)) next = toggleModule(next, m.id);
   assert.deepEqual(pinnedModules(next), []);
@@ -33,7 +43,7 @@ test('hiding every module is valid and does not mutate original preferences', ()
   assert.equal(original.modules[0].enabled, true);
 });
 test('reorder respects boundaries and preserves each module exactly once', () => {
-  const original = defaultWorkspace();
+  const original = workspacePreset('simple');
   assert.deepEqual(moveModule(original, 'review', -1), original);
   assert.deepEqual(moveModule(original, 'ai', 1), original);
   const next = moveModule(original,'notes',-1);

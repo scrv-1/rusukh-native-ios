@@ -1,6 +1,6 @@
 import React from 'react';
 import { Pressable, View, useWindowDimensions } from 'react-native';
-import { arabicRow, Button, Empty, Icon, Label, Palette, Panel } from './ui';
+import { arabicRow, Button, Icon, Label, Palette, Panel } from './ui';
 import { MODULES, ModuleId, Workspace } from './workspace';
 import type { Note } from './types';
 
@@ -26,6 +26,14 @@ export function StudyHome({ p, workspace, notes, cardsCount, dueCount, todayRevi
   const compact = workspace.density === 'compact';
   const stacked = width < 360 || fontScale > 1.3;
   const shown = workspace.modules.filter(item => item.enabled);
+
+  // The canvas stays empty until its owner adds a section. Capture remains usable.
+  if (shown.length === 0) return <View style={{ flexDirection: arabicRow, flexWrap: 'wrap', gap: 8 }}>
+    <Button p={p} title="إضافة مادة" tone="secondary" compact onPress={() => onModule('sources')} />
+    <Button p={p} title="ملاحظة جديدة" tone="secondary" compact onPress={onNewNote} />
+    <Button p={p} title="إضافة أداة" tone="plain" compact onPress={onCustomize} />
+  </View>;
+
   const recent = [...notes].sort((a, b) => b.updatedAt - a.updatedAt).slice(0, 2);
   const date = new Date().toLocaleDateString('ar-SA', { weekday: 'long', day: 'numeric', month: 'long' });
 
@@ -39,7 +47,6 @@ export function StudyHome({ p, workspace, notes, cardsCount, dueCount, todayRevi
   return <View style={{ gap: 20 }}>
     <View style={{ gap: 6 }}>
       <Label p={p} size={13} color={p.muted}>{date}</Label>
-      <Label p={p} size={32} weight="800" role="header">مساحتي</Label>
       <Label p={p} size={15} color={p.muted}>خطوة صغيرة اليوم. تعلّم يبقى.</Label>
     </View>
 
@@ -60,11 +67,6 @@ export function StudyHome({ p, workspace, notes, cardsCount, dueCount, todayRevi
       <Label p={p} size={14} weight="600">{todayReviewed > 0 ? `راجعت اليوم ${todayReviewed} بطاقة` : 'ابدأ بما يناسب وقتك'}</Label>
       <Label p={p} size={13} color={p.muted}>{notes.length} ملاحظة · {cardsCount} بطاقة · {todayReviewed} مراجعة اليوم</Label>
     </View>
-
-    {shown.length === 0 && <Panel p={p}>
-      <Empty p={p} title="مساحة هادئة على ذوقك" detail="بياناتك محفوظة. أضف أداة أو افتحها من كل الأدوات." />
-      <Button p={p} title="إضافة أدوات لمساحتي" onPress={onCustomize} />
-    </Panel>}
 
     {shown.map(item => {
       const module = MODULES.find(value => value.id === item.id)!;

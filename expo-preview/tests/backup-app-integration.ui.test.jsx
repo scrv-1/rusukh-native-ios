@@ -4,12 +4,13 @@ import * as DocumentPicker from 'expo-document-picker';
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react-native';
 import App from '../App';
 import { NOTE_DRAFT_KEY } from '../src/useNoteDraft';
-import { defaultWorkspace, readWorkspace, WORKSPACE_KEY } from '../src/workspace';
+import { defaultWorkspace, readWorkspace, workspacePreset, WORKSPACE_KEY } from '../src/workspace';
 import * as storage from '../src/storage';
 
 // The panels have their own interaction tests. Capture their public callbacks to
 // exercise App's real action lock, confirmation, state and useNoteDraft lifecycle.
 let mockRecoveryProps;
+let mockStudyHomeProps;
 let mockPortableProps;
 const mockSettings = new Map();
 const mockNotes = [{id:'n1',title:'ملاحظة أصلية',body:'محتوى محفوظ',createdAt:1,updatedAt:1}];
@@ -17,6 +18,11 @@ let mockData;
 let mockDatabase;
 let mockTransactions;
 let mockFileText;
+jest.mock('../src/StudyHome', () => {
+  const React = require('react');
+  const {StudyHome} = jest.requireActual('../src/StudyHome');
+  return {StudyHome: props => { mockStudyHomeProps = props; return React.createElement(StudyHome, props); }};
+});
 jest.mock('../src/backup/RecoveryPointsPanel', () => ({
   RecoveryPointsPanel: props => { mockRecoveryProps = props; return null; },
 }));
@@ -46,7 +52,7 @@ const backup = {format:'rusukh-backup',version:1,exportedAt:'2026-11-02T00:00:00
 beforeEach(() => {
   jest.useFakeTimers();
   mockFileText = ''; DocumentPicker.getDocumentAsync.mockReset();
-  mockSettings.clear(); mockRecoveryProps = undefined; mockPortableProps = undefined;
+  mockSettings.clear(); mockSettings.set(WORKSPACE_KEY, JSON.stringify(workspacePreset('simple'))); mockRecoveryProps = undefined; mockPortableProps = undefined;
   mockData = {notes:mockNotes,cards:[],reviews:[]}; mockTransactions = [];
   // Deliberately distinct tx handles catch reads/writes accidentally using db.
   // This adapter checks App orchestration; real SQLite rollback is separately
@@ -66,7 +72,7 @@ beforeEach(() => {
 afterEach(() => { jest.restoreAllMocks(); jest.useRealTimers(); });
 
 async function openSettings() {
-  await render(<App />); await screen.findByText('مساحتي');
+  await render(<App />); await screen.findAllByText('مساحتي');
   await fireEvent.press(screen.getByRole('tab',{name:'الإعدادات'}));
   await waitFor(() => expect(mockPortableProps).toBeTruthy());
 }
@@ -105,8 +111,8 @@ test('recovery cancel and native dismissal both resolve false without changing c
   expect(screen.getByLabelText('المحتوى').props.value).toBe('مسودة عربية يجب ألا تضيع');
 });
 
-test('confirmed SQL recovery failure preserves the live editor and persisted draft', async () => {
-  await openSettings(); await editAndAutosave();
+test('confirmed SQL recovery failure without a draft reports failure and never clears a draft slot', async () => {
+  await openSettings();
   storage.restoreRecoveryPoint.mockRejectedValueOnce(new Error('SQLITE_FULL'));
   let result;
   await act(async () => {
@@ -114,40 +120,38 @@ test('confirmed SQL recovery failure preserves the live editor and persisted dra
   });
   expect(result).toBe(false); expect(storage.restoreRecoveryPoint).toHaveBeenCalledWith(mockDatabase,7);
   expect(draftWasCleared()).toBe(false);
-  expect(JSON.parse(mockSettings.get(NOTE_DRAFT_KEY)).body).toBe('مسودة عربية يجب ألا تضيع');
-  expect(screen.getByLabelText('المحتوى').props.value).toBe('مسودة عربية يجب ألا تضيع');
-  expect(screen.getByLabelText('المحتوى').props.editable).not.toBe(false);
   expect(Alert.alert).toHaveBeenCalledWith('تعذّر إكمال العملية',expect.stringContaining('SQLITE_FULL'));
 });
 
-test('successful recovery clears the old draft and closes the editor only after the SQL operation finishes', async () => {
-  await openSettings(); await editAndAutosave();
+test('successful recovery without a draft waits for SQL and never writes a draft tombstone', async () => {
+  await openSettings();
   let release;
   storage.restoreRecoveryPoint.mockImplementationOnce(() => new Promise(resolve => { release = resolve; }));
   let pending;
   await act(async () => { pending = mockRecoveryProps.onRestore(point); chooseRestore('استعادة'); });
-  expect(draftWasCleared()).toBe(false); expect(screen.getByLabelText('المحتوى')).toBeTruthy();
+  expect(draftWasCleared()).toBe(false);
   let result;
   await act(async () => { release(); result = await pending; });
-  expect(result).toBe(true); expect(mockSettings.get(NOTE_DRAFT_KEY)).toBe('null');
-  expect(screen.queryByLabelText('المحتوى')).toBeNull();
+  expect(result).toBe(true); expect(mockSettings.has(NOTE_DRAFT_KEY)).toBe(false);
   await act(async () => { jest.advanceTimersByTime(1500); });
-  expect(mockSettings.get(NOTE_DRAFT_KEY)).toBe('null');
+  expect(draftWasCleared()).toBe(false);
 });
 
-test('portable study failure also preserves an unpublished note', async () => {
-  await openSettings(); await editAndAutosave();
+test('portable SQL failure without a draft reports failure without clearing a draft', async () => {
+  await openSettings();
   storage.restoreBackup.mockRejectedValueOnce(new Error('SQLITE_BUSY'));
   let result; await act(async () => { result = await mockPortableProps.restoreStudy(backup); });
   expect(result).toBe(false); expect(storage.restoreBackup).toHaveBeenCalledWith(mockDatabase,backup);
-  expect(draftWasCleared()).toBe(false); expect(screen.getByLabelText('المحتوى').props.value).toBe('مسودة عربية يجب ألا تضيع');
+  expect(draftWasCleared()).toBe(false);
 });
 
-test('portable study success goes through protected restore and clears the previous draft', async () => {
+test('portable restore blocks a live unpublished editor before SQL', async () => {
   await openSettings(); await editAndAutosave();
   let result; await act(async () => { result = await mockPortableProps.restoreStudy(backup); });
-  expect(result).toBe(true); expect(storage.restoreBackup).toHaveBeenCalledWith(mockDatabase,backup);
-  expect(mockSettings.get(NOTE_DRAFT_KEY)).toBe('null'); expect(screen.queryByLabelText('المحتوى')).toBeNull();
+  expect(result).toBe(false); expect(storage.restoreBackup).not.toHaveBeenCalled();
+  expect(JSON.parse(mockSettings.get(NOTE_DRAFT_KEY)).body).toBe('مسودة عربية يجب ألا تضيع');
+  expect(screen.getByLabelText('المحتوى').props.value).toBe('مسودة عربية يجب ألا تضيع');
+  expect(draftWasCleared()).toBe(false);
 });
 
 test('preference import writes only presentation keys through one exclusive transaction', async () => {
@@ -246,4 +250,140 @@ test('restore callback from an earlier render respects the live failed-refresh b
   expect(draftWasCleared()).toBe(false);
   expect(mockSettings.get(NOTE_DRAFT_KEY)).toBe(retainedDraft);
   expect(screen.getByText('حُفظ التغيير؛ تعذّر تحديث العرض')).toBeTruthy();
+});
+
+
+const retainedDraft = {version:1,editingId:'n1',title:'مسودة لم تنشر',body:'نص لا يوجد في النسخة المستوردة',updatedAt:1};
+function importAlert() {
+  const call = [...Alert.alert.mock.calls].reverse().find(item => item[0] === 'استبدال البيانات الحالية؟');
+  expect(call).toBeTruthy(); return call;
+}
+async function confirmImport() {
+  mockFileText = JSON.stringify(backup);
+  DocumentPicker.getDocumentAsync.mockResolvedValueOnce({canceled:false,assets:[{uri:'file:///backup.json',size:30}]});
+  await fireEvent.press(screen.getByRole('button',{name:'استيراد نسخة من الملفات'}));
+  await act(async () => { importAlert()[2].find(item => item.text === 'استبدال').onPress(); });
+}
+async function performRestore(path) {
+  if (path === 'json') { await confirmImport(); return; }
+  let result;
+  await act(async () => {
+    if (path === 'folder') result = await mockPortableProps.restoreStudy(backup);
+    else { const pending = mockRecoveryProps.onRestore(point); chooseRestore('استعادة'); result = await pending; }
+  });
+  return result;
+}
+
+test.each(['json','folder','point'])('%s restore preserves a retained draft with its editor closed and does not run SQL',async(path)=>{
+  const previous=JSON.stringify(retainedDraft); mockSettings.set(NOTE_DRAFT_KEY,previous);
+  await openSettings();
+  await performRestore(path);
+  expect(storage.restoreBackup).not.toHaveBeenCalled(); expect(storage.restoreRecoveryPoint).not.toHaveBeenCalled();
+  expect(mockSettings.get(NOTE_DRAFT_KEY)).toBe(previous); expect(draftWasCleared()).toBe(false);
+  expect(Alert.alert.mock.calls.some(call=>String(call[1]).includes('مسودة'))).toBe(true);
+});
+
+test.each(['json','folder','point'])('%s restore can replace study when the live state and database have no draft',async(path)=>{
+  mockSettings.set(NOTE_DRAFT_KEY,'null'); await openSettings(); storage.getSetting.mockClear();
+  await performRestore(path);
+  expect(path==='point'?storage.restoreRecoveryPoint:storage.restoreBackup).toHaveBeenCalledTimes(1);
+  expect(storage.getSetting).toHaveBeenCalledWith(mockDatabase,NOTE_DRAFT_KEY);
+  expect(mockSettings.get(NOTE_DRAFT_KEY)).toBe('null'); expect(draftWasCleared()).toBe(false);
+});
+
+test('JSON selection started before a new draft cannot discard the newer editor or autosave',async()=>{
+  await openSettings();
+  let resolvePicker;
+  DocumentPicker.getDocumentAsync.mockImplementationOnce(()=>new Promise(resolve=>{resolvePicker=resolve;}));
+  mockFileText=JSON.stringify(backup);
+  await fireEvent.press(screen.getByRole('button',{name:'استيراد نسخة من الملفات'}));
+  await editAndAutosave(); const previous=mockSettings.get(NOTE_DRAFT_KEY);
+  await act(async()=>{resolvePicker({canceled:false,assets:[{uri:'file:///backup.json',size:30}]});});
+  await act(async()=>{importAlert()[2].find(item=>item.text==='استبدال').onPress();});
+  expect(storage.restoreBackup).not.toHaveBeenCalled();
+  expect(mockSettings.get(NOTE_DRAFT_KEY)).toBe(previous); expect(draftWasCleared()).toBe(false);
+  expect(screen.getByLabelText('المحتوى').props.value).toBe('مسودة عربية يجب ألا تضيع');
+});
+
+test('a stale recovery confirmation reads the newly retained database draft at commit time',async()=>{
+  await openSettings(); let pending;
+  await act(async()=>{pending=mockRecoveryProps.onRestore(point);});
+  const previous=JSON.stringify(retainedDraft); mockSettings.set(NOTE_DRAFT_KEY,previous);
+  let result; await act(async()=>{chooseRestore('استعادة');result=await pending;});
+  expect(result).toBe(false); expect(storage.restoreRecoveryPoint).not.toHaveBeenCalled();
+  expect(mockSettings.get(NOTE_DRAFT_KEY)).toBe(previous); expect(draftWasCleared()).toBe(false);
+});
+
+test('a portable callback captured before a draft was written reads the current database slot',async()=>{
+  await openSettings(); const restore=mockPortableProps.restoreStudy;
+  const previous=JSON.stringify(retainedDraft);mockSettings.set(NOTE_DRAFT_KEY,previous);
+  let result;await act(async()=>{result=await restore(backup);});
+  expect(result).toBe(false);expect(storage.restoreBackup).not.toHaveBeenCalled();
+  expect(mockSettings.get(NOTE_DRAFT_KEY)).toBe(previous);expect(draftWasCleared()).toBe(false);
+});
+
+test('restore blocks an open card editor even when no note draft is retained',async()=>{
+  await openSettings(); const restore=mockPortableProps.restoreStudy;
+  await fireEvent.press(screen.getByRole('tab',{name:'الرئيسية'}));
+  await fireEvent.press(screen.getByRole('button',{name:'فتح ملاحظة أصلية'}));
+  await fireEvent.press(screen.getByRole('button',{name:'بطاقة يدوية للملاحظة'}));
+  await fireEvent.changeText(screen.getByLabelText('السؤال'),'سؤال غير محفوظ');
+  storage.setSetting.mockClear();
+  let result;await act(async()=>{result=await restore(backup);});
+  expect(result).toBe(false);expect(storage.restoreBackup).not.toHaveBeenCalled();
+  expect(screen.getByLabelText('السؤال').props.value).toBe('سؤال غير محفوظ');expect(draftWasCleared()).toBe(false);
+});
+
+test('a database draft read failure at replacement time fails closed',async()=>{
+  await openSettings();
+  storage.getSetting.mockRejectedValueOnce(new Error('SQLITE_IOERR'));
+  let result;await act(async()=>{result=await mockPortableProps.restoreStudy(backup);});
+  expect(result).toBe(false);expect(storage.restoreBackup).not.toHaveBeenCalled();expect(draftWasCleared()).toBe(false);
+  expect(Alert.alert).toHaveBeenCalledWith('تعذّر إكمال العملية',expect.stringContaining('المسودة'));
+});
+
+test('restore does not run while initial draft recovery is still loading',async()=>{
+  let resolveRead;
+  const reading=new Promise(resolve=>{resolveRead=resolve;});
+  storage.getSetting.mockImplementation(async(db,key)=>key===NOTE_DRAFT_KEY?reading:(db.settings??mockSettings).get(key)??null);
+  await openSettings(); let result;
+  await act(async()=>{result=await mockPortableProps.restoreStudy(backup);});
+  expect(result).toBe(false);expect(storage.restoreBackup).not.toHaveBeenCalled();expect(draftWasCleared()).toBe(false);
+  await act(async()=>{resolveRead(null);});
+});
+
+test('a failed initial draft read prevents replacement even if a later database read could return null',async()=>{
+  storage.getSetting.mockImplementation(async(db,key)=>{if(key===NOTE_DRAFT_KEY)throw new Error('draft unreadable');return (db.settings??mockSettings).get(key)??null;});
+  await openSettings();
+  storage.getSetting.mockImplementation(async(db,key)=>(db.settings??mockSettings).get(key)??null);
+  let result;await act(async()=>{result=await mockPortableProps.restoreStudy(backup);});
+  expect(result).toBe(false);expect(storage.restoreBackup).not.toHaveBeenCalled();expect(draftWasCleared()).toBe(false);
+});
+
+test('opening an editor and invoking an old restore callback in the same turn still blocks SQL',async()=>{
+  await openSettings();const restore=mockPortableProps.restoreStudy;
+  await fireEvent.press(screen.getByRole('tab',{name:'الرئيسية'}));
+  const openNote=mockStudyHomeProps.onOpenNote;
+  let result;await act(async()=>{openNote(mockNotes[0]);result=await restore(backup);});
+  expect(result).toBe(false);expect(storage.restoreBackup).not.toHaveBeenCalled();
+  expect(screen.getByLabelText('المحتوى').props.value).toBe('محتوى محفوظ');
+});
+
+test('a replacement waiting for its database draft check prevents a new editor from opening',async()=>{
+  await openSettings();const restore=mockPortableProps.restoreStudy;
+  await fireEvent.press(screen.getByRole('tab',{name:'الرئيسية'}));
+  let releaseRead;
+  storage.getSetting.mockImplementationOnce(()=>new Promise(resolve=>{releaseRead=resolve;}));
+  let pending;await act(async()=>{pending=restore(backup);});
+  await fireEvent.press(screen.getByRole('button',{name:'فتح ملاحظة أصلية'}));
+  expect(screen.queryByLabelText('المحتوى')).toBeNull();
+  let result;await act(async()=>{releaseRead(null);result=await pending;});
+  expect(result).toBe(true);expect(storage.restoreBackup).toHaveBeenCalledTimes(1);expect(draftWasCleared()).toBe(false);
+});
+
+test('a corrupt draft slot appearing after recovery was loaded is protected rather than normalized away',async()=>{
+  await openSettings();const raw='{"version":1,"body":"unfinished';mockSettings.set(NOTE_DRAFT_KEY,raw);
+  let result;await act(async()=>{result=await mockPortableProps.restoreStudy(backup);});
+  expect(result).toBe(false);expect(storage.restoreBackup).not.toHaveBeenCalled();
+  expect(mockSettings.get(NOTE_DRAFT_KEY)).toBe(raw);expect(draftWasCleared()).toBe(false);
 });

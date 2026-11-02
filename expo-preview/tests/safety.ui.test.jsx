@@ -2,7 +2,7 @@ import React from 'react';
 import { Alert, AppState } from 'react-native';
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react-native';
 import App from '../App';
-import { WORKSPACE_KEY, defaultWorkspace } from '../src/workspace';
+import { WORKSPACE_KEY, workspacePreset } from '../src/workspace';
 import * as storage from '../src/storage';
 import * as picker from 'expo-document-picker';
 
@@ -32,6 +32,7 @@ async function hideDefault() {
 }
 beforeEach(()=>{
   mockSettings.clear(); mockCards[0].dueAt=0;
+  mockSettings.set(WORKSPACE_KEY, JSON.stringify(workspacePreset('simple')));
   storage.readAll.mockImplementation(async () => ({notes:mockNotes,cards:mockCards,reviews:[]}));
   storage.setSetting.mockImplementation(async (_,key,value)=>{mockSettings.set(key,value);});
   jest.spyOn(Alert,'alert').mockImplementation(()=>{});

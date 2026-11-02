@@ -1,0 +1,26 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+FAIL iOS docs/research/devils-audit-20261103/access-evidence/audio-ended.ui.test.jsx
+  ● audit: replay finished audio resets time even after transient end flag clears
+
+    expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+    Expected: 0
+
+    Number of calls: 0
+
+      44 |   await fireEvent.press(ui.getByRole('button', { name: 'تشغيل التسجيل' }));
+      45 |   expect(mockPlayer.play).toHaveBeenCalledTimes(1);
+    > 46 |   expect(mockPlayer.seekTo).toHaveBeenCalledWith(0);
+         |                             ^
+      47 | });
+      48 |
+
+      at Object.toHaveBeenCalledWith (docs/research/devils-audit-20261103/access-evidence/audio-ended.ui.test.jsx:46:29)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 1 total
+Snapshots:   0 total
+Time:        3.827 s
+Ran all test suites.

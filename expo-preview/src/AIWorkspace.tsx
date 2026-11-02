@@ -82,7 +82,7 @@ export function AIWorkspace({p,notes,onDraft}:Props) {
     {running && <Panel p={p}>
       <Label p={p} weight="700">المصدر: {sourceTitle}</Label>
       <Label p={p} size={12} color={p.muted}>تُفحص مطابقة الاقتباس حرفيًا؛ هذا لا يضمن صحة الاستنتاج. راجع الأسئلة بنفسك.</Label>
-      <Engine sourceText={sourceText.trim()} onResult={(draft:LocalAIDraft)=>setResult(draft)} onStatus={(status:{phase:string})=>{if(['generating','error','cancelled'].includes(status.phase))setResult(null);}} />
+      <Engine p={p} sourceText={sourceText.trim()} onResult={(draft:LocalAIDraft)=>setResult(draft)} onStatus={(status:{phase:string})=>{if(['generating','error','cancelled'].includes(status.phase))setResult(null);}} />
       <Button p={p} title="إغلاق المحرك وتحرير الذاكرة" tone="secondary" onPress={()=>setRunning(false)} />
     </Panel>}
     {result && <Panel p={p}>

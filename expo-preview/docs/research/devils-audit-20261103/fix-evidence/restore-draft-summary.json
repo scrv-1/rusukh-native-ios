@@ -1,0 +1,29 @@
+{
+  "finding": "D003",
+  "code_files": [
+    "App.tsx",
+    "tests/backup-app-integration.ui.test.jsx"
+  ],
+  "scope": "Block study replacement before write SQL when draft/editor state is unresolved; remove restore-triggered draft clearing.",
+  "red": {
+    "tests": 24,
+    "pass": 9,
+    "fail": 15,
+    "log": "restore-draft-red.log"
+  },
+  "green": {
+    "tests": 37,
+    "pass": 37,
+    "fail": 0,
+    "restore_integration": 27,
+    "existing_draft_integration": 10,
+    "log": "restore-draft-green.log"
+  },
+  "typecheck": "pass",
+  "diff_check": "pass",
+  "device_tested": false,
+  "storage_adapter": "mock; App and useNoteDraft real",
+  "folder_limit": "Media may have merged before restoreStudy; no all-files atomicity claim.",
+  "version_changed_by_this_agent": false,
+  "git_commit_created_by_this_agent": false
+}

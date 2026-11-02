@@ -14,7 +14,7 @@ import { RecoveryPointsPanel } from './src/backup/RecoveryPointsPanel';
 import { PortableBackupPanel } from './src/backup/PortableBackupPanel';
 import type { PortablePreferences } from './src/backup/portable';
 import { StudyHome } from './src/StudyHome';
-import { useNoteDraft } from './src/useNoteDraft';
+import { NOTE_DRAFT_KEY, useNoteDraft } from './src/useNoteDraft';
 import { SourcesWorkbench } from './src/SourcesWorkbench';
 import { AIWorkspace } from './src/AIWorkspace';
 import { RemindersPanel } from './src/reminders/RemindersPanel';
@@ -37,7 +37,7 @@ const TABS: { id: Tab; label: string; symbol: string }[] = [
   { id: 'settings', label: 'الإعدادات', symbol: 'gearshape.fill' },
 ];
 const screenTitle: Record<Tab, string> = {
-  home: 'رُسوخ', notes: 'ملاحظاتي', review: 'المراجعة', graph: 'شبكة أفكاري', settings: 'الإعدادات', sources: 'مصادري', tools: 'كل الأدوات', ai: 'مساعد الدراسة المحلي',
+  home: 'مساحتي', notes: 'ملاحظاتي', review: 'المراجعة', graph: 'شبكة أفكاري', settings: 'الإعدادات', sources: 'مصادري', tools: 'كل الأدوات', ai: 'مساعد الدراسة المحلي',
 };
 
 function AppContent() {
@@ -83,6 +83,12 @@ function AppContent() {
   const [clock, setClock] = useState(Date.now);
   const visibleTabs = TABS;
   const p = isDark ? dark : light;
+  // Restore callbacks may outlive the render that opened a picker/confirmation.
+  // Keep the edit barrier live; the persisted slot is read again under actionLock.
+  const restoreDraftState = useRef({ editorOpen, cardEditorOpen: !!cardEditorNoteId,
+    loading: draft.loading, status: draft.status, retained: !!draft.recoveredDraft });
+  restoreDraftState.current = { editorOpen, cardEditorOpen: !!cardEditorNoteId,
+    loading: draft.loading, status: draft.status, retained: !!draft.recoveredDraft };
   const due = useMemo(() => dueCards(cards, clock), [cards, clock]);
   const links = useMemo(() => graphEdges(notes), [notes]);
   const today = new Date(clock).toDateString();
@@ -201,6 +207,8 @@ function AppContent() {
     finally { actionLock.current = false; setSaving(false); }
   }
   function editDraft(value: {editingId:string|null; title:string; body:string}, recovered = false) {
+    if (actionLock.current) return;
+    restoreDraftState.current.editorOpen = true;
     sourceImportOwner.current++;
     if (recovered && value.editingId && !notes.some(n => n.id === value.editingId)) {
       Alert.alert('الملاحظة الأصلية غير موجودة', 'يمكنك تصدير المسودة أو حفظها كملاحظة جديدة.');
@@ -212,6 +220,7 @@ function AppContent() {
     setEditorOpen(true);
   }
   function beginEditor(value: {editingId:string|null; title:string; body:string}) {
+    if (actionLock.current) return;
     sourceImportOwner.current++;
     if (draft.loading) return;
     if (draft.status === 'error' && !draft.recoveredDraft) {
@@ -299,6 +308,7 @@ function AppContent() {
       actionLock.current = false; setSaving(false);
       if (!cleared) { Alert.alert('تعذّر تحديث المسودة', 'حاول فتح البطاقة مرة أخرى.'); return; }
     }
+    restoreDraftState.current.cardEditorOpen = true;
     setCardEditorNoteId(noteId); setQuestion(''); setAnswer(''); setEditorOpen(false);
   }
   function closeCard() {
@@ -362,13 +372,39 @@ function AppContent() {
     });
     return snapshot;
   }
-  async function finishStudyRestore() {
-    stopDraftTimer();
-    if (!(await draft.clear())) Alert.alert('استُعيدت البيانات', 'تعذّر تنظيف المسودة القديمة. راجعها قبل استعادتها.');
-    setRevealedId(null); setQuizOpen(false); setEditorOpen(false); setCardEditorNoteId(null);
+  function assertNoDraftForRestore() {
+    const current = restoreDraftState.current;
+    if (current.loading || current.status === 'saving') {
+      throw new Error('انتظر اكتمال تحميل المسودة أو حفظها قبل الاستعادة. لم تُستبدل بيانات الدراسة.');
+    }
+    if (current.status === 'error') {
+      throw new Error('تعذّر التحقق من المسودة. أعد فتح التطبيق لمحاولة قراءتها قبل الاستعادة؛ لم تُستبدل بيانات الدراسة ولم تُحذف المسودة.');
+    }
+    if (current.editorOpen || current.cardEditorOpen || current.retained) {
+      throw new Error('قبل الاستعادة، احفظ الملاحظة أو البطاقة وأغلق المحرر. للمسودة: احفظها كملاحظة، أو صدّرها وتأكد من وجود الملف ثم اختر تجاهل المسودة صراحة من الرئيسية. أعد المحاولة بعد ذلك؛ لم تُستبدل بيانات الدراسة.');
+    }
+  }
+  async function replaceStudy(restore: (d: Database) => Promise<void>): Promise<boolean> {
+    return action(async d => {
+      assertNoDraftForRestore();
+      // Do not trust a recoveredDraft captured before a picker or an old alert.
+      // actionLock prevents opening an editor while this commit-time read waits.
+      let storedDraft: string | null;
+      try { storedDraft = await getSetting(d, NOTE_DRAFT_KEY); }
+      catch { throw new Error('تعذّر قراءة المسودة المحفوظة. أعد المحاولة بعد التأكد من إمكانية فتحها؛ لم تُستبدل بيانات الدراسة.'); }
+      assertNoDraftForRestore();
+      // Any non-null or corrupt entry is protected, not silently discarded.
+      if (storedDraft !== null && storedDraft.trim() !== 'null') {
+        throw new Error('توجد مسودة محفوظة. افتحها من الرئيسية واحفظها كملاحظة، أو صدّرها وتأكد من وجود الملف ثم اختر تجاهل المسودة صراحة. بعدها أعد الاستعادة؛ لم تُستبدل بيانات الدراسة ولم تُحذف المسودة.');
+      }
+      await restore(d);
+      stopDraftTimer();
+      // There is no draft to clear. A restore must never write a draft tombstone.
+      setRevealedId(null); setQuizOpen(false); setEditorOpen(false); setCardEditorNoteId(null);
+    });
   }
   async function restorePortableStudy(backup: Backup): Promise<boolean> {
-    return action(async d => { await restoreBackup(d, backup); await finishStudyRestore(); });
+    return replaceStudy(d => restoreBackup(d, backup));
   }
   async function applyPortablePreferences(preferences: PortablePreferences): Promise<void> {
     const nextWorkspace = readWorkspace(JSON.stringify(preferences.workspace));
@@ -386,9 +422,7 @@ function AppContent() {
       Alert.alert('العودة إلى نقطة الاستعادة؟',
         `ستُستعاد ${point.noteCount} ملاحظة و${point.cardCount} بطاقة. ستُحفظ نقطة رجوع من بياناتك الحالية أولًا. الصور والصوت والإعدادات لا تتغير.`, [
           { text: 'إلغاء', style: 'cancel', onPress: () => resolve(false) },
-          { text: 'استعادة', onPress: () => { void action(async d => {
-            await restoreRecoveryPoint(d, point.id); await finishStudyRestore();
-          }).then(resolve); } },
+          { text: 'استعادة', onPress: () => { void replaceStudy(d => restoreRecoveryPoint(d, point.id)).then(resolve); } },
         ], { cancelable: true, onDismiss: () => resolve(false) });
     });
   }
@@ -408,7 +442,7 @@ function AppContent() {
       Alert.alert('استبدال البيانات الحالية؟',
         `سيتم استبدال ${notes.length} ملاحظة بـ ${backup.notes.length} ملاحظة. تُحفظ نقطة رجوع تلقائيًا قبل الاستبدال؛ احتفظ أيضًا بنسخة خارج التطبيق.`, [
           { text: 'إلغاء', style: 'cancel' },
-          { text: 'استبدال', style: 'destructive', onPress: () => void action(async d => { await restoreBackup(d, backup); await finishStudyRestore(); }) },
+          { text: 'استبدال', style: 'destructive', onPress: () => void replaceStudy(d => restoreBackup(d, backup)) },
         ]);
     } catch (error) { Alert.alert('تعذّر استيراد النسخة', String(error)); }
   }
@@ -585,7 +619,7 @@ function AppContent() {
       restoreStudy={restorePortableStudy} applyPreferences={applyPortablePreferences} />}
     <Panel p={p}>
       <Label p={p} weight="700">عن النسخة</Label>
-      <Label p={p} size={13} color={p.muted}>رُسوخ 0.5.0 — إضافة وبحث مباشرة، وتنقّل ثابت، وترتيبات جاهزة لمساحتك. مساعد الدراسة المحلي تجريبي ويحتاج مراجعة النتائج. جدولة المراجعة مبسطة وليست FSRS. لا مزامنة سحابية.</Label>
+      <Label p={p} size={13} color={p.muted}>رُسوخ 0.5.1 — بداية جديدة فارغة، وحماية للمسودات عند الاستعادة، وجدولة مراجعة متسقة. مساعد الدراسة المحلي تجريبي ويحتاج مراجعة النتائج. جدولة المراجعة مبسطة وليست FSRS. لا مزامنة سحابية.</Label>
     </Panel>
   </View>; }
   function modalHeader(title: string, close: () => void) {

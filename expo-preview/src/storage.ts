@@ -50,31 +50,8 @@ export async function openStorage(): Promise<Database> {
     CREATE TABLE IF NOT EXISTS meta (key TEXT PRIMARY KEY NOT NULL, value TEXT NOT NULL);
     ${recoverySchema};
   `);
-  const seeded = await db.getFirstAsync<{ value: string }>('SELECT value FROM meta WHERE key = ?', 'seeded');
-  if (!seeded) {
-    const now = Date.now();
-    const one: Note = { id: makeId('note', now), title: 'التعلّم النشط',
-      body: 'التعلّم النشط يعني استرجاع المعرفة بدل الاكتفاء بإعادة القراءة.\n\nيرتبط بـ [[المراجعة المتباعدة]].\n\nس: ما الفرق بين التعلّم النشط وإعادة القراءة؟\nج: التعلّم النشط يتطلب استدعاء المعلومة من الذاكرة.',
-      createdAt: now, updatedAt: now };
-    const two: Note = { id: makeId('note', now + 1), title: 'المراجعة المتباعدة',
-      body: 'المراجعة المتباعدة تعني توزيع جلسات المراجعة عبر فترات زمنية.\n\nانظر [[التعلّم النشط]].\n\nس: ما المقصود بالمراجعة المتباعدة؟\nج: مراجعة المعلومات في أوقات متباعدة لتعزيز الاحتفاظ بها.',
-      createdAt: now, updatedAt: now };
-    await db.withExclusiveTransactionAsync(async (tx) => {
-      for (const note of [one, two]) {
-        await tx.runAsync('INSERT INTO notes VALUES (?, ?, ?, ?, ?)', note.id, note.title, note.body, note.createdAt, note.updatedAt);
-      }
-      for (const [note, q, a] of [
-        [one, 'ما فائدة الاسترجاع النشط؟', 'تقوية القدرة على تذكّر المعلومات.'],
-        [two, 'ما فكرة المراجعة المتباعدة؟', 'توزيع المراجعات على فترات زمنية.'],
-      ] as const) {
-        const c: StudyCard = { id: makeId('card'), noteId: note.id, question: q, answer: a,
-          dueAt: now, intervalDays: 0, ease: 2.5, repetitions: 0, updatedAt: now };
-        await tx.runAsync('INSERT INTO cards VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-          c.id, c.noteId, c.question, c.answer, c.dueAt, c.intervalDays, c.ease, c.repetitions, c.updatedAt);
-      }
-      await tx.runAsync('INSERT INTO meta (key,value) VALUES (?,?)','seeded','1');
-    });
-  }
+  // Bootstrap creates structure only. Existing notes (including legacy examples)
+  // and the legacy seeded preference remain untouched on every reopen.
   return db;
 }
 

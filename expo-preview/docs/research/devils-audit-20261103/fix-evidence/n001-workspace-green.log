@@ -1,0 +1,22 @@
+✔ new workspace starts with no installed sections and is independent between callers (2.142247ms)
+✔ simple remains an optional review and notes preset rather than the empty first workspace (0.373401ms)
+✔ invalid settings recover without throwing (0.548654ms)
+✔ existing saved settings retain their selected sections, order and density (0.401112ms)
+✔ unknown and duplicate IDs never produce duplicate or unsupported tools (0.294442ms)
+✔ hiding every module is valid and does not mutate original preferences (0.252359ms)
+✔ reorder respects boundaries and preserves each module exactly once (0.190707ms)
+✔ tab bar respects order and caps optional pages at three, excluding quiz (0.257517ms)
+✔ text sources preserve Arabic, Q/A and transcript timestamps (0.528503ms)
+✔ source import rejects unsupported, oversized, empty and invalid text (21.987067ms)
+✔ Arabic search ignores diacritics, tatweel, alef forms and word order (0.675865ms)
+✔ markdown export preserves note body and wiki links (0.178669ms)
+✔ source limit includes metadata so every accepted source can be reimported from backup (31.086295ms)
+✔ adding the AI module preserves prior layout and keeps the new tool hidden (0.272499ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 194.113449
