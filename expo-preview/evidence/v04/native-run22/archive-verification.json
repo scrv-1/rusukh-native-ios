@@ -1,0 +1,16 @@
+{
+  "run": "https://github.com/scrv-1/rusukh-native-ios/actions/runs/41497312983",
+  "sourceCommit": "13057ffd60a2c4e6f969b49eda6b607bff3b8e72",
+  "conclusion": "success",
+  "downloadedArtifactSHA256": "b1a3a8b643408a02ac7d7bdea231ad07ed203b492ad19f3e62b2e4bcb2c6f7f4",
+  "downloadedArtifactBytes": 16016516,
+  "archiveHashMatchesGitHub": true,
+  "coreTests": 93,
+  "appTests": 23,
+  "uiTests": 6,
+  "failedTests": 0,
+  "mlxMacCasesExecuted": 8,
+  "mlxNetworkDenied": true,
+  "qualityFinding": "The explain case incorrectly qualifies active recall as occurring without teacher assignment. Runtime success is not a correctness pass.",
+  "physicalIPhoneTested": false
+}

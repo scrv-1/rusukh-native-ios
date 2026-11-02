@@ -1,0 +1,18 @@
+simulator-build.log: 79 warning lines
+'static_assert' with no message is a C++17 extension [-Wc++17-extensions]
+'weak' ownership of capture 'self' differs from implicitly-captured strong reference in outer scope [#ImplicitStrongCapture]
+Metadata extraction skipped, no AppIntents.framework dependency found
+constexpr if is a C++17 extension [-Wc++17-extensions]
+inline variables are a C++17 extension [-Wc++17-extensions]
+device-build.log: 81 warning lines
+'static_assert' with no message is a C++17 extension [-Wc++17-extensions]
+'weak' ownership of capture 'self' differs from implicitly-captured strong reference in outer scope [#ImplicitStrongCapture]
+A launch configuration or launch storyboard or xib must be provided unless the app requires full screen. (in target 'RusukhNative' from project 'RusukhNative')
+All interface orientations must be supported unless the app requires full screen. (in target 'RusukhNative' from project 'RusukhNative')
+Metadata extraction skipped, no AppIntents.framework dependency found
+constexpr if is a C++17 extension [-Wc++17-extensions]
+inline variables are a C++17 extension [-Wc++17-extensions]
+ai-swift-build.log: 76 warning lines
+'static_assert' with no message is a C++17 extension [-Wc++17-extensions]
+constexpr if is a C++17 extension [-Wc++17-extensions]
+inline variables are a C++17 extension [-Wc++17-extensions]
