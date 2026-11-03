@@ -1,5 +1,8 @@
 # رُسوخ — تطبيق iOS أصلي
 
+> **مسار تطوير Expo الحالي (آيفون + متصفح فقط):** [فتح فرع الإصلاح في GitHub Codespaces](https://codespaces.new/scrv-1/rusukh-native-ios/tree/fix/expo-guardrails-20261103?quickstart=1) ثم تشغيل `bash expo-preview/start-codespaces.sh` من الطرفية. التفاصيل في [دليل Expo 0.5.2](expo-preview/README.md#التطوير-من-الآيفون-والمتصفح-فقط-codespaces). الإصلاحات لا تزال في طلب دمج مسودة، ولا يثبت مسار المتصفح توافق Expo Go على الآيفون مع SDK 58. لا يلزم ويندوز محلي لتعديل الكود أو إجراء الاختبارات داخل Codespaces.
+
+
 تطبيق Swift وSwiftUI عربي، يستمر في المستودع الخاص الموجود. **لم يُثبت على آيفون المستخدم؛ معيار النجاح النهائي غير مكتمل.** آخر كود تطبيق مختبر هو `07784236eb9d13fc77092fc8713f4ca31727f666` في [Run 18](https://github.com/scrv-1/rusukh-native-ios/actions/runs/41301469379)، ونجح خلال 20m02s: 57 اختبار محرك و11 تطبيق و5 واجهة، بناء Xcode وxtool وتشغيل المحاكي، وصفر تحذيرات runtime في xcresult. ولّد Swift/MLX ثماني إجابات على Mac مع حظر الشبكة؛ ما زالت جودة بعض الأجوبة تحتاج تحسينًا. [تقرير هذه الدفعة](docs/DELIVERY_AUDIO_FSRS_2026-11-01.md) و[التاريخ الكامل](docs/EXECUTION_2026-11-01.md).
 
 ## الوظائف الحالية
