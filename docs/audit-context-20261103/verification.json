@@ -1,0 +1,49 @@
+{
+  "observed_at_utc": "2026-11-03T10:32:45.191344+00:00",
+  "base_commit": "4f8b4e908aa694b35e91c25c6c1a07d95ca518e6",
+  "node": "24.22.1",
+  "typescript": "6.0.3",
+  "new_regression_before": {
+    "passed": 1,
+    "failed": 3
+  },
+  "selected_node_tests_after": {
+    "passed": 123,
+    "failed": 0,
+    "exit_code": 0,
+    "compilation": "10 actual TypeScript modules transpiled to CommonJS; not full-project typechecking"
+  },
+  "ai_contract_tests": {
+    "passed": 32,
+    "failed": 0,
+    "exit_code": 0,
+    "runtime": "stub Wllama and Node VM; not model inference"
+  },
+  "strict_typecheck": {
+    "files": [
+      "src/core.ts",
+      "src/types.ts"
+    ],
+    "exit_code": 0
+  },
+  "not_run": [
+    "full npm test",
+    "Jest UI",
+    "full project typecheck",
+    "Expo compatibility",
+    "Expo doctor",
+    "iOS export",
+    "Swift/Xcode",
+    "iPhone",
+    "live Expo manifest/bundle"
+  ],
+  "setup_failures_resolved_or_excluded": [
+    "PDF suite unavailable in partial snapshot: generated engine intentionally not fetched; not a confirmed repository bug",
+    "First AI attempt missed esbuild; lockfile dependencies installed and all 32 tests then passed"
+  ],
+  "source_sha256": {
+    "expo-preview/src/core.ts": "eceeda02cb9567af68e793160c9ef2d82abd827538e092f5feab0aac596326a9",
+    "expo-preview/tests/core.test.cjs": "0cf04c121aa900a5a462459ac93f727f24201d92cb681225c99680dcd37418e5",
+    "expo-preview/tests/scheduler-backup-boundary.test.cjs": "46ab2be0f8389ee664e6e93bab3e0437fbf6a5e9bd983eaea2b8b3d97b9c374a"
+  }
+}

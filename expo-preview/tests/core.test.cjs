@@ -163,7 +163,9 @@ function assertSuccessfulGradeOrder(card, now, context) {
   for(const result of [hard,good,easy]) {
     assert.ok(Number.isInteger(result.intervalDays) && result.intervalDays>=1,context);
     assert.equal(result.dueAt,now+result.intervalDays*MS_DAY,context);
-    assert.equal(result.repetitions,card.repetitions+1,context);
+    // The backup format caps the stored counter; reviews must stay restorable.
+    assert.equal(result.repetitions,Math.min(100000,card.repetitions+1),context);
+    assert.equal(validateBackup({...exampleBackup(),cards:[result],reviews:[]}),true,context);
     assert.equal(result.updatedAt,now,context);
     assert.ok(result.ease>=1.3 && result.ease<=3,context);
     for(const field of ['id','noteId','question','answer']) assert.equal(result[field],card[field],context);
@@ -425,3 +427,4 @@ test('text source byte limit includes emoji and the UTF-8 BOM before normalizati
   assert.throws(()=>prepareSource('كتب.txt',emoji+'x'),/أكبر/);
   assert.throws(()=>prepareSource('كتب.txt','\uFEFF'+emoji),/أكبر/);
 });
+

@@ -1,0 +1,748 @@
+TAP version 13
+# Subtest: recovery point captures the previous library and survives a WAL database reopen
+ok 1 - recovery point captures the previous library and survives a WAL database reopen
+  ---
+  duration_ms: 225.859162
+  type: 'test'
+  ...
+# Subtest: import failure rolls back both replacement and newly created recovery point
+ok 2 - import failure rolls back both replacement and newly created recovery point
+  ---
+  duration_ms: 7.091752
+  type: 'test'
+  ...
+# Subtest: failure to persist recovery refuses import and preserves all existing data
+ok 3 - failure to persist recovery refuses import and preserves all existing data
+  ---
+  duration_ms: 4.186679
+  type: 'test'
+  ...
+# Subtest: only the newest three successful recovery points remain; target selected before rotation
+ok 4 - only the newest three successful recovery points remain; target selected before rotation
+  ---
+  duration_ms: 10.491554
+  type: 'test'
+  ...
+# Subtest: corrupt, incompatible and nonexistent recovery points never replace the current library
+ok 5 - corrupt, incompatible and nonexistent recovery points never replace the current library
+  ---
+  duration_ms: 4.587466
+  type: 'test'
+  ...
+# Subtest: a failed import after retention rotation keeps all three previous recovery points
+ok 6 - a failed import after retention rotation keeps all three previous recovery points
+  ---
+  duration_ms: 5.304568
+  type: 'test'
+  ...
+# Subtest: input mutation while import awaits the transaction cannot bypass validated content
+ok 7 - input mutation while import awaits the transaction cannot bypass validated content
+  ---
+  duration_ms: 2.008056
+  type: 'test'
+  ...
+# Subtest: invalid input creates no snapshot and cannot overwrite the existing library
+ok 8 - invalid input creates no snapshot and cannot overwrite the existing library
+  ---
+  duration_ms: 1.711014
+  type: 'test'
+  ...
+# Subtest: an oversized safety snapshot blocks replacement instead of importing without protection
+ok 9 - an oversized safety snapshot blocks replacement instead of importing without protection
+  ---
+  duration_ms: 359.16365
+  type: 'test'
+  ...
+# Subtest: fresh bootstrap creates the schema and a completely empty study library
+ok 10 - fresh bootstrap creates the schema and a completely empty study library
+  ---
+  duration_ms: 22.768715
+  type: 'test'
+  ...
+# Subtest: repeated disk reopen of a new library never inserts sample content or a seeded flag
+ok 11 - repeated disk reopen of a new library never inserts sample content or a seeded flag
+  ---
+  duration_ms: 170.641703
+  type: 'test'
+  ...
+# Subtest: existing library with a seeded flag survives every bootstrap unchanged
+ok 12 - existing library with a seeded flag survives every bootstrap unchanged
+  ---
+  duration_ms: 80.111657
+  type: 'test'
+  ...
+# Subtest: existing library without a seeded flag survives every bootstrap unchanged
+ok 13 - existing library without a seeded flag survives every bootstrap unchanged
+  ---
+  duration_ms: 45.928237
+  type: 'test'
+  ...
+# Subtest: failed schema initialization leaves old content intact and the next open can retry safely
+ok 14 - failed schema initialization leaves old content intact and the next open can retry safely
+  ---
+  duration_ms: 26.953735
+  type: 'test'
+  ...
+# Subtest: updateCard changes only text and updatedAt, preserving schedule, ownership and review history
+ok 15 - updateCard changes only text and updatedAt, preserving schedule, ownership and review history
+  ---
+  duration_ms: 4.286208
+  type: 'test'
+  ...
+# Subtest: updateCard rejects absent cards and invalid text without changing any existing row
+ok 16 - updateCard rejects absent cards and invalid text without changing any existing row
+  ---
+  duration_ms: 2.937403
+  type: 'test'
+  ...
+# Subtest: duplicate questions are rejected within the same note but allowed in another note
+ok 17 - duplicate questions are rejected within the same note but allowed in another note
+  ---
+  duration_ms: 1.285481
+  type: 'test'
+  ...
+# Subtest: a failed UPDATE rolls back text and preserves history instead of deleting and recreating the card
+ok 18 - a failed UPDATE rolls back text and preserves history instead of deleting and recreating the card
+  ---
+  duration_ms: 0.649135
+  type: 'test'
+  ...
+# Subtest: Arabic title normalisation ignores extra whitespace/case
+ok 19 - Arabic title normalisation ignores extra whitespace/case
+  ---
+  duration_ms: 2.03722
+  type: 'test'
+  ...
+# Subtest: wiki link parser supports alias and deduplicates
+ok 20 - wiki link parser supports alias and deduplicates
+  ---
+  duration_ms: 4.12783
+  type: 'test'
+  ...
+# Subtest: wiki parser ignores incomplete links and empty targets
+ok 21 - wiki parser ignores incomplete links and empty targets
+  ---
+  duration_ms: 0.894053
+  type: 'test'
+  ...
+# Subtest: wiki links retain first spelling and encounter order across normalized aliases
+ok 22 - wiki links retain first spelling and encounter order across normalized aliases
+  ---
+  duration_ms: 0.194031
+  type: 'test'
+  ...
+# Subtest: a large single note retains every unique link and ignores later aliases
+ok 23 - a large single note retains every unique link and ignores later aliases
+  ---
+  duration_ms: 17.179033
+  type: 'test'
+  ...
+# Subtest: wiki scanner preserves nested open brackets, empty aliases, CR and malformed prefixes
+ok 24 - wiki scanner preserves nested open brackets, empty aliases, CR and malformed prefixes
+  ---
+  duration_ms: 4.334331
+  type: 'test'
+  ...
+# Subtest: wiki scanner matches legacy syntax on every short bracket/pipe/newline combination
+ok 25 - wiki scanner matches legacy syntax on every short bracket/pipe/newline combination
+  ---
+  duration_ms: 145.57409
+  type: 'test'
+  ...
+# Subtest: wiki scanner completes million-character malformed notes within a worker watchdog
+ok 26 - wiki scanner completes million-character malformed notes within a worker watchdog
+  ---
+  duration_ms: 148.710336
+  type: 'test'
+  ...
+# Subtest: graph builds directed links between known note titles only
+ok 27 - graph builds directed links between known note titles only
+  ---
+  duration_ms: 0.574633
+  type: 'test'
+  ...
+# Subtest: graph does not create self-links
+ok 28 - graph does not create self-links
+  ---
+  duration_ms: 0.370337
+  type: 'test'
+  ...
+# Subtest: graph preserves first-seen order and deduplicates aliases across repeated source IDs
+ok 29 - graph preserves first-seen order and deduplicates aliases across repeated source IDs
+  ---
+  duration_ms: 0.263196
+  type: 'test'
+  ...
+# Subtest: graph edge deduplication cannot collide when identifiers contain separators
+ok 30 - graph edge deduplication cannot collide when identifiers contain separators
+  ---
+  duration_ms: 0.225699
+  type: 'test'
+  ...
+# Subtest: extract Arabic Q/A pairs and ignores incomplete
+ok 31 - extract Arabic Q/A pairs and ignores incomplete
+  ---
+  duration_ms: 1.519893
+  type: 'test'
+  ...
+# Subtest: extract English Q/A pairs
+ok 32 - extract English Q/A pairs
+  ---
+  duration_ms: 0.265639
+  type: 'test'
+  ...
+# Subtest: repeat grade schedules after 10 minutes
+ok 33 - repeat grade schedules after 10 minutes
+  ---
+  duration_ms: 0.288623
+  type: 'test'
+  ...
+# Subtest: good grade intervals progress 1,3 then more
+ok 34 - good grade intervals progress 1,3 then more
+  ---
+  duration_ms: 0.189074
+  type: 'test'
+  ...
+# Subtest: easy first review is four days
+ok 35 - easy first review is four days
+  ---
+  duration_ms: 0.116625
+  type: 'test'
+  ...
+# Subtest: hard grade still schedules >= day
+ok 36 - hard grade still schedules >= day
+  ---
+  duration_ms: 0.134412
+  type: 'test'
+  ...
+# Subtest: ease always bounded for repeated failures
+ok 37 - ease always bounded for repeated failures
+  ---
+  duration_ms: 0.190857
+  type: 'test'
+  ...
+# Subtest: S003: first Easy does not make the next Hard later than Good
+ok 38 - S003: first Easy does not make the next Hard later than Good
+  ---
+  duration_ms: 0.578299
+  type: 'test'
+  ...
+# Subtest: S003: every generated grading sequence through seven reviews preserves grade order
+ok 39 - S003: every generated grading sequence through seven reviews preserves grade order
+  ---
+  duration_ms: 224.273962
+  type: 'test'
+  ...
+# Subtest: S003: backup-accepted fractional intervals, legacy ease and repetition states preserve order
+ok 40 - S003: backup-accepted fractional intervals, legacy ease and repetition states preserve order
+  ---
+  duration_ms: 4.13404
+  type: 'test'
+  ...
+# Subtest: S003: first-review targets and a lapse restart retain the simplified policy
+ok 41 - S003: first-review targets and a lapse restart retain the simplified policy
+  ---
+  duration_ms: 0.267752
+  type: 'test'
+  ...
+# Subtest: dueCards include only due, ascending
+ok 42 - dueCards include only due, ascending
+  ---
+  duration_ms: 0.132038
+  type: 'test'
+  ...
+# Subtest: quiz requires two distinct answers
+ok 43 - quiz requires two distinct answers
+  ---
+  duration_ms: 0.190987
+  type: 'test'
+  ...
+# Subtest: quiz options have one correct and no duplicates
+ok 44 - quiz options have one correct and no duplicates
+  ---
+  duration_ms: 0.341794
+  type: 'test'
+  ...
+# Subtest: quiz can reach every card rather than repeatedly taking the same prefix
+ok 45 - quiz can reach every card rather than repeatedly taking the same prefix
+  ---
+  duration_ms: 2.598032
+  type: 'test'
+  ...
+# Subtest: quiz selection gives each of three cards the same share of exhaustive shuffle choices
+ok 46 - quiz selection gives each of three cards the same share of exhaustive shuffle choices
+  ---
+  duration_ms: 0.217126
+  type: 'test'
+  ...
+# Subtest: quiz answer positions vary and remain reproducible for a supplied random source
+ok 47 - quiz answer positions vary and remain reproducible for a supplied random source
+  ---
+  duration_ms: 1.891591
+  type: 'test'
+  ...
+# Subtest: quiz keeps separate questions sharing an answer and normalizes distractor uniqueness
+ok 48 - quiz keeps separate questions sharing an answer and normalizes distractor uniqueness
+  ---
+  duration_ms: 0.376245
+  type: 'test'
+  ...
+# Subtest: quiz does not reorder or edit source cards and handles small or invalid limits
+ok 49 - quiz does not reorder or edit source cards and handles small or invalid limits
+  ---
+  duration_ms: 0.393812
+  type: 'test'
+  ...
+# Subtest: valid backup passes
+ok 50 - valid backup passes
+  ---
+  duration_ms: 0.08001
+  type: 'test'
+  ...
+# Subtest: backup notes must remain editable and recoverable by the note editor
+ok 51 - backup notes must remain editable and recoverable by the note editor
+  ---
+  duration_ms: 0.149335
+  type: 'test'
+  ...
+# Subtest: backup card and review identifiers follow the same nonempty bounded contract
+ok 52 - backup card and review identifiers follow the same nonempty bounded contract
+  ---
+  duration_ms: 0.25944
+  type: 'test'
+  ...
+# Subtest: malformed backup fails
+ok 53 - malformed backup fails
+  ---
+  duration_ms: 0.086429
+  type: 'test'
+  ...
+# Subtest: backup rejects cards referencing nonexistent notes
+ok 54 - backup rejects cards referencing nonexistent notes
+  ---
+  duration_ms: 0.079169
+  type: 'test'
+  ...
+# Subtest: backup rejects duplicate identifiers
+ok 55 - backup rejects duplicate identifiers
+  ---
+  duration_ms: 0.058298
+  type: 'test'
+  ...
+# Subtest: backup rejects invalid grades and time values
+ok 56 - backup rejects invalid grades and time values
+  ---
+  duration_ms: 0.135334
+  type: 'test'
+  ...
+# Subtest: new IDs have supplied prefix and differ
+ok 57 - new IDs have supplied prefix and differ
+  ---
+  duration_ms: 0.125128
+  type: 'test'
+  ...
+# Subtest: backup rejects ambiguous normalized note titles without rejecting distinct legacy titles
+ok 58 - backup rejects ambiguous normalized note titles without rejecting distinct legacy titles
+  ---
+  duration_ms: 0.171457
+  type: 'test'
+  ...
+# Subtest: UTF-8 byte count matches canonical encoding for Arabic, emoji and unmatched surrogates
+ok 59 - UTF-8 byte count matches canonical encoding for Arabic, emoji and unmatched surrogates
+  ---
+  duration_ms: 0.129034
+  type: 'test'
+  ...
+# Subtest: serialized backup preserves version-one data and remains importable
+ok 60 - serialized backup preserves version-one data and remains importable
+  ---
+  duration_ms: 0.198027
+  type: 'test'
+  ...
+# Subtest: serializer refuses invalid content before producing an export
+ok 61 - serializer refuses invalid content before producing an export
+  ---
+  duration_ms: 0.335674
+  type: 'test'
+  ...
+# Subtest: Arabic backup exactly at 15 MiB can be exported and reimported
+ok 62 - Arabic backup exactly at 15 MiB can be exported and reimported
+  ---
+  duration_ms: 213.918523
+  type: 'test'
+  ...
+# Subtest: Arabic backup one byte over 15 MiB is refused before writing a file
+ok 63 - Arabic backup one byte over 15 MiB is refused before writing a file
+  ---
+  duration_ms: 477.26598
+  type: 'test'
+  ...
+# Subtest: text source size limit counts Arabic UTF-8 bytes even without file metadata
+ok 64 - text source size limit counts Arabic UTF-8 bytes even without file metadata
+  ---
+  duration_ms: 54.588555
+  type: 'test'
+  ...
+# Subtest: text source byte limit includes emoji and the UTF-8 BOM before normalization
+ok 65 - text source byte limit includes emoji and the UTF-8 BOM before normalization
+  ---
+  duration_ms: 48.885678
+  type: 'test'
+  ...
+# Subtest: accepted imported scheduling boundaries remain exportable after again
+ok 66 - accepted imported scheduling boundaries remain exportable after again
+  ---
+  duration_ms: 3.992788
+  type: 'test'
+  ...
+# Subtest: accepted imported scheduling boundaries remain exportable after hard
+ok 67 - accepted imported scheduling boundaries remain exportable after hard
+  ---
+  duration_ms: 1.072531
+  type: 'test'
+  ...
+# Subtest: accepted imported scheduling boundaries remain exportable after good
+ok 68 - accepted imported scheduling boundaries remain exportable after good
+  ---
+  duration_ms: 3.915802
+  type: 'test'
+  ...
+# Subtest: accepted imported scheduling boundaries remain exportable after easy
+ok 69 - accepted imported scheduling boundaries remain exportable after easy
+  ---
+  duration_ms: 0.651719
+  type: 'test'
+  ...
+# Subtest: preferences persist after SQLite reopen; hide and reset preserve study content
+ok 70 - preferences persist after SQLite reopen; hide and reset preserve study content
+  ---
+  duration_ms: 186.859313
+  type: 'test'
+  ...
+# Subtest: rejected import leaves existing notes and workspace untouched
+ok 71 - rejected import leaves existing notes and workspace untouched
+  ---
+  duration_ms: 2.650351
+  type: 'test'
+  ...
+# Subtest: failure while creating cards rolls back the note and every previous card
+ok 72 - failure while creating cards rolls back the note and every previous card
+  ---
+  duration_ms: 2.855158
+  type: 'test'
+  ...
+# Subtest: renaming a note preserves incoming graph links, aliases and unrelated text atomically
+ok 73 - renaming a note preserves incoming graph links, aliases and unrelated text atomically
+  ---
+  duration_ms: 4.039227
+  type: 'test'
+  ...
+# Subtest: card insertion failure rolls back renamed title and all rewritten backlinks
+ok 74 - card insertion failure rolls back renamed title and all rewritten backlinks
+  ---
+  duration_ms: 1.097068
+  type: 'test'
+  ...
+# Subtest: rename preserves long malformed wiki text and retargets valid links beyond its boundary
+ok 75 - rename preserves long malformed wiki text and retargets valid links beyond its boundary
+  ---
+  duration_ms: 24.341783
+  type: 'test'
+  ...
+# Subtest: renaming refuses oversized rewritten content without changing any note
+ok 76 - renaming refuses oversized rewritten content without changing any note
+  ---
+  duration_ms: 38.901087
+  type: 'test'
+  ...
+# Subtest: renaming to an unrepresentable wiki target never corrupts existing links
+ok 77 - renaming to an unrepresentable wiki target never corrupts existing links
+  ---
+  duration_ms: 1.574866
+  type: 'test'
+  ...
+# Subtest: long Arabic transcripts retain all facts and exact source offsets
+ok 78 - long Arabic transcripts retain all facts and exact source offsets
+  ---
+  duration_ms: 1.810931
+  type: 'test'
+  ...
+# Subtest: emoji are not split and invalid limits cannot cause a loop
+ok 79 - emoji are not split and invalid limits cannot cause a loop
+  ---
+  duration_ms: 1.79114
+  type: 'test'
+  ...
+# Subtest: default study chunks keep short final facts selectable by the local AI source contract
+ok 80 - default study chunks keep short final facts selectable by the local AI source contract
+  ---
+  duration_ms: 1.926154
+  type: 'test'
+  ...
+# Subtest: tail rebalancing respects custom limits even when two minimum-sized chunks are impossible
+ok 81 - tail rebalancing respects custom limits even when two minimum-sized chunks are impossible
+  ---
+  duration_ms: 0.269995
+  type: 'test'
+  ...
+# Subtest: S002: recall practice accepts one card and never invents distractors or marks synonyms wrong
+ok 82 - S002: recall practice accepts one card and never invents distractors or marks synonyms wrong
+  ---
+  duration_ms: 2.074015
+  type: 'test'
+  ...
+# Subtest: S002: practice samples unique valid prompts without changing cards and stays bounded
+ok 83 - S002: practice samples unique valid prompts without changing cards and stays bounded
+  ---
+  duration_ms: 0.704799
+  type: 'test'
+  ...
+# Subtest: S004: multiline Arabic/English answers retain lists, paragraph breaks, and multiline questions
+ok 84 - S004: multiline Arabic/English answers retain lists, paragraph breaks, and multiline questions
+  ---
+  duration_ms: 1.440574
+  type: 'test'
+  ...
+# Subtest: S004: generated provenance and quoted transcript never become answer text or extra cards
+ok 85 - S004: generated provenance and quoted transcript never become answer text or extra cards
+  ---
+  duration_ms: 0.388624
+  type: 'test'
+  ...
+# Subtest: S004: fenced source blocks, quote boundaries and headings isolate Q/A extraction
+ok 86 - S004: fenced source blocks, quote boundaries and headings isolate Q/A extraction
+  ---
+  duration_ms: 0.39982
+  type: 'test'
+  ...
+# Subtest: S004: incomplete pairs, orphan answer labels, CRLF and empty answer bodies are handled explicitly
+ok 87 - S004: incomplete pairs, orphan answer labels, CRLF and empty answer bodies are handled explicitly
+  ---
+  duration_ms: 0.254111
+  type: 'test'
+  ...
+# Subtest: S005: title validation rejects ambiguous wiki delimiters and preserves valid legacy targets
+ok 88 - S005: title validation rejects ambiguous wiki delimiters and preserves valid legacy targets
+  ---
+  duration_ms: 0.832119
+  type: 'test'
+  ...
+# Subtest: S004 YouTube: multiline answers include every contributing cue in their provenance
+ok 89 - S004 YouTube: multiline answers include every contributing cue in their provenance
+  ---
+  duration_ms: 5.030401
+  type: 'test'
+  ...
+# Subtest: S004 YouTube: plain-text paragraphs survive extraction and stop at source/quote boundaries
+ok 90 - S004 YouTube: plain-text paragraphs survive extraction and stop at source/quote boundaries
+  ---
+  duration_ms: 1.396838
+  type: 'test'
+  ...
+# Subtest: S004 YouTube: VTT visible continuation preserves cue ids and ignores NOTE metadata
+ok 91 - S004 YouTube: VTT visible continuation preserves cue ids and ignores NOTE metadata
+  ---
+  duration_ms: 0.806982
+  type: 'test'
+  ...
+# Subtest: new workspace starts with no installed sections and is independent between callers
+ok 92 - new workspace starts with no installed sections and is independent between callers
+  ---
+  duration_ms: 2.248848
+  type: 'test'
+  ...
+# Subtest: simple remains an optional review and notes preset rather than the empty first workspace
+ok 93 - simple remains an optional review and notes preset rather than the empty first workspace
+  ---
+  duration_ms: 0.385009
+  type: 'test'
+  ...
+# Subtest: invalid settings recover without throwing
+ok 94 - invalid settings recover without throwing
+  ---
+  duration_ms: 0.640892
+  type: 'test'
+  ...
+# Subtest: existing saved settings retain their selected sections, order and density
+ok 95 - existing saved settings retain their selected sections, order and density
+  ---
+  duration_ms: 0.462034
+  type: 'test'
+  ...
+# Subtest: unknown and duplicate IDs never produce duplicate or unsupported tools
+ok 96 - unknown and duplicate IDs never produce duplicate or unsupported tools
+  ---
+  duration_ms: 0.485629
+  type: 'test'
+  ...
+# Subtest: hiding every module is valid and does not mutate original preferences
+ok 97 - hiding every module is valid and does not mutate original preferences
+  ---
+  duration_ms: 0.253651
+  type: 'test'
+  ...
+# Subtest: reorder respects boundaries and preserves each module exactly once
+ok 98 - reorder respects boundaries and preserves each module exactly once
+  ---
+  duration_ms: 0.222865
+  type: 'test'
+  ...
+# Subtest: moving a visible section skips hidden sections and keeps their saved positions
+ok 99 - moving a visible section skips hidden sections and keeps their saved positions
+  ---
+  duration_ms: 0.484878
+  type: 'test'
+  ...
+# Subtest: tab bar respects order and caps optional pages at three, excluding quiz
+ok 100 - tab bar respects order and caps optional pages at three, excluding quiz
+  ---
+  duration_ms: 0.334212
+  type: 'test'
+  ...
+# Subtest: text sources preserve Arabic, Q/A and transcript timestamps
+ok 101 - text sources preserve Arabic, Q/A and transcript timestamps
+  ---
+  duration_ms: 0.605149
+  type: 'test'
+  ...
+# Subtest: source import rejects unsupported, oversized, empty and invalid text
+ok 102 - source import rejects unsupported, oversized, empty and invalid text
+  ---
+  duration_ms: 23.731886
+  type: 'test'
+  ...
+# Subtest: Arabic search ignores diacritics, tatweel, alef forms and word order
+ok 103 - Arabic search ignores diacritics, tatweel, alef forms and word order
+  ---
+  duration_ms: 0.669596
+  type: 'test'
+  ...
+# Subtest: markdown export preserves note body and wiki links
+ok 104 - markdown export preserves note body and wiki links
+  ---
+  duration_ms: 0.267692
+  type: 'test'
+  ...
+# Subtest: source limit includes metadata so every accepted source can be reimported from backup
+ok 105 - source limit includes metadata so every accepted source can be reimported from backup
+  ---
+  duration_ms: 26.788443
+  type: 'test'
+  ...
+# Subtest: adding the AI module preserves prior layout and keeps the new tool hidden
+ok 106 - adding the AI module preserves prior layout and keeps the new tool hidden
+  ---
+  duration_ms: 1.411871
+  type: 'test'
+  ...
+# Subtest: recognizes official watch, short, live, embed and no-cookie video URLs
+ok 107 - recognizes official watch, short, live, embed and no-cookie video URLs
+  ---
+  duration_ms: 2.904713
+  type: 'test'
+  ...
+# Subtest: rejects deceptive hosts, credentials, unsupported protocol, ports and paths
+ok 108 - rejects deceptive hosts, credentials, unsupported protocol, ports and paths
+  ---
+  duration_ms: 0.356446
+  type: 'test'
+  ...
+# Subtest: rejects missing, invalid, ambiguous and malformed video identifiers
+ok 109 - rejects missing, invalid, ambiguous and malformed video identifiers
+  ---
+  duration_ms: 0.404168
+  type: 'test'
+  ...
+# Subtest: normalizes valid timestamps while discarding tracking parameters
+ok 110 - normalizes valid timestamps while discarding tracking parameters
+  ---
+  duration_ms: 0.52611
+  type: 'test'
+  ...
+# Subtest: rejects invalid and excessive timestamps rather than guessing
+ok 111 - rejects invalid and excessive timestamps rather than guessing
+  ---
+  duration_ms: 0.733832
+  type: 'test'
+  ...
+# Subtest: parses SRT milliseconds, original text, cue labels and line provenance
+ok 112 - parses SRT milliseconds, original text, cue labels and line provenance
+  ---
+  duration_ms: 1.068875
+  type: 'test'
+  ...
+# Subtest: parses VTT identifiers, settings, BOM, short timestamps and markup without exposing markup as questions
+ok 113 - parses VTT identifiers, settings, BOM, short timestamps and markup without exposing markup as questions
+  ---
+  duration_ms: 0.553191
+  type: 'test'
+  ...
+# Subtest: malformed or missing timings fail instead of silently dropping transcript evidence
+ok 114 - malformed or missing timings fail instead of silently dropping transcript evidence
+  ---
+  duration_ms: 0.510837
+  type: 'test'
+  ...
+# Subtest: preserves original cue order and overlaps without manufacturing chronology
+ok 115 - preserves original cue order and overlaps without manufacturing chronology
+  ---
+  duration_ms: 1.337939
+  type: 'test'
+  ...
+# Subtest: plain pasted transcript has no fabricated video timestamps
+ok 116 - plain pasted transcript has no fabricated video timestamps
+  ---
+  duration_ms: 0.689596
+  type: 'test'
+  ...
+# Subtest: extracts only explicit written Q/A across cues with both source references
+ok 117 - extracts only explicit written Q/A across cues with both source references
+  ---
+  duration_ms: 1.59792
+  type: 'test'
+  ...
+# Subtest: ordinary narration never becomes an invented question or answer
+ok 118 - ordinary narration never becomes an invented question or answer
+  ---
+  duration_ms: 3.755691
+  type: 'test'
+  ...
+# Subtest: ignores incomplete pairs and captures Arabic or English explicit markers
+ok 119 - ignores incomplete pairs and captures Arabic or English explicit markers
+  ---
+  duration_ms: 0.729305
+  type: 'test'
+  ...
+# Subtest: rejects empty, corrupted, excessive or unsupported transcript input
+ok 120 - rejects empty, corrupted, excessive or unsupported transcript input
+  ---
+  duration_ms: 14.815523
+  type: 'test'
+  ...
+# Subtest: saved VTT note exposes only validated visible questions to the card parser
+ok 121 - saved VTT note exposes only validated visible questions to the card parser
+  ---
+  duration_ms: 0.559881
+  type: 'test'
+  ...
+# Subtest: quoted original transcript remains exactly recoverable without duplicate card extraction
+ok 122 - quoted original transcript remains exactly recoverable without duplicate card extraction
+  ---
+  duration_ms: 0.411969
+  type: 'test'
+  ...
+# Subtest: out-of-order question and answer cues use a valid time envelope while retaining evidence order
+ok 123 - out-of-order question and answer cues use a valid time envelope while retaining evidence order
+  ---
+  duration_ms: 0.541143
+  type: 'test'
+  ...
+1..123
+# tests 123
+# suites 0
+# pass 123
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1492.451579
