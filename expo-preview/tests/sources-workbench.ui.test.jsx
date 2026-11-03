@@ -194,3 +194,14 @@ test('a rejected pasted-source title does not lose the text or create an invalid
   expect(screen.getByLabelText('النص الذي تريد دراسته').props.value).toBe('نص مهم');
   expect(onDraft).not.toHaveBeenCalled();
 });
+
+test('metadata-free transcript still rejects oversized UTF-8 text before it enters the editor',async()=>{
+  // Some document providers omit asset.size; File.size may also be unavailable.
+  mockSize=0; mockText='ع'.repeat(600000); // 1.2 MB in UTF-8.
+  picker.getDocumentAsync.mockResolvedValue({canceled:false,assets:[{uri:'file:///unknown-size.srt',name:'unknown-size.srt'}]});
+  await start();await press('فيديو YouTube');await press('اختيار ملف تفريغ');
+  await screen.findByText('الحد الأقصى للتفريغ 1 ميغابايت.');
+  expect(screen.getByLabelText('نص التفريغ').props.value).toBe('');
+  expect(onDraft).not.toHaveBeenCalled();
+  expect(screen.getByRole('button',{name:'اختيار ملف تفريغ'})).toBeEnabled();
+});
