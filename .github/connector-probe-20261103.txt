@@ -1,3 +1,0 @@
-GitHub connector smoke test
-phase=updated
-scope=temporary test branch
