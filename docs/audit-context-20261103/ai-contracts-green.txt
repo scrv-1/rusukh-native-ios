@@ -1,0 +1,202 @@
+TAP version 13
+# Subtest: a completed draft is sent to host recovery without adopting it into study data
+ok 1 - a completed draft is sent to host recovery without adopting it into study data
+  ---
+  duration_ms: 7.320095
+  type: 'test'
+  ...
+# Subtest: switching sources while ready reuses the loaded runtime and clears the old draft
+ok 2 - switching sources while ready reuses the loaded runtime and clears the old draft
+  ---
+  duration_ms: 1.550008
+  type: 'test'
+  ...
+# Subtest: worker failure during generation unloads immediately and rejects a late completion
+ok 3 - worker failure during generation unloads immediately and rejects a late completion
+  ---
+  duration_ms: 7.120905
+  type: 'test'
+  ...
+# Subtest: worker failure while loading reports an error without waiting for the watchdog
+ok 4 - worker failure while loading reports an error without waiting for the watchdog
+  ---
+  duration_ms: 1.989478
+  type: 'test'
+  ...
+# Subtest: late worker events from a disposed runtime cannot stop a new generation
+ok 5 - late worker events from a disposed runtime cannot stop a new generation
+  ---
+  duration_ms: 2.016219
+  type: 'test'
+  ...
+# Subtest: delayed failed-runtime cleanup preserves a new generation and its WASM URL
+ok 6 - delayed failed-runtime cleanup preserves a new generation and its WASM URL
+  ---
+  duration_ms: 2.50977
+  type: 'test'
+  ...
+# Subtest: a newer model selection supersedes a selection waiting for old-runtime cleanup
+ok 7 - a newer model selection supersedes a selection waiting for old-runtime cleanup
+  ---
+  duration_ms: 1.986163
+  type: 'test'
+  ...
+# Subtest: a rejected load does not publish a stale error after newer-runtime startup
+ok 8 - a rejected load does not publish a stale error after newer-runtime startup
+  ---
+  duration_ms: 1.954436
+  type: 'test'
+  ...
+# Subtest: superseded header reads cannot publish invalid-header or read errors over a newer generation
+ok 9 - superseded header reads cannot publish invalid-header or read errors over a newer generation
+  ---
+  duration_ms: 3.597884
+  type: 'test'
+  ...
+# Subtest: an invalid replacement keeps the loaded model available
+ok 10 - an invalid replacement keeps the loaded model available
+  ---
+  duration_ms: 1.799634
+  type: 'test'
+  ...
+# Subtest: an oversized replacement does not dispose a working model
+ok 11 - an oversized replacement does not dispose a working model
+  ---
+  duration_ms: 1.276818
+  type: 'test'
+  ...
+# Subtest: a failed replacement header read preserves a working model
+ok 12 - a failed replacement header read preserves a working model
+  ---
+  duration_ms: 1.141384
+  type: 'test'
+  ...
+# Subtest: unload cancels a replacement still reading its header
+ok 13 - unload cancels a replacement still reading its header
+  ---
+  duration_ms: 1.759152
+  type: 'test'
+  ...
+# Subtest: a rejected replacement header cannot mark a newer generation ready or disable cancellation
+ok 14 - a rejected replacement header cannot mark a newer generation ready or disable cancellation
+  ---
+  duration_ms: 2.838483
+  type: 'test'
+  ...
+# Subtest: a valid replacement header cannot cancel a generation started after its selection
+ok 15 - a valid replacement header cannot cancel a generation started after its selection
+  ---
+  duration_ms: 1.315936
+  type: 'test'
+  ...
+# Subtest: the file change handler retains an unaccepted draft after preflight rejection
+ok 16 - the file change handler retains an unaccepted draft after preflight rejection
+  ---
+  duration_ms: 1.62456
+  type: 'test'
+  ...
+# Subtest: a replacement that passes preflight but fails runtime loading reports failure without promising rollback
+ok 17 - a replacement that passes preflight but fails runtime loading reports failure without promising rollback
+  ---
+  duration_ms: 1.672652
+  type: 'test'
+  ...
+# Subtest: accepts actual-model draft format with verbatim source evidence
+ok 18 - accepts actual-model draft format with verbatim source evidence
+  ---
+  duration_ms: 2.678003
+  type: 'test'
+  ...
+# Subtest: rejects evidence fabricated by a model
+ok 19 - rejects evidence fabricated by a model
+  ---
+  duration_ms: 0.433532
+  type: 'test'
+  ...
+# Subtest: rejects an incomplete or prose-wrapped model answer
+ok 20 - rejects an incomplete or prose-wrapped model answer
+  ---
+  duration_ms: 0.172088
+  type: 'test'
+  ...
+# Subtest: source exceeding context budget is rejected, never silently truncated
+ok 21 - source exceeding context budget is rejected, never silently truncated
+  ---
+  duration_ms: 0.173981
+  type: 'test'
+  ...
+# Subtest: source substitution on bridge is rejected
+ok 22 - source substitution on bridge is rejected
+  ---
+  duration_ms: 0.334593
+  type: 'test'
+  ...
+# Subtest: bridge revalidates model fields instead of trusting a JS result
+ok 23 - bridge revalidates model fields instead of trusting a JS result
+  ---
+  duration_ms: 0.173811
+  type: 'test'
+  ...
+# Subtest: English-only output is not accepted as Arabic study support
+ok 24 - English-only output is not accepted as Arabic study support
+  ---
+  duration_ms: 0.277527
+  type: 'test'
+  ...
+# Subtest: Arabic punctuation, digits and vowel marks alone cannot qualify English output as Arabic
+ok 25 - Arabic punctuation, digits and vowel marks alone cannot qualify English output as Arabic
+  ---
+  duration_ms: 0.482655
+  type: 'test'
+  ...
+# Subtest: Arabic letters with an English technical term remain valid without claiming language quality
+ok 26 - Arabic letters with an English technical term remain valid without claiming language quality
+  ---
+  duration_ms: 0.265368
+  type: 'test'
+  ...
+# Subtest: source instructions are encoded as data, not a system prompt
+ok 27 - source instructions are encoded as data, not a system prompt
+  ---
+  duration_ms: 0.345669
+  type: 'test'
+  ...
+# Subtest: no empty output is mislabeled a useful generation
+ok 28 - no empty output is mislabeled a useful generation
+  ---
+  duration_ms: 0.19308
+  type: 'test'
+  ...
+# Subtest: regression: real Qwen output copying the old evidence placeholder is rejected
+ok 29 - regression: real Qwen output copying the old evidence placeholder is rejected
+  ---
+  duration_ms: 0.217066
+  type: 'test'
+  ...
+# Subtest: constrained decoding permits only exact source sentences as evidence
+ok 30 - constrained decoding permits only exact source sentences as evidence
+  ---
+  duration_ms: 0.353
+  type: 'test'
+  ...
+# Subtest: oversized individual evidence is refused, not silently shortened
+ok 31 - oversized individual evidence is refused, not silently shortened
+  ---
+  duration_ms: 0.127071
+  type: 'test'
+  ...
+# Subtest: newline-delimited evidence does not silently lose the first sentence
+ok 32 - newline-delimited evidence does not silently lose the first sentence
+  ---
+  duration_ms: 0.680472
+  type: 'test'
+  ...
+1..32
+# tests 32
+# suites 0
+# pass 32
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 183.016373
