@@ -6,7 +6,7 @@
 - صور WEB harness واختبارات الموائمات لا تثبت جودة الجهاز أو الذكاء المحلي.
 - الوثائق والمجتمع تدعم الحلول؛ الكود والاختبار يثبتان نتائج المشروع.
 
-الحالة: 6 أصلحت واختبرت ضمن النطاق المسجل، 0 تعديلات تنتظر التحقق، 41 مفتوحة.
+الحالة: 29 أصلحت واختبرت ضمن النطاق المسجل، 0 تعديلات تنتظر التحقق، 18 مفتوحة.
 
 [التقرير التفاعلي](audit.html) · [البيانات المنظمة](audit.json) · [التصميم المستهدف](TARGET_EXPERIENCE.md)
 
@@ -77,7 +77,7 @@ docs/research/devils-audit-20261103/data-evidence/storage-probes.log: openStorag
 {
   "id": "D001",
   "status": "fixed-verified",
-  "verification": "نجح التحقق على Codespaces/Linux Node 24.22.2: 111 اختبار نواة و208 واجهة و28 AI؛ TypeScript والتوافق وExpo Doctor 20/20 وتصدير iOS 909 وحدات. السجلات والبصمات في evidence/v051. ليس اختبار iPhone.",
+  "verification": "نجح التحقق على Codespaces/Linux Node 24.22.2: 111 اختبار نواة و 208 واجهة و 28 AI ؛ TypeScript والتوافق و Expo Doctor 20/20 وتصدير iOS 909 وحدات. السجلات والبصمات في evidence/v051. ليس اختبار iPhone.",
   "evidence": "fix-evidence/first-launch-green.log"
 }
 ```
@@ -121,7 +121,7 @@ docs/research/devils-audit-20261103/data-evidence/draft-audit.ui.test.jsx أثب
 {
   "id": "D003",
   "status": "fixed-verified",
-  "verification": "نجح التحقق على Codespaces/Linux Node 24.22.2: 111 اختبار نواة و208 واجهة و28 AI؛ TypeScript والتوافق وExpo Doctor 20/20 وتصدير iOS 909 وحدات. السجلات والبصمات في evidence/v051. ليس اختبار iPhone.",
+  "verification": "نجح التحقق على Codespaces/Linux Node 24.22.2: 111 اختبار نواة و 208 واجهة و 28 AI ؛ TypeScript والتوافق و Expo Doctor 20/20 وتصدير iOS 909 وحدات. السجلات والبصمات في evidence/v051. ليس اختبار iPhone.",
   "evidence": "fix-evidence/restore-draft-summary.json"
 }
 ```
@@ -154,7 +154,7 @@ docs/research/devils-audit-20261103/data-evidence/draft-audit.ui.test.jsx أثب
 {
   "id": "N001",
   "status": "fixed-verified",
-  "verification": "نجح التحقق على Codespaces/Linux Node 24.22.2: 111 اختبار نواة و208 واجهة و28 AI؛ TypeScript والتوافق وExpo Doctor 20/20 وتصدير iOS 909 وحدات. السجلات والبصمات في evidence/v051. ليس اختبار iPhone.",
+  "verification": "نجح التحقق على Codespaces/Linux Node 24.22.2: 111 اختبار نواة و 208 واجهة و 28 AI ؛ TypeScript والتوافق و Expo Doctor 20/20 وتصدير iOS 909 وحدات. السجلات والبصمات في evidence/v051. ليس اختبار iPhone.",
   "evidence": "fix-evidence/n001-summary.json"
 }
 ```
@@ -167,7 +167,7 @@ docs/research/devils-audit-20261103/data-evidence/draft-audit.ui.test.jsx أثب
 </details>
 
 - **S001 · P1 — تصحيح جواب الملاحظة لا يصل إلى البطاقة ولا توجد وسيلة لتحريرها مع حفظ تاريخها**
-  خطأ أعيد إنتاجه · الدراسة والبطاقات · مفتوح
+  خطأ أعيد إنتاجه · الدراسة والبطاقات · أصلح واختبر ضمن النطاق المسجل
 
 <details>
 <summary>الدليل والتعديل ومعيار القبول</summary>
@@ -190,7 +190,15 @@ docs/research/devils-audit-20261103/data-evidence/draft-audit.ui.test.jsx أثب
 
 ```json
 {
-  "status": "open"
+  "id": "S001",
+  "status": "fixed-verified",
+  "scope_ar": "تعديل البطاقة بنفس id مع حفظ الجدولة والسجل؛ عند تغير جواب مستخرج يطلب اعتماد تحديث صريح بدل تجاهله.",
+  "verification": "31 اختبار Node SQLite للبيانات تشمل updateCard ، واختبار App لتحرير البطاقة دون إنشاء جديدة؛ مراجعة مستقلة لحماية المسودات.",
+  "evidence": "../flow-20261103/data/data-result.json",
+  "limits_ar": "لا تخمين لهوية سؤال تغير معناه، ولا إعادة جدولة تلقائية عند تحرير النص.",
+  "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+  "device_verified": false,
+  "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
 }
 ```
 
@@ -203,7 +211,7 @@ docs/research/devils-audit-20261103/data-evidence/draft-audit.ui.test.jsx أثب
 </details>
 
 - **S002 · P1 — تحويل إجابات البطاقات إلى مشتتات قد ينتج سؤال اختيار متعدد له أكثر من جواب صحيح**
-  خطر تصميم · الدراسة والبطاقات · مفتوح
+  خطر تصميم · الدراسة والبطاقات · أصلح واختبر ضمن النطاق المسجل
 
 <details>
 <summary>الدليل والتعديل ومعيار القبول</summary>
@@ -226,7 +234,15 @@ docs/research/devils-audit-20261103/data-evidence/draft-audit.ui.test.jsx أثب
 
 ```json
 {
-  "status": "open"
+  "id": "S002",
+  "status": "fixed-verified",
+  "scope_ar": "استبدال الاختيار المتعدد من أجوبة عشوائية بتدريب استرجاع ثم كشف الإجابة وتقييم الطالب لنفسه.",
+  "verification": "74 اختبار منطق و YouTube و 7 اختبارات StudyQuiz ، وفق سجل الدور.",
+  "evidence": "../flow-20261103/study/summary.json",
+  "limits_ar": "ليس تصحيحًا دلاليًا أو درجة اختبار موضوعية؛ لا يغير جدولة المراجعة.",
+  "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+  "device_verified": false,
+  "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
 }
 ```
 
@@ -273,7 +289,7 @@ docs/research/devils-audit-20261103/data-evidence/draft-audit.ui.test.jsx أثب
 </details>
 
 - **A002 · P1 — تبديل التبويب يفقد النص الملصق ومسودة الذكاء قبل المحرر**
-  خطأ مثبت بالمصدر · الذكاء المحلي · مفتوح
+  خطأ مثبت بالمصدر · الذكاء المحلي · أصلح واختبر ضمن النطاق المسجل
 
 <details>
 <summary>الدليل والتعديل ومعيار القبول</summary>
@@ -296,7 +312,15 @@ docs/research/devils-audit-20261103/data-evidence/draft-audit.ui.test.jsx أثب
 
 ```json
 {
-  "status": "open"
+  "id": "A002",
+  "status": "fixed-verified",
+  "scope_ar": "مصدر ونتيجة المساعد في جلسة فوق التبويبات، مع تخزين متحقق ومنع الكتابة فوق خانة فشلت قراءتها.",
+  "verification": "38 اختبار Jest للمساعد والجسر و 32 عقود/runtime محاكى وفق الدور؛ إزالة/تركيب الشاشة ثم استعادة الحاضن.",
+  "evidence": "../flow-20261103/ai/verification.json",
+  "limits_ar": "لا حفظ لملف النموذج أو worker ، ولا استدلال جهاز في هذه الأدلة.",
+  "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+  "device_verified": false,
+  "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
 }
 ```
 
@@ -307,7 +331,7 @@ docs/research/devils-audit-20261103/data-evidence/draft-audit.ui.test.jsx أثب
 </details>
 
 - **A003 · P1 — الحالة inactive تمسح مسودة وصلت بالفعل إلى واجهة الدراسة**
-  خطأ مثبت بالمصدر · الذكاء المحلي · مفتوح
+  خطأ مثبت بالمصدر · الذكاء المحلي · أصلح واختبر ضمن النطاق المسجل
 
 <details>
 <summary>الدليل والتعديل ومعيار القبول</summary>
@@ -330,7 +354,15 @@ docs/research/devils-audit-20261103/data-evidence/draft-audit.ui.test.jsx أثب
 
 ```json
 {
-  "status": "open"
+  "id": "A003",
+  "status": "fixed-verified",
+  "scope_ar": "الخطأ والإلغاء وإيقاف المحرك لا تمحو نتيجة مكتملة وصلت إلى الحاضن؛ draft متحقق يرسل قبل الاعتماد في الدراسة.",
+  "verification": "اختبارات انتقالات الحالة والجسر والحدث التلقائي ضمن 38 Jest و 32 runtime/contracts.",
+  "evidence": "../flow-20261103/ai/verification.json",
+  "limits_ar": "نتيجة لم تصل للحاضن قبل إبطال الطلب لا يمكن الادعاء باسترجاعها.",
+  "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+  "device_verified": false,
+  "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
 }
 ```
 
@@ -341,7 +373,7 @@ docs/research/devils-audit-20261103/data-evidence/draft-audit.ui.test.jsx أثب
 </details>
 
 - **A004 · P1 — تغيير مصدر الدراسة يجبر المستخدم على إعادة تحميل النموذج**
-  متطلب ناقص · الذكاء المحلي · مفتوح
+  متطلب ناقص · الذكاء المحلي · أصلح واختبر ضمن النطاق المسجل
 
 <details>
 <summary>الدليل والتعديل ومعيار القبول</summary>
@@ -364,7 +396,15 @@ docs/research/devils-audit-20261103/data-evidence/draft-audit.ui.test.jsx أثب
 
 ```json
 {
-  "status": "open"
+  "id": "A004",
+  "status": "fixed-verified",
+  "scope_ar": "اختيار المصدر يبقى متاحًا مع نموذج جاهز في الشاشة؛ تحديث المصدر يستعمل instance نفسه ويمنع callbacks السابقة.",
+  "verification": "runtime StubWllama والتحقق من بقاء instance واحد، وتعطيل تغيير المصدر أثناء التحميل والتوليد.",
+  "evidence": "../flow-20261103/ai/verification.json",
+  "limits_ar": "إعادة استعمال داخل الشاشة فقط؛ مغادرتها أو تفريغ المحرك يتطلب اختيار الملف مجددًا، بلا إثبات أداء هاتف.",
+  "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+  "device_verified": false,
+  "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
 }
 ```
 
@@ -473,14 +513,20 @@ docs/research/devils-audit-20261103/data-evidence/storage-probes.log: حُفظت
 
 ```json
 {
-  "status": "open"
+  "id": "D002",
+  "status": "open",
+  "partial_progress_ar": "أضيف إنقاذ مستقل بصيغة SQLite حتى 512MiB يشمل الدراسة و meta والمسودات والتفضيلات ونقاط الرجوع، مع تحقق integrity/foreign keys وبقاء المصدر مفتوحًا. مثال المكتبة 9 ملاحظات أكبر من JSON أعطى نسخة SQLite قابلة للفحص.",
+  "remaining_ar": "حد JSON15MiB باقٍ، ولا استعادة SQLite داخل التطبيق، ولا وسائط داخل ملف الإنقاذ؛ لذلك لا دورة نسخ/استعادة داخل المنتج ولا إغلاق لـ D002.",
+  "verification": "31 اختبار بيانات مستهدفًا تشمل الإنقاذ؛ Node SQLite حقيقي وموائم Expo ، لا Files/iCloud على iPhone.",
+  "evidence": "../flow-20261103/data/data-result.json",
+  "device_verified": false
 }
 ```
 
 </details>
 
 - **D004 · P2 — فشل بيانات الصورة الوصفية يترك صورة غير قابلة للاستعادة من المكتبة بعد فقد نسخة cache**
-  خطأ أعيد إنتاجه · البيانات والاسترجاع · مفتوح
+  خطأ أعيد إنتاجه · البيانات والاسترجاع · أصلح واختبر ضمن النطاق المسجل
 
 <details>
 <summary>الدليل والتعديل ومعيار القبول</summary>
@@ -514,7 +560,15 @@ docs/research/devils-audit-20261103/data-evidence/media-audit.ui.test.jsx: فش�
 
 ```json
 {
-  "status": "open"
+  "id": "D004",
+  "status": "fixed-verified",
+  "scope_ar": "حفظ الوسائط عبر staging والتحقق من الحجم؛ استرجاع metadata معلقة صالحة وإظهار اليتيم القابل للاستعادة مع تحذير.",
+  "verification": "77 اختبار وسائط وتذكير مستهدفًا، وانحسار النسخ المحمول؛ includes أخطاء النسخ الجزئي والبيانات الوصفية.",
+  "evidence": "../flow-20261103/media/result.json",
+  "limits_ar": "موائم filesystem محاكى؛ لا ضمان تحمل كل انقطاع طاقة، والملف القديم بلا metadata لا يثبت اكتماله من الاسم وحده.",
+  "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+  "device_verified": false,
+  "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
 }
 ```
 
@@ -579,7 +633,7 @@ tests/media-native.ui.test.jsx:1–15 يستبدل AudioModule وRecorder وfile
 </details>
 
 - **D007 · P2 — مكتبة الوسائط لا توفر حذف ملف محفوظ لتصحيح الإدخال أو تحرير المساحة**
-  متطلب ناقص · البيانات والاسترجاع · مفتوح
+  متطلب ناقص · البيانات والاسترجاع · أصلح واختبر ضمن النطاق المسجل
 
 <details>
 <summary>الدليل والتعديل ومعيار القبول</summary>
@@ -610,7 +664,15 @@ src/media/library.ts يصدّر save/load/mediaUri/validation وتتبع الت�
 
 ```json
 {
-  "status": "open"
+  "id": "D007",
+  "status": "fixed-verified",
+  "scope_ar": "نقل وسيط محدد إلى محذوفات قابلة للاستعادة، وحذف نهائي بتأكيد مستقل؛ معالجة فشل payload/metadata وإيقاف الصوت المعلق.",
+  "verification": "اختبارات النقل والاستعادة والحذف والفشل الجزئي وإيقاف التشغيل ضمن 77 اختبارًا؛ انحسار النسخ المحمول مسجل.",
+  "evidence": "../flow-20261103/media/result.json",
+  "limits_ar": "ليس filesystem transaction ذريًا. الحذف النهائي لا يُعكس ولا يحذف نسخًا صدرها الطالب خارج التطبيق. يشمل الدليل المدمج X203.",
+  "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+  "device_verified": false,
+  "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
 }
 ```
 
@@ -633,7 +695,7 @@ src/media/library.ts يصدّر save/load/mediaUri/validation وتتبع الت�
 </details>
 
 - **D008 · P2 — مسودة البطاقة اليدوية لا تملك استرجاعًا مماثلًا لمسودة الملاحظة**
-  خطر تصميم · البيانات والاسترجاع · مفتوح
+  خطر تصميم · البيانات والاسترجاع · أصلح واختبر ضمن النطاق المسجل
 
 <details>
 <summary>الدليل والتعديل ومعيار القبول</summary>
@@ -664,14 +726,22 @@ closeCard:304–307 يسأل عند الإغلاق الصريح، لكن لا ت
 
 ```json
 {
-  "status": "open"
+  "id": "D008",
+  "status": "fixed-verified",
+  "scope_ar": "خانة دائمة لمسودة البطاقة مع هوية المصدر؛ استرجاع النص، وحماية التراجع إلى الأصل، والتجاهل المتسلسل، والتحقق من حفظ snapshot الحالي قبل الإغلاق.",
+  "verification": "15 حالة مراجعة مستقلة نهائية، ومنها App remount لمحارف التحكم، clear/background/unmount والتراجع أثناء حفظ معلق.",
+  "evidence": "../flow-20261103/independent-review.json",
+  "limits_ar": "تخزين و AppState محاكيان؛ لا اختبار قتل عملية iPhone أو نقص مساحة فعلية.",
+  "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+  "device_verified": false,
+  "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
 }
 ```
 
 </details>
 
 - **N002 · P2 — اكتشاف الأداة وإضافتها للمساحة مساران منفصلان يعيدان المستخدم للبحث عنها**
-  خطر تصميم · التنقل والتخصيص · مفتوح
+  خطر تصميم · التنقل والتخصيص · أصلح واختبر ضمن النطاق المسجل
 
 <details>
 <summary>الدليل والتعديل ومعيار القبول</summary>
@@ -694,7 +764,15 @@ closeCard:304–307 يسأل عند الإغلاق الصريح، لكن لا ت
 
 ```json
 {
-  "status": "open"
+  "id": "N002",
+  "status": "fixed-verified",
+  "scope_ar": "فتح الأداة وإضافة/إزالة قسمها في دليل الأدوات نفسه، مع تحديث العرض بعد نجاح حفظ التفضيلات فقط.",
+  "verification": "55 اختبار واجهة تنقل، تشمل التكامل، و 15 اختبار workspace/source ؛ الأعداد متداخلة ولا تُجمع إلى مجموع جديد.",
+  "evidence": "../flow-20261103/navigation/summary.json",
+  "limits_ar": "الإضافة إظهار قسم أداة مدمجة، وليست تنزيل إضافة أو نموذج.",
+  "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+  "device_verified": false,
+  "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
 }
 ```
 
@@ -705,7 +783,7 @@ closeCard:304–307 يسأل عند الإغلاق الصريح، لكن لا ت
 </details>
 
 - **N003 · P2 — تقديم قسم ظاهر قد لا يغيّر ترتيبه المرئي بسبب الأقسام المخفية**
-  خطر تصميم · التنقل والتخصيص · مفتوح
+  خطر تصميم · التنقل والتخصيص · أصلح واختبر ضمن النطاق المسجل
 
 <details>
 <summary>الدليل والتعديل ومعيار القبول</summary>
@@ -728,7 +806,15 @@ closeCard:304–307 يسأل عند الإغلاق الصريح، لكن لا ت
 
 ```json
 {
-  "status": "open"
+  "id": "N003",
+  "status": "fixed-verified",
+  "scope_ar": "تحريك القسم الظاهر مع أقرب قسم ظاهر، دون أن تبتلع الأقسام المخفية خطوة التحريك.",
+  "verification": "اختبارات ترتيب workspace ومحرر الأقسام، ضمن نتائج التنقل المسجلة.",
+  "evidence": "../flow-20261103/navigation/summary.json",
+  "limits_ar": "لا ادعاء قياس حركة أو لمس على جهاز.",
+  "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+  "device_verified": false,
+  "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
 }
 ```
 
@@ -739,7 +825,7 @@ closeCard:304–307 يسأل عند الإغلاق الصريح، لكن لا ت
 </details>
 
 - **N004 · P2 — زر عرض بطاقاتي لا يفتح قائمة البطاقات**
-  خطأ مثبت بالمصدر · التنقل والتخصيص · مفتوح
+  خطأ مثبت بالمصدر · التنقل والتخصيص · أصلح واختبر ضمن النطاق المسجل
 
 <details>
 <summary>الدليل والتعديل ومعيار القبول</summary>
@@ -762,7 +848,15 @@ closeCard:304–307 يسأل عند الإغلاق الصريح، لكن لا ت
 
 ```json
 {
-  "status": "open"
+  "id": "N004",
+  "status": "fixed-verified",
+  "scope_ar": "فتح إدارة البطاقات عند عدم وجود بطاقات مستحقة؛ عند وجود مراجعة مستحقة تبقى الإدارة مطوية حتى لا تكشف الأجوبة.",
+  "verification": "اختبارا انحسار لمسار App ضمن all_navigation_UI=55 ؛ لا سجل أحمر منفصل لهذين الاختبارين.",
+  "evidence": "../flow-20261103/navigation/summary.json",
+  "limits_ar": "السلوك مصمم لفرع عرض البطاقات عندما تنتهي المستحقات، وليس كشف الإدارة في كل زيارة.",
+  "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+  "device_verified": false,
+  "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
 }
 ```
 
@@ -773,7 +867,7 @@ closeCard:304–307 يسأل عند الإغلاق الصريح، لكن لا ت
 </details>
 
 - **N005 · P2 — مغادرة أداة ثم الرجوع تعيد حالة العمل المحلية بدل استئنافها**
-  خطر تصميم · التنقل والتخصيص · مفتوح
+  خطر تصميم · التنقل والتخصيص · أصلح واختبر ضمن النطاق المسجل
 
 <details>
 <summary>الدليل والتعديل ومعيار القبول</summary>
@@ -796,7 +890,15 @@ closeCard:304–307 يسأل عند الإغلاق الصريح، لكن لا ت
 
 ```json
 {
-  "status": "open"
+  "id": "N005",
+  "status": "fixed-verified",
+  "scope_ar": "رفع حالة شبكة المعرفة فوق مسار التبويب: البحث والصفحات والتكبير والقائمة والتحريك والملاحظة المختارة تعود عند التنقل.",
+  "verification": "15 اختبارًا للمكوّن ومسار App في graph-green وفق تقرير التنقل؛ يشمل unmount/remount وتغير التبويب.",
+  "evidence": "../flow-20261103/navigation/summary.json",
+  "limits_ar": "جلسة الشبكة في الذاكرة فقط؛ لا استمرار بعد إعادة تشغيل التطبيق، ولا قياس pan أصلي على iPhone.",
+  "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+  "device_verified": false,
+  "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
 }
 ```
 
@@ -808,7 +910,7 @@ closeCard:304–307 يسأل عند الإغلاق الصريح، لكن لا ت
 </details>
 
 - **N006 · P2 — التقاط نص سريع يتوقف على اختيار عنوان يدوي فريد**
-  خطر تصميم · التنقل والتخصيص · مفتوح
+  خطر تصميم · التنقل والتخصيص · أصلح واختبر ضمن النطاق المسجل
 
 <details>
 <summary>الدليل والتعديل ومعيار القبول</summary>
@@ -831,7 +933,15 @@ closeCard:304–307 يسأل عند الإغلاق الصريح، لكن لا ت
 
 ```json
 {
-  "status": "open"
+  "id": "N006",
+  "status": "fixed-verified",
+  "scope_ar": "عند ترك عنوان ملاحظة جديدة فارغًا يُشتق من متنها، مع تمييز آلي للاسم المولد المتكرر؛ يبقى العنوان اليدوي كما كتبه الطالب.",
+  "verification": "اختبار الالتقاط بعنوان تلقائي في study-flow-integration.ui.test.jsx ؛ منطق التمييز وقواعد العنوان مراجع في App.",
+  "evidence": "../flow-20261103/REVIEW.md",
+  "limits_ar": "لا تغيير تلقائي مستمر لعنوان يدوي؛ عنوان الملف المسمى صراحة قد يظل يحتاج تعديلًا عند تعارضه.",
+  "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+  "device_verified": false,
+  "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
 }
 ```
 
@@ -920,7 +1030,7 @@ closeCard:304–307 يسأل عند الإغلاق الصريح، لكن لا ت
 {
   "id": "S003",
   "status": "fixed-verified",
-  "verification": "نجح التحقق على Codespaces/Linux Node 24.22.2: 111 اختبار نواة و208 واجهة و28 AI؛ TypeScript والتوافق وExpo Doctor 20/20 وتصدير iOS 909 وحدات. السجلات والبصمات في evidence/v051. ليس اختبار iPhone.",
+  "verification": "نجح التحقق على Codespaces/Linux Node 24.22.2: 111 اختبار نواة و 208 واجهة و 28 AI ؛ TypeScript والتوافق و Expo Doctor 20/20 وتصدير iOS 909 وحدات. السجلات والبصمات في evidence/v051. ليس اختبار iPhone.",
   "evidence": "fix-evidence/S003-summary.json"
 }
 ```
@@ -933,7 +1043,7 @@ closeCard:304–307 يسأل عند الإغلاق الصريح، لكن لا ت
 </details>
 
 - **S004 · P2 — استخراج س/ج يحفظ أول سطر من جواب متعدد الأسطر دون كشف أن بقية الإجابة لم تدخل البطاقة**
-  خطر تصميم · الدراسة والبطاقات · مفتوح
+  خطر تصميم · الدراسة والبطاقات · أصلح واختبر ضمن النطاق المسجل
 
 <details>
 <summary>الدليل والتعديل ومعيار القبول</summary>
@@ -956,7 +1066,15 @@ closeCard:304–307 يسأل عند الإغلاق الصريح، لكن لا ت
 
 ```json
 {
-  "status": "open"
+  "id": "S004",
+  "status": "fixed-verified",
+  "scope_ar": "محلل مشترك يحتفظ بالإجابة متعددة الأسطر ونطاق المصدر؛ تفريغ YouTube يحتفظ بالمقاطع والتوقيتات المساهمة.",
+  "verification": "حالات multiline والاقتباسات والفواصل ومقاطع YouTube ضمن 74 اختبار منطق.",
+  "evidence": "../flow-20261103/study/summary.json",
+  "limits_ar": "المثال داخل code fence مستبعد عمدًا؛ جودة نص PDF أو التفريغ تبقى بحاجة مراجعة.",
+  "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+  "device_verified": false,
+  "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
 }
 ```
 
@@ -991,7 +1109,13 @@ closeCard:304–307 يسأل عند الإغلاق الصريح، لكن لا ت
 
 ```json
 {
-  "status": "open"
+  "id": "S006",
+  "status": "open",
+  "partial_progress_ar": "مرجع المصدر ومعرّفا زمن الإنشاء/التعديل محفوظة في NoteDraft. استخراج البطاقات عند اعتماد مسودة AI لأول مرة يربط الأصل المطابق؛ المصدر المعدل/المستبدل/المحذوف يمنع الاستخراج ويتيح حفظ النص فقط. يشمل التقدم A008 المدمج.",
+  "remaining_ar": "فتح ملاحظة الأسئلة بعد حفظها كنص عادي لا يستعيد مرجع المصدر البنيوي؛ مخطط البطاقة لا يحمل إصدار المصدر/النموذج والشاهد كاملًا لكل بطاقة. لا اكتمال منشأ دائم أو هجرة نسخ احتياطي لهذا المخطط.",
+  "verification": "أربع حالات App مستقلة للربط والمنع ضمن 15 اختبار مراجعة ناجحًا؛ تخزين محاكى.",
+  "evidence": "../flow-20261103/independent-review.json",
+  "device_verified": false
 }
 ```
 
@@ -1019,7 +1143,7 @@ closeCard:304–307 يسأل عند الإغلاق الصريح، لكن لا ت
 </details>
 
 - **S007 · P2 — فتح الاختبار بلا بطاقات ينتهي بتنبيه شرط مسبق بدل مسار داخل الأداة لبناء أول اختبار**
-  متطلب ناقص · الدراسة والبطاقات · مفتوح
+  متطلب ناقص · الدراسة والبطاقات · أصلح واختبر ضمن النطاق المسجل
 
 <details>
 <summary>الدليل والتعديل ومعيار القبول</summary>
@@ -1042,7 +1166,15 @@ closeCard:304–307 يسأل عند الإغلاق الصريح، لكن لا ت
 
 ```json
 {
-  "status": "open"
+  "id": "S007",
+  "status": "fixed-verified",
+  "scope_ar": "التدريب الفارغ يعرض مسارات إضافة مادة أو كتابة ملاحظة داخل الأداة؛ بطاقة واحدة تكفي لبدء الاسترجاع الذاتي.",
+  "verification": "7 اختبارات StudyQuiz تشمل empty state والأفعال، مع حالات المنطق.",
+  "evidence": "../flow-20261103/study/summary.json",
+  "limits_ar": "لا إنشاء محتوى أو بطاقة تلقائيًا عند فتح الأداة.",
+  "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+  "device_verified": false,
+  "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
 }
 ```
 
@@ -1053,7 +1185,7 @@ closeCard:304–307 يسأل عند الإغلاق الصريح، لكن لا ت
 </details>
 
 - **S008 · P2 — نهاية الاختبار تحتفظ بالدرجة فقط وتفقد مسار مراجعة الأخطاء وفتح مصادرها**
-  خطر تصميم · الدراسة والبطاقات · مفتوح
+  خطر تصميم · الدراسة والبطاقات · أصلح واختبر ضمن النطاق المسجل
 
 <details>
 <summary>الدليل والتعديل ومعيار القبول</summary>
@@ -1076,7 +1208,15 @@ closeCard:304–307 يسأل عند الإغلاق الصريح، لكن لا ت
 
 ```json
 {
-  "status": "open"
+  "id": "S008",
+  "status": "fixed-verified",
+  "scope_ar": "ملخص جلسة يحفظ الإجابات والتقييم الذاتي، وفلتر ما لم يتذكره الطالب، وفتح المصدر الحالي دون بدء جلسة جديدة.",
+  "verification": "اختبارات ملخص الجلسة والرجوع للمصدر وعدم إعادة ضبطها مع إعادة عرض الأب.",
+  "evidence": "../flow-20261103/study/summary.json",
+  "limits_ar": "نتيجة الجلسة باقية أثناء بقاء المكوّن فقط؛ لا سجل دائم للنتائج بعد الإغلاق.",
+  "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+  "device_verified": false,
+  "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
 }
 ```
 
@@ -1089,7 +1229,7 @@ closeCard:304–307 يسأل عند الإغلاق الصريح، لكن لا ت
 </details>
 
 - **A005 · P2 — اختيار المصدر يقطع نتائج الملاحظات عند خمسة دون متابعة**
-  خطأ مثبت بالمصدر · الذكاء المحلي · مفتوح
+  خطأ مثبت بالمصدر · الذكاء المحلي · أصلح واختبر ضمن النطاق المسجل
 
 <details>
 <summary>الدليل والتعديل ومعيار القبول</summary>
@@ -1112,14 +1252,22 @@ closeCard:304–307 يسأل عند الإغلاق الصريح، لكن لا ت
 
 ```json
 {
-  "status": "open"
+  "id": "A005",
+  "status": "fixed-verified",
+  "scope_ar": "صفحات للمصادر المحفوظة من خمس ملاحظات، مع بحث وعدّاد وحالة بلا نتائج؛ الوصول لما بعد أول خمس.",
+  "verification": "اختبار الوصول للملاحظة السادسة من 12 دون معرفة عنوانها، ضمن اختبارات المساعد.",
+  "evidence": "../flow-20261103/ai/verification.json",
+  "limits_ar": "لا ادعاء قياس سرعة بحث مكتبات كبيرة على جهاز.",
+  "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+  "device_verified": false,
+  "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
 }
 ```
 
 </details>
 
 - **A006 · P2 — قيود إضافية للمصدر لا تُكتشف إلا بعد تجهيز النموذج**
-  خطأ مثبت بالمصدر · الذكاء المحلي · مفتوح
+  خطأ مثبت بالمصدر · الذكاء المحلي · أصلح واختبر ضمن النطاق المسجل
 
 <details>
 <summary>الدليل والتعديل ومعيار القبول</summary>
@@ -1142,14 +1290,22 @@ closeCard:304–307 يسأل عند الإغلاق الصريح، لكن لا ت
 
 ```json
 {
-  "status": "open"
+  "id": "A006",
+  "status": "fixed-verified",
+  "scope_ar": "تطبيق boundSource و studyResponseFormat نفسيهما قبل تركيب المحرك، ليظهر رفض حدود المصدر قبل تحميل النموذج.",
+  "verification": "رفض مصدر 1200 حرف بجملة واحدة ومصدر 25 جملة قبل فتح المحرك.",
+  "evidence": "../flow-20261103/ai/verification.json",
+  "limits_ar": "يبقى حد التوليد 1600 حرف؛ حفظ المصدر الطويل لا يعني توليده كاملًا.",
+  "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+  "device_verified": false,
+  "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
 }
 ```
 
 </details>
 
 - **A007 · P2 — فحص العربية يقبل نصًا إنجليزيًا يحتوي ترقيمًا عربيًا فقط**
-  خطأ مثبت بالمصدر · الذكاء المحلي · مفتوح
+  خطأ مثبت بالمصدر · الذكاء المحلي · أصلح واختبر ضمن النطاق المسجل
 
 <details>
 <summary>الدليل والتعديل ومعيار القبول</summary>
@@ -1172,7 +1328,15 @@ closeCard:304–307 يسأل عند الإغلاق الصريح، لكن لا ت
 
 ```json
 {
-  "status": "open"
+  "id": "A007",
+  "status": "fixed-verified",
+  "scope_ar": "فحص العربية يتطلب حرفًا عربيًا من فئة Letter بدل قبول مجرد علامة ترقيم أو رقم في كتلة Unicode.",
+  "verification": "اختبارات رفض الترقيم والأرقام والتشكيل وحدها وقبول العربية مع CPU ، وتجميع التعبير بـ Hermes محليًا.",
+  "evidence": "../flow-20261103/ai/verification.json",
+  "limits_ar": "ليس تقييمًا لجودة العربية أو صحة الجواب؛ تجميع Hermes ليس تشغيل iPhone.",
+  "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+  "device_verified": false,
+  "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
 }
 ```
 
@@ -1397,7 +1561,7 @@ closeCard:304–307 يسأل عند الإغلاق الصريح، لكن لا ت
 </details>
 
 - **R004 · P2 — بوابة إصدار Expo لا تضمن تطابق مصدر محرك AI مع المورد المشحون**
-  خطر إصدار · الإصدار وSwiftUI · مفتوح
+  خطر إصدار · الإصدار وSwiftUI · أصلح واختبر ضمن النطاق المسجل
 
 <details>
 <summary>الدليل والتعديل ومعيار القبول</summary>
@@ -1428,7 +1592,15 @@ closeCard:304–307 يسأل عند الإغلاق الصريح، لكن لا ت
 
 ```json
 {
-  "status": "open"
+  "id": "R004",
+  "status": "fixed-verified",
+  "scope_ar": "فحص اتساق مدخلات بناء AI و manifest و generated و HTML قبل اختبارات بوابة الإصدار؛ إعادة بناء المورد بعد التغيير.",
+  "verification": "5 اختبارات build-integrity ناجحة، مع مقارنة 7 مدخلات ورفض تغير المصدر/المولد/البيان الناقص.",
+  "evidence": "../flow-20261103/ai/build-integrity-after-rebuild.json",
+  "limits_ar": "لا توقيع ضد تعديل متعمد للمصدر وال manifest معًا، ولا تحقق ملف GGUF أو تشغيل WASM على الهاتف.",
+  "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+  "device_verified": false,
+  "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
 }
 ```
 
@@ -1468,7 +1640,11 @@ closeCard:304–307 يسأل عند الإغلاق الصريح، لكن لا ت
 {
   "id": "R005",
   "status": "open",
-  "partial_progress_ar": "أضاف إصلاح D001 في0.5.1 اختبار openStorage الحقيقي فوق SQLite لقاعدة جديدة وإعادة الفتح وقاعدة سابقة مع seeded وبدونه. لم يعد تجاوز bootstrap شاملًا. يبقى استكمال سيناريو فشل التهيئة والترحيل التاريخي أوسع من هذه الحالات؛ لذلك لا نحسب الخطر مغلقًا أو إصلاحًا مستقلًا سابعًا."
+  "partial_progress_ar": "تجاوز openStorage لم يعد شاملًا: خمسة اختبارات bootstrap تشغل SQL الفعلي على Node SQLite ؛ قاعدة فارغة وإعادة فتح، وقاعدة سابقة مع seeded وبدونه، وفشل تهيئة SQL ثم إعادة المحاولة مع مطابقة البيانات. اختُبر سبب فشل التهيئة الأصلي؛ ليست هذه مجرد محاكاة للدالة.",
+  "remaining_ar": "أبقي خطر الترحيل التاريخي مفتوحًا: fixtures الحالية تنشئ مخططًا ممثلًا محليًا؛ لم تثبت ملفات قواعد لإصدارات تاريخية فعلية أو كل تحويل مخطط قديم. لا يحتسب كبند إصلاح إضافي مغلق، ولا نعيد الادعاء أن bootstrap لم يختبر.",
+  "verification": "خمس حالات bootstrap ضمن 31 اختبار بيانات مستهدف ناجحًا؛ ليس Expo SQLite على الجهاز.",
+  "evidence": "../flow-20261103/data/data-result.json",
+  "device_verified": false
 }
 ```
 
@@ -1542,7 +1718,7 @@ closeCard:304–307 يسأل عند الإغلاق الصريح، لكن لا ت
 {
   "id": "X201",
   "status": "fixed-verified",
-  "verification": "نجح التحقق على Codespaces/Linux Node 24.22.2: 111 اختبار نواة و208 واجهة و28 AI؛ TypeScript والتوافق وExpo Doctor 20/20 وتصدير iOS 909 وحدات. السجلات والبصمات في evidence/v051. ليس اختبار iPhone.",
+  "verification": "نجح التحقق على Codespaces/Linux Node 24.22.2: 111 اختبار نواة و 208 واجهة و 28 AI ؛ TypeScript والتوافق و Expo Doctor 20/20 وتصدير iOS 909 وحدات. السجلات والبصمات في evidence/v051. ليس اختبار iPhone.",
   "evidence": "fix-evidence/x201-x202.json"
 }
 ```
@@ -1579,7 +1755,7 @@ closeCard:304–307 يسأل عند الإغلاق الصريح، لكن لا ت
 {
   "id": "X202",
   "status": "fixed-verified",
-  "verification": "نجح التحقق على Codespaces/Linux Node 24.22.2: 111 اختبار نواة و208 واجهة و28 AI؛ TypeScript والتوافق وExpo Doctor 20/20 وتصدير iOS 909 وحدات. السجلات والبصمات في evidence/v051. ليس اختبار iPhone.",
+  "verification": "نجح التحقق على Codespaces/Linux Node 24.22.2: 111 اختبار نواة و 208 واجهة و 28 AI ؛ TypeScript والتوافق و Expo Doctor 20/20 وتصدير iOS 909 وحدات. السجلات والبصمات في evidence/v051. ليس اختبار iPhone.",
   "evidence": "fix-evidence/x201-x202.json"
 }
 ```
@@ -1626,7 +1802,7 @@ closeCard:304–307 يسأل عند الإغلاق الصريح، لكن لا ت
 </details>
 
 - **D005 · P3 — العودة للتطبيق تستبدل وقت التذكير الجاري تعديله بالقيمة القديمة**
-  خطأ أعيد إنتاجه · البيانات والاسترجاع · مفتوح
+  خطأ أعيد إنتاجه · البيانات والاسترجاع · أصلح واختبر ضمن النطاق المسجل
 
 <details>
 <summary>الدليل والتعديل ومعيار القبول</summary>
@@ -1658,14 +1834,22 @@ docs/research/devils-audit-20261103/data-evidence/reminders-audit.ui.test.jsx: �
 
 ```json
 {
-  "status": "open"
+  "id": "D005",
+  "status": "fixed-verified",
+  "scope_ar": "حماية وقت التذكير الجاري تعديله من قراءة foreground قديمة، مع اعتماد القيمة بعد نجاح الحفظ فقط.",
+  "verification": "اختبارات dirty/revision وفشل الجدولة وحفظ قيمة أحدث ضمن 77 اختبارًا مستهدفًا.",
+  "evidence": "../flow-20261103/media/result.json",
+  "limits_ar": "تسليم الإشعار الحقيقي على الهاتف لم يُثبت.",
+  "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+  "device_verified": false,
+  "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
 }
 ```
 
 </details>
 
 - **S005 · P3 — يمكن حفظ عنوان ملاحظة لا يمكن تمثيله بصيغة الرابط التي يطلبها التطبيق**
-  خطأ أعيد إنتاجه · الدراسة والبطاقات · مفتوح
+  خطأ أعيد إنتاجه · الدراسة والبطاقات · أصلح واختبر ضمن النطاق المسجل
 
 <details>
 <summary>الدليل والتعديل ومعيار القبول</summary>
@@ -1688,7 +1872,15 @@ docs/research/devils-audit-20261103/data-evidence/reminders-audit.ui.test.jsx: �
 
 ```json
 {
-  "status": "open"
+  "id": "S005",
+  "status": "fixed-verified",
+  "scope_ar": "رفض عناوين جديدة لا يمكن تمثيلها بأمان في صيغة رابط wiki ، وربط التحقق بمحرر الملاحظة.",
+  "verification": "اختبارات wikiLinkTitleError ضمن المنطق وفحص TypeScript ؛ الدمج في App راجع بالمصدر.",
+  "evidence": "../flow-20261103/study/summary.json",
+  "limits_ar": "لا يعيد تسمية ملاحظات قديمة أو يغيّر محتوى النسخ المستوردة بصمت.",
+  "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+  "device_verified": false,
+  "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
 }
 ```
 
@@ -1740,7 +1932,7 @@ docs/research/devils-audit-20261103/data-evidence/reminders-audit.ui.test.jsx: �
 </details>
 
 - **X205 · P3 — أزرار الاستماع المتعددة لا تذكر التسجيل المقصود لقارئ الشاشة**
-  خطر تصميم · الوصول والصوت والمصادر · مفتوح
+  خطر تصميم · الوصول والصوت والمصادر · أصلح واختبر ضمن النطاق المسجل
 
 <details>
 <summary>الدليل والتعديل ومعيار القبول</summary>
@@ -1763,7 +1955,15 @@ docs/research/devils-audit-20261103/data-evidence/reminders-audit.ui.test.jsx: �
 
 ```json
 {
-  "status": "open"
+  "id": "X205",
+  "status": "fixed-verified",
+  "scope_ar": "تسميات الاستماع والتشغيل والإيقاف وإغلاق المشغل تتضمن العنوان واسم الملف للتمييز بين التسجيلات.",
+  "verification": "اختبارات عناصر الوصول والأفعال المسموعة ضمن اختبارات الوسائط المستهدفة.",
+  "evidence": "../flow-20261103/media/result.json",
+  "limits_ar": "لم تُجر جلسة VoiceOver على iPhone ؛ تغيير التسميات مثبت في المكوّن فقط.",
+  "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+  "device_verified": false,
+  "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
 }
 ```
 
@@ -1797,7 +1997,13 @@ docs/research/devils-audit-20261103/data-evidence/reminders-audit.ui.test.jsx: �
 
 ```json
 {
-  "status": "open"
+  "id": "X207",
+  "status": "open",
+  "partial_progress_ar": "Field يتيح direction ، وحقل رابط YouTube مضبوط LTR في المصدر الحالي.",
+  "remaining_ar": "سلوك المؤشر والتعديل واللصق والنطق بلوحة عربية/إنجليزية و VoiceOver على iOS لم يختبر؛ نوع لوحة URL لم يثبت تغييره هنا. تظل فجوة الجهاز مفتوحة.",
+  "verification": "قراءة src/ui.tsx و src/SourcesWorkbench.tsx ؛ لا جلسة جهاز مستقلة.",
+  "evidence": "../../../src/SourcesWorkbench.tsx",
+  "device_verified": false
 }
 ```
 

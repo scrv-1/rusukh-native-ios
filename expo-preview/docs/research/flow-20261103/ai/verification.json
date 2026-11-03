@@ -1,0 +1,88 @@
+{
+  "upstream_baseline": "54230d457269e0d1a8f7bb109ebc5962f9a9378b",
+  "local_synthetic_checkpoint": "b6e86a8b7d8b692d303205701eb715bda2745985",
+  "environment": {
+    "os": "Linux",
+    "node": "v24.22.1"
+  },
+  "baseline": {
+    "jest": {
+      "passed": 15,
+      "failed": 0
+    },
+    "contracts_and_runtime": {
+      "passed": 28,
+      "failed": 0
+    }
+  },
+  "red": {
+    "jest": {
+      "passed": 15,
+      "failed": 6
+    },
+    "contracts_and_runtime": {
+      "passed": 30,
+      "failed": 2
+    }
+  },
+  "green": {
+    "jest": {
+      "passed": 38,
+      "failed": 0
+    },
+    "contracts_and_runtime": {
+      "passed": 32,
+      "failed": 0
+    },
+    "typescript": "passed",
+    "hermes_unicode_property_regex_compile": "passed (compiler only, no runtime/device claim)",
+    "build_integrity_tests": {
+      "passed": 5,
+      "failed": 0
+    },
+    "embedded_build_integrity": "passed"
+  },
+  "covered_audit_ids": [
+    "A002",
+    "A003",
+    "A004",
+    "A005",
+    "A006",
+    "A007",
+    "R004"
+  ],
+  "partial_provenance": [
+    "A008",
+    "S006"
+  ],
+  "iPhone_tested": false,
+  "new_model_added": false,
+  "new_dependency_added": false,
+  "generated_engine_rebuild": "completed locally using installed dependencies; ai-build.log",
+  "files": {
+    "src/AIWorkspace.tsx": "a348042d98cfc1b18f6e2d3381546233392a2c3f74f34c37416140fe0324c9c5",
+    "src/ai/useAIStudySession.ts": "42463f74b31273238fe41f6cbc7d02e06343bf83e32546a72aefcacb4c93e82a",
+    "src/ai/LocalAILab.tsx": "bef0955e2a91ff290b1abdc0062d156285bda212f9a4dcd401aaf951486d3f39",
+    "src/ai/contracts.ts": "b31d122f22203119344289312f0d37fa32fe6e5b0a41cb7c0c1449a3997a1264",
+    "ai-lab/engine-entry.mjs": "35fbe3985825cf5fd05463456ebb8a26adb77ad4ac02c025b3caa5cc5918c66a",
+    "tests/ai-workspace.ui.test.jsx": "6410a69c78747979bd1525d34ddabd8529a3b4dd9dc193d5e800313e5cc64cfe",
+    "tests/ai-bridge.ui.test.jsx": "e9c707cf2c3529d29e6f1116aac94b30654b13be2dadc5938e0d324db63fa1e8",
+    "tests/ai-session.ui.test.jsx": "9d7c29f80366b6d246a336bb907730cf5c80cfb80c07f60a7a261901c359e583",
+    "ai-lab/test.mjs": "37f3992a668f0343fed38e3efbb999e0d180619792949e09e77a7cc679bbd2f9",
+    "ai-lab/engine-runtime.test.mjs": "19f0f739307ba696711711063c316f9d4314baf80049b2c5a32222592e8fb1f9",
+    "ai-lab/build.mjs": "a4a1f11e78db02d81e5ac7d2e593b875f33f2a57bf8bc65512bb73ba26d1eb84",
+    "scripts/verify-release.cjs": "9b14d6eb39bb5b5108ec01974b582432d70054cc6ed57e2e8de31bb3edde328e",
+    "scripts/verify-ai-build.cjs": "65a2a7d573661b8de1479cfd40d56fc092b9fb7471390bbc74c31a6ae77c126c",
+    "tests/ai-build-integrity.test.cjs": "733721cd3277214ce1615bb4de02aee6df94c6b94519d3da8066d6907d048f92",
+    "src/ai/engine.generated.ts": "4cd2956d8af7ef0e6e4796a706935efc9b0516457cebb0014022310383a5c4bf",
+    "src/ai/engine-manifest.json": "14e1e1ce818509d1b4fd7f0af248adc056c05a71b82dd67d46b3f82c4e54a5ba"
+  },
+  "generated": {
+    "buildInputs": 7,
+    "generatedModuleBytes": 21861949,
+    "generatedModuleSHA256": "4cd2956d8af7ef0e6e4796a706935efc9b0516457cebb0014022310383a5c4bf",
+    "nativeHTMLBytes": 21853882,
+    "nativeHTMLSHA256": "686eac377c70588ae1ec136468d484e8b6fef2b7890cb4516b5903b594656ab6",
+    "manifestSHA256": "14e1e1ce818509d1b4fd7f0af248adc056c05a71b82dd67d46b3f82c4e54a5ba"
+  }
+}

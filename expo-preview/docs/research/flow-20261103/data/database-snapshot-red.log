@@ -1,0 +1,36 @@
+node:fs:483
+    return binding.readFileUtf8(path, stringToFlags(options.flag));
+                   ^
+
+Error: ENOENT: no such file or directory, open '/workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/src/databaseSnapshot.ts'
+    at Object.readFileSync (node:fs:483:20)
+    at Object.<anonymous> (/workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/tests/database-snapshot.test.cjs:55:47)
+    at Module._compile (node:internal/modules/cjs/loader:1929:14)
+    at Object..js (node:internal/modules/cjs/loader:2060:10)
+    at Module.load (node:internal/modules/cjs/loader:1651:32)
+    at Module._load (node:internal/modules/cjs/loader:1443:12)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)
+    at node:internal/main/run_main_module:33:47 {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/src/databaseSnapshot.ts'
+}
+
+Node.js v24.22.1
+✖ tests/database-snapshot.test.cjs (247.438925ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 257.253565
+
+✖ failing tests:
+
+test at tests/database-snapshot.test.cjs:1:1
+✖ tests/database-snapshot.test.cjs (247.438925ms)
+  'test failed'

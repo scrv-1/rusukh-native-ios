@@ -1,0 +1,154 @@
+✖ S002: recall practice accepts one card and never invents distractors or marks synonyms wrong (1.378079ms)
+✖ S002: practice samples unique valid prompts without changing cards and stays bounded (0.429074ms)
+✖ S004: multiline Arabic/English answers retain lists, paragraph breaks, and multiline questions (2.522929ms)
+✖ S004: generated provenance and quoted transcript never become answer text or extra cards (0.595945ms)
+✖ S004: fenced source blocks, quote boundaries and headings isolate Q/A extraction (0.467953ms)
+✔ S004: incomplete pairs, orphan answer labels, CRLF and empty answer bodies are handled explicitly (0.193181ms)
+✖ S005: title validation rejects ambiguous wiki delimiters and preserves valid legacy targets (0.209275ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 1
+ℹ fail 6
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 121.172288
+
+✖ failing tests:
+
+test at tests/study-practice.test.cjs:9:1
+✖ S002: recall practice accepts one card and never invents distractors or marks synonyms wrong (1.378079ms)
+  TypeError [Error]: makePracticeSession is not a function
+      at TestContext.<anonymous> (/workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/tests/study-practice.test.cjs:11:20)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17)
+
+test at tests/study-practice.test.cjs:17:1
+✖ S002: practice samples unique valid prompts without changing cards and stays bounded (0.429074ms)
+  TypeError [Error]: makePracticeSession is not a function
+      at TestContext.<anonymous> (/workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/tests/study-practice.test.cjs:22:19)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+
+test at tests/study-practice.test.cjs:32:1
+✖ S004: multiline Arabic/English answers retain lists, paragraph breaks, and multiline questions (2.522929ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+      {
+  +     answer: 'الخطوة الأولى',
+  +     question: 'اذكر الخطوات'
+  -     answer: 'الخطوة الأولى\n- الخطوة الثانية\n\nثم التحقق.',
+  -     question: 'اذكر الخطوات\nبالترتيب؟'
+      },
+  -   {
+  -     answer: 'First reason.\nSecond reason.',
+  -     question: 'Why?'
+  -   }
+    ]
+  
+      at TestContext.<anonymous> (/workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/tests/study-practice.test.cjs:34:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ { question: 'اذكر الخطوات', answer: 'الخطوة الأولى' } ],
+    expected: [ { question: 'اذكر الخطوات\nبالترتيب؟', answer: 'الخطوة الأولى\n- الخطوة الثانية\n\nثم التحقق.' }, { question: 'Why?', answer: 'First reason.\nSecond reason.' } ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/study-practice.test.cjs:40:1
+✖ S004: generated provenance and quoted transcript never become answer text or extra cards (0.595945ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+      {
+  +     answer: 'جواب',
+  -     answer: 'جواب\nتكملة',
+        question: 'سؤال أول؟'
+      },
+      {
+        answer: 'آخر',
+        question: 'سؤال ثان؟'
+  
+      at TestContext.<anonymous> (/workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/tests/study-practice.test.cjs:42:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ { question: 'سؤال أول؟', answer: 'جواب' }, { question: 'سؤال ثان؟', answer: 'آخر' } ],
+    expected: [ { question: 'سؤال أول؟', answer: 'جواب\nتكملة' }, { question: 'سؤال ثان؟', answer: 'آخر' } ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/study-practice.test.cjs:45:1
+✖ S004: fenced source blocks, quote boundaries and headings isolate Q/A extraction (0.467953ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+      {
+        answer: 'نعم',
+        question: 'حقيقي؟'
+      },
+      {
+  +     answer: 'مستبعد',
+  +     question: 'داخل الشيفرة؟'
+  +   },
+  +   {
+        answer: 'Yes',
+        question: 'Next?'
+      },
+      {
+  +     answer: 'No',
+  +     question: 'Fenced?'
+  +   },
+  +   {
+        answer: 'صحيح',
+        question: 'أخير؟'
+      }
+    ]
+  
+      at TestContext.<anonymous> (/workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/tests/study-practice.test.cjs:47:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ { question: 'حقيقي؟', answer: 'نعم' }, { question: 'داخل الشيفرة؟', answer: 'مستبعد' }, { question: 'Next?', answer: 'Yes' }, { question: 'Fenced?', answer: 'No' }, { question: 'أخير؟', answer: 'صحيح' } ],
+    expected: [ { question: 'حقيقي؟', answer: 'نعم' }, { question: 'Next?', answer: 'Yes' }, { question: 'أخير؟', answer: 'صحيح' } ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/study-practice.test.cjs:55:1
+✖ S005: title validation rejects ambiguous wiki delimiters and preserves valid legacy targets (0.209275ms)
+  TypeError [Error]: wikiLinkTitleError is not a function
+      at TestContext.<anonymous> (/workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/tests/study-practice.test.cjs:56:103)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)

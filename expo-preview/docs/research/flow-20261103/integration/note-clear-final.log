@@ -1,0 +1,6 @@
+
+Test Suites: 3 passed, 3 total
+Tests:       45 passed, 45 total
+Snapshots:   0 total
+Time:        4.117 s
+Ran all test suites matching tests/backup-app-integration.ui.test.jsx|tests/draft-integration.ui.test.jsx|tests/study-flow-independent.ui.test.jsx.

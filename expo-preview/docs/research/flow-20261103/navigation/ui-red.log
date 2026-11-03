@@ -1,0 +1,940 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> rusukh-ios@0.5.1 test:ui
+> jest --runInBand --runTestsByPath tests/home.ui.test.jsx tests/tools.ui.test.jsx tests/workspace-editor.ui.test.jsx
+
+FAIL iOS tests/tools.ui.test.jsx
+  ● Test suite failed to run
+
+    Cannot find module '../src/ToolsScreen' from 'tests/tools.ui.test.jsx'
+
+      2 | import * as Native from 'react-native';
+      3 | import { render, screen, fireEvent, act, waitFor } from '@testing-library/react-native';
+    > 4 | import { ToolsScreen } from '../src/ToolsScreen';
+        | ^
+      5 | import { defaultWorkspace, workspacePreset } from '../src/workspace';
+      6 | import { light } from '../src/ui';
+      7 |
+
+      at Resolver._throwModNotFoundError (node_modules/jest-resolve/build/index.js:1031:11)
+      at Object.require (tests/tools.ui.test.jsx:4:1)
+
+FAIL iOS tests/workspace-editor.ui.test.jsx
+  ● only shown sections have movement controls and one move changes visible order
+
+    expect(received).toBeNull()
+
+    Received: <View accessibilityLabel="تقديم ملاحظاتي" accessibilityRole="button" accessibilityState={{"busy": undefined, "checked": undefined, "disabled": false, "expanded": undefined, "selected": undefined}} accessibilityValue={{"max": undefined, "min": undefined, "now": undefined, "text": undefined}} accessible={true} collapsable={false} focusable={true} onBlur={[Function onBlur]} onClick={[Function onClick]} onFocus={[Function onFocus]} onResponderGrant={[Function onResponderGrant]} onResponderMove={[Function onResponderMove]} onResponderRelease={[Function onResponderRelease]} onResponderTerminate={[Function onResponderTerminate]} onResponderTerminationRequest={[Function onResponderTerminationRequest]} onStartShouldSetResponder={[Function onStartShouldSetResponder]} style={[{"alignItems": "center", "backgroundColor": "#ECEDEB", "borderRadius": 15, "flexDirection": "row-reverse", "flexShrink": 1, "gap": 7, "justifyContent": "center", "maxWidth": "100%", "minHeight": 45, "minWidth": 44, "opacity": 1, "paddingHorizontal": 13, "paddingVertical": 10}, undefined]}><Text allowFontScaling={true} style={[{"color": "#111214", "fontSize": 14, "fontWeight": "700", "lineHeight": 21, "textAlign": "right", "writingDirection": "rtl"}, {"flexShrink": 1, "textAlign": "center"}]}>تقديم ملاحظاتي</Text></View>
+
+      17 |   const onSave = jest.fn(async () => true);
+      18 |   await render(<WorkspaceEditor value={sparse()} p={light} onCancel={jest.fn()} onSave={onSave} />);
+    > 19 |   expect(screen.queryByRole('button', { name:'تقديم ملاحظاتي' })).toBeNull();
+         |                                                                   ^
+      20 |   expect(screen.getByRole('button', { name:'تقديم مراجعة اليوم' })).toBeDisabled();
+      21 |   expect(screen.getByRole('button', { name:'تأخير مصادري' })).toBeDisabled();
+      22 |   await fireEvent.press(screen.getByRole('button', { name:'تقديم مصادري' }));
+
+      at Object.toBeNull (tests/workspace-editor.ui.test.jsx:19:67)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● failed false save retains reorder draft and permits cancel or retry
+
+    Unable to find an element with text: لم تُحفظ التغييرات. يمكنك المحاولة مجددًا أو إلغاء التخصيص.
+
+    [36m<Modal>[39m
+      [36m<RNCSafeAreaView>[39m
+        [36m<RCTScrollView>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mخصّص مساحتك[0m
+              [36m</Text>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"إلغاء التخصيص"[39m
+                [33maccessibilityRole[39m=[32m"button"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "disabled": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mإلغاء التخصيص[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<Text>[39m
+              [0mأظهر ما تحتاجه ورتّبه. إخفاء أداة لا يحذف محتواها؛ ستجدها دائمًا في «كل الأدوات».[0m
+            [36m</Text>[39m
+            [36m<View>[39m
+              [36m<Text[39m
+                [33maccessibilityRole[39m=[32m"header"[39m
+              [36m>[39m
+                [0mابدأ بترتيب جاهز[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0mاختر ثم عدّل ما يناسبك. يُطبّق عند حفظ مساحتك.[0m
+              [36m</Text>[39m
+              [36m<View>[39m
+                [36m<View[39m
+                  [33maccessibilityLabel[39m=[32m"بسيط"[39m
+                  [33maccessibilityRole[39m=[32m"button"[39m
+                  [33maccessibilityState[39m=[32m{
+                    {
+                      "disabled": false,
+                    }
+                  }[39m
+                  [33maccessible[39m=[32m{true}[39m
+                [36m>[39m
+                  [36m<Text>[39m
+                    [0mبسيط[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+                [36m<View[39m
+                  [33maccessibilityLabel[39m=[32m"قراءة وربط"[39m
+                  [33maccessibilityRole[39m=[32m"button"[39m
+                  [33maccessibilityState[39m=[32m{
+                    {
+                      "disabled": false,
+                    }
+                  }[39m
+                  [33maccessible[39m=[32m{true}[39m
+                [36m>[39m
+                  [36m<Text>[39m
+                    [0mقراءة وربط[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+                [36m<View[39m
+                  [33maccessibilityLabel[39m=[32m"كل الأقسام"[39m
+                  [33maccessibilityRole[39m=[32m"button"[39m
+                  [33maccessibilityState[39m=[32m{
+                    {
+                      "disabled": false,
+                    }
+                  }[39m
+                  [33maccessible[39m=[32m{true}[39m
+                [36m>[39m
+                  [36m<Text>[39m
+                    [0mكل الأقسام[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mحجم البطاقات في الرئيسية[0m
+              [36m</Text>[39m
+              [36m<View>[39m
+                [36m<View[39m
+                  [33maccessibilityLabel[39m=[32m"مريح"[39m
+                  [33maccessibilityRole[39m=[32m"button"[39m
+                  [33maccessibilityState[39m=[32m{
+                    {
+                      "disabled": false,
+                      "selected": true,
+                    }
+                  }[39m
+                  [33maccessible[39m=[32m{true}[39m
+                [36m>[39m
+                  [36m<Text>[39m
+                    [0mمريح[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+                [36m<View[39m
+                  [33maccessibilityLabel[39m=[32m"مختصر"[39m
+                  [33maccessibilityRole[39m=[32m"button"[39m
+                  [33maccessibilityState[39m=[32m{
+                    {
+                      "disabled": false,
+                      "selected": false,
+                    }
+                  }[39m
+                  [33maccessible[39m=[32m{true}[39m
+                [36m>[39m
+                  [36m<Text>[39m
+                    [0mمختصر[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<Text[39m
+              [33maccessibilityRole[39m=[32m"header"[39m
+            [36m>[39m
+              [0m2[0m
+              [0m من [0m
+              [0m6[0m
+              [0m أقسام ظاهرة[0m
+            [36m</Text>[39m
+            [36m<View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"إظهار كل الأقسام"[39m
+                [33maccessibilityRole[39m=[32m"button"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "disabled": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mإظهار كل الأقسام[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"إخفاء كل الأقسام"[39m
+                [33maccessibilityRole[39m=[32m"button"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "disabled": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mإخفاء كل الأقسام[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<Text>[39m
+                    [0mمراجعة اليوم[0m
+                  [36m</Text>[39m
+                  [36m<Text>[39m
+                    [0m1[0m
+                    [0m · [0m
+                    [0mظاهرة في مساحتك[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+                [36m<RCTSwitch[39m
+                  [33maccessibilityLabel[39m=[32m"إظهار مراجعة اليوم"[39m
+                  [33maccessibilityRole[39m=[32m"switch"[39m
+                  [33mvalue[39m=[32m{true}[39m
+                [36m/>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<View[39m
+                  [33maccessibilityLabel[39m=[32m"تقديم مراجعة اليوم"[39m
+                  [33maccessibilityRole[39m=[32m"button"[39m
+                  [33maccessibilityState[39m=[32m{
+                    {
+                      "disabled": true,
+                    }
+                  }[39m
+                  [33maccessible[39m=[32m{true}[39m
+                [36m>[39m
+                  [36m<Text>[39m
+                    [0mتقديم مراجعة اليوم[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+                [36m<View[39m
+                  [33maccessibilityLabel[39m=[32m"تأخير مراجعة اليوم"[39m
+                  [33maccessibilityRole[39m=[32m"button"[39m
+                  [33maccessibilityState[39m=[32m{
+                    {
+                      "disabled": false,
+                    }
+                  }[39m
+                  [33maccessible[39m=[32m{true}[39m
+                [36m>[39m
+                  [36m<Text>[39m
+                    [0mتأخير مراجعة اليوم[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<Text>[39m
+                    [0mملاحظاتي[0m
+                  [36m</Text>[39m
+                  [36m<Text>[39m
+                    [0m2[0m
+                    [0m · [0m
+                    [0mمتاحة في كل الأدوات[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+                [36m<RCTSwitch[39m
+                  [33maccessibilityLabel[39m=[32m"إظهار ملاحظاتي"[39m
+                  [33maccessibilityRole[39m=[32m"switch"[39m
+                  [33mvalue[39m=[32m{false}[39m
+                [36m/>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<View[39m
+                  [33maccessibilityLabel[39m=[32m"تقديم ملاحظاتي"[39m
+                  [33maccessibilityRole[39m=[32m"button"[39m
+                  [33maccessibilityState[39m=[32m{
+                    {
+                      "disabled": false,
+                    }
+                  }[39m
+                  [33maccessible[39m=[32m{true}[39m
+                [36m>[39m
+                  [36m<Text>[39m
+                    [0mتقديم ملاحظاتي[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+                [36m<View[39m
+                  [33maccessibilityLabel[39m=[32m"تأخير ملاحظاتي"[39m
+                  [33maccessibilityRole[39m=[32m"button"[39m
+                  [33maccessibilityState[39m=[32m{
+                    {
+                      "disabled": false,
+                    }
+                  }[39m
+                  [33maccessible[39m=[32m{true}[39m
+                [36m>[39m
+                  [36m<Text>[39m
+                    [0mتأخير ملاحظاتي[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<Text>[39m
+                    [0mشبكة أفكاري[0m
+                  [36m</Text>[39m
+                  [36m<Text>[39m
+                    [0m3[0m
+                    [0m · [0m
+                    [0mمتاحة في كل الأدوات[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+                [36m<RCTSwitch[39m
+                  [33maccessibilityLabel[39m=[32m"إظهار شبكة أفكاري"[39m
+                  [33maccessibilityRole[39m=[32m"switch"[39m
+                  [33mvalue[39m=[32m{false}[39m
+                [36m/>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<View[39m
+                  [33maccessibilityLabel[39m=[32m"تقديم شبكة أفكاري"[39m
+                  [33maccessibilityRole[39m=[32m"button"[39m
+                  [33maccessibilityState[39m=[32m{
+                    {
+                      "disabled": false,
+                    }
+                  }[39m
+                  [33maccessible[39m=[32m{true}[39m
+                [36m>[39m
+                  [36m<Text>[39m
+                    [0mتقديم شبكة أفكاري[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+                [36m<View[39m
+                  [33maccessibilityLabel[39m=[32m"تأخير شبكة أفكاري"[39m
+                  [33maccessibilityRole[39m=[32m"button"[39m
+                  [33maccessibilityState[39m=[32m{
+                    {
+                      "disabled": false,
+                    }
+                  }[39m
+                  [33maccessible[39m=[32m{true}[39m
+                [36m>[39m
+                  [36m<Text>[39m
+                    [0mتأخير شبكة أفكاري[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<Text>[39m
+                    [0mمصادري[0m
+                  [36m</Text>[39m
+                  [36m<Text>[39m
+                    [0m4[0m
+                    [0m · [0m
+                    [0mظاهرة في مساحتك[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+                [36m<RCTSwitch[39m
+                  [33maccessibilityLabel[39m=[32m"إظهار مصادري"[39m
+                  [33maccessibilityRole[39m=[32m"switch"[39m
+                  [33mvalue[39m=[32m{true}[39m
+                [36m/>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<View[39m
+                  [33maccessibilityLabel[39m=[32m"تقديم مصادري"[39m
+                  [33maccessibilityRole[39m=[32m"button"[39m
+                  [33maccessibilityState[39m=[32m{
+                    {
+                      "disabled": false,
+                    }
+                  }[39m
+                  [33maccessible[39m=[32m{true}[39m
+                [36m>[39m
+                  [36m<Text>[39m
+                    [0mتقديم مصادري[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+                [36m<View[39m
+                  [33maccessibilityLabel[39m=[32m"تأخير مصادري"[39m
+                  [33maccessibilityRole[39m=[32m"button"[39m
+                  [33maccessibilityState[39m=[32m{
+                    {
+                      "disabled": false,
+                    }
+                  }[39m
+                  [33maccessible[39m=[32m{true}[39m
+                [36m>[39m
+                  [36m<Text>[39m
+                    [0mتأخير مصادري[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<Text>[39m
+                    [0mاختبار سريع[0m
+                  [36m</Text>[39m
+                  [36m<Text>[39m
+                    [0m5[0m
+                    [0m · [0m
+                    [0mمتاحة في كل الأدوات[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+                [36m<RCTSwitch[39m
+                  [33maccessibilityLabel[39m=[32m"إظهار اختبار سريع"[39m
+                  [33maccessibilityRole[39m=[32m"switch"[39m
+                  [33mvalue[39m=[32m{false}[39m
+                [36m/>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<View[39m
+                  [33maccessibilityLabel[39m=[32m"تقديم اختبار سريع"[39m
+                  [33maccessibilityRole[39m=[32m"button"[39m
+                  [33maccessibilityState[39m=[32m{
+                    {
+                      "disabled": false,
+                    }
+                  }[39m
+                  [33maccessible[39m=[32m{true}[39m
+                [36m>[39m
+                  [36m<Text>[39m
+                    [0mتقديم اختبار سريع[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+                [36m<View[39m
+                  [33maccessibilityLabel[39m=[32m"تأخير اختبار سريع"[39m
+                  [33maccessibilityRole[39m=[32m"button"[39m
+                  [33maccessibilityState[39m=[32m{
+                    {
+                      "disabled": false,
+                    }
+                  }[39m
+                  [33maccessible[39m=[32m{true}[39m
+                [36m>[39m
+                  [36m<Text>[39m
+                    [0mتأخير اختبار سريع[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<Text>[39m
+                    [0mمساعد الدراسة المحلي[0m
+                  [36m</Text>[39m
+                  [36m<Text>[39m
+                    [0m6[0m
+                    [0m · [0m
+                    [0mمتاحة في كل الأدوات[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+                [36m<RCTSwitch[39m
+                  [33maccessibilityLabel[39m=[32m"إظهار مساعد الدراسة المحلي"[39m
+                  [33maccessibilityRole[39m=[32m"switch"[39m
+                  [33mvalue[39m=[32m{false}[39m
+                [36m/>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<View[39m
+                  [33maccessibilityLabel[39m=[32m"تقديم مساعد الدراسة المحلي"[39m
+                  [33maccessibilityRole[39m=[32m"button"[39m
+                  [33maccessibilityState[39m=[32m{
+                    {
+                      "disabled": false,
+                    }
+                  }[39m
+                  [33maccessible[39m=[32m{true}[39m
+                [36m>[39m
+                  [36m<Text>[39m
+                    [0mتقديم مساعد الدراسة المحلي[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+                [36m<View[39m
+                  [33maccessibilityLabel[39m=[32m"تأخير مساعد الدراسة المحلي"[39m
+                  [33maccessibilityRole[39m=[32m"button"[39m
+                  [33maccessibilityState[39m=[32m{
+                    {
+                      "disabled": true,
+                    }
+                  }[39m
+                  [33maccessible[39m=[32m{true}[39m
+                [36m>[39m
+                  [36m<Text>[39m
+                    [0mتأخير مساعد الدراسة المحلي[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<Text>[39m
+              [0mشريط التنقّل ثابت. الترتيب والإخفاء يغيّران أقسام الرئيسية فقط، ويمكن فتح كل أداة من «الأدوات».[0m
+            [36m</Text>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"استعادة الترتيب الافتراضي"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0mاستعادة الترتيب الافتراضي[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</RCTScrollView>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"حفظ مساحتي"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mحفظ مساحتي[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</RNCSafeAreaView>[39m
+    [36m</Modal>[39m
+
+      45 |   await fireEvent.press(screen.getByRole('button', { name:'تقديم مصادري' }));
+      46 |   await fireEvent.press(screen.getByRole('button', { name:'حفظ مساحتي' }));
+    > 47 |   expect(await screen.findByText('لم تُحفظ التغييرات. يمكنك المحاولة مجددًا أو إلغاء التخصيص.')).toBeTruthy();
+         |                       ^
+      48 |   expect(screen.getByRole('button', { name:'إلغاء التخصيص' })).toBeEnabled();
+      49 |   expect(screen.getByRole('button', { name:'تقديم مصادري' })).toBeDisabled();
+      50 |   await fireEvent.press(screen.getByRole('button', { name:'حفظ مساحتي' }));
+
+      at findByText (tests/workspace-editor.ui.test.jsx:47:23)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● failed reject save retains reorder draft and permits cancel or retry
+
+    disk full
+
+      39 | test.each(['false','reject'])('failed %s save retains reorder draft and permits cancel or retry', async failure => {
+      40 |   const onSave=jest.fn().mockImplementationOnce(async () => {
+    > 41 |     if (failure === 'reject') throw new Error('disk full');
+         |                                     ^
+      42 |     return false;
+      43 |   }).mockResolvedValue(true), onCancel=jest.fn();
+      44 |   await render(<WorkspaceEditor value={sparse()} p={light} onCancel={onCancel} onSave={onSave} />);
+
+      at tests/workspace-editor.ui.test.jsx:41:37
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12
+      at onSave (src/WorkspaceEditor.tsx:68:31)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12
+      at handler (node_modules/@testing-library/react-native/src/events/fire-event.ts:74:19)
+      at callback (node_modules/@testing-library/react-native/src/act.ts:72:33)
+      at callback (node_modules/@testing-library/react-native/src/act.ts:30:24)
+      at process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:890:22)
+      at actImplementation (node_modules/@testing-library/react-native/src/act.ts:29:25)
+      at _act (node_modules/@testing-library/react-native/src/act.ts:72:10)
+      at fireEventInternal (node_modules/@testing-library/react-native/src/events/fire-event.ts:73:12)
+      at fireEventInternal (node_modules/@testing-library/react-native/src/events/fire-event.ts:17:16)
+      at fireEvent [as press] (node_modules/@testing-library/react-native/src/events/fire-event.ts:24:9)
+      at press (tests/workspace-editor.ui.test.jsx:46:19)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● failed reject save retains reorder draft and permits cancel or retry
+
+    disk full
+
+      39 | test.each(['false','reject'])('failed %s save retains reorder draft and permits cancel or retry', async failure => {
+      40 |   const onSave=jest.fn().mockImplementationOnce(async () => {
+    > 41 |     if (failure === 'reject') throw new Error('disk full');
+         |                                     ^
+      42 |     return false;
+      43 |   }).mockResolvedValue(true), onCancel=jest.fn();
+      44 |   await render(<WorkspaceEditor value={sparse()} p={light} onCancel={onCancel} onSave={onSave} />);
+
+      at tests/workspace-editor.ui.test.jsx:41:37
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12
+      at onSave (src/WorkspaceEditor.tsx:68:31)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12
+      at handler (node_modules/@testing-library/react-native/src/events/fire-event.ts:74:19)
+      at callback (node_modules/@testing-library/react-native/src/act.ts:72:33)
+      at callback (node_modules/@testing-library/react-native/src/act.ts:30:24)
+      at process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:890:22)
+      at actImplementation (node_modules/@testing-library/react-native/src/act.ts:29:25)
+      at _act (node_modules/@testing-library/react-native/src/act.ts:72:10)
+      at fireEventInternal (node_modules/@testing-library/react-native/src/events/fire-event.ts:73:12)
+      at fireEventInternal (node_modules/@testing-library/react-native/src/events/fire-event.ts:17:16)
+      at fireEvent [as press] (node_modules/@testing-library/react-native/src/events/fire-event.ts:24:9)
+      at press (tests/workspace-editor.ui.test.jsx:46:19)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+FAIL iOS tests/home.ui.test.jsx
+  ● home keeps independent entry points for study, notes and customization
+
+    Unable to find an element with role: button, name: إضافة أداة
+
+    [36m<View>[39m
+      [36m<View>[39m
+        [36m<Text>[39m
+          [0mالاثنين، ٢ نوفمبر[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mخطوة صغيرة اليوم. تعلّم يبقى.[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"ملاحظة جديدة"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mملاحظة جديدة[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"إضافة مصدر"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mإضافة مصدر[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"البحث في ملاحظاتي"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mالبحث في ملاحظاتي[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"تخصيص مساحتي"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mتخصيص مساحتي[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"كل الأدوات"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mكل الأدوات[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<Text>[39m
+          [0mراجعت اليوم 2 بطاقة[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0m2[0m
+          [0m ملاحظة · [0m
+          [0m3[0m
+          [0m بطاقة · [0m
+          [0m2[0m
+          [0m مراجعة اليوم[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<View>[39m
+          [36m<View />[39m
+          [36m<View>[39m
+            [36m<Text[39m
+              [33maccessibilityRole[39m=[32m"header"[39m
+            [36m>[39m
+              [0mمراجعة اليوم[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0m1 بطاقة مستحقة الآن[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+        [36m<Text>[39m
+          [0mحاول تذكّر الإجابة قبل كشفها. يمكنك التوقف متى شئت.[0m
+        [36m</Text>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"ابدأ المراجعة"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mابدأ المراجعة[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<View>[39m
+          [36m<View />[39m
+          [36m<View>[39m
+            [36m<Text[39m
+              [33maccessibilityRole[39m=[32m"header"[39m
+            [36m>[39m
+              [0mملاحظاتي[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0m2 ملاحظة محفوظة على جهازك[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح آخر فكرة"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mآخر فكرة[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة سابقة"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mملاحظة سابقة[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظاتي"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mفتح ملاحظاتي[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<Text>[39m
+          [0mمحتواك محفوظ على جهازك. صدّر نسخة احتياطية من الإعدادات.[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+    [36m</View>[39m
+
+      22 |   await fireEvent.press(screen.getByRole('button', { name: 'تخصيص مساحتي' }));
+      23 |   expect(value.onCustomize).toHaveBeenCalledTimes(1);
+    > 24 |   await fireEvent.press(screen.getByRole('button', { name: 'إضافة أداة' }));
+         |                                ^
+      25 |   expect(value.onTools).toHaveBeenCalledTimes(1);
+      26 |   await fireEvent.press(screen.getByRole('button', { name: 'ملاحظة جديدة' }));
+      27 |   expect(value.onNewNote).toHaveBeenCalledTimes(1);
+
+      at Object.getByRole (tests/home.ui.test.jsx:24:32)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● hiding all sections restores a blank canvas while keeping hidden tools recoverable
+
+    expect(jest.fn()).toHaveBeenCalledTimes(expected)
+
+    Expected number of calls: 1
+    Received number of calls: 0
+
+      70 |   expectOnlyBlankWorkspaceActions();
+      71 |   await fireEvent.press(screen.getByRole('button', { name: 'إضافة أداة' }));
+    > 72 |   expect(value.onTools).toHaveBeenCalledTimes(1);
+         |                         ^
+      73 |   expect(value.onCustomize).not.toHaveBeenCalled();
+      74 |   expect(value.onModule).not.toHaveBeenCalled();
+      75 |   expect(JSON.stringify(value.notes)).toBe(originalNotes);
+
+      at Object.toHaveBeenCalledTimes (tests/home.ui.test.jsx:72:25)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● first-use and caught-up states explain the next action without invented progress
+
+    expect(received).toBeNull()
+
+    Received: <Text allowFontScaling={true} style={[{"color": "#111214", "fontSize": 14, "fontWeight": "600", "lineHeight": 21, "textAlign": "right", "writingDirection": "rtl"}, undefined]}>ابدأ بما يناسب وقتك</Text>
+
+      92 |   await render(<StudyHome {...props({ notes: [], cardsCount: 0, dueCount: 0, todayReviewed: 0 })} />);
+      93 |   expect(screen.getByText('0 بطاقة مستحقة الآن')).toBeTruthy();
+    > 94 |   expect(screen.queryByText('ابدأ بما يناسب وقتك')).toBeNull();
+         |                                                     ^
+      95 |   expect(screen.getByText('أضف أول بطاقة من ملاحظاتك، ثم ارجع لتراجعها هنا.')).toBeTruthy();
+      96 |   expect(screen.getByRole('button', { name: 'ملاحظة جديدة' })).toBeTruthy();
+      97 | });
+
+      at Object.toBeNull (tests/home.ui.test.jsx:94:53)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● one compact capture bar precedes user-selected sections without fixed dashboard clutter
+
+    expect(received).toBeGreaterThanOrEqual(expected)
+
+    Expected: >= 0
+    Received:    -1
+
+      113 |   const names = screen.getAllByRole('button').map(row => row.props.accessibilityLabel);
+      114 |   for (const name of ['ملاحظة جديدة', 'إضافة مادة', 'إضافة أداة']) {
+    > 115 |     expect(names.indexOf(name)).toBeGreaterThanOrEqual(0);
+          |                                 ^
+      116 |     expect(names.indexOf(name)).toBeLessThan(names.indexOf('ابدأ المراجعة'));
+      117 |   }
+      118 |   await fireEvent.press(screen.getByRole('button', { name: 'إضافة مادة' }));
+
+      at Object.toBeGreaterThanOrEqual (tests/home.ui.test.jsx:115:33)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● 320px and enlarged type keep capture controls in a wrapping container (static, not a layout measurement)
+
+    Unable to find an element with testID: home-capture-actions
+
+    [36m<View>[39m
+      [36m<View[39m
+        [33maccessibilityLabel[39m=[32m"إضافة مادة"[39m
+        [33maccessibilityRole[39m=[32m"button"[39m
+        [33maccessibilityState[39m=[32m{
+          {
+            "disabled": false,
+          }
+        }[39m
+        [33maccessible[39m=[32m{true}[39m
+      [36m>[39m
+        [36m<Text>[39m
+          [0mإضافة مادة[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<View[39m
+        [33maccessibilityLabel[39m=[32m"ملاحظة جديدة"[39m
+        [33maccessibilityRole[39m=[32m"button"[39m
+        [33maccessibilityState[39m=[32m{
+          {
+            "disabled": false,
+          }
+        }[39m
+        [33maccessible[39m=[32m{true}[39m
+      [36m>[39m
+        [36m<Text>[39m
+          [0mملاحظة جديدة[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<View[39m
+        [33maccessibilityLabel[39m=[32m"إضافة أداة"[39m
+        [33maccessibilityRole[39m=[32m"button"[39m
+        [33maccessibilityState[39m=[32m{
+          {
+            "disabled": false,
+          }
+        }[39m
+        [33maccessible[39m=[32m{true}[39m
+      [36m>[39m
+        [36m<Text>[39m
+          [0mإضافة أداة[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+    [36m</View>[39m
+
+      131 |     await render(<StudyHome {...props({ workspace: defaultWorkspace() })} />);
+      132 |     expectOnlyBlankWorkspaceActions();
+    > 133 |     expect(screen.getByTestId('home-capture-actions').props.style).toEqual(expect.objectContaining({ flexWrap:'wrap' }));
+          |                   ^
+      134 |   } finally { dimensions.mockRestore(); }
+      135 | });
+      136 |
+
+      at Object.getByTestId (tests/home.ui.test.jsx:133:19)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 3 failed, 3 total
+Tests:       8 failed, 7 passed, 15 total
+Snapshots:   0 total
+Time:        2.421 s
+Ran all test suites within paths "tests/home.ui.test.jsx", "tests/tools.ui.test.jsx", "tests/workspace-editor.ui.test.jsx".

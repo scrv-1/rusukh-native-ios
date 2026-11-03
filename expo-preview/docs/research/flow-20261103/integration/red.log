@@ -1,0 +1,285 @@
+  console.warn
+    expo-notifications: Android Push notifications (remote notifications) functionality provided by expo-notifications was removed from Expo Go with the release of SDK 53. Use a development build instead of Expo Go. Learn more at https://docs.expo.dev/develop/development-builds/introduction/.
+
+      1 | import { Platform } from 'react-native';
+    > 2 | import * as Notifications from 'expo-notifications';
+        | ^
+      3 | import { REMINDER_OWNER, type Permission, type ReminderGateway } from './service';
+      4 |
+      5 | const CHANNEL = 'rusukh-local-study';
+
+      at warn (node_modules/expo-notifications/build/warnOfExpoGoPushUsage.ts:13:15)
+      at addPushTokenListener (node_modules/expo-notifications/build/TokenEmitter.ts:44:3)
+      at Object.<anonymous> (node_modules/expo-notifications/build/DevicePushTokenAutoRegistration.fx.ts:109:3)
+      at Object.require (node_modules/expo-notifications/build/getExpoPushTokenAsync.ts:5:1)
+      at Object.require (node_modules/expo-notifications/build/index.ts:16:1)
+      at Object.require (src/reminders/expoGateway.ts:2:1)
+      at Object.require (src/reminders/RemindersPanel.tsx:5:1)
+      at Object.require (App.tsx:20:1)
+      at Object.require (tests/study-flow-integration.ui.test.jsx:4:1)
+
+FAIL iOS tests/study-flow-integration.ui.test.jsx
+  ● source intake survives navigation and app restart without creating study data
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "مادة غير منشورة يجب أن تعود بعد التنقل وإعادة التشغيل."
+    Received: ""
+
+      53 |  await act(async()=>{jest.advanceTimersByTime(800);});
+      54 |  await fireEvent.press(screen.getByRole('tab',{name:'الرئيسية'})); await sources();
+    > 55 |  expect(screen.getByLabelText('النص الذي تريد دراسته').props.value).toBe('مادة غير منشورة يجب أن تعود بعد التنقل وإعادة التشغيل.');
+         |                                                                     ^
+      56 |  await screen.unmount(); await openApp(); await sources();
+      57 |  expect(screen.getByLabelText('النص الذي تريد دراسته').props.value).toBe('مادة غير منشورة يجب أن تعود بعد التنقل وإعادة التشغيل.');
+      58 |  expect(storage.saveNoteAndCards).not.toHaveBeenCalled();
+
+      at Object.toBe (tests/study-flow-integration.ui.test.jsx:55:69)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● new note can be captured with an automatic unique title
+
+    expect(jest.fn()).toHaveBeenCalled()
+
+    Expected number of calls: >= 1
+    Received number of calls:    0
+
+      62 |  await fireEvent.changeText(screen.getByLabelText('المحتوى'),'فكرة مهمة عن التعلم\nشرح الفكرة.');
+      63 |  await fireEvent.press(screen.getByRole('button',{name:'حفظ الملاحظة'}));
+    > 64 |  await waitFor(()=>expect(storage.saveNoteAndCards).toHaveBeenCalled());
+         |               ^
+      65 |  expect(storage.saveNoteAndCards.mock.calls[0][1].title).toBe('فكرة مهمة عن التعلم');
+      66 | });
+      67 | test('card editing uses update preserving history instead of creating a new card',async()=>{
+
+      at Object.<anonymous> (tests/study-flow-integration.ui.test.jsx:64:15)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● card editing uses update preserving history instead of creating a new card
+
+    Unable to find an element with role: button, name: تعديل سؤال قديم؟
+
+    [36m<RNCSafeAreaView>[39m
+      [36m<View>[39m
+        [36m<View>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mر[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<Text>[39m
+            [0mالمراجعة[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"كل الأدوات"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m/>[39m
+      [36m</View>[39m
+      [36m<RCTScrollView>[39m
+        [36m<View>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<Text[39m
+                [33maccessibilityRole[39m=[32m"header"[39m
+              [36m>[39m
+                [0mالمراجعة[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0mتذكّر الإجابة أولًا، ثم قيّم سهولتها[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0m0[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0mمستحقة الآن[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0m0[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0mمُراجعة اليوم[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mلا توجد بطاقات مستحقة الآن[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0mبطاقاتك محفوظة. يمكنك عرضها أو العودة عند موعدها.[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"إنشاء بطاقات من الملاحظات"[39m
+                [33maccessibilityRole[39m=[32m"button"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "disabled": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mإنشاء بطاقات من الملاحظات[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"اختبار اختيارات"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0mاختبار اختيارات[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"إخفاء إدارة البطاقات"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0mإخفاء إدارة البطاقات[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mسؤال قديم؟[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0mجواب قديم[0m
+              [36m</Text>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mقادمة: ٢٠‏/١١‏/٢٢٨٦[0m
+                [36m</Text>[39m
+                [36m<View[39m
+                  [33maccessibilityLabel[39m=[32m"حذف"[39m
+                  [33maccessibilityRole[39m=[32m"button"[39m
+                  [33maccessibilityState[39m=[32m{
+                    {
+                      "disabled": false,
+                    }
+                  }[39m
+                  [33maccessible[39m=[32m{true}[39m
+                [36m>[39m
+                  [36m<Text>[39m
+                    [0mحذف[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</RCTScrollView>[39m
+      [36m<View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"الرئيسية"[39m
+          [33maccessibilityRole[39m=[32m"tab"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "selected": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mالرئيسية[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"الملاحظات"[39m
+          [33maccessibilityRole[39m=[32m"tab"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "selected": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mالملاحظات[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"المراجعة"[39m
+          [33maccessibilityRole[39m=[32m"tab"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "selected": true,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mالمراجعة[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"الأدوات"[39m
+          [33maccessibilityRole[39m=[32m"tab"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "selected": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mالأدوات[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"الإعدادات"[39m
+          [33maccessibilityRole[39m=[32m"tab"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "selected": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mالإعدادات[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</RNCSafeAreaView>[39m
+
+      68 |  await openApp();await fireEvent.press(screen.getByRole('tab',{name:'المراجعة'}));
+      69 |  await fireEvent.press(screen.getByRole('button',{name:'إدارة البطاقات (1)'}));
+    > 70 |  await fireEvent.press(screen.getByRole('button',{name:'تعديل سؤال قديم؟'}));
+         |                               ^
+      71 |  await fireEvent.changeText(screen.getByLabelText('الإجابة'),'الجواب المصحح');
+      72 |  await fireEvent.press(screen.getByRole('button',{name:'حفظ تعديل البطاقة'}));
+      73 |  await waitFor(()=>expect(storage.updateCard).toHaveBeenCalledWith(expect.anything(),'c1',{question:'سؤال قديم؟',answer:'الجواب المصحح'}));
+
+      at Object.getByRole (tests/study-flow-integration.ui.test.jsx:70:31)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 1 failed, 1 total
+Tests:       3 failed, 3 total
+Snapshots:   0 total
+Time:        1.897 s
+Ran all test suites matching tests/study-flow-integration.ui.test.jsx.

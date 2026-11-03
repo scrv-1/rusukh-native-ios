@@ -32,6 +32,14 @@ export function normalizeTitle(input: string): string {
   return input.trim().replace(/\s+/g, ' ').toLocaleLowerCase();
 }
 
+// Keep the established [[target|alias]] grammar. Reject ambiguous new titles
+// at the editor/link-creation boundary, without reinterpreting existing notes.
+export function wikiLinkTitleError(title: string): string | null {
+  return /[\]|\r\n]/.test(title)
+    ? 'العنوان لا يدعم الروابط إذا احتوى | أو ] أو سطرًا جديدًا. استخدم عنوانًا آخر.'
+    : null;
+}
+
 // Match the existing wiki syntax in one pass. In particular, '[' is allowed
 // inside a target/alias; ']' and LF terminate an unsuccessful candidate. A
 // backtracking regex rescans every opener in long, unclosed bracket runs.
@@ -113,20 +121,63 @@ export function graphEdges(notes: Pick<Note, 'id' | 'title' | 'body'>[]): { from
 
 // Human-authored Q/A is parsed explicitly; this is not an AI card generator.
 export function parseQuestionAnswer(body: string): { question: string; answer: string }[] {
-  const lines = body.split(/\r?\n/);
-  const result: { question: string; answer: string }[] = [];
-  let question = '';
-  for (const raw of lines) {
+  return parseQuestionAnswerWithLines(body).map(({ question, answer }) => ({ question, answer }));
+}
+
+// Zero-based inclusive line spans let transcript extraction retain every source
+// cue without implementing a second, incompatible Q/A grammar.
+export function parseQuestionAnswerWithLines(body: string): { question: string; answer: string; lineStart: number; lineEnd: number }[] {
+  const result: { question: string; answer: string; lineStart: number; lineEnd: number }[] = [];
+  let question: string[] | null = null;
+  let answer: string[] | null = null;
+  let lineStart = -1;
+  let lineEnd = -1;
+  let fence: { character: string; length: number } | null = null;
+  const finish = () => {
+    const q = question?.join('\n').trim();
+    const a = answer?.join('\n').trim();
+    if (q && a) result.push({ question: q, answer: a, lineStart, lineEnd });
+    question = null;
+    answer = null;
+    lineStart = -1;
+    lineEnd = -1;
+  };
+  for (const [lineIndex, raw] of body.split(/\r\n?|\n/).entries()) {
     const line = raw.trim();
-    const q = line.match(/^(?:س\s*[:：]|Q\s*[:：])\s*(.+)$/i);
-    const a = line.match(/^(?:ج\s*[:：]|A\s*[:：])\s*(.+)$/i);
-    if (q) question = q[1].trim();
-    else if (a && question) {
-      result.push({ question, answer: a[1].trim() });
-      question = '';
+    if (fence) {
+      const closing = line.match(/^(`{3,}|~{3,})\s*$/);
+      if (closing && closing[1][0] === fence.character && closing[1].length >= fence.length) fence = null;
+      continue;
     }
+    const opening = line.match(/^(`{3,}|~{3,})/);
+    if (opening) {
+      finish();
+      fence = { character: opening[1][0], length: opening[1].length };
+      continue;
+    }
+    // These are explicit boundaries in the app's source/AI note formats.
+    // Quoted transcripts and code examples must not create extra cards.
+    if (/^>/.test(line) || /^#{1,6}\s/.test(line) || /^(?:-{3,}|\*{3,}|_{3,})\s*$/.test(line) ||
+        /^(?:الشاهد|مرجع السؤال|مقاطع المصدر|المصدر|النموذج|رابط الفيديو|نوع التفريغ)\s*[:：]/.test(line) ||
+        /^النص الذي (?:استُخدم|استخدم)\s*[:：]/.test(line) || /^التفريغ الأصلي(?:\s|[:：—–-]|$)/.test(line)) {
+      finish();
+      continue;
+    }
+    const q = line.match(/^(?:س\s*[:：]|Q\s*[:：])\s*(.*)$/i);
+    const a = line.match(/^(?:ج\s*[:：]|A\s*[:：])\s*(.*)$/i);
+    if (q) { finish(); question = [q[1]]; lineStart = lineIndex; }
+    else if (a) {
+      // A second A: without a new Q: is an orphan, not a continuation.
+      if (answer !== null) finish();
+      if (question !== null) { answer = [a[1]]; lineEnd = lineIndex; }
+    } else if (answer !== null) {
+      answer.push(raw.trimEnd());
+      if (line) lineEnd = lineIndex;
+    }
+    else if (question !== null) question.push(raw.trimEnd());
   }
-  return result.filter(({ question: q, answer: a }) => q.length > 0 && a.length > 0);
+  finish();
+  return result;
 }
 
 export function scheduleReview(card: StudyCard, grade: Grade, now: number): StudyCard {
@@ -178,6 +229,28 @@ function shuffled<T>(items: readonly T[], random: () => number): T[] {
   return result;
 }
 
+export type PracticeCard = { cardId: string; noteId: string; question: string; answer: string };
+
+// A recall session needs no unrelated answer options. Copy a bounded snapshot
+// so parent reloads or card edits cannot replace a question halfway through.
+export function makePracticeSession(cards: readonly StudyCard[], limit = 8, random: () => number = Math.random): PracticeCard[] {
+  const count = Number.isFinite(limit) ? Math.min(8, Math.max(0, Math.trunc(limit))) : 0;
+  if (!count) return [];
+  const ids = new Set<string>();
+  const prompts = new Set<string>();
+  const candidates: PracticeCard[] = [];
+  for (const card of cards) {
+    if (!card.question.trim() || !card.answer.trim()) continue;
+    const key = JSON.stringify([normalizeTitle(card.question), normalizeTitle(card.answer)]);
+    if (ids.has(card.id) || prompts.has(key)) continue;
+    ids.add(card.id);
+    prompts.add(key);
+    candidates.push({ cardId: card.id, noteId: card.noteId, question: card.question, answer: card.answer });
+  }
+  return shuffled(candidates, random).slice(0, count);
+}
+
+/** @deprecated Unrelated card answers are not verified distractors. Use makePracticeSession for user-facing practice. */
 // random follows Math.random's [0, 1) contract; tests can inject a seeded source.
 export function makeQuiz(cards: readonly StudyCard[], limit = 8, random: () => number = Math.random) {
   const count = Number.isFinite(limit) ? Math.max(0, Math.trunc(limit)) : 0;

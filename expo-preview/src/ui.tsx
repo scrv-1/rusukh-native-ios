@@ -57,17 +57,17 @@ export function Panel({ children, p, style }: { children: React.ReactNode; p: Pa
     borderWidth: 1, padding: 18, gap: 12 }, style]}>{children}</View>;
 }
 
-export function Field({ label, value, onChangeText, p, placeholder, multiline = false, numberOfLines, maxLength, editable = true }: {
+export function Field({ label, value, onChangeText, p, placeholder, multiline = false, numberOfLines, maxLength, editable = true, direction = 'rtl' }: {
   label?: string; value: string; onChangeText: (v: string) => void; p: Palette; placeholder?: string;
-  multiline?: boolean; numberOfLines?: number; maxLength?: number; editable?: boolean;
+  multiline?: boolean; numberOfLines?: number; maxLength?: number; editable?: boolean; direction?: 'ltr' | 'rtl';
 }) {
   return <View style={{ gap: 8 }}>
     {label ? <Label p={p} size={13} weight="600">{label}</Label> : null}
     <TextInput accessibilityLabel={label ?? placeholder} value={value} onChangeText={onChangeText} placeholder={placeholder} placeholderTextColor={p.muted}
       multiline={multiline} numberOfLines={numberOfLines} maxLength={maxLength} editable={editable}
-      textAlign="right" textAlignVertical={multiline ? 'top' : 'center'}
+      textAlign={direction === 'ltr' ? 'left' : 'right'} textAlignVertical={multiline ? 'top' : 'center'}
       style={{ borderRadius: 15, minHeight: multiline ? 145 : 49, padding: 14,
-        color: p.ink, backgroundColor: p.subtle, fontSize: 16, lineHeight: 23, writingDirection: 'rtl' }} />
+        color: p.ink, backgroundColor: p.subtle, fontSize: 16, lineHeight: 23, writingDirection: direction }} />
   </View>;
 }
 

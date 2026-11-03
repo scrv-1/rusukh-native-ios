@@ -1,0 +1,23 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+FAIL iOS tests/media-library.ui.test.jsx
+  ● D007 removal is recoverable and explicit restore preserves metadata and bytes
+
+    TypeError: (0 , _library.trashMediaItem) is not a function
+
+      138 | test('D007 removal is recoverable and explicit restore preserves metadata and bytes', async () => {
+      139 |   seedPhoto(); const item = await saveCapturedMedia(photo);
+    > 140 |   await trashMediaItem(item);
+          |                       ^
+      141 |   expect((await loadMediaLibrary(true)).items).toEqual([]);
+      142 |   expect((await loadMediaTrash()).items).toEqual([item]);
+      143 |   expect(mockFiles.get('file:///documents/rusukh-media/trash/photo-1.jpg')).toBe('real image bytes');
+
+      at Object.<anonymous> (tests/media-library.ui.test.jsx:140:23)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 11 skipped, 12 total
+Snapshots:   0 total
+Time:        0.67 s, estimated 1 s
+Ran all test suites within paths "tests/media-library.ui.test.jsx".

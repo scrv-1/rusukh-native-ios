@@ -1,0 +1,31 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> build
+> node build.mjs
+
+{
+  "engine": "@wllama/wllama",
+  "version": "3.8.1",
+  "compatVersion": "3.8.1",
+  "license": "MIT",
+  "mode": "CPU/single-thread/Asyncify",
+  "buildInputsSHA256": {
+    "ai-lab/build.mjs": "a4a1f11e78db02d81e5ac7d2e593b875f33f2a57bf8bc65512bb73ba26d1eb84",
+    "ai-lab/engine-entry.mjs": "35fbe3985825cf5fd05463456ebb8a26adb77ad4ac02c025b3caa5cc5918c66a",
+    "ai-lab/package-lock.json": "240bb3386eec66fbe2e81a7d719fbe916866d0cab3ceb32720de25e208b7fba5",
+    "ai-lab/package.json": "a2eddd3a00e25ca16f5985d0b55b0633ef380640fa6f5d026887c2ff83b1e71c",
+    "src/ai/LICENSE.llama.cpp": "94f29bbed6a22c35b992c5c6ebf0e7c92f13b836b90f36f461c9cf2f0f1d010d",
+    "src/ai/LICENSE.wllama": "5866e3bd7e3cbd3f7c8bea6efd8a1e7fa7cc8de68c30f428aff7c6584a0fb720",
+    "src/ai/contracts.ts": "b31d122f22203119344289312f0d37fa32fe6e5b0a41cb7c0c1449a3997a1264"
+  },
+  "generatedModuleBytes": 21861949,
+  "generatedModuleSHA256": "4cd2956d8af7ef0e6e4796a706935efc9b0516457cebb0014022310383a5c4bf",
+  "wasmBytes": 16005007,
+  "wasmSHA256": "2db3f67d0bcc19cdf8f14f129e46cab691bff898954808f8a2dc4c586eb5bb68",
+  "workerBytes": 171615,
+  "workerSHA256": "2649eeb408988841c372e54805adfa25aed5d02f850c09add78c2f3ac0f3fce1",
+  "nativeHTMLBytes": 21853882,
+  "nativeHTMLSHA256": "686eac377c70588ae1ec136468d484e8b6fef2b7890cb4516b5903b594656ab6",
+  "diagnosticHTMLBytes": 21853881,
+  "diagnostic": "/workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/ai-lab/dist/index.html"
+}

@@ -1,0 +1,83 @@
+{
+  "date": "2026-11-03",
+  "scope": [
+    "S002",
+    "S004",
+    "S005",
+    "S007",
+    "S008"
+  ],
+  "status": "implemented; component/core/YouTube tests pass; App integration owned by root",
+  "modified_files": [
+    "src/core.ts",
+    "src/StudyQuiz.tsx",
+    "src/youtube.ts",
+    "tests/study-practice.test.cjs",
+    "tests/study-youtube.test.cjs",
+    "tests/study-quiz.ui.test.jsx"
+  ],
+  "sha256": {
+    "src/core.ts": "1cb58981b64d95dfe23052310df9adf644df0ec37edc485c51bf65fd0fe4918d",
+    "src/StudyQuiz.tsx": "628c3595415a7cdd1ca80ef83cf0eb6ebc0f25f65ba1b3c53712a6b2781a51ce",
+    "src/youtube.ts": "16ee4230938ab21b0946b08a6e97b265174c7345bf22c591edd6d3445874fed0",
+    "tests/study-practice.test.cjs": "3e5ea37fc915e382d4864f3f87ecca9b7edb4fe988f92cf6b0679d811c6a2495",
+    "tests/study-youtube.test.cjs": "18b3b7f2ffc3abbb5788550155a7a8a903e5851be63ff7c25288337745562553",
+    "tests/study-quiz.ui.test.jsx": "6ecd5ff1419a5b72b4fd49f72fbc7ae28dcaec7ce0de291bc634c26e3ac8937f"
+  },
+  "red": {
+    "core": {
+      "tests": 7,
+      "failed": 6,
+      "passed": 1,
+      "log": "red-node.txt"
+    },
+    "youtube": {
+      "tests": 3,
+      "failed": 3,
+      "log": "red-youtube.txt"
+    },
+    "ui": {
+      "reason": "StudyQuiz module did not yet exist",
+      "log": "red-ui.txt"
+    }
+  },
+  "green": {
+    "node": {
+      "tests": 74,
+      "passed": 74,
+      "failed": 0,
+      "log": "green-node.txt"
+    },
+    "ui": {
+      "tests": 7,
+      "passed": 7,
+      "failed": 0,
+      "log": "green-ui.txt"
+    },
+    "typecheck": {
+      "exit_code": 0,
+      "log": "typecheck.txt"
+    }
+  },
+  "behavior": {
+    "S002": "Recall, reveal, learner self-assessment. No semantic auto-grading. Up to eight unique prompt snapshots; synchronous grading lock.",
+    "S004": "Shared multiline Q/A parser retains paragraphs and source line spans; quotes/provenance/fences delimit extraction. YouTube retains every contributing segment and timing envelope.",
+    "S005": "wikiLinkTitleError conservatively rejects ambiguous new wiki target delimiters. Existing wiki grammar and imported note reading unchanged. Root integrates editor check.",
+    "S007": "Empty practice opens with working add-material/new-note callbacks. One card is enough.",
+    "S008": "Session summary retains each answer/self-grade, missed filter, latest source note lookup. Parent rerenders do not reset session."
+  },
+  "limits": [
+    "Results last while component remains mounted, until close or explicit new session; no durable result history.",
+    "This is self-assessment, not objective exam scoring or a scheduler update.",
+    "Fenced source/code examples are excluded from Q/A extraction; use explicit delimiters for prose outside answers.",
+    "Device modal/RTL validation and full App integration owned by root."
+  ],
+  "references": [
+    "https://andymatuschak.org/prompts/",
+    "https://super-memory.com/articles/20rules.htm",
+    "https://docs.ankiweb.net/manual/getting-started",
+    "https://docs.ankiweb.net/manual/filtered-decks",
+    "https://obsidian.md/help/links",
+    "https://obsidian.md/help/aliases"
+  ]
+}

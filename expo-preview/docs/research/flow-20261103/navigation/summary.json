@@ -1,0 +1,55 @@
+{
+  "task_date": "2026-11-03",
+  "baseline_commit": "b6e86a8b7d8b692d303205701eb715bda2745985",
+  "implemented": ["N002 direct section add/remove in ToolsScreen", "N003 swap nearest visible sections", "compact capture actions on existing Home"],
+  "owned_product_files": ["src/ToolsScreen.tsx", "src/StudyHome.tsx", "src/WorkspaceEditor.tsx", "src/workspace.ts", "src/KnowledgeGraph.tsx"],
+  "owned_tests": ["tests/tools.ui.test.jsx", "tests/home.ui.test.jsx", "tests/workspace-editor.ui.test.jsx", "tests/workspace.ui.test.jsx", "tests/workspace.test.cjs", "tests/graph-session.ui.test.jsx", "tests/graph-navigation.ui.test.jsx"],
+  "preserved": ["default empty workspace", "saved layout schema and loading", "section visibility does not delete study data", "independent tool opening", "optional presets", "fixed App navigation"],
+  "verification": {
+    "ui_components": {"passed": 22, "failed": 0, "log": "ui-green.log"},
+    "workspace_and_sources": {"passed": 15, "failed": 0, "log": "workspace-green.log"},
+    "app_workspace_integration": {"passed": 18, "failed": 0, "log": "all-navigation-ui-green.log"},
+    "all_navigation_UI": {"passed": 55, "failed": 0, "suites": 7, "log": "all-navigation-ui-green.log"},
+    "red_evidence": ["ui-red.log", "workspace-red.log", "integration-before-app.log"],
+    "typecheck_log": "typecheck.log",
+    "diff_check": "passed",
+    "source_records": "sources.json",
+    "validated_source_count": 5,
+    "iphone_device_test": "not performed by this subtask",
+    "narrow_layout_check": "320px/fontScale 1.5 inputs with semantic/static container assertions only; no native geometry or keyboard measurement"
+  },
+  "additional_N005": {
+    "status": "complete_and_integrated_in_App_by_root",
+    "session_api": "createGraphSession(); KnowledgeGraph session/onSessionChange accepts GraphSession and React state dispatch as an optional pair",
+    "retained_fields": ["query", "page", "relationPage", "zoom", "showList", "pan.x", "pan.y", "selectedNoteId"],
+    "memory_only": true,
+    "restart_persistence": false,
+    "background_renderer_kept_mounted": false,
+    "graph_components_and_App_route": {"passed": 15, "failed": 0, "log": "graph-green.log"},
+    "red_log": "graph-red.log",
+    "app_before_integration_log": "graph-app-before-integration.log",
+    "typecheck_log": "graph-typecheck.log",
+    "device_pan_validation": "not performed; tests assert offsets supplied after remount, not native scroll position"
+  },
+  "root_N004_regression": {
+    "implementation_owner": "root/App.tsx",
+    "rule": "Opening caught-up review expands saved cards; starting a due review leaves card management collapsed so it does not reveal the answer",
+    "tests": 2,
+    "failed": 0,
+    "log": "all-navigation-ui-green.log",
+    "red_run": "not performed; root narrowed the condition before these regressions ran"
+  },
+  "integration_contract": {
+    "ToolsScreen": "p, workspace, onSaveWorkspace(next): Promise<boolean>, onOpen(ModuleId)",
+    "saved_state": "App updates workspace only after successful storage; ToolsScreen does not optimistically change it",
+    "locking": "local synchronous lock serializes Tool edits; App preferenceLock serializes root preference saves",
+    "editor_close": "Only the WorkspaceEditor wrapper closes its own modal after successful save; direct Tools saves do not close another modal",
+    "home_add_tool": "onTools opens the searchable built-in tool catalogue; Add controls only install a Home section, not a package or model"
+  },
+  "limits_ar": [
+    "إضافة أداة تعني إظهار قسم أداة مدمجة في الرئيسية؛ ليست تنزيل مكوّن أو نموذج ذكاء اصطناعي.",
+    "نجاح الحفظ مختبر بمحاكاة التخزين في التكامل، وليس اختبار فشل قرص حقيقي على iPhone.",
+    "مراجع Apple وObsidian تدعم اتجاه التصميم؛ لا تثبت زمن إنجاز أو رضا مستخدم رُسوخ.",
+    "لا تعديل App أو إصدار أو commit من هذا الجزء؛ الدمج نفذه مالك App."
+  ]
+}

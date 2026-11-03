@@ -1,4 +1,5 @@
 import React from 'react';
+import { AppState } from 'react-native';
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react-native';
 import * as Notifications from 'expo-notifications';
 import { createReminderService, parseReminderTime, REMINDER_ID, REMINDER_OWNER } from '../src/reminders/service';
@@ -162,4 +163,62 @@ test('panel shows OS-confirmed schedule only after success and supports explicit
   await screen.findByText('موعد يومي محفوظ في النظام: 19:00');
   await fireEvent.press(screen.getByRole('button', { name: 'إلغاء التذكير اليومي' }));
   await screen.findByText('التذكير اليومي متوقف');
+});
+
+test('D005 returning to the foreground refreshes status without overwriting an edited time', async () => {
+  let foreground;
+  const spy = jest.spyOn(AppState, 'addEventListener').mockImplementation((_event, listener) => { foreground = listener; return { remove: jest.fn() }; });
+  try {
+    const { service, gateway } = setup();
+    await render(<RemindersPanel db={{}} p={light} service={service} />);
+    await screen.findByText('التذكير اليومي متوقف');
+    await fireEvent.changeText(screen.getByLabelText('وقت التذكير (ساعة:دقيقة)'), '20:30');
+    await act(async () => foreground('active'));
+    expect(screen.getByLabelText('وقت التذكير (ساعة:دقيقة)').props.value).toBe('20:30');
+    expect(gateway.schedule).not.toHaveBeenCalled();
+    await fireEvent.press(screen.getByRole('button', { name: 'فحص حالة التذكير' }));
+    await waitFor(() => expect(screen.getByRole('button', { name: 'تفعيل التذكير اليومي' })).toBeTruthy());
+    expect(screen.getByLabelText('وقت التذكير (ساعة:دقيقة)').props.value).toBe('20:30');
+  } finally { await screen.unmount(); spy.mockRestore(); }
+});
+
+test('a late foreground read cannot overwrite a newer successful schedule', async () => {
+  let foreground;
+  const spy = jest.spyOn(AppState, 'addEventListener').mockImplementation((_event, listener) => { foreground = listener; return { remove: jest.fn() }; });
+  try {
+    const initial = { enabled: false, scheduled: 0, permission: 'granted', hour: 19, minute: 0 };
+    const oldRead = deferred();
+    const service = { read: jest.fn().mockResolvedValueOnce(initial).mockReturnValueOnce(oldRead.promise),
+      enable: jest.fn(async time => ({ ...initial, ...time, enabled: true, scheduled: 1 })), disable: jest.fn() };
+    await render(<RemindersPanel db={{}} p={light} service={service} />);
+    await screen.findByText('التذكير اليومي متوقف');
+    await act(async () => foreground('active'));
+    await fireEvent.changeText(screen.getByLabelText('وقت التذكير (ساعة:دقيقة)'), '20:30');
+    await fireEvent.press(screen.getByRole('button', { name: 'تفعيل التذكير اليومي' }));
+    await screen.findByText('موعد يومي محفوظ في النظام: 20:30');
+    await act(async () => oldRead.resolve(initial));
+    expect(screen.getByLabelText('وقت التذكير (ساعة:دقيقة)').props.value).toBe('20:30');
+    expect(screen.getByText('موعد يومي محفوظ في النظام: 20:30')).toBeTruthy();
+  } finally { await screen.unmount(); spy.mockRestore(); }
+});
+
+test('failed enable preserves the draft while a successful enable makes later system refresh authoritative', async () => {
+  let foreground;
+  const spy = jest.spyOn(AppState, 'addEventListener').mockImplementation((_event, listener) => { foreground = listener; return { remove: jest.fn() }; });
+  try {
+    const { service, gateway } = setup();
+    await render(<RemindersPanel db={{}} p={light} service={service} />);
+    await screen.findByText('التذكير اليومي متوقف');
+    await fireEvent.changeText(screen.getByLabelText('وقت التذكير (ساعة:دقيقة)'), '20:30');
+    gateway.schedule.mockRejectedValueOnce(new Error('schedule failed'));
+    await fireEvent.press(screen.getByRole('button', { name: 'تفعيل التذكير اليومي' }));
+    await screen.findByText('schedule failed');
+    await act(async () => foreground('active'));
+    expect(screen.getByLabelText('وقت التذكير (ساعة:دقيقة)').props.value).toBe('20:30');
+    await fireEvent.press(screen.getByRole('button', { name: 'تفعيل التذكير اليومي' }));
+    await screen.findByText('موعد يومي محفوظ في النظام: 20:30');
+    gateway.list.mockResolvedValue([owned(REMINDER_ID, 21, 15)]);
+    await act(async () => foreground('active'));
+    expect(screen.getByLabelText('وقت التذكير (ساعة:دقيقة)').props.value).toBe('21:15');
+  } finally { await screen.unmount(); spy.mockRestore(); }
 });

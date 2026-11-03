@@ -65,6 +65,13 @@ test('an unmounted laboratory cannot publish a queued result', async () => {
   expect(onResult).not.toHaveBeenCalled();
 });
 
+test('a completed preview is validated and handed to recovery before explicit study adoption', async () => {
+  const onResult=jest.fn();await render(<LocalAILab sourceText={source} onResult={onResult}/>);
+  const completed=draft();
+  await fireEvent(screen.getByTestId('local-ai-webview'),'message',message('draft',completed));
+  expect(onResult).toHaveBeenCalledWith(completed);
+});
+
 test('moving to the background invalidates an already queued draft', async () => {
   let changeState;
   const spy = jest.spyOn(AppState, 'addEventListener').mockImplementation((_name, listener) => { changeState = listener; return { remove: jest.fn() }; });

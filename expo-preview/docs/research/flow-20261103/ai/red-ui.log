@@ -1,0 +1,367 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+FAIL iOS tests/ai-workspace.ui.test.jsx
+  ● source notes beyond the first five remain reachable without guessing a search term
+
+    Unable to find an element with role: button, name: مصادر تالية
+
+    [36m<View>[39m
+      [36m<Text[39m
+        [33maccessibilityRole[39m=[32m"header"[39m
+      [36m>[39m
+        [0mمساعد الدراسة المحلي[0m
+      [36m</Text>[39m
+      [36m<Text>[39m
+        [0mحوّل مقطعًا قصيرًا إلى مسودة سؤال وإجابة على جهازك. تشغيل النموذج في Expo Go تجريبي، ويحتاج ملفًا محفوظًا؛ لم يُختبر على آيفونك بعد.[0m
+      [36m</Text>[39m
+      [36m<View>[39m
+        [36m<Text[39m
+          [33maccessibilityRole[39m=[32m"header"[39m
+        [36m>[39m
+          [0mتجهيز النموذج[0m
+        [36m</Text>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"لدي نموذج GGUF"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+                "selected": true,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mلدي نموذج GGUF[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"أحتاج النموذج المرجعي"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+                "selected": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mأحتاج النموذج المرجعي[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+        [36m<Text>[39m
+          [0mاختر المصدر أدناه وافتح المحرك، ثم اختر ملف النموذج. يمكنك تبديل ملف GGUF داخل المحرك؛ دعم الملفات الأخرى والعربية غير مضمون.[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<Text[39m
+          [33maccessibilityRole[39m=[32m"header"[39m
+        [36m>[39m
+          [0mالمصدر الذي تريد دراسته[0m
+        [36m</Text>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"تجربة بمثال قصير"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mتجربة بمثال قصير[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0mالبحث عن مصدر محفوظ[0m
+          [36m</Text>[39m
+          [36m<TextInput[39m
+            [33maccessibilityLabel[39m=[32m"البحث عن مصدر محفوظ"[39m
+            [33meditable[39m=[32m{true}[39m
+            [33mvalue[39m=[32m""[39m
+          [36m/>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"استخدام: مصدر 1"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mاستخدام: مصدر 1[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"استخدام: مصدر 2"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mاستخدام: مصدر 2[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"استخدام: مصدر 3"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mاستخدام: مصدر 3[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"استخدام: مصدر 4"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mاستخدام: مصدر 4[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"استخدام: مصدر 5"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mاستخدام: مصدر 5[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<Text>[39m
+          [0mيمكنك أيضًا لصق مقطع من PDF أو تفريغ YouTube. يظل النص الكامل محفوظًا في ملاحظتك؛ اختر الجزء الذي تريد دراسته هنا.[0m
+        [36m</Text>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0mالنص المصدري للمساعد[0m
+          [36m</Text>[39m
+          [36m<TextInput[39m
+            [33maccessibilityLabel[39m=[32m"النص المصدري للمساعد"[39m
+            [33meditable[39m=[32m{true}[39m
+            [33mvalue[39m=[32m""[39m
+          [36m/>[39m
+        [36m</View>[39m
+        [36m<Text>[39m
+          [0m0[0m
+          [0m / 1600 حرف[0m
+        [36m</Text>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح المحرك المحلي"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mفتح المحرك المحلي[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</View>[39m
+
+      105 |  const p=props();p.notes=Array.from({length:12},(_,i)=>({...p.notes[0],id:'n'+i,title:'مصدر '+(i+1)}));
+      106 |  await render(<AIWorkspace {...p}/>);
+    > 107 |  await fireEvent.press(screen.getByRole('button',{name:'مصادر تالية'}));
+          |                               ^
+      108 |  await fireEvent.press(screen.getByRole('button',{name:'استخدام: مصدر 6'}));
+      109 |  expect(screen.getByLabelText('النص المصدري للمساعد').props.value).toBe(text);
+      110 |  await fireEvent.changeText(screen.getByLabelText('البحث عن مصدر محفوظ'),'مصدر 1');
+
+      at Object.getByRole (tests/ai-workspace.ui.test.jsx:107:31)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● all source constraints are checked before mounting the engine
+
+    expect(received).toBeNull()
+
+    Received: <View accessibilityLabel="إغلاق المحرك وتحرير الذاكرة" accessibilityRole="button" accessibilityState={{"busy": undefined, "checked": undefined, "disabled": false, "expanded": undefined, "selected": undefined}} accessibilityValue={{"max": undefined, "min": undefined, "now": undefined, "text": undefined}} accessible={true} collapsable={false} focusable={true} onBlur={[Function onBlur]} onClick={[Function onClick]} onFocus={[Function onFocus]} onResponderGrant={[Function onResponderGrant]} onResponderMove={[Function onResponderMove]} onResponderRelease={[Function onResponderRelease]} onResponderTerminate={[Function onResponderTerminate]} onResponderTerminationRequest={[Function onResponderTerminationRequest]} onStartShouldSetResponder={[Function onStartShouldSetResponder]} style={[{"alignItems": "center", "backgroundColor": "#ECEDEB", "borderRadius": 15, "flexDirection": "row-reverse", "flexShrink": 1, "gap": 7, "justifyContent": "center", "maxWidth": "100%", "minHeight": 45, "minWidth": 44, "opacity": 1, "paddingHorizontal": 17, "paddingVertical": 10}, undefined]}><Text allowFontScaling={true} style={[{"color": "#111214", "fontSize": 14, "fontWeight": "700", "lineHeight": 21, "textAlign": "right", "writingDirection": "rtl"}, {"flexShrink": 1, "textAlign": "center"}]}>إغلاق المحرك وتحرير الذاكرة</Text></View>
+
+      116 |  await fireEvent.changeText(screen.getByLabelText('النص المصدري للمساعد'),source);
+      117 |  await fireEvent.press(screen.getByRole('button',{name:'فتح المحرك المحلي'}));
+    > 118 |  expect(screen.queryByRole('button',{name:'إغلاق المحرك وتحرير الذاكرة'})).toBeNull();
+          |                                                                            ^
+      119 |  expect(screen.getByRole('alert')).toHaveTextContent(/جمل واضحة/);
+      120 | });
+      121 |
+
+      at toBeNull (tests/ai-workspace.ui.test.jsx:118:76)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● all source constraints are checked before mounting the engine
+
+    expect(received).toBeNull()
+
+    Received: <View accessibilityLabel="إغلاق المحرك وتحرير الذاكرة" accessibilityRole="button" accessibilityState={{"busy": undefined, "checked": undefined, "disabled": false, "expanded": undefined, "selected": undefined}} accessibilityValue={{"max": undefined, "min": undefined, "now": undefined, "text": undefined}} accessible={true} collapsable={false} focusable={true} onBlur={[Function onBlur]} onClick={[Function onClick]} onFocus={[Function onFocus]} onResponderGrant={[Function onResponderGrant]} onResponderMove={[Function onResponderMove]} onResponderRelease={[Function onResponderRelease]} onResponderTerminate={[Function onResponderTerminate]} onResponderTerminationRequest={[Function onResponderTerminationRequest]} onStartShouldSetResponder={[Function onStartShouldSetResponder]} style={[{"alignItems": "center", "backgroundColor": "#ECEDEB", "borderRadius": 15, "flexDirection": "row-reverse", "flexShrink": 1, "gap": 7, "justifyContent": "center", "maxWidth": "100%", "minHeight": 45, "minWidth": 44, "opacity": 1, "paddingHorizontal": 17, "paddingVertical": 10}, undefined]}><Text allowFontScaling={true} style={[{"color": "#111214", "fontSize": 14, "fontWeight": "700", "lineHeight": 21, "textAlign": "right", "writingDirection": "rtl"}, {"flexShrink": 1, "textAlign": "center"}]}>إغلاق المحرك وتحرير الذاكرة</Text></View>
+
+      116 |  await fireEvent.changeText(screen.getByLabelText('النص المصدري للمساعد'),source);
+      117 |  await fireEvent.press(screen.getByRole('button',{name:'فتح المحرك المحلي'}));
+    > 118 |  expect(screen.queryByRole('button',{name:'إغلاق المحرك وتحرير الذاكرة'})).toBeNull();
+          |                                                                            ^
+      119 |  expect(screen.getByRole('alert')).toHaveTextContent(/جمل واضحة/);
+      120 | });
+      121 |
+
+      at toBeNull (tests/ai-workspace.ui.test.jsx:118:76)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● a delivered draft survives worker failure, background cancellation and engine closure
+
+    Unable to find an element with role: button, name: مراجعة الأسئلة في المحرر
+
+    [36m<View>[39m
+      [36m<Text[39m
+        [33maccessibilityRole[39m=[32m"header"[39m
+      [36m>[39m
+        [0mمساعد الدراسة المحلي[0m
+      [36m</Text>[39m
+      [36m<Text>[39m
+        [0mحوّل مقطعًا قصيرًا إلى مسودة سؤال وإجابة على جهازك. تشغيل النموذج في Expo Go تجريبي، ويحتاج ملفًا محفوظًا؛ لم يُختبر على آيفونك بعد.[0m
+      [36m</Text>[39m
+      [36m<View>[39m
+        [36m<Text>[39m
+          [0mالمصدر: [0m
+          [0mالتعلّم[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mتُفحص مطابقة الاقتباس حرفيًا؛ هذا لا يضمن صحة الاستنتاج. راجع الأسئلة بنفسك.[0m
+        [36m</Text>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"إغلاق المحرك وتحرير الذاكرة"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mإغلاق المحرك وتحرير الذاكرة[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</View>[39m
+
+      128 |  for(const phase of ['generating','error','cancelled']) {
+      129 |   await act(()=>mockStatus({phase,message:'simulated event'}));
+    > 130 |   expect(screen.getByRole('button',{name:'مراجعة الأسئلة في المحرر'})).toBeTruthy();
+          |                 ^
+      131 |  }
+      132 |  await fireEvent.press(screen.getByRole('button',{name:'إغلاق المحرك وتحرير الذاكرة'}));
+      133 |  await fireEvent.press(screen.getByRole('button',{name:'مراجعة الأسئلة في المحرر'}));
+
+      at getByRole (tests/ai-workspace.ui.test.jsx:130:17)
+          at _loop.next (<anonymous>)
+      at Object._loop (tests/ai-workspace.ui.test.jsx:128:55)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● ready model stays mounted while switching source; an old callback cannot adopt a stale result
+
+    Unable to find an element with role: button, name: استخدام: المصدر الثاني
+
+    [36m<View>[39m
+      [36m<Text[39m
+        [33maccessibilityRole[39m=[32m"header"[39m
+      [36m>[39m
+        [0mمساعد الدراسة المحلي[0m
+      [36m</Text>[39m
+      [36m<Text>[39m
+        [0mحوّل مقطعًا قصيرًا إلى مسودة سؤال وإجابة على جهازك. تشغيل النموذج في Expo Go تجريبي، ويحتاج ملفًا محفوظًا؛ لم يُختبر على آيفونك بعد.[0m
+      [36m</Text>[39m
+      [36m<View>[39m
+        [36m<Text>[39m
+          [0mالمصدر: [0m
+          [0mالتعلّم[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mتُفحص مطابقة الاقتباس حرفيًا؛ هذا لا يضمن صحة الاستنتاج. راجع الأسئلة بنفسك.[0m
+        [36m</Text>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"إغلاق المحرك وتحرير الذاكرة"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mإغلاق المحرك وتحرير الذاكرة[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</View>[39m
+
+      141 |  await fireEvent.press(screen.getByRole('button',{name:'فتح المحرك المحلي'}));
+      142 |  const oldResult=mockResult;
+    > 143 |  await fireEvent.press(screen.getByRole('button',{name:'استخدام: المصدر الثاني'}));
+          |                               ^
+      144 |  expect(screen.getByRole('button',{name:'إغلاق المحرك وتحرير الذاكرة'})).toBeTruthy();
+      145 |  expect(mockEngineProps.sourceText).toBe(p.notes[1].body);
+      146 |  const {act}=require('@testing-library/react-native');await act(()=>oldResult(validDraft()));
+
+      at Object.getByRole (tests/ai-workspace.ui.test.jsx:143:31)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+FAIL iOS tests/ai-bridge.ui.test.jsx
+  ● a completed preview is validated and handed to recovery before explicit study adoption
+
+    expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+    Expected: {"createdAt": "2026-11-02T23:38:38.594Z", "engine": "wllama-3.8.1-compat-cpu", "evidenceValidation": "literal-substring-only", "kind": "local-ai-draft", "modelName": "test.gguf", "questions": [{"answer": "بتوزيع جلسات المراجعة.", "evidence": "توزع جلسات المراجعة على فترات زمنية", "question": "كيف تكون المراجعة المتباعدة؟"}], "sourceText": "المراجعة المتباعدة توزع جلسات المراجعة على فترات زمنية وتساعد على استرجاع المعلومات."}
+
+    Number of calls: 0
+
+      69 |   const onResult=jest.fn();await render(<LocalAILab sourceText={source} onResult={onResult}/>);
+      70 |   await fireEvent(screen.getByTestId('local-ai-webview'),'message',message('draft',draft()));
+    > 71 |   expect(onResult).toHaveBeenCalledWith(draft());
+         |                    ^
+      72 | });
+      73 |
+      74 | test('moving to the background invalidates an already queued draft', async () => {
+
+      at Object.toHaveBeenCalledWith (tests/ai-bridge.ui.test.jsx:71:20)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 2 failed, 2 total
+Tests:       6 failed, 15 passed, 21 total
+Snapshots:   0 total
+Time:        1.356 s
+Ran all test suites matching tests/ai-workspace.ui.test.jsx|tests/ai-bridge.ui.test.jsx.

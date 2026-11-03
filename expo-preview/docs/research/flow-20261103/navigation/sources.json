@@ -1,0 +1,55 @@
+{
+  "task_date": "2026-11-03",
+  "baseline": "b6e86a8b7d8b692d303205701eb715bda2745985",
+  "scope": "N002 direct section controls, N003 visible ordering, compact existing Home, N005 memory-only graph navigation session",
+  "sources": [
+    {
+      "url": "https://developer.apple.com/design/human-interface-guidelines/toolbars",
+      "title": "Toolbars — Apple Human Interface Guidelines",
+      "kind": "official-primary",
+      "access": "Full current official Markdown read over HTTPS after web extraction only returned JavaScript shell; Markdown URL was provided by the page itself.",
+      "retrieval_url": "https://developer.apple.com/design/human-interface-guidelines/toolbars.md",
+      "source_refs": ["turn112view0", "turn110search1"],
+      "supported_fact_ar": "توصي Apple باختيار أوامر الشريط بعناية لتجنب الازدحام، وإعطاء الأولوية للمهام الرئيسية، وتوضيح معنى الأفعال. تميز بين أوامر الشريط والتنقل بين مناطق التطبيق.",
+      "inference_ar": "نوحّد الالتقاط في ثلاثة أفعال واضحة، ونزيل التاريخ والشعار والإحصاءات المكررة من الرئيسية الحالية. هذا اختيار خاص بطلب المستخدم؛ المصدر لا يفرض هذه الأزرار الثلاثة أو تصميم React Native بعينه."
+    },
+    {
+      "url": "https://developer.apple.com/design/human-interface-guidelines/tab-bars",
+      "title": "Tab bars — Apple Human Interface Guidelines",
+      "kind": "official-primary",
+      "access": "Full current official Markdown read over HTTPS; web HTML showed a JavaScript shell and linked the Markdown version.",
+      "retrieval_url": "https://developer.apple.com/design/human-interface-guidelines/tab-bars.md",
+      "source_refs": ["turn112view1", "turn110search0"],
+      "supported_fact_ar": "تخصص Apple شريط التبويب للتنقل بين أقسام التطبيق، وتوصي بإبقاء التبويبات متاحة عندما تكون محتوياتها فارغة وباستخدام تسميات واضحة.",
+      "inference_ar": "إخفاء قسم الرئيسية لا يخفي الأداة أو التبويب. يبقى فتح الأداة مستقلاً عن إضافتها إلى الرئيسية؛ لا نضيف تبويبًا جديدًا لكل قسم."
+    },
+    {
+      "url": "https://obsidian.md/help/mobile",
+      "title": "Mobile app — Obsidian Help",
+      "kind": "official-primary",
+      "access": "Opened page text",
+      "source_refs": ["turn112view2"],
+      "supported_fact_ar": "توثق Obsidian إضافة أوامر إلى شريط الجوال، وإزالة الأوامر وترتيبها، والبحث عن أمر عند إضافته. تفرق بين الأوامر الموجودة والخيارات الإضافية.",
+      "inference_ar": "دليل رُسوخ يجمع البحث والفتح وإضافة القسم وإزالته في مكان واحد. محرر الترتيب يعرض الأقسام الظاهرة أولًا ويعطيها وحدها أزرار ترتيب. هذا تبسيط لمنتجنا، لا نسخ لخطوات إعداد Obsidian."
+    },
+    {
+      "url": "https://forum.obsidian.md/t/customize-mobile-navigation-bar/104292",
+      "title": "Customize mobile navigation bar — Obsidian Forum",
+      "kind": "firsthand-community",
+      "access": "Opened full thread text (posts Aug 2025–Jun 2026)",
+      "source_refs": ["turn112view3"],
+      "supported_fact_ar": "وصف مستخدمون أزرارًا لا يستعملونها أو يرونها مكررة في مساحة هاتف صغيرة؛ وذكر أحدهم الضغط العرضي على تبويب جديد عند محاولة الوصول إلى التبديل. وطلب مستخدمون استبدال الأوامر وترتيبها.",
+      "inference_ar": "نقلل تكرار الأزرار في الرئيسية ونترك اختيار الأقسام للمستخدم. هذه تقارير نوعية عن Obsidian، لا دليل على معدل أخطاء رُسوخ ولا إثبات أن كل مستخدم يفضل الأفعال نفسها."
+    },
+    {
+      "url": "https://reactnative.dev/docs/scrollview",
+      "title": "ScrollView — React Native",
+      "kind": "official-primary",
+      "access": "Opened current official page and located contentOffset, onScroll, scrollEventThrottle and end-of-scroll events",
+      "source_refs": ["turn121view0", "turn121view1"],
+      "supported_fact_ar": "توثق React Native أن contentOffset يحدد موضع التمرير الابتدائي، وأن onScroll يرسل الإزاحة، وأن scrollEventThrottle يحد تواتر الأحداث. تتوفر أحداث نهاية السحب والحركة.",
+      "inference_ar": "نحتفظ بإزاحتي الرسم في GraphSession ونمررهما إلى ScrollView عند إعادة تركيب المسار. التواتر 100ms مع التقاط النهاية قرار أداء محلي. اختبار props يثبت عقد الحالة فقط؛ لا يثبت موضعًا بصريًا على iPhone."
+    }
+  ],
+  "source_boundary_ar": "المصادر تدعم مبادئ الحل. إثبات N002 وN003 مصدره كود رُسوخ الحالي والاختبارات الحمراء؛ لا نستعمل شكوى عن تطبيق آخر لإثبات عيب رُسوخ. إرشادات تخصيص تبويبات iPad في Apple لم تُعمم على iPhone. لا توجد مشاهدة فيديو أو قياسات استخدام حقيقي في هذه الجولة."
+}

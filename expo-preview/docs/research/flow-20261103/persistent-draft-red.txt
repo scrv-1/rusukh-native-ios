@@ -1,0 +1,25 @@
+FAIL iOS tests/persistent-draft.ui.test.jsx
+  ● explicit discard cannot be undone by AppState flush while its tombstone write is pending
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "null"
+    Received: "{\"text\":\"draft before discard\"}"
+
+      37 |   expect(hook.result.current.value).toBeNull();
+      38 |   expect(hook.result.current.getCurrent()).toBeNull();
+    > 39 |   expect(mockSettings.get(KEY)).toBe('null');
+         |                                 ^
+      40 |   expect(hook.result.current.status).toBe('idle');
+      41 | });
+      42 |
+
+      at Object.toBe (tests/persistent-draft.ui.test.jsx:39:33)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 4 passed, 5 total
+Snapshots:   0 total
+Time:        0.737 s
+Ran all test suites matching tests/persistent-draft.ui.test.jsx.

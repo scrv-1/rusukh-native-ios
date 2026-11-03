@@ -7,6 +7,7 @@ import { MAX_SOURCE_BYTES, prepareSource } from './sources';
 import { parseYouTubeUrl, prepareYouTubeSource, TranscriptFormat, YouTubeSource } from './youtube';
 import { MAX_PDF_BYTES, PdfRequest, PdfResult } from './pdf/contracts';
 import type { Note } from './types';
+import { emptySourceForm, SourceForm } from './studyDrafts';
 
 type Mode = 'text' | 'pdf' | 'youtube' | 'media';
 type FormatChoice = TranscriptFormat | 'auto';
@@ -18,27 +19,31 @@ function detectedFormat(text: string): TranscriptFormat {
   if (start.split('\n', 3).some(line => /^\d{2,}:\d{2}:\d{2}[,.]\d{3}\s+-->/.test(line.trim()))) return 'srt';
   return 'text';
 }
-type Props = { p: Palette; notes: Note[]; onDraft: (draft: {title:string;body:string}) => void; onImportText: () => void };
+type Props = { p: Palette; notes: Note[]; onDraft: (draft: {title:string;body:string}) => void; onImportText: () => void; initialDraft?: SourceForm | null; onFormChange?: (value:SourceForm) => void };
 const MODES: {id:Mode;title:string}[] = [{id:'text',title:'نص وملفات'}, {id:'pdf',title:'قراءة PDF'}, {id:'youtube',title:'فيديو YouTube'}, {id:'media',title:'كاميرا وصوت'}];
 
 /** Only the selected tool is mounted. Forms/previews survive tool switches in this screen. */
-export function SourcesWorkbench({p, notes, onDraft, onImportText}: Props) {
-  const [mode,setMode] = useState<Mode>('text');
+export function SourcesWorkbench({p, notes, onDraft, onImportText, initialDraft, onFormChange}: Props) {
+  const initial = useRef(initialDraft ?? emptySourceForm()).current;
+  const [mode,setMode] = useState<Mode>(initial.mode);
   const [busy,setBusy] = useState(false);
   const [error,setError] = useState('');
   const [message,setMessage] = useState('');
-  const [pastedText,setPastedText] = useState('');
-  const [textTitle,setTextTitle] = useState('');
+  const [pastedText,setPastedText] = useState(initial.pastedText);
+  const [textTitle,setTextTitle] = useState(initial.textTitle);
   const [showTextTitle,setShowTextTitle] = useState(false);
   const [showVideoOptions,setShowVideoOptions] = useState(false);
-  const [videoUrl,setVideoUrl] = useState('');
-  const [videoTitle,setVideoTitle] = useState('تفريغ YouTube');
-  const [transcript,setTranscript] = useState('');
-  const [format,setFormat] = useState<FormatChoice>('auto');
+  const [videoUrl,setVideoUrl] = useState(initial.videoUrl);
+  const [videoTitle,setVideoTitle] = useState(initial.videoTitle);
+  const [transcript,setTranscript] = useState(initial.transcript);
+  const [format,setFormat] = useState<FormatChoice>(initial.format);
   const [videoPreview,setVideoPreview] = useState<YouTubeSource|null>(null);
   const [pdfRequest,setPdfRequest] = useState<PdfRequest|null>(null);
-  const [pdfPreview,setPdfPreview] = useState<PdfResult|null>(null);
+  const [pdfPreview,setPdfPreview] = useState<PdfResult|null>(initial.pdfPreview);
   const [pdfProgress,setPdfProgress] = useState('');
+  const notifyForm = useRef(onFormChange); notifyForm.current=onFormChange;
+  useEffect(()=>{notifyForm.current?.({version:1,mode,pastedText,textTitle,videoUrl,videoTitle,transcript,format,
+    pdfPreview:pdfPreview?{...pdfPreview,pages:[]}:null});},[mode,pastedText,textTitle,videoUrl,videoTitle,transcript,format,pdfPreview]);
   const generation = useRef(0);
   const alive = useRef(true);
   const operationLock = useRef(false);
@@ -143,7 +148,7 @@ export function SourcesWorkbench({p, notes, onDraft, onImportText}: Props) {
       <Panel p={p}>
         <Label p={p} size={19} weight="700" role="header">فيديو وتفريغ موثّق</Label>
         <Label p={p} size={13} color={p.muted}>أضف رابط الفيديو وتفريغًا تملكه أو يتيحه صاحبه. لا تُنزّل هذه الأداة الصوت أو الترجمة تلقائيًا.</Label>
-        <Field p={p} label="رابط YouTube" value={videoUrl} onChangeText={v=>changedVideo(()=>setVideoUrl(v))} maxLength={2048} editable={!busy} placeholder="https://www.youtube.com/watch?v=…" />
+        <Field p={p} label="رابط YouTube" direction="ltr" value={videoUrl} onChangeText={v=>changedVideo(()=>setVideoUrl(v))} maxLength={2048} editable={!busy} placeholder="https://www.youtube.com/watch?v=…" />
         <Button p={p} title="اختيار ملف تفريغ" tone="secondary" disabled={busy} onPress={()=>void pickTranscript()} />
         <Field p={p} label="نص التفريغ" multiline value={transcript} onChangeText={v=>changedVideo(()=>setTranscript(v))} editable={!busy} maxLength={1000000} placeholder="الصق التفريغ هنا، أو اختر ملف SRT / VTT" />
         <Label p={p} size={12} color={p.muted}>{format === 'auto' ? 'نتعرّف على النص وSRT وVTT تلقائيًا. راجع التوقيتات في المعاينة.' : `صيغة محددة: ${format === 'text' ? 'نص عادي' : format.toUpperCase()}`}</Label>
@@ -187,6 +192,6 @@ export function SourcesWorkbench({p, notes, onDraft, onImportText}: Props) {
     </>}
     {mode === 'media' && MediaPanel && <MediaPanel p={p} />}
     {busy && <View style={{gap:8}}><ActivityIndicator color={p.ink} /><Button p={p} title="إلغاء القراءة" tone="secondary" onPress={()=>{cancelRead();setMessage('أُلغيت القراءة. لم تُضف ملاحظة.');}} /></View>}
-    <Label p={p} size={12} color={p.muted}>التبديل بين الأدوات يحتفظ بالحقول والمعاينات ما دمت في هذه الشاشة. أضف مسودة قبل مغادرتها للاحتفاظ بالنص.</Label>
+    <Label p={p} size={12} color={p.muted}>حقول المصدر والمعاينة المكتملة محفوظة كمسودة محلية. ملفات PDF قيد القراءة تحتاج اختيارًا جديدًا إذا غادرت أثناء القراءة.</Label>
   </View>;
 }

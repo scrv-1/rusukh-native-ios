@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, View, useWindowDimensions } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { arabicRow, Button, Icon, Label, Palette, Panel } from './ui';
 import { MODULES, ModuleId, Workspace } from './workspace';
 import type { Note } from './types';
@@ -20,22 +20,20 @@ type Props = {
 };
 
 /** Presentation only: visibility and ordering never change the study data. */
-export function StudyHome({ p, workspace, notes, cardsCount, dueCount, todayReviewed,
+export function StudyHome({ p, workspace, notes, cardsCount, dueCount,
   linksCount, onCustomize, onTools, onModule, onOpenNote, onNewNote }: Props) {
-  const { width, fontScale } = useWindowDimensions();
   const compact = workspace.density === 'compact';
-  const stacked = width < 360 || fontScale > 1.3;
   const shown = workspace.modules.filter(item => item.enabled);
 
-  // The canvas stays empty until its owner adds a section. Capture remains usable.
-  if (shown.length === 0) return <View style={{ flexDirection: arabicRow, flexWrap: 'wrap', gap: 8 }}>
+  const capture = <View testID="home-capture-actions" style={{ flexDirection: arabicRow, flexWrap: 'wrap', gap: 8 }}>
     <Button p={p} title="إضافة مادة" tone="secondary" compact onPress={() => onModule('sources')} />
     <Button p={p} title="ملاحظة جديدة" tone="secondary" compact onPress={onNewNote} />
-    <Button p={p} title="إضافة أداة" tone="plain" compact onPress={onCustomize} />
+    <Button p={p} title="إضافة أداة" tone="plain" compact onPress={onTools} />
   </View>;
+  // The canvas stays empty until its owner adds a section. Capture remains usable.
+  if (shown.length === 0) return capture;
 
   const recent = [...notes].sort((a, b) => b.updatedAt - a.updatedAt).slice(0, 2);
-  const date = new Date().toLocaleDateString('ar-SA', { weekday: 'long', day: 'numeric', month: 'long' });
 
   function detail(id: ModuleId) {
     if (id === 'review') return `${dueCount} بطاقة مستحقة الآن`;
@@ -45,27 +43,9 @@ export function StudyHome({ p, workspace, notes, cardsCount, dueCount, todayRevi
   }
 
   return <View style={{ gap: 20 }}>
-    <View style={{ gap: 6 }}>
-      <Label p={p} size={13} color={p.muted}>{date}</Label>
-      <Label p={p} size={15} color={p.muted}>خطوة صغيرة اليوم. تعلّم يبقى.</Label>
-    </View>
-
-    <View style={{ gap: 8 }}>
-      <View style={{ flexDirection: stacked ? 'column' : arabicRow, gap: 8 }}>
-        <Button title="ملاحظة جديدة" p={p} icon="square.and.pencil" onPress={onNewNote} style={{ flex: 1 }} />
-        <Button title="إضافة مصدر" p={p} tone="secondary" icon="doc.text" onPress={() => onModule('sources')} style={{ flex: 1 }} />
-      </View>
-      <Button title="البحث في ملاحظاتي" p={p} tone="secondary" icon="magnifyingglass" onPress={() => onModule('notes')} />
-    </View>
-
+    {capture}
     <View style={{ flexDirection: arabicRow, flexWrap: 'wrap', gap: 8 }}>
-      <Button title="تخصيص مساحتي" p={p} tone="plain" icon="slider.horizontal.3" onPress={onCustomize} />
-      <Button title="كل الأدوات" p={p} tone="plain" onPress={onTools} />
-    </View>
-
-    <View style={{ borderTopWidth: 1, borderBottomWidth: 1, borderColor: p.border, paddingVertical: 12, gap: 4 }}>
-      <Label p={p} size={14} weight="600">{todayReviewed > 0 ? `راجعت اليوم ${todayReviewed} بطاقة` : 'ابدأ بما يناسب وقتك'}</Label>
-      <Label p={p} size={13} color={p.muted}>{notes.length} ملاحظة · {cardsCount} بطاقة · {todayReviewed} مراجعة اليوم</Label>
+      <Button title="تخصيص مساحتي" p={p} tone="plain" compact icon="slider.horizontal.3" onPress={onCustomize} />
     </View>
 
     {shown.map(item => {
@@ -102,9 +82,5 @@ export function StudyHome({ p, workspace, notes, cardsCount, dueCount, todayRevi
       </Panel>;
     })}
 
-    <View style={{ flexDirection: arabicRow, alignItems: 'center', justifyContent: 'center', gap: 7, paddingBottom: 2 }}>
-      <Icon name="internaldrive" p={p} size={14} color={p.muted} />
-      <Label p={p} size={12} color={p.muted} style={{ flexShrink: 1 }}>محتواك محفوظ على جهازك. صدّر نسخة احتياطية من الإعدادات.</Label>
-    </View>
   </View>;
 }

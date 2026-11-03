@@ -72,7 +72,8 @@ export function LocalAILab({ sourceText, onResult, onStatus, p }: Props) {
         if (message.protocol !== AI_PROTOCOL) return;
         if (message.type === 'ready') { ready.current = true; sendSource(); return; }
         if (message.requestId !== String(revision.current)) return;
-        if (message.type === 'result') callbacks.current.onResult(validateBridgeDraft(message.payload, source.current));
+        // A completed preview is recoverable before the student adopts study data.
+        if (message.type === 'result' || message.type === 'draft') callbacks.current.onResult(validateBridgeDraft(message.payload, source.current));
         if (message.type === 'status') {
           const status = message.payload;
           if (status?.engine === AI_ENGINE_VERSION && ['idle', 'loading', 'ready', 'generating', 'draft', 'cancelled', 'error'].includes(status.phase) && typeof status.message === 'string') callbacks.current.onStatus?.({ phase: status.phase, message: status.message.slice(0, 700), modelName: typeof status.modelName === 'string' ? status.modelName.slice(0, 160) : undefined, engine: AI_ENGINE_VERSION, elapsedMs: typeof status.elapsedMs === 'number' && Number.isFinite(status.elapsedMs) ? status.elapsedMs : undefined });

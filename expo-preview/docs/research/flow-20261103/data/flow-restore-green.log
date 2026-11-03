@@ -1,0 +1,5 @@
+Test Suites: 1 passed, 1 total
+Tests:       29 passed, 29 total
+Snapshots:   0 total
+Time:        2.452 s
+Ran all test suites matching tests/flow-restore.ui.test.jsx.

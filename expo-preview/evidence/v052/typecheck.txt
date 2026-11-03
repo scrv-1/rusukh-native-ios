@@ -1,0 +1,4 @@
+
+> rusukh-ios@0.5.2 typecheck
+> tsc --noEmit
+

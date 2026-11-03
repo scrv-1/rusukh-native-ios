@@ -1,4 +1,5 @@
 import React from 'react';
+import * as Native from 'react-native';
 import { render, screen, fireEvent } from '@testing-library/react-native';
 import { StudyHome } from '../src/StudyHome';
 import { light } from '../src/ui';
@@ -20,7 +21,7 @@ test('home keeps independent entry points for study, notes and customization', a
   expect(value.onModule).toHaveBeenCalledWith('review');
   await fireEvent.press(screen.getByRole('button', { name: 'تخصيص مساحتي' }));
   expect(value.onCustomize).toHaveBeenCalledTimes(1);
-  await fireEvent.press(screen.getByRole('button', { name: 'كل الأدوات' }));
+  await fireEvent.press(screen.getByRole('button', { name: 'إضافة أداة' }));
   expect(value.onTools).toHaveBeenCalledTimes(1);
   await fireEvent.press(screen.getByRole('button', { name: 'ملاحظة جديدة' }));
   expect(value.onNewNote).toHaveBeenCalledTimes(1);
@@ -68,7 +69,8 @@ test('hiding all sections restores a blank canvas while keeping hidden tools rec
   await render(<StudyHome {...value} />);
   expectOnlyBlankWorkspaceActions();
   await fireEvent.press(screen.getByRole('button', { name: 'إضافة أداة' }));
-  expect(value.onCustomize).toHaveBeenCalledTimes(1);
+  expect(value.onTools).toHaveBeenCalledTimes(1);
+  expect(value.onCustomize).not.toHaveBeenCalled();
   expect(value.onModule).not.toHaveBeenCalled();
   expect(JSON.stringify(value.notes)).toBe(originalNotes);
 });
@@ -89,7 +91,7 @@ test('an explicitly saved layout still shows its selected sections and recent no
 test('first-use and caught-up states explain the next action without invented progress', async () => {
   await render(<StudyHome {...props({ notes: [], cardsCount: 0, dueCount: 0, todayReviewed: 0 })} />);
   expect(screen.getByText('0 بطاقة مستحقة الآن')).toBeTruthy();
-  expect(screen.getByText('ابدأ بما يناسب وقتك')).toBeTruthy();
+  expect(screen.queryByText('ابدأ بما يناسب وقتك')).toBeNull();
   expect(screen.getByText('أضف أول بطاقة من ملاحظاتك، ثم ارجع لتراجعها هنا.')).toBeTruthy();
   expect(screen.getByRole('button', { name: 'ملاحظة جديدة' })).toBeTruthy();
 });
@@ -106,17 +108,30 @@ test('muted text keeps WCAG normal-text contrast on every light content surface'
   }
 });
 
-test('capture and search are reachable before every home module', async () => {
+test('one compact capture bar precedes user-selected sections without fixed dashboard clutter', async () => {
   const value = props(); await render(<StudyHome {...value} />);
   const names = screen.getAllByRole('button').map(row => row.props.accessibilityLabel);
-  for (const name of ['ملاحظة جديدة', 'إضافة مصدر', 'البحث في ملاحظاتي']) {
+  for (const name of ['ملاحظة جديدة', 'إضافة مادة', 'إضافة أداة']) {
     expect(names.indexOf(name)).toBeGreaterThanOrEqual(0);
     expect(names.indexOf(name)).toBeLessThan(names.indexOf('ابدأ المراجعة'));
   }
-  await fireEvent.press(screen.getByRole('button', { name: 'إضافة مصدر' }));
+  await fireEvent.press(screen.getByRole('button', { name: 'إضافة مادة' }));
   expect(value.onModule).toHaveBeenCalledWith('sources');
-  await fireEvent.press(screen.getByRole('button', { name: 'البحث في ملاحظاتي' }));
-  expect(value.onModule).toHaveBeenCalledWith('notes');
+  expect(screen.queryByText('خطوة صغيرة اليوم. تعلّم يبقى.')).toBeNull();
+  expect(screen.queryByText('راجعت اليوم 2 بطاقة')).toBeNull();
+  expect(screen.queryByText('2 ملاحظة · 3 بطاقة · 2 مراجعة اليوم')).toBeNull();
+  expect(screen.queryByText(/صدّر نسخة احتياطية/)).toBeNull();
+  expect(screen.queryByRole('button', { name: 'كل الأدوات' })).toBeNull();
+  expect(screen.getAllByRole('button', { name: 'ملاحظة جديدة' })).toHaveLength(1);
+});
+
+test('320px and enlarged type keep capture controls in a wrapping container (static, not a layout measurement)', async () => {
+  const dimensions = jest.spyOn(Native, 'useWindowDimensions').mockReturnValue({ width:320,height:640,scale:2,fontScale:1.5 });
+  try {
+    await render(<StudyHome {...props({ workspace: defaultWorkspace() })} />);
+    expectOnlyBlankWorkspaceActions();
+    expect(screen.getByTestId('home-capture-actions').props.style).toEqual(expect.objectContaining({ flexWrap:'wrap' }));
+  } finally { dimensions.mockRestore(); }
 });
 
 test('empty review offers card creation path instead of starting an empty session', async () => {

@@ -1,0 +1,55 @@
+{
+  "version": "0.5.2",
+  "observedAt": "2026-11-03T00:12:13.574Z",
+  "node": "v24.22.2",
+  "checks": [
+    {
+      "name": "ai-build-integrity",
+      "exitCode": 0,
+      "signal": null,
+      "milliseconds": 2000
+    },
+    {
+      "name": "core-tests",
+      "exitCode": 0,
+      "signal": null,
+      "milliseconds": 9526
+    },
+    {
+      "name": "ai-contract-tests",
+      "exitCode": 0,
+      "signal": null,
+      "milliseconds": 448
+    },
+    {
+      "name": "ui-tests",
+      "exitCode": 0,
+      "signal": null,
+      "milliseconds": 25081
+    },
+    {
+      "name": "typecheck",
+      "exitCode": 0,
+      "signal": null,
+      "milliseconds": 5771
+    },
+    {
+      "name": "expo-compatibility",
+      "exitCode": 0,
+      "signal": null,
+      "milliseconds": 2001
+    },
+    {
+      "name": "expo-doctor",
+      "exitCode": 0,
+      "signal": null,
+      "milliseconds": 8856
+    },
+    {
+      "name": "ios-export",
+      "exitCode": 0,
+      "signal": null,
+      "milliseconds": 15431
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "date": "2026-11-03",
+  "timezone": "Asia/Riyadh",
+  "findings": [
+    "D004",
+    "D005",
+    "D007",
+    "X205"
+  ],
+  "changed_files": [
+    {
+      "path": "src/media/library.ts",
+      "sha256": "1673cbda54a8315c5cabe42071684703b75e23b3ced8ced2676a982511586878"
+    },
+    {
+      "path": "src/media/MediaCapturePanel.tsx",
+      "sha256": "9c2cfbb8c8c1091645835c3b5d0db89952906b4cfea18743f954980959254856"
+    },
+    {
+      "path": "src/reminders/RemindersPanel.tsx",
+      "sha256": "059129083332d9838b7f0c456dfc700839742a6a50de72d0e7709a24e9b7d52a"
+    },
+    {
+      "path": "tests/media-library.ui.test.jsx",
+      "sha256": "7174965adc6d46be690bbc23119f6d820b5dd79692212d3986ec3e54f9d67685"
+    },
+    {
+      "path": "tests/media-panel.ui.test.jsx",
+      "sha256": "fece5463028ba8f1589a173629d3c04bccdc7106ccf3ffc35370950f90395da2"
+    },
+    {
+      "path": "tests/reminders.ui.test.jsx",
+      "sha256": "1b4298fd79945612e90f3392251d9a8c9c51bbae453e7e9cf1fa68db69048769"
+    }
+  ],
+  "fixes": {
+    "D004": {
+      "location": "src/media/library.ts:46–150",
+      "behavior_ar": "النسخ الجديد يمر بملف staging ثم تحقق حجم قبل نشر اسم payload. metadata المعلقة الصالحة تُستعاد مع مطابقة id والاسم والحجم؛ الملفات اليتيمة ذات الأسماء والامتدادات المسموحة فقط تُفهرس باسم مستعاد وتحذير. يمكن إعادة محاولة الحفظ من النسخة المحلية عند فقد cache. الملفات غير المكتملة أو السجلات المشوهة تبقى مع تحذير. لا مسح تلقائي."
+    },
+    "D005": {
+      "location": "src/reminders/RemindersPanel.tsx:19–54",
+      "behavior_ar": "dirty يمنع قراءة الحالة من استبدال وقت جارٍ تعديله، وrevision يمنع قراءات foreground القديمة من تجاوز حفظ أحدث. نجاح enable فقط يعتمد الوقت ويزيل حالة التعديل؛ فشل الحفظ يبقي النص."
+    },
+    "D007": {
+      "location": "src/media/library.ts:153–266; src/media/MediaCapturePanel.tsx:159–229",
+      "behavior_ar": "تأكيد النقل إلى trash، استعادة صريحة، وحذف نهائي بتأكيد منفصل. metadata قابلة للاستعادة تسبق نقل payload، والفهرس النشط يبقى حتى نجاح النقل. فشل إزالة الفهرس يحاول إعادة الملف؛ فشل الإعادة يبقي نسخة قابلة للاستعادة في المحذوفات. جميع أفعال المكتبة متسلسلة داخل هذا الموديول. المحذوفات لا تدخل مسح orphan أو النسخ الاحتياطية الجديدة ولا تُحذف تلقائيًا. حذف payload الدائم هو نقطة الالتزام؛ فشل تنظيف metadata بعده يعرض نجاح حذف الملف مع تحذير صريح. علامة id صغيرة تمنع استعادة تسجيل قديم أُزيل عمدًا."
+    },
+    "X205": {
+      "location": "src/media/MediaCapturePanel.tsx:15–49,210–215",
+      "behavior_ar": "أسماء الاستماع/التشغيل/الإيقاف/إغلاق المشغل المسموعة تتضمن العنوان واسم الملف؛ توقف عملية النقل المشغل وتبطل play المعلق خلف seek."
+    }
+  },
+  "tests": {
+    "command": "npx jest --runInBand --runTestsByPath tests/media-panel.ui.test.jsx tests/media-library.ui.test.jsx tests/media-native.ui.test.jsx tests/media-session.ui.test.jsx tests/reminders.ui.test.jsx",
+    "suites_passed": 5,
+    "tests_passed": 77,
+    "log": "targeted-tests.txt",
+    "typecheck_command": "npx tsc --noEmit",
+    "typecheck_exit_code": 0,
+    "typecheck_log": "typecheck.txt",
+    "portable_backup_regression": {
+      "command": "npx jest --runInBand --runTestsByPath tests/portable-backup.ui.test.jsx",
+      "log": "portable-regression.txt",
+      "passed": true
+    }
+  },
+  "red_evidence": [
+    "d004-d005-red.txt",
+    "d007-red.txt",
+    "media-ui-red.txt",
+    "partial-copy-red.txt",
+    "queued-playback-red.txt"
+  ],
+  "failure_coverage_ar": [
+    "فشل كتابة metadata/نقل payload/إزالة الفهرس/التراجع بعد النقل",
+    "فشل استعادة metadata أو نقل الملف وتعارض اسم موجود دون استبداله",
+    "فشل marker أو حذف payload الدائم مع بقاء إمكانية الاستعادة",
+    "نجاح حذف payload وفشل تنظيف metadata مع تحذير صادق",
+    "منع عودة التسجيل المحذوف من ExpoAudio/Audio مع بقاء العناصر الأخرى",
+    "عدم ترقية نسخة انقطع نسخها إلى ملف مكتمل",
+    "إلغاء التأكيد، فشل النقل/الحذف/الاستعادة، وإيقاف صوت جارٍ أو معلق",
+    "حفظ وقت جديد ثم وصول قراءة foreground قديمة، وفشل الجدولة مع حفظ التعديل"
+  ],
+  "source_urls": [
+    "https://docs.expo.dev/versions/v58.0.0/sdk/filesystem/",
+    "https://reactnative.dev/docs/accessibility"
+  ],
+  "native_api_evidence": [
+    "node_modules/expo-file-system/src/internal/NativeFileSystem.types.ts",
+    "node_modules/expo-file-system/src/File.ts"
+  ],
+  "limitations_ar": [
+    "نقل ملف وبياناته الوصفية ليس معاملة filesystem ذرية؛ تُحفظ مسارات استعادة وتُختبر حالات الفشل، ولا يُدعى تحمل كل انقطاع طاقة أو عطل تخزين.",
+    "الملفات القديمة بلا metadata لا يمكن إثبات اكتمالها أو استرجاع عنوانها وتاريخها الأصليين من الاسم وحده؛ تُعرض كوسائط مستعادة مع طلب فتحها للتحقق.",
+    "بعد نجاح حذف payload نهائيًا لا يمكن التراجع؛ إذا فشل تنظيف metadata تُذكر هذه الحالة ولا يُقال إن العملية لم تحذف الملف.",
+    "علامة id للحذف تبقى صغيرة بلا عنوان المحتوى لمنع إعادة إدخال تسجيل قديم؛ لا تنظيف تلقائي للمحذوفات أو ملفات staging القديمة.",
+    "الاختبارات تستخدم filesystem/AppState/audio وهمية، ولا تثبت VoiceOver أو سلوك الملفات أو الإشعارات على iPhone حقيقي."
+  ],
+  "device_acceptance_ar": [
+    "نقل صورة وتسجيل إلى المحذوفات ثم إعادة فتح التطبيق واستعادتهما، والتحقق من العرض والصوت.",
+    "تأكيد وإلغاء الحذف النهائي لعنصر واحد مع بقاء بقية المكتبة، ثم تحديثها والتأكد من عدم عودته.",
+    "تعديل وقت التذكير والعودة من إعدادات النظام دون فقد النص، ثم تفعيله صراحة.",
+    "استخدام VoiceOver لاختيار تسجيلين لهما العنوان نفسه بواسطة اسم الملف."
+  ]
+}

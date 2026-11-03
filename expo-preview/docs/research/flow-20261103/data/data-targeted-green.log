@@ -1,0 +1,40 @@
+✔ recovery point captures the previous library and survives a WAL database reopen (28.206754ms)
+✔ import failure rolls back both replacement and newly created recovery point (2.128498ms)
+✔ failure to persist recovery refuses import and preserves all existing data (1.656119ms)
+✔ only the newest three successful recovery points remain; target selected before rotation (5.546544ms)
+✔ corrupt, incompatible and nonexistent recovery points never replace the current library (3.610295ms)
+✔ a failed import after retention rotation keeps all three previous recovery points (3.349203ms)
+✔ input mutation while import awaits the transaction cannot bypass validated content (1.039692ms)
+✔ invalid input creates no snapshot and cannot overwrite the existing library (0.889887ms)
+✔ an oversized safety snapshot blocks replacement instead of importing without protection (257.29152ms)
+✔ fresh bootstrap creates the schema and a completely empty study library (9.977688ms)
+✔ repeated disk reopen of a new library never inserts sample content or a seeded flag (9.505323ms)
+✔ existing library with a seeded flag survives every bootstrap unchanged (33.651035ms)
+✔ existing library without a seeded flag survives every bootstrap unchanged (26.022272ms)
+✔ failed schema initialization leaves old content intact and the next open can retry safely (38.398738ms)
+✔ updateCard changes only text and updatedAt, preserving schedule, ownership and review history (3.057374ms)
+✔ updateCard rejects absent cards and invalid text without changing any existing row (2.121307ms)
+✔ duplicate questions are rejected within the same note but allowed in another note (1.376418ms)
+✔ a failed UPDATE rolls back text and preserves history instead of deleting and recreating the card (0.814354ms)
+D002 rescue verified on Node SQLite: {"notes":9,"bytes":18067456,"includesDraft":true,"recoveryPoints":1,"sourceStillOpen":true}
+✔ oversize JSON library gets a self-contained SQLite rescue copy including committed WAL, drafts and recovery (344.696753ms)
+✔ backup and integrity failures never report a file, close the live database or alter source rows (21.224993ms)
+✔ foreign-key violations in the copied database prevent a success result without editing the source (12.849377ms)
+✔ size is bounded before allocation and checked again after native copying (19.736366ms)
+✔ destination name collision and non-local directories cannot overwrite an existing file (8.714073ms)
+✔ preferences persist after SQLite reopen; hide and reset preserve study content (25.604183ms)
+✔ rejected import leaves existing notes and workspace untouched (2.50887ms)
+✔ failure while creating cards rolls back the note and every previous card (1.770841ms)
+✔ renaming a note preserves incoming graph links, aliases and unrelated text atomically (2.848059ms)
+✔ card insertion failure rolls back renamed title and all rewritten backlinks (0.801494ms)
+✔ rename preserves long malformed wiki text and retargets valid links beyond its boundary (12.412601ms)
+✔ renaming refuses oversized rewritten content without changing any note (27.522395ms)
+✔ renaming to an unrepresentable wiki target never corrupts existing links (1.650119ms)
+ℹ tests 31
+ℹ suites 0
+ℹ pass 31
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 759.035251

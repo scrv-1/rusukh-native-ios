@@ -1,0 +1,57 @@
+{
+  "status": {
+    "S001_updateCard": "implemented and verified",
+    "R005_bootstrap_retry": "verified",
+    "D002": "PARTIAL / remains open"
+  },
+  "apis": {
+    "updateCard": "updateCard(db,id,{question,answer}): Promise<void>",
+    "createDatabaseSnapshot": "createDatabaseSnapshot(db,directoryUri): Promise<{uri,name,bytes,notes,cards,reviews,recoveryPoints,hasDraft}>"
+  },
+  "changes_ar": [
+    "updateCard يغير السؤال والإجابة وupdatedAt فقط في معاملة، ويحتفظ بـnoteId والجدولة وسجل المراجعة. يمنع السؤال المكرر داخل الملاحظة نفسها، والحقول الفارغة أو فوق مليون حرف.",
+    "createDatabaseSnapshot يحجز ملفًا محليًا جديدًا ولا يستبدل ملفًا موجودًا؛ يستخدم backupDatabaseAsync إلى اتصال وجهة مستقل، ثم journal_mode=DELETE وintegrity_check(1) وforeign_key_check. يغلق الوجهة فقط ويتحقق من حجم الملف النهائي.",
+    "نسخة SQLite تشمل الدراسة وmeta (المسودة والتفضيلات) ونقاط الرجوع. لا تشمل الوسائط. سقف نسخة الإنقاذ512MiB مفحوص قبل النسخ وبعده، مطابق لسقف النقل الإجمالي للنسخ المحمولة الحالي.",
+    "لم تُضف قيود جديدة على حفظ المحتوى أو تسجيل المراجعات، ولم يتغير حد JSON15MiB. لم يتغير المصدر أثناء الإنقاذ.",
+    "D002 لا يزال مفتوحًا جزئيًا: ملف الإنقاذ قابل للقراءة بأداةSQLite لكن لا يوجد مسار استعادة له داخل التطبيق. هذا ليس roundtrip مدعومًا داخل المنتج."
+  ],
+  "verification": {
+    "original_repro": {
+      "notes": 9,
+      "characters_per_note": 999990,
+      "json_utf8_bytes": 18001085,
+      "json_limit_bytes": 15728640
+    },
+    "rescue_repro": {
+      "notes": 9,
+      "sqlite_bytes": 18067456,
+      "preserved": [
+        "notes",
+        "cards",
+        "reviews",
+        "meta",
+        "study_recovery_v1"
+      ],
+      "source_connection_remains_open": true
+    },
+    "targeted_node_sqlite_tests": {
+      "passed": 31,
+      "failed": 0
+    },
+    "types": "tsc -p tsconfig.test.json passed; standalone databaseSnapshot.ts strict check passed",
+    "limits": "اختبارات Node SQLite حقيقية وموائمExpo، لا إثبات iPhone أو مسارFiles/iCloud الأصلي."
+  },
+  "commands": [
+    "node docs/research/flow-20261103/data/d002-original-probe.cjs",
+    "./node_modules/.bin/tsc -p tsconfig.test.json",
+    "./node_modules/.bin/tsc --ignoreConfig --noEmit --strict --skipLibCheck --target ES2020 --module Node16 --moduleResolution Node16 src/databaseSnapshot.ts",
+    "node --test tests/bootstrap.test.cjs tests/storage.test.cjs tests/backup-recovery.test.cjs tests/card-update.test.cjs tests/database-snapshot.test.cjs"
+  ],
+  "source_sha256": {
+    "src/storage.ts": "6cee9d5b8f1ed3d6dd8add33d09caef806928996a2c14ac4c68ea5c0dfc8601a",
+    "src/databaseSnapshot.ts": "1a044a6abe2c378b1696b5fa4b1260d9db02fc5fa9e67ae15584739143b82dbb",
+    "tests/card-update.test.cjs": "e0973a36599c3278f1b616efed3e83ae9505ae2378e7abacd52dbef0fd0c45ec",
+    "tests/database-snapshot.test.cjs": "84a13ceebf84ef2d4efe9ad21e0dbda6c6032ebb816208bab9cbd233f2798996",
+    "tests/bootstrap.test.cjs": "be11ba84c1985463c1b0546cff6314d3f271bf6cd8adda2ab416fa4759201f6e"
+  }
+}

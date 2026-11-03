@@ -8,24 +8,30 @@ import { File, Paths } from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import * as DocumentPicker from 'expo-document-picker';
 import { arabicRow, Button, Empty, Field, Icon, Label, Panel, Palette, dark, light } from './src/ui';
-import { KnowledgeGraph } from './src/KnowledgeGraph';
+import { KnowledgeGraph, createGraphSession } from './src/KnowledgeGraph';
 import { RecoveryBoundary } from './src/RecoveryBoundary';
 import { RecoveryPointsPanel } from './src/backup/RecoveryPointsPanel';
 import { PortableBackupPanel } from './src/backup/PortableBackupPanel';
 import type { PortablePreferences } from './src/backup/portable';
 import { StudyHome } from './src/StudyHome';
-import { NOTE_DRAFT_KEY, useNoteDraft } from './src/useNoteDraft';
+import { NOTE_DRAFT_KEY, useNoteDraft, DraftSourceNote } from './src/useNoteDraft';
 import { SourcesWorkbench } from './src/SourcesWorkbench';
 import { AIWorkspace } from './src/AIWorkspace';
 import { RemindersPanel } from './src/reminders/RemindersPanel';
+import { ToolsScreen } from './src/ToolsScreen';
+import { StudyQuiz } from './src/StudyQuiz';
+import { usePersistentDraft } from './src/usePersistentDraft';
+import { SOURCE_DRAFT_KEY, CARD_DRAFT_KEY, validSourceForm, validCardDraft, sourceHasContent, SourceForm, CardDraft } from './src/studyDrafts';
+import { AI_STUDY_SESSION_KEY, useAIStudySession } from './src/ai/useAIStudySession';
+import { createDatabaseSnapshot } from './src/databaseSnapshot';
 import { WorkspaceEditor } from './src/WorkspaceEditor';
 import { defaultWorkspace, MODULES, ModuleId, readWorkspace, Workspace, WORKSPACE_KEY } from './src/workspace';
 import { markdownNote, matchesSearch, MAX_NOTE_CHARS, MAX_SOURCE_BYTES, prepareSource } from './src/sources';
-import { dueCards, graphEdges, makeId, makeQuiz, normalizeTitle, parseQuestionAnswer, validateBackup, MAX_BACKUP_BYTES, serializeBackup, utf8ByteLength } from './src/core';
+import { dueCards, graphEdges, makeId, wikiLinkTitleError, normalizeTitle, parseQuestionAnswer, validateBackup, MAX_BACKUP_BYTES, serializeBackup, utf8ByteLength } from './src/core';
 import type { Backup, Note, StudyCard, ReviewEvent, Grade } from './src/types';
 import {
   Database, deleteCard, deleteNote, getSetting, makeBackup, openStorage,
-  readAll, recordReview, restoreBackup, restoreRecoveryPoint, RecoveryPoint, saveCard, saveNoteAndCards, setSetting,
+  readAll, recordReview, restoreBackup, restoreRecoveryPoint, RecoveryPoint, saveCard, saveNoteAndCards, setSetting, updateCard,
 } from './src/storage';
 
 type Tab = 'home' | 'notes' | 'review' | 'graph' | 'settings' | 'sources' | 'tools' | 'ai';
@@ -49,12 +55,15 @@ function AppContent() {
   const [isDark, setIsDark] = useState(false);
   const [busy, setBusy] = useState(true);
   const [search, setSearch] = useState('');
-  const [toolSearch, setToolSearch] = useState('');
   const [editorOpen, setEditorOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [draftTitle, setDraftTitle] = useState('');
   const [draftBody, setDraftBody] = useState('');
+  const [draftSourceNote,setDraftSourceNote]=useState<DraftSourceNote|undefined>();
   const [cardEditorNoteId, setCardEditorNoteId] = useState<string | null>(null);
+  const [editingCardId, setEditingCardId] = useState<string|null>(null);
+  const [graphSession,setGraphSession]=useState(createGraphSession);
+  const [afterSave, setAfterSave] = useState<{id:string;title:string;studyNoteId:string}|null>(null);
   const [question, setQuestion] = useState('');
   const [answer, setAnswer] = useState('');
   const [revealedId, setRevealedId] = useState<string | null>(null);
@@ -65,15 +74,19 @@ function AppContent() {
   const dataStaleRef = useRef(false);
   const [reducedMotion, setReducedMotion] = useState(true);
   const draft = useNoteDraft(db);
+  const sourceDraft = usePersistentDraft<SourceForm>(db,SOURCE_DRAFT_KEY,validSourceForm);
+  const cardDraft = usePersistentDraft<CardDraft>(db,CARD_DRAFT_KEY,validCardDraft);
+  const aiSession = useAIStudySession(db);
+  const sessionRef = useRef({sourceDraft,cardDraft,aiSession}); sessionRef.current={sourceDraft,cardDraft,aiSession};
   const draftTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const noteDraftTouched=useRef(false);
   const editorBaseline = useRef({title:'', body:''});
   const sourceImportOwner = useRef(0);
   const beginEditorRef = useRef(beginEditor);
   beginEditorRef.current = beginEditor;
-  const [quizData, setQuizData] = useState<ReturnType<typeof makeQuiz>>([]);
-  const [quizIndex, setQuizIndex] = useState(0);
-  const [quizSelected, setQuizSelected] = useState<string | null>(null);
-  const [quizScore, setQuizScore] = useState(0);
+  const [quizSession,setQuizSession]=useState(0);
+  const [practiceNoteId,setPracticeNoteId]=useState<string|null>(null);
+  const [quizSourceNote,setQuizSourceNote]=useState<Note|null>(null);
   const [quizOpen, setQuizOpen] = useState(false);
   const [saving, setSaving] = useState(false);
   const actionLock = useRef(false);
@@ -126,19 +139,20 @@ function AppContent() {
 
   const dirty = draftTitle !== editorBaseline.current.title || draftBody !== editorBaseline.current.body;
   useEffect(() => {
-    if (!editorOpen || !dirty || saving || draft.loading) return;
-    draftTimer.current = setTimeout(() => { void draft.persist({editingId, title:draftTitle, body:draftBody, updatedAt:Date.now()}); }, 700);
+    if (!editorOpen || saving || draft.loading) return;
+    if(!dirty){if(noteDraftTouched.current){noteDraftTouched.current=false;void draft.clear();}return;}
+    draftTimer.current = setTimeout(() => { noteDraftTouched.current=true;void draft.persist({editingId, title:draftTitle, body:draftBody, sourceNote:draftSourceNote, updatedAt:Date.now()}); }, 700);
     return () => { if (draftTimer.current) clearTimeout(draftTimer.current); };
-  }, [editorOpen, dirty, draftTitle, draftBody, editingId, saving, draft.loading]);
+  }, [editorOpen, dirty, draftTitle, draftBody, draftSourceNote, editingId, saving, draft.loading]);
 
   useEffect(() => {
     const subscription = AppState.addEventListener('change', state => {
       if (state !== 'active' && editorOpen && dirty && !saving && !draft.loading) {
-        stopDraftTimer(); void draft.persist({editingId,title:draftTitle,body:draftBody,updatedAt:Date.now()});
+        stopDraftTimer(); noteDraftTouched.current=true;void draft.persist({editingId,title:draftTitle,body:draftBody,sourceNote:draftSourceNote,updatedAt:Date.now()});
       }
     });
     return () => subscription.remove();
-  }, [editorOpen,dirty,saving,draft.loading,editingId,draftTitle,draftBody]);
+  }, [editorOpen,dirty,saving,draft.loading,editingId,draftTitle,draftBody,draftSourceNote]);
 
   useEffect(() => {
     const timer = setInterval(() => setClock(Date.now()), 30000);
@@ -146,12 +160,21 @@ function AppContent() {
     return () => { clearInterval(timer); subscription.remove(); };
   }, []);
 
+  useEffect(()=>{
+    if(!cardEditorNoteId || cardDraft.loading || saving)return;
+    const note=notes.find(n=>n.id===cardEditorNoteId);if(!note)return;
+    const original=cards.find(c=>c.id===editingCardId);
+    const changed=original?question!==original.question||answer!==original.answer:!!question.trim()||!!answer.trim();
+    if(changed)cardDraft.update({version:1,noteId:note.id,noteCreatedAt:note.createdAt,cardId:editingCardId,question,answer});
+    else if(cardDraft.getCurrent())cardDraft.update(null);
+  },[cardEditorNoteId,editingCardId,question,answer,cardDraft.loading,saving]);
+
   async function saveWorkspace(next: Workspace): Promise<boolean> {
     if (!db || preferenceLock.current) return false;
     preferenceLock.current = true;
     try {
       await setSetting(db, WORKSPACE_KEY, JSON.stringify(next));
-      setWorkspace(next); setCustomizing(false);
+      setWorkspace(next);
       return true;
     } catch {
       Alert.alert('لم يُحفظ الترتيب', 'اختياراتك ما زالت هنا. حاول الحفظ مرة أخرى.');
@@ -161,7 +184,7 @@ function AppContent() {
 
   function openModule(id: ModuleId) {
     if (id === 'quiz') startQuiz();
-    else { setRevealedId(null); setTab(id); }
+    else { setRevealedId(null); if(id==='review')setShowCards(due.length===0);setTab(id); }
   }
 
   async function importSource() {
@@ -206,7 +229,7 @@ function AppContent() {
     catch (error) { Alert.alert('تعذّر إكمال العملية', String(error)); return false; }
     finally { actionLock.current = false; setSaving(false); }
   }
-  function editDraft(value: {editingId:string|null; title:string; body:string}, recovered = false) {
+  function editDraft(value: {editingId:string|null; title:string; body:string;sourceNote?:DraftSourceNote}, recovered = false) {
     if (actionLock.current) return;
     restoreDraftState.current.editorOpen = true;
     sourceImportOwner.current++;
@@ -214,12 +237,12 @@ function AppContent() {
       Alert.alert('الملاحظة الأصلية غير موجودة', 'يمكنك تصدير المسودة أو حفظها كملاحظة جديدة.');
       value = {...value, editingId:null};
     }
-    setEditingId(value.editingId); setDraftTitle(value.title); setDraftBody(value.body);
+    noteDraftTouched.current=recovered;setDraftSourceNote(value.sourceNote);setEditingId(value.editingId); setDraftTitle(value.title); setDraftBody(value.body);
     const original = value.editingId ? notes.find(n => n.id === value.editingId) : null;
     editorBaseline.current = recovered || value.editingId === null ? {title:original?.title ?? '', body:original?.body ?? ''} : {title:value.title, body:value.body};
     setEditorOpen(true);
   }
-  function beginEditor(value: {editingId:string|null; title:string; body:string}) {
+  function beginEditor(value: {editingId:string|null; title:string; body:string;sourceNote?:DraftSourceNote}) {
     if (actionLock.current) return;
     sourceImportOwner.current++;
     if (draft.loading) return;
@@ -245,7 +268,7 @@ function AppContent() {
     if (actionLock.current) return;
     actionLock.current = true; setSaving(true); stopDraftTimer();
     try {
-      const ok = keep ? await draft.persist({editingId,title:draftTitle,body:draftBody,updatedAt:Date.now()}) : await draft.clear();
+      const ok = keep ? await draft.persist({editingId,title:draftTitle,body:draftBody,sourceNote:draftSourceNote,updatedAt:Date.now()}) : await draft.clear();
       if (ok) setEditorOpen(false);
       else Alert.alert('تعذّر تحديث المسودة', 'النص ما زال في المحرر. حاول مجددًا أو صدّره إلى الملفات.');
     } finally { actionLock.current = false; setSaving(false); }
@@ -259,9 +282,15 @@ function AppContent() {
       {text:'تجاهل التعديل', style:'destructive', onPress:() => { void finishDraftClose(false); }},
     ]);
   }
-  async function commitNote(autoCards = false) {
-    const name = draftTitle.trim();
-    if (!name) { Alert.alert('عنوان مطلوب', 'اكتب عنوان الملاحظة أولًا.'); return; }
+  async function commitNote(autoCards = false, syncExisting = false) {
+    if(draftTitle.includes('\u0000')||draftBody.includes('\u0000')){Alert.alert('محرف غير صالح','احذف محرف NUL من النص قبل نشر المادة؛ يمكنك الاحتفاظ بالمسودة أو تصديرها.');return;}
+    let name = draftTitle.trim();
+    if(!name){
+      const base=(draftBody.trim().split('\n').find(line=>line.trim())||'').replace(/[\[\]|\r\n]/g,' ').trim().slice(0,150);
+      if(!base){Alert.alert('الملاحظة فارغة','اكتب فكرة أو اختر عنوانًا قبل الحفظ.');return;}
+      name=base;let suffix=2;while(notes.some(n=>n.id!==editingId&&normalizeTitle(n.title)===normalizeTitle(name)))name=`${base} (${suffix++})`;
+    }
+    const titleError=wikiLinkTitleError(name);if(titleError){Alert.alert('عدّل العنوان',titleError);return;}
     if (notes.some(n => n.id !== editingId && normalizeTitle(n.title) === normalizeTitle(name))) {
       Alert.alert('العنوان مكرر', 'اختر عنوانًا مختلفًا حتى تظل الروابط بين الملاحظات دقيقة.'); return;
     }
@@ -273,21 +302,34 @@ function AppContent() {
     const note: Note = { id: editingId ?? makeId('note'), title: name, body: draftBody,
       createdAt: original?.createdAt ?? now, updatedAt: now };
     const pairs = autoCards ? parseQuestionAnswer(draftBody) : [];
-    const existing = new Set(cards.filter(c => c.noteId === note.id).map(c => normalizeTitle(c.question)));
+    const source=draftSourceNote&&notes.find(n=>n.id===draftSourceNote.id&&n.createdAt===draftSourceNote.createdAt&&n.updatedAt===draftSourceNote.updatedAt);
+    if(autoCards&&draftSourceNote&&!source){Alert.alert('تغير المصدر الأصلي','راجع المصدر الحالي قبل استخراج البطاقات. يمكنك حفظ هذه المسودة كملاحظة للاحتفاظ بالنص والشواهد.');return;}
+    const studyNoteId=source?.id??note.id;
+    const related=cards.filter(c=>c.noteId===studyNoteId);
+    const changedPairs=pairs.filter(pair=>related.some(c=>normalizeTitle(c.question)===normalizeTitle(pair.question)&&c.answer!==pair.answer));
+    if(changedPairs.length&&!syncExisting){
+      const owner=sourceImportOwner.current;
+      Alert.alert('تحديث إجابات البطاقات؟',`تغيرت إجابة ${changedPairs.length} بطاقة. ستُحفظ الإجابات الجديدة مع بقاء مواعيدها وسجل مراجعتها.`,[
+        {text:'متابعة التحرير',style:'cancel'},
+        {text:'حفظ وتحديث البطاقات',onPress:()=>{if(owner===sourceImportOwner.current)void commitNote(true,true);}},
+      ]);return;
+    }
+    const existing = new Set(related.map(c => normalizeTitle(c.question)));
     const additions: StudyCard[] = [];
     for (const pair of pairs) {
       const normalized = normalizeTitle(pair.question);
       if (existing.has(normalized)) continue;
-      additions.push({ id: makeId('card'), noteId: note.id, question: pair.question,
+      additions.push({ id: makeId('card'), noteId: studyNoteId, question: pair.question,
         answer: pair.answer, dueAt: now, intervalDays: 0, ease: 2.5, repetitions: 0, updatedAt: now });
       existing.add(normalized);
     }
     const created = additions.length;
+    if(syncExisting)for(const pair of changedPairs){const old=related.find(c=>normalizeTitle(c.question)===normalizeTitle(pair.question))!;additions.push({...old,answer:pair.answer,updatedAt:now});}
     const saved = await action(d => saveNoteAndCards(d, note, additions));
     if (!saved) return;
-    stopDraftTimer(); setEditorOpen(false);
+    stopDraftTimer(); setEditorOpen(false); setAfterSave({id:note.id,title:note.title,studyNoteId});setTab('home');
     if (!(await draft.clear())) Alert.alert('حُفظت الملاحظة', 'تعذّر تنظيف المسودة القديمة. يمكنك تجاهلها من الرئيسية.');
-    if (autoCards) Alert.alert('البطاقات', created > 0 ? `أُنشئت ${created} بطاقة من أسطر س: وج:.` : 'لم أجد أسئلة جديدة بصيغة س: وج:.');
+    if (autoCards) Alert.alert('البطاقات', `أُنشئت ${created} بطاقة، وحُدّثت ${syncExisting?changedPairs.length:0}. ${pairs.length?'يمكنك بدء التدريب الآن.':'لم نجد س/ج مكتوبة؛ أضف بطاقة يدويًا من الخطوة التالية.'}`);
   }
   function confirmDelete(note: Note) {
     Alert.alert('حذف الملاحظة؟', 'ستُحذف أيضًا بطاقاتها وسجل مراجعاتها، ولا يمكن التراجع.', [
@@ -297,7 +339,10 @@ function AppContent() {
       }) },
     ]);
   }
-  async function openCardEditor(noteId: string) {
+  async function openCardEditor(noteId: string, card?:StudyCard, recovered=false) {
+    if(cardDraft.loading){Alert.alert('انتظر المسودة','جارٍ قراءة مسودة البطاقة.');return;}
+    if(cardDraft.status==='error'&&!cardDraft.value){Alert.alert('تعذّر قراءة مسودة البطاقة','أعد محاولة استعادتها من الرئيسية قبل تحرير بطاقة جديدة.');return;}
+    if(cardDraft.getCurrent()&&!recovered){Alert.alert('لديك مسودة بطاقة','أكمل مسودة البطاقة أو تجاهلها صراحة من الرئيسية قبل البدء ببطاقة أخرى.');setTab('home');return;}
     if (editorOpen && dirty) {
       Alert.alert('احفظ الملاحظة أولًا', 'احفظ تعديلاتك قبل فتح محرر البطاقة حتى لا تفقدها.'); return;
     }
@@ -309,26 +354,46 @@ function AppContent() {
       if (!cleared) { Alert.alert('تعذّر تحديث المسودة', 'حاول فتح البطاقة مرة أخرى.'); return; }
     }
     restoreDraftState.current.cardEditorOpen = true;
-    setCardEditorNoteId(noteId); setQuestion(''); setAnswer(''); setEditorOpen(false);
+    setCardEditorNoteId(noteId);setEditingCardId(card?.id??null);setQuestion(card?.question??'');setAnswer(card?.answer??'');setEditorOpen(false);
+  }
+  function resumeCardDraft(){
+    const value=cardDraft.getCurrent();if(!value)return;
+    const note=notes.find(n=>n.id===value.noteId&&n.createdAt===value.noteCreatedAt);
+    if(!note){Alert.alert('مصدر المسودة غير موجود','يمكنك تصدير نص المسودة من الرئيسية؛ لم نربطها بملاحظة أخرى.');return;}
+    if(value.cardId&&!cards.some(c=>c.id===value.cardId&&c.noteId===note.id)){Alert.alert('البطاقة الأصلية غير موجودة','صدّر المسودة أولًا ثم أنشئ بطاقة جديدة؛ لم تُستبدل بطاقة أخرى.');return;}
+    restoreDraftState.current.cardEditorOpen=true;setCardEditorNoteId(note.id);setEditingCardId(value.cardId);setQuestion(value.question);setAnswer(value.answer);setEditorOpen(false);
+  }
+  async function finishCardClose(keep:boolean){
+    if(actionLock.current)return;actionLock.current=true;setSaving(true);
+    try{const note=notes.find(n=>n.id===cardEditorNoteId);
+      const accepted=!keep||!!note&&cardDraft.update({version:1,noteId:note.id,noteCreatedAt:note.createdAt,cardId:editingCardId,question,answer});
+      const ok=accepted&&(keep?await cardDraft.flush():await cardDraft.clear());if(ok)setCardEditorNoteId(null);else Alert.alert('لم تُغلق المسودة','تعذّر حفظ البطاقة. النص باقٍ هنا. أعد المحاولة أو صدّره.');}
+    finally{actionLock.current=false;setSaving(false);}
   }
   function closeCard() {
-    if (saving) return;
-    if (!question.trim() && !answer.trim()) { setCardEditorNoteId(null); return; }
-    Alert.alert('تجاهل البطاقة غير المحفوظة؟','يمكنك متابعة كتابتها ثم حفظها.',[{text:'متابعة التحرير',style:'cancel'},{text:'تجاهل',style:'destructive',onPress:()=>setCardEditorNoteId(null)}]);
+    if(saving)return;
+    const original=cards.find(c=>c.id===editingCardId);
+    const changed=original?question!==original.question||answer!==original.answer:!!question.trim()||!!answer.trim();
+    if(!changed){void finishCardClose(false);return;}
+    Alert.alert('لديك مسودة بطاقة','احتفظ بها لتكمل لاحقًا، أو تابع التحرير.',[
+      {text:'متابعة التحرير',style:'cancel'}, {text:'حفظ مسودة وإغلاق',onPress:()=>void finishCardClose(true)},
+      {text:'تجاهل',style:'destructive',onPress:()=>void finishCardClose(false)},
+    ]);
   }
   async function commitCard() {
     if (!cardEditorNoteId || !question.trim() || !answer.trim()) {
       Alert.alert('بيانات ناقصة', 'أدخل السؤال والإجابة.'); return;
     }
-    if (cards.some(c => c.noteId === cardEditorNoteId && normalizeTitle(c.question) === normalizeTitle(question))) {
+    if (cards.some(c => c.id !== editingCardId && c.noteId === cardEditorNoteId && normalizeTitle(c.question) === normalizeTitle(question))) {
       Alert.alert('بطاقة مكررة', 'هذا السؤال موجود في الملاحظة.'); return;
     }
+    if(question.includes('\u0000')||answer.includes('\u0000')){Alert.alert('محرف غير صالح','احذف محرف NUL من النص قبل نشر البطاقة؛ مسودتك محفوظة ويمكن تصديرها.');return;}
     if (question.length > MAX_NOTE_CHARS || answer.length > MAX_NOTE_CHARS) { Alert.alert('النص طويل جدًا', 'الحد الأقصى مليون حرف لكل حقل.'); return; }
     const now = Date.now();
-    const saved = await action(async d => saveCard(d, { id: makeId('card'), noteId: cardEditorNoteId,
+    const saved = await action(async d => editingCardId ? updateCard(d,editingCardId,{question:question.trim(),answer:answer.trim()}) : saveCard(d, { id: makeId('card'), noteId: cardEditorNoteId,
       question: question.trim(), answer: answer.trim(), dueAt: now, intervalDays: 0,
       ease: 2.5, repetitions: 0, updatedAt: now }));
-    if (saved) setCardEditorNoteId(null);
+    if(saved){setCardEditorNoteId(null);setTab('review');setShowCards(true);if(!(await cardDraft.clear()))Alert.alert('حُفظت البطاقة','تعذّر تنظيف مسودة البطاقة؛ يمكنك تجاهلها من الرئيسية.');}
   }
   function confirmCardDelete(card: StudyCard) {
     Alert.alert('حذف البطاقة؟', 'سيحذف سجل مراجعاتها أيضًا.', [
@@ -339,12 +404,15 @@ function AppContent() {
   async function review(card: StudyCard, grade: Grade) {
     if (await action(d => recordReview(d, card, grade))) setRevealedId(null);
   }
-  function startQuiz() {
-    const questions = makeQuiz(cards, 8);
-    if (!questions.length) {
-      Alert.alert('بطاقات غير كافية', 'أنشئ بطاقتين بإجابتين مختلفتين على الأقل.'); return;
-    }
-    setQuizData(questions); setQuizIndex(0); setQuizScore(0); setQuizSelected(null); setQuizOpen(true);
+  function startQuiz(noteId:string|null=null){setPracticeNoteId(noteId);setQuizSourceNote(null);setQuizSession(v=>v+1);setQuizOpen(true);}
+  async function exportRecoveryText(text:string,title:string){
+    try{const file=new File(Paths.cache,`rusukh-draft-${Date.now()}.md`);file.create();await file.write(`# ${title}\n\n${text}`);if(!(await Sharing.isAvailableAsync()))throw new Error('المشاركة غير متاحة');await Sharing.shareAsync(file.uri,{mimeType:'text/markdown'});}
+    catch{Alert.alert('تعذّر التصدير','لم تُحذف المسودة. حاول مجددًا.');}
+  }
+  async function exportDatabaseRescue(){
+    if(!db||actionLock.current)return;actionLock.current=true;setSaving(true);
+    try{const copy=await createDatabaseSnapshot(db,Paths.cache.uri);if(!(await Sharing.isAvailableAsync()))throw new Error('المشاركة غير متاحة');await Sharing.shareAsync(copy.uri,{mimeType:'application/vnd.sqlite3'});}
+    catch(error){Alert.alert('تعذّر إنشاء نسخة الإنقاذ',String(error));}finally{actionLock.current=false;setSaving(false);}
   }
   async function exportData() {
     if (!db || dataStaleRef.current || actionLock.current) return;
@@ -374,6 +442,11 @@ function AppContent() {
   }
   function assertNoDraftForRestore() {
     const current = restoreDraftState.current;
+    const sessions=sessionRef.current;
+    for(const item of [sessions.sourceDraft,sessions.cardDraft,sessions.aiSession]){
+      if(item.loading||item.status==='saving'||item.status==='error')throw new Error('تحقق من حفظ مسودات المصدر والبطاقة والذكاء من الرئيسية قبل الاستعادة. لم تُستبدل بيانات الدراسة.');
+      if(item.getCurrent())throw new Error('لديك مسودة مصدر أو بطاقة أو ذكاء. افتحها واحفظها أو صدّرها وتحقق من الملف ثم تجاهلها صراحة قبل الاستعادة.');
+    }
     if (current.loading || current.status === 'saving') {
       throw new Error('انتظر اكتمال تحميل المسودة أو حفظها قبل الاستعادة. لم تُستبدل بيانات الدراسة.');
     }
@@ -396,6 +469,10 @@ function AppContent() {
       // Any non-null or corrupt entry is protected, not silently discarded.
       if (storedDraft !== null && storedDraft.trim() !== 'null') {
         throw new Error('توجد مسودة محفوظة. افتحها من الرئيسية واحفظها كملاحظة، أو صدّرها وتأكد من وجود الملف ثم اختر تجاهل المسودة صراحة. بعدها أعد الاستعادة؛ لم تُستبدل بيانات الدراسة ولم تُحذف المسودة.');
+      }
+      for(const key of [SOURCE_DRAFT_KEY,CARD_DRAFT_KEY,AI_STUDY_SESSION_KEY]){
+        const raw=await getSetting(d,key);assertNoDraftForRestore();
+        if(raw!==null&&raw.trim()!=='null')throw new Error('توجد مسودة دراسة محفوظة. احفظها أو صدّرها ثم تجاهلها صراحة قبل الاستعادة.');
       }
       await restore(d);
       stopDraftTimer();
@@ -496,39 +573,47 @@ function AppContent() {
           {text:'إلغاء',style:'cancel'}, {text:'تجاهل',style:'destructive',onPress:()=>{void draft.clear();}},
         ])} />
       </Panel>}
+      {afterSave&&notes.some(n=>n.id===afterSave.id)&&<Panel p={p}>
+        <Label p={p} weight="700">حُفظت المادة: {afterSave.title}</Label>
+        <Label p={p} size={13} color={p.muted}>اختر خطوتك التالية. يمكنك العودة إلى المادة من الملاحظات.</Label>
+        <Button p={p} title="إضافة سؤال وإجابة" onPress={()=>void openCardEditor(afterSave.id)}/>
+        {cards.some(c=>c.noteId===afterSave.studyNoteId)&&<Button p={p} title="تدريب من هذه المادة" onPress={()=>startQuiz(afterSave.studyNoteId)}/>}
+        <Button p={p} title="إخفاء الخطوة التالية" tone="plain" onPress={()=>setAfterSave(null)}/>
+      </Panel>}
+      {(sourceDraft.value||sourceDraft.status==='error')&&<Panel p={p}>
+        <Label p={p} weight="700">أكمل مادة الدراسة</Label><Button p={p} title="متابعة إضافة المادة" onPress={()=>setTab('sources')}/>
+        <Button p={p} title="تصدير مسودة المصدر" disabled={!sourceDraft.value} tone="plain" onPress={()=>void exportRecoveryText(JSON.stringify(sourceDraft.value,null,2),'مسودة مصدر')}/>
+        <Button p={p} title="تجاهل مسودة المصدر" tone="plain" onPress={()=>Alert.alert('تجاهل مسودة المصدر؟','لا تُحذف الملاحظات المحفوظة.',[{text:'إلغاء',style:'cancel'},{text:'تجاهل',style:'destructive',onPress:()=>void sourceDraft.clear()}])}/>
+      </Panel>}
+      {(cardDraft.value||cardDraft.status==='error')&&<Panel p={p}>
+        <Label p={p} weight="700">أكمل مسودة البطاقة</Label><Button p={p} title="استعادة مسودة البطاقة" onPress={()=>cardDraft.status==='error'&&!cardDraft.value?cardDraft.retry():resumeCardDraft()}/>
+        <Button p={p} title="تصدير البطاقة غير المحفوظة" disabled={!cardDraft.value} tone="plain" onPress={()=>void exportRecoveryText(JSON.stringify(cardDraft.value,null,2),'مسودة بطاقة')}/>
+        <Button p={p} title="تجاهل مسودة البطاقة" tone="plain" onPress={()=>Alert.alert('تجاهل مسودة البطاقة؟','تبقى البطاقة المنشورة وسجلها كما هما.',[{text:'إلغاء',style:'cancel'},{text:'تجاهل',style:'destructive',onPress:()=>void cardDraft.clear()}])}/>
+      </Panel>}
+      {(aiSession.hasPending||aiSession.status==='error')&&<Panel p={p}>
+        <Label p={p} weight="700">أكمل مسودة المساعد</Label><Button p={p} title="متابعة مساعد الدراسة" onPress={()=>setTab('ai')}/>
+        <Button p={p} title="تصدير مسودة المساعد" disabled={!aiSession.value} tone="plain" onPress={()=>void exportRecoveryText(JSON.stringify(aiSession.getCurrent(),null,2),'مسودة المساعد')}/>
+        <Button p={p} title="تجاهل مسودة المساعد" tone="plain" onPress={()=>Alert.alert('تجاهل مسودة المساعد؟','تبقى الملاحظات التي حفظتها كما هي.',[{text:'إلغاء',style:'cancel'},{text:'تجاهل',style:'destructive',onPress:()=>void aiSession.clear()}])}/>
+      </Panel>}
       <StudyHome p={p} workspace={workspace} notes={notes} cardsCount={cards.length} dueCount={due.length}
         todayReviewed={todayReviewed} linksCount={links.length} onCustomize={() => setCustomizing(true)}
         onTools={() => setTab('tools')} onModule={openModule} onOpenNote={openNote} onNewNote={openNew} />
     </View>;
   }
 
-  function toolsScreen() {
-    const filtered = MODULES.filter(module => matchesSearch(module.title, module.detail, toolSearch));
-    return <View style={{ gap: 14 }}>
-      {header('كل الأدوات', 'جاهزة للوصول؛ إخفاء قسم من الرئيسية لا يحذف الأداة أو محتواها')}
-      <Field p={p} label="البحث في الأدوات" value={toolSearch} onChangeText={setToolSearch} placeholder="مثل: PDF، مراجعة، صوت" />
-      {filtered.map(module => <Pressable key={module.id} accessibilityRole="button" accessibilityLabel={`فتح ${module.title}`}
-        onPress={() => openModule(module.id)} style={({ pressed }) => ({ backgroundColor: p.surface, borderRadius: 16,
-          borderWidth: 1, borderColor: p.border, padding: 16, minHeight: 76, flexDirection: arabicRow, alignItems: 'center', gap: 12, opacity: pressed ? .7 : 1 })}>
-        <Icon name={module.symbol} p={p} />
-        <View style={{ flex: 1, gap: 3 }}>
-          <Label p={p} size={16} weight="700">{module.title}</Label>
-          <Label p={p} size={13} color={p.muted}>{module.detail}</Label>
-        </View>
-        <Icon name="chevron.left" size={14} p={p} color={p.muted} />
-      </Pressable>)}
-      {!filtered.length && <Empty p={p} title="لا توجد أداة بهذا الاسم" detail="جرّب كلمة أقصر أو اعرض كل الأدوات." />}
-      {toolSearch ? <Button p={p} title="مسح بحث الأدوات" tone="secondary" onPress={() => setToolSearch('')} /> : null}
-      <Button p={p} title="تخصيص مساحتي" tone="secondary" onPress={() => setCustomizing(true)} />
+  function toolsScreen(){return <ToolsScreen p={p} workspace={workspace} onSaveWorkspace={saveWorkspace} onOpen={openModule}/>;}
+  function sourcesScreen() {
+    if(sourceDraft.loading)return <Label p={p}>جارٍ استعادة مادة الدراسة…</Label>;
+    if(sourceDraft.status==='error'&&!sourceDraft.value)return <Panel p={p}><Label p={p}>تعذّر قراءة مسودة المصدر. لم نستبدلها بنص فارغ.</Label><Button p={p} title="إعادة قراءة مسودة المصدر" onPress={sourceDraft.retry}/></Panel>;
+    return <View style={{gap:12}}>
+      <Label p={p} size={12} color={sourceDraft.status==='error'?p.danger:p.muted}>{sourceDraft.status==='saving'?'جارٍ حفظ مسودة المصدر…':sourceDraft.status==='error'?'تعذّر حفظ المصدر؛ النص باقٍ هنا. أعد المحاولة أو صدّره.':'مسودة المصدر تحفظ على هذا الجهاز'}</Label>
+      {sourceDraft.status==='error'&&<Button p={p} title="إعادة حفظ المصدر" onPress={()=>void sourceDraft.flush()}/>}
+      <SourcesWorkbench p={p} notes={notes} initialDraft={sourceDraft.value} onFormChange={value=>{if(sourceHasContent(value))sourceDraft.update(value);else if(sourceDraft.getCurrent())sourceDraft.update(null);}}
+        onImportText={() => void importSource()} onDraft={value=>beginEditor({editingId:null,...value})} />
     </View>;
   }
-
-  function sourcesScreen() {
-    return <SourcesWorkbench p={p} notes={notes} onImportText={() => void importSource()}
-      onDraft={value => beginEditor({editingId:null,...value})} />;
-  }
   function aiScreen() {
-    return <AIWorkspace p={p} notes={notes} onDraft={value => beginEditor({editingId:null,...value})} />;
+    return <AIWorkspace session={aiSession} p={p} notes={notes} onDraft={value => {const source=notes.find(n=>n.id===value.sourceNoteId);beginEditor({editingId:null,title:value.title,body:value.body,...(source?{sourceNote:{id:source.id,createdAt:source.createdAt,updatedAt:source.updatedAt}}:{})});}} />;
   }
   function notesScreen() {
     const filtered = notes.filter(n => matchesSearch(n.title, n.body, search));
@@ -579,21 +664,21 @@ function AppContent() {
         <Button p={p} title="إنشاء بطاقات من الملاحظات" tone="secondary" onPress={() => setTab('notes')} />
       </Panel>}
       {current && notes.some(n => n.id === current.noteId) && <Button p={p} title="فتح الملاحظة الأصلية" tone="plain" onPress={() => openNote(notes.find(n => n.id === current.noteId)!)} />}
-      <Button title="اختبار اختيارات" p={p} tone="secondary" icon="checkmark.circle" onPress={startQuiz} />
+      <Button title="تدريب استرجاع ذاتي" p={p} tone="secondary" icon="checkmark.circle" onPress={()=>startQuiz()} />
       <Button p={p} title={showCards ? 'إخفاء إدارة البطاقات' : `إدارة البطاقات (${cards.length})`} tone="plain" onPress={() => setShowCards(v => !v)} />
       {showCards && cards.map(c => <Panel key={c.id} p={p} style={{ padding: 14, gap: 8 }}>
         <Label p={p} size={14} weight="700">{c.question}</Label>
         <Label p={p} size={13} color={p.muted}>{c.answer}</Label>
         <View style={{ flexDirection: arabicRow, justifyContent: 'space-between', alignItems: 'center' }}>
           <Label p={p} size={12} color={p.muted}>{c.dueAt <= clock ? 'مستحقة الآن' : `قادمة: ${new Date(c.dueAt).toLocaleDateString('ar-SA')}`}</Label>
-          <Button title="حذف" p={p} compact tone="danger" onPress={() => confirmCardDelete(c)} />
+          <Button p={p} title="تعديل" accessibilityLabel={`تعديل ${c.question}`} compact tone="secondary" onPress={()=>void openCardEditor(c.noteId,c)} /><Button title="حذف" p={p} compact tone="danger" onPress={() => confirmCardDelete(c)} />
         </View>
       </Panel>)}
     </View>;
   }
   function graphScreen() { return <View style={{ gap: 15 }}>
     {header('شبكة أفكاري', `${notes.length} عقدة · ${links.length} علاقة`)}
-    <KnowledgeGraph notes={notes} p={p} onOpen={openNote} />
+    <KnowledgeGraph notes={notes} p={p} onOpen={openNote} session={graphSession} onSessionChange={setGraphSession} />
   </View>; }
   function settingsScreen() { return <View style={{ gap: 15 }}>
     {header('الإعدادات', 'حفظ محلي، دون خادم أو حساب مطلوب')}
@@ -614,12 +699,15 @@ function AppContent() {
       <Button p={p} title="تصدير نسخة إلى الملفات" icon="square.and.arrow.up" disabled={saving} onPress={() => void exportData()} />
       <Button p={p} title="استيراد نسخة من الملفات" tone="secondary" icon="square.and.arrow.down" disabled={saving} onPress={() => void importData()} />
     </Panel>
+    <Panel p={p}><Label p={p} weight="700">نسخة إنقاذ قاعدة البيانات</Label>
+      <Label p={p} size={13} color={p.muted}>ملف SQLite يشمل الدراسة والمسودات والإعدادات ونقاط الرجوع حتى 512 MiB، دون الصور والصوت. للاسترداد التقني؛ لا يدعم التطبيق استيراده حاليًا. استخدمه إذا تجاوزت مكتبتك حد JSON.</Label>
+      <Button p={p} title="تصدير نسخة إنقاذ SQLite" tone="secondary" disabled={saving} onPress={()=>void exportDatabaseRescue()}/></Panel>
     {db && <RecoveryPointsPanel db={db} p={p} disabled={saving || dataStale} onRestore={restorePoint} />}
     {db && <PortableBackupPanel p={p} disabled={saving || dataStale} getSnapshot={capturePortableSnapshot}
       restoreStudy={restorePortableStudy} applyPreferences={applyPortablePreferences} />}
     <Panel p={p}>
       <Label p={p} weight="700">عن النسخة</Label>
-      <Label p={p} size={13} color={p.muted}>رُسوخ 0.5.1 — بداية جديدة فارغة، وحماية للمسودات عند الاستعادة، وجدولة مراجعة متسقة. مساعد الدراسة المحلي تجريبي ويحتاج مراجعة النتائج. جدولة المراجعة مبسطة وليست FSRS. لا مزامنة سحابية.</Label>
+      <Label p={p} size={13} color={p.muted}>رُسوخ 0.5.2 — مساحة تبدأ فارغة، ومسودات قابلة للاستئناف، وتدريب استرجاع ذاتي. مساعد الدراسة المحلي تجريبي ويحتاج مراجعة النتائج. جدولة المراجعة مبسطة وليست FSRS. لا مزامنة سحابية.</Label>
     </Panel>
   </View>; }
   function modalHeader(title: string, close: () => void) {
@@ -666,7 +754,7 @@ function AppContent() {
       </Pressable>)}
     </View>
 
-    {customizing && <WorkspaceEditor reducedMotion={reducedMotion} value={workspace} p={p} onCancel={() => setCustomizing(false)} onSave={saveWorkspace} />}
+    {customizing && <WorkspaceEditor reducedMotion={reducedMotion} value={workspace} p={p} onCancel={() => setCustomizing(false)} onSave={async next=>{const ok=await saveWorkspace(next);if(ok)setCustomizing(false);return ok;}} />}
 
     <Modal visible={editorOpen} animationType={reducedMotion ? "none" : "slide"} presentationStyle="pageSheet" onRequestClose={closeNote}>
       <SafeAreaView style={{ flex: 1, backgroundColor: p.bg }}>
@@ -674,7 +762,7 @@ function AppContent() {
           <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ padding: 20, gap: 17 }}>
             {modalHeader(editingId ? 'تعديل الملاحظة' : 'ملاحظة جديدة', closeNote)}
             <Label p={p} size={12} color={draft.status === 'error' ? p.danger : p.muted}>{draft.status === 'saved' && draft.recoveredDraft?.editingId === editingId && draft.recoveredDraft?.title === draftTitle && draft.recoveredDraft?.body === draftBody ? 'مسودة محفوظة على جهازك' : draft.status === 'saving' ? 'جارٍ حفظ المسودة…' : draft.status === 'error' ? 'تعذّر حفظ المسودة؛ احفظ الملاحظة أو صدّر النص' : 'التعديلات تُحفظ كمسودة محلية'}</Label>
-            <Field p={p} label="العنوان" maxLength={160} editable={!saving} value={draftTitle} onChangeText={setDraftTitle} placeholder="عنوان الملاحظة" />
+            <Field p={p} label="العنوان" maxLength={160} editable={!saving} value={draftTitle} onChangeText={setDraftTitle} placeholder="اختياري — نأخذه من أول سطر" />
             <Field p={p} label="المحتوى" maxLength={MAX_NOTE_CHARS} editable={!saving} multiline numberOfLines={12} value={draftBody} onChangeText={setDraftBody}
               placeholder="اكتب هنا… للربط استخدم [[عنوان ملاحظة]]" />
             <Label p={p} size={12} color={p.muted}>استخراج أسئلة مكتوبة: اكتب سؤالًا في س: والإجابة في ج: على سطر منفصل.</Label>
@@ -700,50 +788,24 @@ function AppContent() {
           <Label p={p} size={13} color={p.muted}>فكرة واحدة لكل بطاقة. مثال: ما السبب الرئيسي لحدوث الظاهرة؟ احتفظ بالشرح الطويل في الملاحظة.</Label>
           <Field p={p} label="السؤال" maxLength={MAX_NOTE_CHARS} editable={!saving} value={question} onChangeText={setQuestion} placeholder="ماذا تريد أن تتذكر؟" />
           <Field p={p} label="الإجابة" maxLength={MAX_NOTE_CHARS} editable={!saving} value={answer} onChangeText={setAnswer} multiline placeholder="الإجابة المختصرة" />
-          <Button p={p} title="إنشاء البطاقة" onPress={() => void commitCard()} disabled={saving} />
+          <Label p={p} size={12} color={cardDraft.status==='error'?p.danger:p.muted}>{cardDraft.status==='error'?'تعذّر حفظ المسودة. النص باقٍ هنا؛ احفظ البطاقة أو صدّرها.':cardDraft.status==='saving'?'جارٍ حفظ المسودة…':'مسودة البطاقة تحفظ محليًا'}</Label>
+          <Button p={p} title="تصدير مسودة البطاقة" tone="plain" onPress={()=>void exportRecoveryText(`س: ${question}\nج: ${answer}`,'مسودة بطاقة')}/>
+          <Button p={p} title={editingCardId?"حفظ تعديل البطاقة":"إنشاء البطاقة"} onPress={() => void commitCard()} disabled={saving} />
         </ScrollView></KeyboardAvoidingView>
       </SafeAreaView>
     </Modal>
 
-    <Modal visible={quizOpen} animationType={reducedMotion ? "none" : "slide"} presentationStyle="pageSheet" onRequestClose={() => setQuizOpen(false)}>
-      <SafeAreaView style={{ flex: 1, backgroundColor: p.bg }}>
-        <ScrollView contentContainerStyle={{ padding: 22, gap: 18 }}>
-          {modalHeader('الاختبار السريع', () => setQuizOpen(false))}
-          <Label p={p} size={13} color={p.muted}>تدريب إضافي من بطاقاتك؛ لا يغيّر مواعيد المراجعة.</Label>
-          {quizIndex >= quizData.length ? <Panel p={p} style={{ minHeight: 260, justifyContent: 'center' }}>
-            <Label p={p} size={34} weight="800" style={{ textAlign: 'center' }}>{quizScore} / {quizData.length}</Label>
-            <Label p={p} size={16} style={{ textAlign: 'center' }}>نتيجة الاختبار</Label>
-            <Button p={p} title="إعادة الاختبار" onPress={startQuiz} />
-            <Button p={p} title="عودة" tone="secondary" onPress={() => setQuizOpen(false)} />
-          </Panel> : <>
-            <Label p={p} size={13} color={p.muted}>السؤال {quizIndex + 1} من {quizData.length}</Label>
-            <Panel p={p} style={{ minHeight: 155, justifyContent: 'center' }}>
-              <Label p={p} size={21} weight="700">{quizData[quizIndex]?.question}</Label>
-            </Panel>
-            {quizData[quizIndex]?.options.map(option => {
-              const chosen = quizSelected === option;
-              const correct = quizData[quizIndex]?.answer === option;
-              return <Pressable key={option} disabled={quizSelected !== null} onPress={() => {
-                setQuizSelected(option);
-                if (correct) setQuizScore(s => s + 1);
-              }} accessibilityRole="button" accessibilityState={{ selected: chosen }}
-                style={{ minHeight: 60, backgroundColor: quizSelected !== null && correct ? p.subtle : p.surface,
-                  borderWidth: chosen ? 2 : 1, borderColor: chosen ? p.ink : p.border,
-                  borderRadius: 16, padding: 15, justifyContent: 'center' }}>
-                <Label p={p} size={16} weight={chosen ? '700' : '400'}>{option}</Label>
-              </Pressable>;
-            })}
-            {quizSelected !== null && <>
-              <Label p={p} size={14} color={quizSelected === quizData[quizIndex]?.answer ? p.ink : p.danger}>
-                {quizSelected === quizData[quizIndex]?.answer ? 'إجابة صحيحة' : `الإجابة الصحيحة: ${quizData[quizIndex]?.answer}`}
-              </Label>
-              <Button p={p} title={quizIndex === quizData.length - 1 ? 'عرض النتيجة' : 'السؤال التالي'}
-                onPress={() => { setQuizIndex(i => i + 1); setQuizSelected(null); }} />
-            </>}
-          </>}
-        </ScrollView>
+    {quizOpen && <Modal visible animationType={reducedMotion?'none':'slide'} presentationStyle="pageSheet" onRequestClose={()=>setQuizOpen(false)}>
+      <SafeAreaView style={{flex:1,backgroundColor:p.bg}}>
+        <View style={{flex:1,display:quizSourceNote?'none':'flex'}} accessibilityElementsHidden={!!quizSourceNote} importantForAccessibility={quizSourceNote?'no-hide-descendants':'auto'}>
+          <StudyQuiz key={quizSession} p={p} cards={practiceNoteId?cards.filter(c=>c.noteId===practiceNoteId):cards} notes={notes}
+            onClose={()=>setQuizOpen(false)} onOpenNote={setQuizSourceNote}
+            onAddMaterial={()=>{setQuizOpen(false);setTab('sources');}} onNewNote={()=>{setQuizOpen(false);openNew();}}/>
+        </View>
+        {quizSourceNote&&<ScrollView contentContainerStyle={{padding:22,gap:16}}><Button p={p} title="العودة إلى التدريب" onPress={()=>setQuizSourceNote(null)}/><Label p={p} size={23} weight="700">{quizSourceNote.title}</Label><Label p={p}>{quizSourceNote.body}</Label></ScrollView>}
       </SafeAreaView>
-    </Modal>
+    </Modal>}
+
   </SafeAreaView>;
 }
 
