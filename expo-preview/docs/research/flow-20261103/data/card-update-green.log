@@ -1,0 +1,12 @@
+✔ updateCard changes only text and updatedAt, preserving schedule, ownership and review history (2.741878ms)
+✔ updateCard rejects absent cards and invalid text without changing any existing row (1.758141ms)
+✔ duplicate questions are rejected within the same note but allowed in another note (0.990107ms)
+✔ a failed UPDATE rolls back text and preserves history instead of deleting and recreating the card (0.728294ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 122.573736

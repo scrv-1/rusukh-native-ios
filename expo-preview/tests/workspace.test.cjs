@@ -50,6 +50,19 @@ test('reorder respects boundaries and preserves each module exactly once', () =>
   assert.deepEqual(pinnedModules(next),['notes','review']);
   assert.deepEqual(moveModule(next,'notes',1),original);
 });
+test('moving a visible section skips hidden sections and keeps their saved positions', () => {
+  const original = defaultWorkspace();
+  original.modules.find(m => m.id === 'review').enabled = true;
+  original.modules.find(m => m.id === 'sources').enabled = true;
+  const hiddenBefore = original.modules.map((m,index) => !m.enabled ? [index,m.id] : null).filter(Boolean);
+  const next = moveModule(original, 'sources', -1);
+  assert.deepEqual(next.modules.filter(m => m.enabled).map(m => m.id), ['sources','review']);
+  assert.deepEqual(next.modules.map((m,index) => !m.enabled ? [index,m.id] : null).filter(Boolean), hiddenBefore);
+  assert.deepEqual(moveModule(next, 'sources', 1), original);
+  assert.equal(moveModule(original, 'review', -1), original);
+  assert.equal(moveModule(original, 'sources', 1), original);
+  assert.equal(moveModule(original, 'notes', 1), original);
+});
 test('tab bar respects order and caps optional pages at three, excluding quiz', () => {
   const value=defaultWorkspace(); value.modules.forEach(m=>m.enabled=true);
   value.modules.unshift(value.modules.splice(3,1)[0]);

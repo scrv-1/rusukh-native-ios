@@ -43,11 +43,12 @@ afterEach(()=>{ jest.restoreAllMocks(); });
 test('hide every tool, save, remount and reopen preserved notes through all tools', async()=>{
   await openApp(); await customize(); await hideDefault();
   await fireEvent.press(screen.getByRole('button',{name:'حفظ مساحتي'}));
+  await waitFor(()=>expect(screen.queryByText('خصّص مساحتك')).toBeNull());
   await screen.findByRole('button',{name:'إضافة أداة'});
   expect(storage.deleteNote).not.toHaveBeenCalled(); expect(storage.restoreBackup).not.toHaveBeenCalled();
   await screen.unmount(); await openApp();
   expect(screen.getByRole('button',{name:'إضافة أداة'})).toBeTruthy();
-  await fireEvent.press(screen.getAllByRole('button',{name:'كل الأدوات'})[0]);
+  await fireEvent.press(screen.getByRole('tab',{name:'الأدوات'}));
   await fireEvent.press(screen.getByRole('button',{name:'فتح ملاحظاتي'}));
   expect(screen.getByRole('button',{name:'فتح التعلُّم النشط'})).toBeTruthy();
   await fireEvent.changeText(screen.getByLabelText('البحث في الملاحظات'),'التعلم');
@@ -71,8 +72,10 @@ test('failed save keeps draft available for retry and does not apply layout', as
   await fireEvent.press(screen.getByRole('button',{name:'حفظ مساحتي'}));
   await waitFor(()=>expect(Alert.alert).toHaveBeenCalledWith('لم يُحفظ الترتيب',expect.any(String)));
   expect(screen.getByRole('button',{name:'حفظ مساحتي'})).toBeEnabled();
+  expect(screen.getByText('خصّص مساحتك')).toBeTruthy();
   expect(JSON.parse(mockSettings.get(WORKSPACE_KEY))).toEqual(workspacePreset('simple'));
   await fireEvent.press(screen.getByRole('button',{name:'حفظ مساحتي'}));
+  await waitFor(()=>expect(screen.queryByText('خصّص مساحتك')).toBeNull());
   await screen.findByRole('button',{name:'إضافة أداة'});
 });
 
@@ -123,6 +126,24 @@ test('first-run review tab offers a direct path to create study material', async
   expect(storage.recordReview).not.toHaveBeenCalled();
 });
 
+test('caught-up Home card action immediately shows saved cards rather than a collapsed manager', async()=>{
+  mockCards[0].dueAt=Date.now()+60000;
+  await openApp();
+  await fireEvent.press(screen.getByRole('button',{name:'عرض بطاقاتي'}));
+  expect(screen.getByRole('button',{name:'إخفاء إدارة البطاقات'})).toBeTruthy();
+  expect(screen.getByRole('button',{name:'تعديل سؤال'})).toBeTruthy();
+  expect(screen.getByText('جواب')).toBeTruthy();
+  expect(storage.recordReview).not.toHaveBeenCalled();
+});
+
+test('starting a due review does not expose the answer through automatically expanded card management', async()=>{
+  await openApp();
+  await fireEvent.press(screen.getByRole('button',{name:'ابدأ المراجعة'}));
+  expect(screen.getByRole('button',{name:'إظهار الإجابة'})).toBeTruthy();
+  expect(screen.queryByText('جواب')).toBeNull();
+  expect(screen.getByRole('button',{name:'إدارة البطاقات (1)'})).toBeTruthy();
+});
+
 test('no saved layout leaves the home canvas blank and capture available before customization', async()=>{
   mockSettings.clear();
   storage.readAll.mockResolvedValueOnce({notes:[],cards:[],reviews:[]});
@@ -144,9 +165,9 @@ test('add tool on a blank canvas can restore one hidden section without changing
   mockSettings.set(WORKSPACE_KEY, JSON.stringify(defaultWorkspace()));
   await openApp();
   await fireEvent.press(screen.getByRole('button',{name:'إضافة أداة'}));
-  expect(screen.getAllByRole('switch').every(control=>control.props.value === false)).toBe(true);
-  await fireEvent(screen.getByLabelText('إظهار شبكة أفكاري'),'valueChange',true);
-  await fireEvent.press(screen.getByRole('button',{name:'حفظ مساحتي'}));
+  await fireEvent.press(screen.getByRole('button',{name:'إضافة شبكة أفكاري إلى مساحتي'}));
+  await screen.findByRole('button',{name:'إزالة شبكة أفكاري من مساحتي'});
+  await fireEvent.press(screen.getByRole('tab',{name:'الرئيسية'}));
   await screen.findByRole('button',{name:'فتح شبكة أفكاري'});
   expect(JSON.parse(mockSettings.get(WORKSPACE_KEY)).modules.filter(module=>module.enabled).map(module=>module.id)).toEqual(['graph']);
   expect(screen.queryByRole('button',{name:'ابدأ المراجعة'})).toBeNull();
@@ -154,10 +175,34 @@ test('add tool on a blank canvas can restore one hidden section without changing
   expect(storage.saveNoteAndCards).not.toHaveBeenCalled();
 });
 
+test('direct tool changes keep saved visibility on failure, persist retry and hide without deleting notes', async()=>{
+  mockSettings.set(WORKSPACE_KEY, JSON.stringify(defaultWorkspace()));
+  await openApp();
+  await fireEvent.press(screen.getByRole('button',{name:'إضافة أداة'}));
+  storage.setSetting.mockRejectedValueOnce(new Error('disk full'));
+  await fireEvent.press(screen.getByRole('button',{name:'إضافة ملاحظاتي إلى مساحتي'}));
+  await screen.findByText('لم تُحفظ المساحة. بقي ترتيبك كما كان؛ حاول مرة أخرى.');
+  expect(JSON.parse(mockSettings.get(WORKSPACE_KEY))).toEqual(defaultWorkspace());
+  await fireEvent.press(screen.getByRole('button',{name:'إضافة ملاحظاتي إلى مساحتي'}));
+  await screen.findByRole('button',{name:'إزالة ملاحظاتي من مساحتي'});
+  await screen.unmount(); await openApp();
+  expect(screen.getByRole('button',{name:'فتح التعلُّم النشط'})).toBeTruthy();
+  await fireEvent.press(screen.getByRole('button',{name:'إضافة أداة'}));
+  await fireEvent.press(screen.getByRole('button',{name:'إزالة ملاحظاتي من مساحتي'}));
+  await screen.findByRole('button',{name:'إضافة ملاحظاتي إلى مساحتي'});
+  await fireEvent.press(screen.getByRole('tab',{name:'الرئيسية'}));
+  expect(screen.queryByRole('button',{name:'فتح التعلُّم النشط'})).toBeNull();
+  expect(screen.getByRole('button',{name:'إضافة أداة'})).toBeTruthy();
+  await fireEvent.press(screen.getByRole('tab',{name:'الملاحظات'}));
+  expect(screen.getByRole('button',{name:'فتح التعلُّم النشط'})).toBeTruthy();
+  expect(storage.deleteNote).not.toHaveBeenCalled();
+  expect(storage.saveNoteAndCards).not.toHaveBeenCalled();
+});
+
 test('late source file read never replaces a newer edited pasted draft', async()=>{
   let finishRead; mockText = new Promise(resolve => { finishRead = resolve; });
   picker.getDocumentAsync.mockResolvedValue({canceled:false,assets:[{uri:'/file',name:'قديم.txt',size:30}]});
-  await openApp(); await fireEvent.press(screen.getByRole('button',{name:'إضافة مصدر'}));
+  await openApp(); await fireEvent.press(screen.getByRole('button',{name:'إضافة مادة'}));
   await fireEvent.press(screen.getByRole('button',{name:'اختيار مصدر من الملفات'}));
   await fireEvent.changeText(screen.getByLabelText('النص الذي تريد دراسته'),'النص الجديد');
   await fireEvent.press(screen.getByRole('button',{name:'مراجعة النص كمسودة'}));
@@ -169,7 +214,7 @@ test('late source file read never replaces a newer edited pasted draft', async()
 
 test('leaving sources cancels a late picker result without opening an editor', async()=>{
   let finishPicker; picker.getDocumentAsync.mockReturnValueOnce(new Promise(resolve => {finishPicker=resolve;}));
-  await openApp(); await fireEvent.press(screen.getByRole('button',{name:'إضافة مصدر'}));
+  await openApp(); await fireEvent.press(screen.getByRole('button',{name:'إضافة مادة'}));
   await fireEvent.press(screen.getByRole('button',{name:'اختيار مصدر من الملفات'}));
   await fireEvent.press(screen.getByRole('tab',{name:'الرئيسية'}));
   await act(async()=>{finishPicker({canceled:false,assets:[{uri:'/file',name:'متأخر.txt',size:30}]});});
@@ -191,7 +236,7 @@ test('density choices expose the current selection to assistive technology', asy
 
 test('source import opens an editable draft and cancellation writes no content', async()=>{
   picker.getDocumentAsync.mockResolvedValue({canceled:false,assets:[{uri:'/file',name:'محاضرة.srt',size:30}]});
-  await openApp(); await fireEvent.press(screen.getAllByRole('button',{name:'كل الأدوات'})[0]);
+  await openApp(); await fireEvent.press(screen.getByRole('tab',{name:'الأدوات'}));
   await fireEvent.press(screen.getByRole('button',{name:'فتح مصادري'}));
   await fireEvent.press(screen.getByRole('button',{name:'اختيار مصدر من الملفات'}));
   const body=await screen.findByLabelText('المحتوى');

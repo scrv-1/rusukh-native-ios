@@ -1,0 +1,14 @@
+D002 rescue verified on Node SQLite: {"notes":9,"bytes":18067456,"includesDraft":true,"recoveryPoints":1,"sourceStillOpen":true}
+✔ oversize JSON library gets a self-contained SQLite rescue copy including committed WAL, drafts and recovery (326.760245ms)
+✔ backup and integrity failures never report a file, close the live database or alter source rows (20.567845ms)
+✔ foreign-key violations in the copied database prevent a success result without editing the source (10.907891ms)
+✔ size is bounded before allocation and checked again after native copying (15.990598ms)
+✔ destination name collision and non-local directories cannot overwrite an existing file (6.424645ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 700.01994

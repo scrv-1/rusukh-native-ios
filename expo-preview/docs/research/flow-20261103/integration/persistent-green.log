@@ -1,0 +1,6 @@
+
+Test Suites: 2 passed, 2 total
+Tests:       8 passed, 8 total
+Snapshots:   0 total
+Time:        1.655 s, estimated 3 s
+Ran all test suites matching tests/persistent-draft.ui.test.jsx|tests/study-flow-integration.ui.test.jsx.

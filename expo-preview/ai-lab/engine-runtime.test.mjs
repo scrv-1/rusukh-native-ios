@@ -61,11 +61,32 @@ function laboratory() {
   vm.runInContext(entry, context);
   const engine = vm.runInContext('({loadModel, generate, unload, phase: () => phase})', context);
   const load = (blob = new Blob(['GGUF____________'])) => engine.loadModel(blob, 'stub.gguf');
-  return { engine, load, instances, messages, revoked, timers, element,
+  return { engine, load, instances, messages, revoked, timers, element, receive:context.window.RusukhAI.receive,
     holdNextLoad: () => { pendingLoad = deferred(); return pendingLoad; },
     fail: runtime => runtime.logger.error({ type: 'error', message: 'simulated worker termination' }),
   };
 }
+
+test('a completed draft is sent to host recovery without adopting it into study data', async () => {
+ const lab=laboratory();await lab.load();
+ const source='المراجعة المتباعدة توزع جلسات التعلم على فترات زمنية، وتساعد على استرجاع المعلومات.';
+ lab.receive({protocol:'test-event-protocol',type:'source',requestId:'first',sourceText:source});
+ const generating=lab.engine.generate();
+ lab.instances[0].completion.resolve({choices:[{message:{content:JSON.stringify({questions:[{question:'كيف تتوزع الجلسات؟',answer:'على فترات زمنية.',evidence:'توزع جلسات التعلم على فترات زمنية'}]})}}]});
+ await generating;
+ const recovery=lab.messages.find(message=>message.type==='draft');
+ assert.equal(recovery?.payload.sourceText,source);assert.equal(recovery?.requestId,'first');
+ assert.equal(lab.messages.some(message=>message.type==='result'),false);
+ await lab.engine.unload();
+ assert.ok(recovery.payload.questions.length===1);
+});
+
+test('switching sources while ready reuses the loaded runtime and clears the old draft',async()=>{
+ const lab=laboratory();await lab.load();
+ lab.receive({protocol:'test-event-protocol',type:'source',requestId:'next',sourceText:'مصدر آخر طويل بما يكفي لإنتاج سؤال من نصه.'});
+ assert.equal(lab.instances.length,1);assert.equal(lab.instances[0].exitCalls,0);
+ assert.equal(lab.instances[0].loaded,true);assert.equal(lab.element('result').textContent,'');
+});
 
 test('worker failure during generation unloads immediately and rejects a late completion', async () => {
   const lab = laboratory();

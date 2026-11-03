@@ -1,4 +1,4 @@
-import { utf8ByteLength } from './core';
+import { parseQuestionAnswerWithLines, utf8ByteLength } from './core';
 import { MAX_NOTE_CHARS, MAX_SOURCE_BYTES } from './sources';
 
 export type YouTubeVideo = { videoId: string; canonicalUrl: string; startSeconds: number };
@@ -125,27 +125,35 @@ export function parseTranscript(text: string, format: TranscriptFormat, sourceLa
   return segments;
 }
 
-function explicitQuestions(segments: VideoSegment[]): WrittenQuestion[] {
-  const result: WrittenQuestion[] = [];
-  let pending: {question: string; segment: VideoSegment} | null = null;
+function explicitQuestions(segments: VideoSegment[], format: TranscriptFormat): WrittenQuestion[] {
+  const lines: string[] = [];
+  const lineSources: (VideoSegment | null)[] = [];
+  let previous: VideoSegment | null = null;
   for (const segment of segments) {
-    for (const line of segment.text.split('\n')) {
-      const q = line.trim().match(/^(?:س\s*[:：]|Q\s*[:：])\s*(.+)$/i);
-      const a = line.trim().match(/^(?:ج\s*[:：]|A\s*[:：])\s*(.+)$/i);
-      if (q) pending = {question:q[1].trim(),segment};
-      else if (a && pending) {
-        // Captions may overlap or arrive out of chronological order. Keep the
-        // evidence order and question link, but report a valid time envelope.
-        const starts = [pending.segment.startMs,segment.startMs].filter((time): time is number => time !== null);
-        const ends = [pending.segment.endMs,segment.endMs].filter((time): time is number => time !== null);
-        result.push({question:pending.question,answer:a[1].trim(),segmentIds:[...new Set([pending.segment.id,segment.id])],
-          startMs:starts.length ? Math.min(...starts) : null,
-          endMs:ends.length ? Math.max(...ends) : null,url:pending.segment.url});
-        pending = null;
-      }
+    // Text blocks are paragraphs; subtitle cue breaks are timing boundaries.
+    // Preserve original text paragraph spacing instead of merging paragraphs.
+    if (format === 'text' && previous) {
+      const gap = segment.sourceLine - previous.sourceLine - previous.text.split('\n').length;
+      for (let i = 0; i < gap; i++) { lines.push(''); lineSources.push(null); }
     }
+    for (const line of segment.text.split('\n')) { lines.push(line); lineSources.push(segment); }
+    previous = segment;
   }
-  return result;
+  return parseQuestionAnswerWithLines(lines.join('\n')).map(({ question, answer, lineStart, lineEnd }) => {
+    const contributing = new Map<string, VideoSegment>();
+    for (let line = lineStart; line <= lineEnd; line++) {
+      const segment = lineSources[line];
+      if (segment) contributing.set(segment.id, segment);
+    }
+    const sources = [...contributing.values()];
+    // Captions may overlap or be out of time order. Keep source encounter order
+    // and the question's URL while spanning all contributing answer cues.
+    const starts = sources.map(segment => segment.startMs).filter((time): time is number => time !== null);
+    const ends = sources.map(segment => segment.endMs).filter((time): time is number => time !== null);
+    return { question, answer, segmentIds: [...contributing.keys()],
+      startMs: starts.length ? Math.min(...starts) : null,
+      endMs: ends.length ? Math.max(...ends) : null, url: sources[0].url };
+  });
 }
 
 /** Builds a reviewable note draft; does not download audio, captions, or generate AI answers. */
@@ -158,7 +166,7 @@ export function prepareYouTubeSource(url: string, text: string, format: Transcri
   const segments: VideoSegment[] = parseTranscript(text,format,name).map(segment => ({...segment,
     videoId:video.videoId,url:segment.startMs === null ? baseUrl : youtubeAt(video.videoId,segment.startMs)}));
   const originalText = text;
-  const questions = explicitQuestions(segments);
+  const questions = explicitQuestions(segments, format);
   const writtenQuestions = questions.length
     ? `أسئلة وأجوبة مكتوبة في التفريغ — استخراج حرفي دون ذكاء اصطناعي:\n\n${questions.map(question =>
       `س: ${question.question}\nج: ${question.answer}\nمرجع السؤال: ${question.url}\nمقاطع المصدر: ${question.segmentIds.join('، ')}`

@@ -10,7 +10,16 @@ const Module = require('node:module');
 let fixture;
 function adapter(raw) {
   return {
-    execAsync: async sql => { fixture.executedSchemas++; raw.exec(sql); },
+    execAsync: async sql => {
+      fixture.executedSchemas++;
+      if (fixture.failNextBootstrap) {
+        fixture.failNextBootstrap = false;
+        // Fail in SQLite after the PRAGMAs execute, rather than replacing the
+        // entire bootstrap with a mock that never opens the existing file.
+        raw.exec(sql.replace('CREATE TABLE IF NOT EXISTS notes', 'CREATE TABLE ! notes'));
+      }
+      raw.exec(sql);
+    },
     runAsync: async (sql, ...args) => raw.prepare(sql).run(...args),
     getFirstAsync: async (sql, ...args) => raw.prepare(sql).get(...args) ?? null,
     getAllAsync: async (sql, ...args) => raw.prepare(sql).all(...args),
@@ -125,3 +134,17 @@ for (const seeded of [true, false]) {
     });
   });
 }
+
+test('failed schema initialization leaves old content intact and the next open can retry safely', async () => {
+  await withDatabase(async () => {
+    const before = createExistingDatabase(false);
+    fixture.failNextBootstrap = true;
+    await assert.rejects(openStorage(), /syntax error|unrecognized token/);
+    assert.deepEqual(snapshot(fixture.connections.at(-1)), before);
+    closeConnections();
+    const db = await openStorage();
+    assert.deepEqual(snapshot(fixture.connections.at(-1)), before);
+    assert.deepEqual(await db.getAllAsync('PRAGMA foreign_key_check'), []);
+    assert.equal(fixture.openedNames.length, 2);
+  });
+});

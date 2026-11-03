@@ -1,0 +1,28 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+FAIL iOS tests/media-panel.ui.test.jsx
+  ● removing a clip cancels playback queued behind a pending rewind
+
+    expect(jest.fn()).not.toHaveBeenCalled()
+
+    Expected number of calls: 0
+    Received number of calls: 1
+
+    1: called with 0 arguments
+
+      255 |     await waitFor(() => expect(library.trashMediaItem).toHaveBeenCalled());
+      256 |     await act(async () => finishSeek());
+    > 257 |     expect(mockPlayer.play).not.toHaveBeenCalled();
+          |                                 ^
+      258 |   } finally { alert.mockRestore(); }
+      259 | });
+      260 |
+
+      at Object.toHaveBeenCalled (tests/media-panel.ui.test.jsx:257:33)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 19 skipped, 20 total
+Snapshots:   0 total
+Time:        1.014 s, estimated 2 s
+Ran all test suites within paths "tests/media-panel.ui.test.jsx".

@@ -1,26 +1,34 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { AppState, Image, Linking, Platform, View } from 'react-native';
+import { Alert, AppState, Image, Linking, Platform, View } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as Sharing from 'expo-sharing';
 import { useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
 import { Button, Field, Label, Panel, arabicRow, type Palette } from '../ui';
 import { AudioCaptureSession, type CaptureSnapshot } from './AudioCaptureSession';
-import { loadMediaLibrary, mediaUri, saveCapturedMedia } from './library';
+import { loadMediaLibrary, loadMediaTrash, mediaUri, saveCapturedMedia, trashMediaItem, restoreMediaItem, permanentlyDeleteMediaItem } from './library';
 import { nativeCaptureDependencies } from './nativeRecorder';
 import { newMediaId, type CapturedMedia, type MediaItem } from './types';
 
 export type MediaCapturePanelProps = { p: Palette; onCreated?: (item: MediaItem) => void | Promise<void> };
 const duration = (ms: number) => `${Math.floor(ms / 60_000)}:${Math.floor(ms / 1000 % 60).toString().padStart(2, '0')}`;
 
-function AudioPreview({ uri, p }: { uri: string; p: Palette }) {
+function AudioPreview({ uri, p, label, pauseRef }: { uri: string; p: Palette; label: string; pauseRef: { current: (() => void) | undefined } }) {
   const player = useAudioPlayer(uri, { updateInterval: 500 });
   const status = useAudioPlayerStatus(player);
   const [error, setError] = useState('');
+  const playbackRevision = useRef(0);
+  const mounted = useRef(true);
   useEffect(() => {
-    const subscription = AppState.addEventListener('change', state => { if (state !== 'active') player.pause(); });
+    mounted.current = true;
+    pauseRef.current = () => { playbackRevision.current++; player.pause(); };
+    return () => { mounted.current = false; playbackRevision.current++; pauseRef.current = undefined; };
+  }, [player, pauseRef]);
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', state => { if (state !== 'active') { playbackRevision.current++; player.pause(); } });
     return () => subscription.remove();
   }, [player]);
   async function toggle() {
+    const request = ++playbackRevision.current;
     try {
       setError('');
       if (status.playing) player.pause();
@@ -29,12 +37,13 @@ function AudioPreview({ uri, p }: { uri: string; p: Palette }) {
         const atEnd = Number.isFinite(status.duration) && status.duration > 0
           && Number.isFinite(status.currentTime) && status.currentTime >= status.duration;
         if (status.didJustFinish || atEnd) await player.seekTo(0);
+        if (!mounted.current || request !== playbackRevision.current) return;
         player.play();
       }
-    } catch { setError('تعذّر تشغيل الملف الصوتي.'); }
+    } catch { if (mounted.current && request === playbackRevision.current) setError('تعذّر تشغيل الملف الصوتي.'); }
   }
   return <View style={{ gap: 8 }}>
-    <Button p={p} tone="secondary" title={status.playing ? 'إيقاف التشغيل مؤقتًا' : 'تشغيل التسجيل'} disabled={!status.isLoaded} onPress={() => { void toggle(); }} />
+    <Button p={p} tone="secondary" title={status.playing ? 'إيقاف التشغيل مؤقتًا' : 'تشغيل التسجيل'} accessibilityLabel={`${status.playing ? 'إيقاف التشغيل مؤقتًا' : 'تشغيل التسجيل'} ${label}`} disabled={!status.isLoaded} onPress={() => { void toggle(); }} />
     <Label p={p} size={12} color={p.muted}>{duration((status.currentTime || 0) * 1000)} / {duration((status.duration || 0) * 1000)}</Label>
     {error || status.error ? <Label p={p} color={p.danger} role="alert">{error || 'تعذّر تحميل الملف الصوتي.'}</Label> : null}
   </View>;
@@ -60,6 +69,11 @@ export function MediaCapturePanel({ p, onCreated }: MediaCapturePanelProps) {
   const [playing, setPlaying] = useState<{ id: string; uri: string }>();
   const [libraryLoading, setLibraryLoading] = useState(true);
   const [visibleCount, setVisibleCount] = useState(10);
+  const [trash, setTrash] = useState<MediaItem[]>([]);
+  const [showTrash, setShowTrash] = useState(false);
+  const [mediaBusy, setMediaBusy] = useState(false);
+  const mutationLock = useRef(false);
+  const pausePlayback = useRef<(() => void) | undefined>(undefined);
   const alive = useRef(true);
   const photoLock = useRef(false);
   const titleRef = useRef(title);
@@ -72,11 +86,11 @@ export function MediaCapturePanel({ p, onCreated }: MediaCapturePanelProps) {
   }));
   const [capture, setCapture] = useState<CaptureSnapshot>(session.snapshot);
   const captureBusy = ['preparing', 'recording', 'saving'].includes(capture.state);
-  const disabled = photoBusy || captureBusy || libraryLoading;
+  const disabled = photoBusy || captureBusy || libraryLoading || mediaBusy;
   async function refresh(recover = false) {
     try {
-      const result = await loadMediaLibrary(recover);
-      if (alive.current) { setItems(result.items); setWarnings(result.warnings); }
+      const [result, removed] = await Promise.all([loadMediaLibrary(recover), loadMediaTrash()]);
+      if (alive.current) { setItems(result.items); setTrash(removed.items); setWarnings([...result.warnings, ...removed.warnings]); }
     } catch {
       if (alive.current) setWarnings(['تعذّر فتح مكتبة الوسائط. لم تُحذف الملفات؛ أعد المحاولة.']);
     } finally { if (alive.current) setLibraryLoading(false); }
@@ -142,6 +156,25 @@ export function MediaCapturePanel({ p, onCreated }: MediaCapturePanelProps) {
       if (alive.current) setNotice('أُغلقت نافذة المشاركة. اختر «حفظ في الملفات» داخلها لتصدير نسخة.');
     } catch (error) { if (alive.current) setNotice(error instanceof Error ? error.message : 'تعذّرت مشاركة الملف.'); }
   }
+  async function changeMedia(item: MediaItem, action: 'trash' | 'restore' | 'delete') {
+    if (mutationLock.current || photoLock.current || ['preparing', 'recording', 'saving'].includes(session.snapshot.state)) return;
+    mutationLock.current = true; setMediaBusy(true); setNotice('');
+    try {
+      pausePlayback.current?.(); setPlaying(undefined);
+      const result = action === 'trash' ? await trashMediaItem(item) : action === 'restore' ? await restoreMediaItem(item) : await permanentlyDeleteMediaItem(item);
+      if (alive.current) setNotice((action === 'trash' ? 'نُقل الوسيط إلى المحذوفات. يمكنك استعادته.' : action === 'restore' ? 'استُعيد الوسيط إلى المكتبة.' : 'حُذف ملف الوسيط نهائيًا من التطبيق.') + (result?.warning ? ` ${result.warning}` : ''));
+    } catch (failure) { if (alive.current) setNotice(failure instanceof Error ? failure.message : 'لم تكتمل العملية. حدّث القوائم ثم حاول مجددًا.'); }
+    finally {
+      await refresh(false);
+      mutationLock.current = false;
+      if (alive.current) setMediaBusy(false);
+    }
+  }
+  function confirmRemoval(item: MediaItem, permanent = false) {
+    Alert.alert(permanent ? `حذف «${item.title}» نهائيًا؟` : `نقل «${item.title}» إلى المحذوفات؟`,
+      `${item.fileName}\n${permanent ? 'لا يمكن التراجع بعد حذف الملف. لن تُحذف النسخ التي صدّرتها خارج التطبيق.' : 'يمكنك استعادته لاحقًا. سيبقى محفوظًا ويشغل مساحة حتى تختار الحذف النهائي. لن تتغير النسخ المصدّرة.'}`,
+      [{ text: 'إلغاء', style: 'cancel' }, { text: permanent ? 'حذف نهائي' : 'نقل إلى المحذوفات', style: 'destructive', onPress: () => { void changeMedia(item, permanent ? 'delete' : 'trash'); } }]);
+  }
   const statusText = capture.state === 'recording' ? `جارٍ التسجيل · ${duration(capture.durationMs)}`
     : capture.state === 'preparing' ? 'جارٍ تجهيز الميكروفون…'
     : capture.state === 'saving' ? 'جارٍ حفظ التسجيل…'
@@ -175,13 +208,25 @@ export function MediaCapturePanel({ p, onCreated }: MediaCapturePanelProps) {
       <Label p={p} weight="600">{item.title}</Label>
       <Label p={p} size={12} color={p.muted}>{item.kind === 'audio' ? 'تسجيل صوتي' : 'صورة'} · {new Date(item.createdAt).toLocaleDateString('ar')} · {(item.sizeBytes / 1024 / 1024).toFixed(2)} MB{item.durationMs === undefined ? '' : ` · ${duration(item.durationMs)}`}</Label>
       {item.kind === 'image' ? <MediaThumbnail item={item} p={p} /> : null}
-      {playing?.id === item.id ? <AudioPreview key={item.id} uri={playing.uri} p={p} /> : null}
+      {playing?.id === item.id ? <AudioPreview key={item.id} uri={playing.uri} p={p} label={`${item.title}، ${item.fileName}`} pauseRef={pausePlayback} /> : null}
       <View style={{ flexDirection: arabicRow, flexWrap: 'wrap', gap: 8 }}>
-        {item.kind === 'audio' ? <Button p={p} tone="secondary" compact title={playing?.id === item.id ? 'إغلاق المشغّل' : 'استماع'} disabled={captureBusy} onPress={() => { try { setPlaying(playing?.id === item.id ? undefined : { id: item.id, uri: mediaUri(item) }); } catch { setNotice('الملف غير موجود. حدّث المكتبة.'); } }} /> : null}
-        <Button p={p} tone="secondary" compact title="مشاركة / حفظ في الملفات" disabled={captureBusy} accessibilityLabel={`مشاركة ${item.title} أو حفظه في الملفات`} onPress={() => { void share(item); }} />
+        {item.kind === 'audio' ? <Button p={p} tone="secondary" compact title={playing?.id === item.id ? 'إغلاق المشغّل' : 'استماع'} accessibilityLabel={`${playing?.id === item.id ? 'إغلاق مشغّل' : 'استماع إلى'} ${item.title}، ${item.fileName}`} disabled={disabled} onPress={() => { try { setPlaying(playing?.id === item.id ? undefined : { id: item.id, uri: mediaUri(item) }); } catch { setNotice('الملف غير موجود. حدّث المكتبة.'); } }} /> : null}
+        <Button p={p} tone="secondary" compact title="مشاركة / حفظ في الملفات" disabled={disabled} accessibilityLabel={`مشاركة ${item.title} أو حفظه في الملفات`} onPress={() => { void share(item); }} />
+        <Button p={p} tone="danger" compact title="نقل إلى المحذوفات" disabled={disabled} accessibilityLabel={`نقل ${item.title}، ${item.fileName} إلى المحذوفات`} onPress={() => confirmRemoval(item)} />
       </View>
     </View>)}
     {items.length > visibleCount ? <Button p={p} tone="plain" title="عرض المزيد من الوسائط" onPress={() => setVisibleCount(value => value + 10)} /> : null}
+    {trash.length > 0 && <Button p={p} tone="plain" title={`${showTrash ? 'إخفاء' : 'عرض'} المحذوفات (${trash.length})`} onPress={() => setShowTrash(value => !value)} />}
+    {showTrash && trash.length > 0 && <View style={{ gap: 12 }}>
+      <Label p={p} color={p.muted} size={13}>المحذوفات لا تُزال تلقائيًا، ولا تدخل النسخ الاحتياطية الجديدة. استعد الوسيط أو احذفه نهائيًا لتحرير مساحته.</Label>
+      {trash.map(item => <View key={item.id} style={{ gap: 8 }}>
+        <Label p={p} weight="600">{item.title}</Label><Label p={p} size={12} color={p.muted}>{item.fileName}</Label>
+        <View style={{ flexDirection: arabicRow, flexWrap: 'wrap', gap: 8 }}>
+          <Button p={p} title="استعادة" tone="secondary" disabled={disabled} accessibilityLabel={`استعادة ${item.title}، ${item.fileName}`} onPress={() => { void changeMedia(item, 'restore'); }} />
+          <Button p={p} title="حذف نهائي" tone="danger" disabled={disabled} accessibilityLabel={`حذف ${item.title}، ${item.fileName} نهائيًا`} onPress={() => confirmRemoval(item, true)} />
+        </View>
+      </View>)}
+    </View>}
     <Label p={p} size={12} color={p.muted}>الوسائط محفوظة داخل بيانات التطبيق، وتُصدّر منفردة من زر المشاركة. النسخة الاحتياطية النصية لا تتضمن ملفات الصور والصوت. حذف التطبيق قد يحذف هذه الملفات؛ صدّر المهم منها إلى «الملفات».</Label>
   </Panel>;
 }

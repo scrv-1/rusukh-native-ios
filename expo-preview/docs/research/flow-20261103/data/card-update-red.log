@@ -1,0 +1,56 @@
+✖ updateCard changes only text and updatedAt, preserving schedule, ownership and review history (1.805692ms)
+✖ updateCard rejects absent cards and invalid text without changing any existing row (0.517768ms)
+✖ duplicate questions are rejected within the same note but allowed in another note (0.52653ms)
+✖ a failed UPDATE rolls back text and preserves history instead of deleting and recreating the card (0.502885ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 0
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 92.079171
+
+✖ failing tests:
+
+test at tests/card-update.test.cjs:44:1
+✖ updateCard changes only text and updatedAt, preserving schedule, ownership and review history (1.805692ms)
+  TypeError [Error]: updateCard is not a function
+      at TestContext.<anonymous> (/workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/tests/card-update.test.cjs:48:11)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17)
+
+test at tests/card-update.test.cjs:58:1
+✖ updateCard rejects absent cards and invalid text without changing any existing row (0.517768ms)
+  TypeError [Error]: updateCard is not a function
+      at TestContext.<anonymous> (/workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/tests/card-update.test.cjs:64:28)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+
+test at tests/card-update.test.cjs:71:1
+✖ duplicate questions are rejected within the same note but allowed in another note (0.52653ms)
+  TypeError [Error]: updateCard is not a function
+      at TestContext.<anonymous> (/workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/tests/card-update.test.cjs:78:26)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at tests/card-update.test.cjs:87:1
+✖ a failed UPDATE rolls back text and preserves history instead of deleting and recreating the card (0.502885ms)
+  TypeError [Error]: updateCard is not a function
+      at TestContext.<anonymous> (/workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/tests/card-update.test.cjs:92:26)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)

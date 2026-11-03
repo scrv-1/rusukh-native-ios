@@ -1,0 +1,7 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+Test Suites: 3 passed, 3 total
+Tests:       38 passed, 38 total
+Snapshots:   0 total
+Time:        1.669 s, estimated 2 s
+Ran all test suites matching tests/ai-workspace.ui.test.jsx|tests/ai-bridge.ui.test.jsx|tests/ai-session.ui.test.jsx.

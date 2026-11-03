@@ -177,7 +177,9 @@ async function generate(smoke = false) {
       if (response.choices?.[0]?.finish_reason === 'length') throw new Error('توقفت الإجابة عند حد الرموز. لم نحفظ نتيجة مبتورة. جرّب مقطعًا أقصر.');
       draft = parseDraft(raw, source, fileName);
       $('result').textContent = draft.questions.map(q => `${q.question}\n${q.answer}\nالشاهد: «${q.evidence}»`).join('\n\n');
-      status('draft', 'مسودة مولّدة فعليًا. طابقنا نص الشاهد فقط؛ راجع صحة الاستنتاج بنفسك. لم تُحفظ بعد.');
+      status('draft', 'مسودة مولّدة فعليًا. طابقنا نص الشاهد فقط؛ راجع صحة الاستنتاج قبل اعتمادها في الدراسة.');
+      // Recovery is not adoption: the host stores a reviewable draft, never cards.
+      emit('draft', draft);
     }
   } catch (error) { if (token === operation) fail(error); }
   finally { if (token === operation) { clearTimer(); abort = null; } }

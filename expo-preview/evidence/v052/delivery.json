@@ -1,0 +1,29 @@
+{
+  "version": "0.5.2",
+  "observedAtUTC": "2026-11-03T00:22:26.505741+00:00",
+  "branch": "work/expo-study-flow-20261103",
+  "base": "work/expo-usability-20261103",
+  "testedProductCommit": "a1ec9eb838e003ed7d4fda6bd4d73cd5d4bf5570",
+  "previousCheckpoint": "54230d457269e0d1a8f7bb109ebc5962f9a9378b",
+  "draftPR": "https://github.com/scrv-1/rusukh-native-ios/pull/10",
+  "sourceFilesVerified": 116,
+  "testCounts": {
+    "core": 137,
+    "ui": 332,
+    "ai": 32,
+    "total": 501
+  },
+  "audit": {
+    "findings": 47,
+    "fixedWithinScope": 29,
+    "newFixes": 23,
+    "open": 18
+  },
+  "limits": [
+    "No physical iPhone test",
+    "No verified Arabic model run on iPhone",
+    "SQLite rescue excludes media and has no in-app import",
+    "Persistent full provenance and model manager remain partial",
+    "No SwiftUI change, MacCI run, paid service, dependency addition or merge"
+  ]
+}

@@ -1,0 +1,40 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+FAIL iOS tests/media-library.ui.test.jsx
+  ● an interrupted copy is staged separately and cannot become a recovered complete item
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  -  1
+    + Received  + 12
+
+    - Array []
+    + Array [
+    +   Object {
+    +     "createdAt": 1793663017517,
+    +     "fileName": "photo-1.jpg",
+    +     "id": "photo-1",
+    +     "kind": "image",
+    +     "mimeType": "image/jpeg",
+    +     "sizeBytes": 7,
+    +     "title": "صورة مستعادة",
+    +     "version": 1,
+    +   },
+    + ]
+
+      257 |   await expect(saveCapturedMedia(photo)).rejects.toThrow();
+      258 |   mockFiles.delete(photo.uri); mockPartialCopy = false;
+    > 259 |   expect((await loadMediaLibrary(true)).items).toEqual([]);
+          |                                                ^
+      260 |   expect(mockFiles.has('file:///documents/rusukh-media/photo-1.jpg')).toBe(false);
+      261 | });
+      262 |
+
+      at Object.toEqual (tests/media-library.ui.test.jsx:259:48)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 26 skipped, 27 total
+Snapshots:   0 total
+Time:        0.766 s, estimated 1 s
+Ran all test suites within paths "tests/media-library.ui.test.jsx".

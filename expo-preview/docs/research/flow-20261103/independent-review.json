@@ -1,0 +1,137 @@
+{
+  "reviewed_at_utc": "2026-11-03T00:03:16.498045+00:00",
+  "scope": "Independent review of integrated App, persistent source/card drafts, and AI session; no product code modified by reviewer.",
+  "environment": "Jest expo/ios preset with React components/hooks and mocked storage/AppState; not iPhone or actual SQLite persistence.",
+  "findings": [
+    {
+      "id": "FREV01",
+      "kind": "reproduced-bug",
+      "severity": "P1",
+      "title_ar": "تجاهل المسودة يمكن أن يُنقض بكتابة الخلفية أو تنظيف الإزالة",
+      "file": "src/usePersistentDraft.ts",
+      "cause_ar": "clear يؤخر تصفير المرجع؛ flush أو cleanup يكتب المرجع القديم بعد tombstone. إصلاح guard للـflush وحده لا يغطي cleanup.",
+      "tests": [
+        "explicit discard cannot be undone by AppState flush while its tombstone write is pending",
+        "unmount cleanup cannot resurrect a draft while explicit discard is pending"
+      ],
+      "red_logs": [
+        "persistent-draft-red.txt",
+        "persistent-draft-unmount-red.txt"
+      ],
+      "acceptance_ar": "بعد نجاح تجاهل صريح تبقى الخانة null عبر inactive/unmount، بينما ينجو أي تعديل جديد مقبول أثناء العملية، وفشل الحذف يبقي النص.",
+      "status": "fixed-and-targeted-tests-passed",
+      "green_log": "independent-final-green.txt",
+      "verification_scope": "Jest with mocked storage/AppState, no iPhone validation",
+      "fix_ar": "المسح الجاري له promise/revision صريحان، وflush وcleanup لا يكتبان المرجع السابق بعده؛ تعديل أحدث له revision مستقل."
+    },
+    {
+      "id": "FREV02",
+      "kind": "reproduced-bug",
+      "severity": "P2",
+      "title_ar": "التراجع عن تحرير بطاقة أو ملاحظة كان يترك نصًا وسيطًا في المسودة",
+      "file": "App.tsx",
+      "cause_ar": "effect يحفظ فقط changed=true؛ عند العودة للنص الأصلي لا تُحدّث أو تُفرّغ خانة المسودة السابقة.",
+      "tests": [
+        "reverting a card edit to the original answer does not recover an obsolete intermediate answer",
+        "reverting a note edit to its original text does not recover an obsolete intermediate body",
+        "reverting a note while its first autosave is pending leaves no stale recovery text"
+      ],
+      "red_logs": [
+        "study-flow-independent-red.txt",
+        "note-revert-red.txt"
+      ],
+      "acceptance_ar": "تعديل ثم تراجع إلى الأصل ثم استئناف يعرض الأصل أو لا يعرض مسودة، ولا يحيي التعديل الملغى.",
+      "status": "fixed-and-targeted-tests-passed",
+      "green_log": "independent-final-green.txt",
+      "verification_scope": "Jest with mocked storage/AppState, no iPhone validation",
+      "fix_ar": "العودة للأصل تكتب tombstone متسلسلًا في المسودتين؛ لا يعتمد مسح مسودة الملاحظة على وجود recoveredDraft."
+    },
+    {
+      "id": "FREV03",
+      "kind": "reproduced-bug",
+      "severity": "P1",
+      "title_ar": "إغلاق مع حفظ مسودة بطاقة قد يفقد نصًا رفضه التحقق",
+      "file": "App.tsx / src/studyDrafts.ts / src/usePersistentDraft.ts",
+      "cause_ar": "الحقل يقبل NUL، validCardDraft يرفضه وupdate يعيد false بصمت؛ finishCardClose يعتمد flush لم يسجل النص فيُغلق بلا نسخة.",
+      "tests": [
+        "save-draft-and-close preserves exact control-character text or keeps the editor open on failure"
+      ],
+      "red_logs": [
+        "study-flow-independent-red.txt"
+      ],
+      "acceptance_ar": "إما حفظ النص الحالي المتحقق منه، أو إبقاء المحرر الحالي مع سبب واضح؛ لا نجاح من flush لخانة أقدم. تطبيق مبدأ الرفض الصريح على المصدر أيضًا.",
+      "status": "fixed-and-targeted-tests-passed",
+      "source_extension_ar": "validSourceForm وvalidCardDraft يسمحان بتخزين محارف التحكم في المسودة؛ الاختبار المستقل أعاد تشغيل App واستعاد نص البطاقة حرفيًا. منع النشر راجع بالمصدر، ولم يضف المراجع اختبار نشر مستقلًا.",
+      "green_log": "independent-final-green.txt",
+      "verification_scope": "Jest with mocked storage/AppState, no iPhone validation",
+      "fix_ar": "خانات المسودة تحفظ محارف النص كبيانات قابلة للاسترجاع؛ نشر NUL يرفض صراحة بالمصدر. إغلاق البطاقة يلتقط snapshot الحالي ويتحقق update ثم flush قبل الإغلاق."
+    },
+    {
+      "id": "FREV04",
+      "kind": "reproduced-bug",
+      "severity": "P2",
+      "title_ar": "حفظ مسودة صالحة قد ينتج JSON يتجاوز حد استرجاعها",
+      "file": "src/usePersistentDraft.ts",
+      "cause_ar": "حد القراءة6.5M أصغر من توسع JSON الممكن للحقول المقبولة؛ حقلان600k بمحارف تحكم يكتبان نحو7.2M ثم يفشل الاسترجاع.",
+      "tests": [
+        "an accepted card draft with JSON-escaped characters can be recovered after restart"
+      ],
+      "red_logs": [
+        "persistent-draft-size-red.txt"
+      ],
+      "acceptance_ar": "كل payload يقبله update وتنجح كتابته يعود في القراءة؛ حدود الكتابة والقراءة متسقة مع توسع JSON. النص لم يحذف منSQLite، لكن القراءة داخل التطبيق فشلت.",
+      "status": "fixed-and-targeted-tests-passed",
+      "green_log": "independent-final-green.txt",
+      "verification_scope": "Jest with mocked storage/AppState, no iPhone validation",
+      "fix_ar": "حد JSON موحد20 مليون محرف للكتابة والقراءة، يغطي توسع المخططات المحدودة للمصدر والبطاقة. نجح اختبار الاسترجاع بعد كتابةJSON أكبر من6.5M."
+    },
+    {
+      "id": "FREV05",
+      "kind": "requirement-gap",
+      "severity": "P2",
+      "title_ar": "مرجع AI البنيوي يصل إلى callback ولا يحتفظ به محرر الملاحظة",
+      "file": "src/AIWorkspace.tsx / App.tsx / src/useNoteDraft.ts",
+      "cause_ar": "AIWorkspace.review يرسل sourceNoteId؛ editDraft وNoteDraft لا يحتفظان به، وcommitNote يربط البطاقات بملاحظة الأسئلة الجديدة.",
+      "tests": [
+        "recovered AI note draft creates cards linked to its exact original source",
+        "recovered AI note draft does not attach cards to a changed, replaced or missing source (3 cases)"
+      ],
+      "red_logs": [],
+      "acceptance_ar": "لا إعلان اكتمال S006/A008؛ إذا أُنجزت هجرة منشأ فعلية فاختبر الاستعادة وإعادة تسمية الأصل والحفظ دون ربط بمصدر آخر.",
+      "status": "partially-addressed-initial-adoption-tested",
+      "fix_ar": "NoteDraft يحتفظ بمرجع المصدر وcreatedAt/updatedAt؛ استخراج البطاقات من المسودة المستعادة يربط noteId بالأصل المطابق. تغير المصدر أو غيابه يمنع الاستخراج ويتيح حفظ النص فقط.",
+      "green_log": "independent-final-green.txt",
+      "remaining_ar": "إعادة فتح ملاحظة الأسئلة بعد حفظها كنص عادي لا تستعيد sourceNote البنيوي. لا يحتوي مخطط البطاقة على إصدار المصدر/النموذج والشاهد لكل بطاقة؛ اكتمال منشأ دائم له هجرة واختبارات نسخ احتياطي مستقلة. لا إعلان اكتمال S006/A008 بالكامل."
+    }
+  ],
+  "tests_owned": [
+    "tests/persistent-draft.ui.test.jsx",
+    "tests/study-flow-independent.ui.test.jsx"
+  ],
+  "no_claims": [
+    "No iPhone test",
+    "No SwiftUI test",
+    "No full-suite result or release approval from this reviewer",
+    "No installed model inference claim",
+    "Initial AI adoption passed; full durable provenance remains partial"
+  ],
+  "targeted_verification": {
+    "checked_at_utc": "2026-11-03T00:03:16.498045+00:00",
+    "command": "./node_modules/.bin/jest --runInBand tests/persistent-draft.ui.test.jsx tests/study-flow-independent.ui.test.jsx",
+    "suites_passed": 2,
+    "tests_passed": 15,
+    "tests_failed": 0,
+    "log": "independent-final-green.txt"
+  },
+  "reviewed_source_sha256": {
+    "App.tsx": "47561d8f5fa7e0f1b27115479f2a4c928b695a6fbf1bfa44e9d31472af2d00ba",
+    "src/usePersistentDraft.ts": "bc6a6f07760ebf886ab3226b2029e71e4f73b78d8a4736f0471a1f221d722f9b",
+    "src/studyDrafts.ts": "ee5abc211fb858d367398ce188dfe8649c6ffdfbad1c3d3a7c0096da07522c6b",
+    "src/SourcesWorkbench.tsx": "550b3c6db74a54665673e60b2382381bbadf53adca87bbb327422d4332406166",
+    "src/AIWorkspace.tsx": "a348042d98cfc1b18f6e2d3381546233392a2c3f74f34c37416140fe0324c9c5",
+    "src/ai/useAIStudySession.ts": "42463f74b31273238fe41f6cbc7d02e06343bf83e32546a72aefcacb4c93e82a",
+    "src/useNoteDraft.ts": "6dabec2068be40436c1bece33f029099caee1428eaee7cd3b5dc38bafbe8a629",
+    "tests/persistent-draft.ui.test.jsx": "56dcb6d4ce2cde1ed061611a7f7c3dc5db132d900c1f261ec3adf59a1149b97c",
+    "tests/study-flow-independent.ui.test.jsx": "ab6cd9e0167a15a7574d79bafc089ddced0241ac48e4003f4a0ae96a9adb1634"
+  }
+}

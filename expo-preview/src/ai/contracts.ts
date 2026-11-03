@@ -48,7 +48,10 @@ export function validateQuestions(value: unknown, sourceText: string): LocalAIQu
     const { question, answer, evidence } = item as Record<string, unknown>;
     if (typeof question !== 'string' || typeof answer !== 'string' || typeof evidence !== 'string') throw new Error('حقول السؤال والإجابة والشاهد مطلوبة.');
     if (!question.trim() || question.length > 500 || !answer.trim() || answer.length > 1200 || evidence.trim().length < 8 || evidence.length > 1000) throw new Error('حجم السؤال أو الإجابة أو الشاهد غير صالح.');
-    if (!/[\u0600-\u06ff]/u.test(question) || !/[\u0600-\u06ff]/u.test(answer)) throw new Error('لم ينتج النموذج سؤالًا وإجابة بالعربية.');
+    // Arabic-block punctuation, digits and combining marks are not letters.
+    // This checks letter presence only, not fluent Arabic or semantic quality.
+    const hasArabicLetter = (text: string) => [...text].some(char => /\p{Script=Arabic}/u.test(char) && /\p{Letter}/u.test(char));
+    if (!hasArabicLetter(question) || !hasArabicLetter(answer)) throw new Error('لم ينتج النموذج سؤالًا وإجابة بالعربية.');
     if (!sourceText.includes(evidence)) throw new Error('رفضنا المسودة لأن شاهدها ليس اقتباسًا حرفيًا من المصدر.');
     return { question: question.trim(), answer: answer.trim(), evidence };
   });

@@ -19,9 +19,10 @@ function hashSource(relative) {
     sourceHashes[relative] = createHash('sha256').update(fs.readFileSync(file)).digest('hex');
   }
 }
-for (const relative of ['App.tsx','src','tests','ai-lab/engine-entry.mjs','ai-lab/engine-runtime.test.mjs','ai-lab/test.mjs','ai-lab/package.json','package.json','package-lock.json','app.json','scripts/verify-release.cjs','scripts/verify-live-expo.py','scripts/build-ux-register.py']) hashSource(relative);
+for (const relative of ['App.tsx','src','tests','ai-lab/build.mjs','ai-lab/engine-entry.mjs','ai-lab/engine-runtime.test.mjs','ai-lab/test.mjs','ai-lab/package.json','ai-lab/package-lock.json','package.json','package-lock.json','app.json','scripts/verify-release.cjs','scripts/verify-ai-build.cjs','scripts/verify-live-expo.py','scripts/build-ux-register.py']) hashSource(relative);
 fs.writeFileSync(path.join(out,'source-sha256.json'), JSON.stringify(sourceHashes,null,2)+'\n');
 const checks = [
+  ['ai-build-integrity','node',['scripts/verify-ai-build.cjs']],
   ['core-tests','npm',['test']],
   ['ai-contract-tests','node',['--test','ai-lab/test.mjs','ai-lab/engine-runtime.test.mjs']],
   ['ui-tests','npm',['run','test:ui']],

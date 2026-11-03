@@ -1,0 +1,420 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+FAIL iOS tests/ai-workspace.ui.test.jsx
+  ● local engine is opt in and refuses silently truncated input
+
+    Unable to find an element with text: اختر مقطعًا بين 30 و1600 حرف. لن نختصر مصدرَك دون علمك.
+
+    [36m<View>[39m
+      [36m<Text[39m
+        [33maccessibilityRole[39m=[32m"header"[39m
+      [36m>[39m
+        [0mمساعد الدراسة المحلي[0m
+      [36m</Text>[39m
+      [36m<Text>[39m
+        [0mحوّل مقطعًا قصيرًا إلى مسودة سؤال وإجابة على جهازك. تشغيل النموذج في Expo Go تجريبي، ويحتاج ملفًا محفوظًا؛ لم يُختبر على آيفونك بعد.[0m
+      [36m</Text>[39m
+      [36m<View>[39m
+        [36m<Text[39m
+          [33maccessibilityRole[39m=[32m"header"[39m
+        [36m>[39m
+          [0mتجهيز النموذج[0m
+        [36m</Text>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"لدي نموذج GGUF"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+                "selected": true,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mلدي نموذج GGUF[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"أحتاج النموذج المرجعي"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+                "selected": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mأحتاج النموذج المرجعي[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+        [36m<Text>[39m
+          [0mاختر المصدر أدناه وافتح المحرك، ثم اختر ملف النموذج. يمكنك تبديل ملف GGUF داخل المحرك؛ دعم الملفات الأخرى والعربية غير مضمون.[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<Text[39m
+          [33maccessibilityRole[39m=[32m"header"[39m
+        [36m>[39m
+          [0mالمصدر الذي تريد دراسته[0m
+        [36m</Text>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0mالبحث عن مصدر محفوظ[0m
+          [36m</Text>[39m
+          [36m<TextInput[39m
+            [33maccessibilityLabel[39m=[32m"البحث عن مصدر محفوظ"[39m
+            [33meditable[39m=[32m{true}[39m
+            [33mvalue[39m=[32m""[39m
+          [36m/>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"استخدام: التعلّم"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mاستخدام: التعلّم[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<Text>[39m
+          [0mيمكنك أيضًا لصق مقطع من PDF أو تفريغ YouTube. يظل النص الكامل محفوظًا في ملاحظتك؛ اختر الجزء الذي تريد دراسته هنا.[0m
+        [36m</Text>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0mالنص المصدري للمساعد[0m
+          [36m</Text>[39m
+          [36m<TextInput[39m
+            [33maccessibilityLabel[39m=[32m"النص المصدري للمساعد"[39m
+            [33meditable[39m=[32m{true}[39m
+            [33mvalue[39m=[32m"ععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععععع"[39m
+          [36m/>[39m
+        [36m</View>[39m
+        [36m<Text>[39m
+          [0m1601[0m
+          [0m / 1600 حرف[0m
+        [36m</Text>[39m
+        [36m<Text[39m
+          [33maccessibilityRole[39m=[32m"alert"[39m
+        [36m>[39m
+          [0mاختر مقطعًا لا يتجاوز 1600 حرفًا؛ لن نقتطع المصدر دون علمك.[0m
+        [36m</Text>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح المحرك المحلي"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mفتح المحرك المحلي[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"تجاهل جلسة المساعد"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mتجاهل جلسة المساعد[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</View>[39m
+
+      43 |  await fireEvent.changeText(screen.getByLabelText('النص المصدري للمساعد'),'ع'.repeat(1601));
+      44 |  await fireEvent.press(screen.getByRole('button',{name:'فتح المحرك المحلي'}));
+    > 45 |  expect(screen.getByText('اختر مقطعًا بين 30 و1600 حرف. لن نختصر مصدرَك دون علمك.')).toBeTruthy();
+         |                ^
+      46 |  expect(screen.queryByRole('button',{name:'إغلاق المحرك وتحرير الذاكرة'})).toBeNull();
+      47 |  expect(p.onDraft).not.toHaveBeenCalled();
+      48 | });
+
+      at Object.getByText (tests/ai-workspace.ui.test.jsx:45:16)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● selected note remains unchanged and generated cards wait for explicit review
+
+    Unable to find an element with role: button, name: مراجعة الأسئلة في المحرر
+
+    [36m<View>[39m
+      [36m<Text[39m
+        [33maccessibilityRole[39m=[32m"header"[39m
+      [36m>[39m
+        [0mمساعد الدراسة المحلي[0m
+      [36m</Text>[39m
+      [36m<Text>[39m
+        [0mحوّل مقطعًا قصيرًا إلى مسودة سؤال وإجابة على جهازك. تشغيل النموذج في Expo Go تجريبي، ويحتاج ملفًا محفوظًا؛ لم يُختبر على آيفونك بعد.[0m
+      [36m</Text>[39m
+      [36m<View>[39m
+        [36m<Text[39m
+          [33maccessibilityRole[39m=[32m"header"[39m
+        [36m>[39m
+          [0mالمصدر الذي تريد دراسته[0m
+        [36m</Text>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0mالبحث عن مصدر محفوظ[0m
+          [36m</Text>[39m
+          [36m<TextInput[39m
+            [33maccessibilityLabel[39m=[32m"البحث عن مصدر محفوظ"[39m
+            [33meditable[39m=[32m{true}[39m
+            [33mvalue[39m=[32m""[39m
+          [36m/>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"استخدام: التعلّم"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mاستخدام: التعلّم[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<Text>[39m
+          [0mيمكنك أيضًا لصق مقطع من PDF أو تفريغ YouTube. يظل النص الكامل محفوظًا في ملاحظتك؛ اختر الجزء الذي تريد دراسته هنا.[0m
+        [36m</Text>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0mالنص المصدري للمساعد[0m
+          [36m</Text>[39m
+          [36m<TextInput[39m
+            [33maccessibilityLabel[39m=[32m"النص المصدري للمساعد"[39m
+            [33meditable[39m=[32m{true}[39m
+            [33mvalue[39m=[32m"المراجعة المتباعدة توزع جلسات المراجعة على فترات زمنية وتساعد على استرجاع المعلومات."[39m
+          [36m/>[39m
+        [36m</View>[39m
+        [36m<Text>[39m
+          [0m84[0m
+          [0m / 1600 حرف[0m
+        [36m</Text>[39m
+        [36m<Text[39m
+          [33maccessibilityRole[39m=[32m"alert"[39m
+        [36m>[39m
+          [0mلم تُقبل نتيجة لا تطابق المصدر الحالي.[0m
+        [36m</Text>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"تجاهل جلسة المساعد"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mتجاهل جلسة المساعد[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<Text>[39m
+          [0mالمصدر: [0m
+          [0mالتعلّم[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mتُفحص مطابقة الاقتباس حرفيًا؛ هذا لا يضمن صحة الاستنتاج. راجع الأسئلة بنفسك.[0m
+        [36m</Text>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"إغلاق المحرك وتحرير الذاكرة"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mإغلاق المحرك وتحرير الذاكرة[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</View>[39m
+
+      55 |  await act(()=>mockResult({questions:[{question:'كيف تساعد المراجعة؟',answer:'بتوزيع الجلسات.',evidence:'توزع جلسات المراجعة على فترات زمنية'}],sourceText:text,modelName:'test.gguf'}));
+      56 |  expect(p.onDraft).not.toHaveBeenCalled();
+    > 57 |  await fireEvent.press(screen.getByRole('button',{name:'مراجعة الأسئلة في المحرر'}));
+         |                               ^
+      58 |  expect(p.onDraft).toHaveBeenCalledWith(expect.objectContaining({title:'أسئلة — التعلّم',body:expect.stringContaining('الشاهد: «توزع جلسات المراجعة على فترات زمنية»')}));
+      59 |  expect(p.notes[0].body).toBe(text);
+      60 |  await fireEvent.press(screen.getByRole('button',{name:'إغلاق المحرك وتحرير الذاكرة'}));
+
+      at Object.getByRole (tests/ai-workspace.ui.test.jsx:57:31)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● metadata cannot inject additional flashcards into a reviewed AI draft
+
+    Unable to find an element with role: button, name: مراجعة الأسئلة في المحرر
+
+    [36m<View>[39m
+      [36m<Text[39m
+        [33maccessibilityRole[39m=[32m"header"[39m
+      [36m>[39m
+        [0mمساعد الدراسة المحلي[0m
+      [36m</Text>[39m
+      [36m<Text>[39m
+        [0mحوّل مقطعًا قصيرًا إلى مسودة سؤال وإجابة على جهازك. تشغيل النموذج في Expo Go تجريبي، ويحتاج ملفًا محفوظًا؛ لم يُختبر على آيفونك بعد.[0m
+      [36m</Text>[39m
+      [36m<View>[39m
+        [36m<Text[39m
+          [33maccessibilityRole[39m=[32m"header"[39m
+        [36m>[39m
+          [0mالمصدر الذي تريد دراسته[0m
+        [36m</Text>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0mالبحث عن مصدر محفوظ[0m
+          [36m</Text>[39m
+          [36m<TextInput[39m
+            [33maccessibilityLabel[39m=[32m"البحث عن مصدر محفوظ"[39m
+            [33meditable[39m=[32m{true}[39m
+            [33mvalue[39m=[32m""[39m
+          [36m/>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"استخدام: مصدر
+    س: حقن عنوان؟
+    ج: غير معتمد"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mاستخدام: مصدر
+    س: حقن عنوان؟
+    ج: غير معتمد[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<Text>[39m
+          [0mيمكنك أيضًا لصق مقطع من PDF أو تفريغ YouTube. يظل النص الكامل محفوظًا في ملاحظتك؛ اختر الجزء الذي تريد دراسته هنا.[0m
+        [36m</Text>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0mالنص المصدري للمساعد[0m
+          [36m</Text>[39m
+          [36m<TextInput[39m
+            [33maccessibilityLabel[39m=[32m"النص المصدري للمساعد"[39m
+            [33meditable[39m=[32m{true}[39m
+            [33mvalue[39m=[32m"المراجعة المتباعدة توزع جلسات المراجعة على فترات زمنية وتساعد على استرجاع المعلومات."[39m
+          [36m/>[39m
+        [36m</View>[39m
+        [36m<Text>[39m
+          [0m84[0m
+          [0m / 1600 حرف[0m
+        [36m</Text>[39m
+        [36m<Text[39m
+          [33maccessibilityRole[39m=[32m"alert"[39m
+        [36m>[39m
+          [0mلم تُقبل نتيجة لا تطابق المصدر الحالي.[0m
+        [36m</Text>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"تجاهل جلسة المساعد"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mتجاهل جلسة المساعد[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<Text>[39m
+          [0mالمصدر: [0m
+          [0mمصدر
+    س: حقن عنوان؟
+    ج: غير معتمد[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mتُفحص مطابقة الاقتباس حرفيًا؛ هذا لا يضمن صحة الاستنتاج. راجع الأسئلة بنفسك.[0m
+        [36m</Text>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"إغلاق المحرك وتحرير الذاكرة"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mإغلاق المحرك وتحرير الذاكرة[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</View>[39m
+
+      71 |  const {act}=require('@testing-library/react-native');
+      72 |  await act(()=>mockResult({questions:[{question:'السؤال المعتمد؟',answer:'الجواب المعتمد',evidence:'توزع جلسات المراجعة'}],sourceText:text,modelName:'model\nس: حقن اسم ملف؟\nج: غير معتمد'}));
+    > 73 |  await fireEvent.press(screen.getByRole('button',{name:'مراجعة الأسئلة في المحرر'}));
+         |                               ^
+      74 |  const {parseQuestionAnswer}=require('../src/core');
+      75 |  expect(parseQuestionAnswer(p.onDraft.mock.calls[0][0].body)).toHaveLength(1);
+      76 |  expect(p.onDraft.mock.calls[0][0].title).not.toMatch(/[\r\n]/);
+
+      at Object.getByRole (tests/ai-workspace.ui.test.jsx:73:31)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+FAIL iOS tests/study-quiz.ui.test.jsx
+  ● S002/S008: repeated grade callbacks cannot award two credits or skip a card
+
+    TypeError: grade is not a function
+
+      51 |   await press('إظهار الإجابة');
+      52 |   const grade = screen.getByRole('button', { name:'تذكرت' }).props.onPress;
+    > 53 |   await act(() => { grade(); grade(); });
+         |                     ^
+      54 |   await press('عرض الملخص');
+      55 |   expect(screen.getByText('تذكرت: 1 من 1')).toBeTruthy();
+      56 |   expect(screen.getAllByText(card.question)).toHaveLength(1);
+
+      at grade (tests/study-quiz.ui.test.jsx:53:21)
+      at callback (node_modules/@testing-library/react-native/src/act.ts:72:33)
+      at callback (node_modules/@testing-library/react-native/src/act.ts:30:24)
+      at process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:890:22)
+      at actImplementation (node_modules/@testing-library/react-native/src/act.ts:29:25)
+      at _act (node_modules/@testing-library/react-native/src/act.ts:72:10)
+      at Object.<anonymous> (tests/study-quiz.ui.test.jsx:53:12)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 2 failed, 2 total
+Tests:       4 failed, 15 passed, 19 total
+Snapshots:   0 total
+Time:        2.056 s
+Ran all test suites matching tests/study-quiz.ui.test.jsx|tests/ai-workspace.ui.test.jsx.

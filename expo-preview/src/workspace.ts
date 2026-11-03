@@ -55,8 +55,11 @@ export function toggleModule(workspace: Workspace, id: ModuleId): Workspace {
 
 export function moveModule(workspace: Workspace, id: ModuleId, direction: -1 | 1): Workspace {
   const index = workspace.modules.findIndex(m => m.id === id);
-  const target = index + direction;
-  if (index < 0 || target < 0 || target >= workspace.modules.length) return workspace;
+  if (index < 0 || !workspace.modules[index].enabled) return workspace;
+  // Order is the order people see on Home; hidden sections keep their saved slots.
+  let target = index + direction;
+  while (target >= 0 && target < workspace.modules.length && !workspace.modules[target].enabled) target += direction;
+  if (target < 0 || target >= workspace.modules.length) return workspace;
   const modules = [...workspace.modules];
   [modules[index], modules[target]] = [modules[target], modules[index]];
   return { ...workspace, modules };

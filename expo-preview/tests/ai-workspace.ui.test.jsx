@@ -3,11 +3,12 @@ import { Linking } from 'react-native';
 import { render,screen,fireEvent } from '@testing-library/react-native';
 import { AIWorkspace } from '../src/AIWorkspace';
 import {light} from '../src/ui';
-let mockResult;
+let mockResult, mockStatus, mockEngineProps;
 jest.mock('expo-symbols',()=>({SymbolView:()=>null}));
-jest.mock('../src/ai/LocalAILab',()=>({LocalAILab:({onResult})=>{mockResult=onResult;return null;}}));
+jest.mock('../src/ai/LocalAILab',()=>({LocalAILab:props=>{mockResult=props.onResult;mockStatus=props.onStatus;mockEngineProps=props;return null;}}));
 const text='المراجعة المتباعدة توزع جلسات المراجعة على فترات زمنية وتساعد على استرجاع المعلومات.';
 const props=()=>({p:light,notes:[{id:'n1',title:'التعلّم',body:text,createdAt:1,updatedAt:1}],onDraft:jest.fn()});
+const validDraft=()=>require('../src/ai/contracts').parseDraft(JSON.stringify({questions:[{question:'كيف تساعد المراجعة؟',answer:'بتوزيع الجلسات.',evidence:'توزع جلسات المراجعة على فترات زمنية'}]}),text,'test.gguf');
 beforeEach(()=>{jest.spyOn(Linking,'openURL').mockResolvedValue(undefined);});
 afterEach(()=>{jest.restoreAllMocks();});
 test('official model setup explains its size and never opens a download automatically',async()=>{
@@ -41,7 +42,7 @@ test('local engine is opt in and refuses silently truncated input',async()=>{
  const p=props();await render(<AIWorkspace {...p}/>);
  await fireEvent.changeText(screen.getByLabelText('النص المصدري للمساعد'),'ع'.repeat(1601));
  await fireEvent.press(screen.getByRole('button',{name:'فتح المحرك المحلي'}));
- expect(screen.getByText('اختر مقطعًا بين 30 و1600 حرف. لن نختصر مصدرَك دون علمك.')).toBeTruthy();
+ expect(screen.getByText('اختر مقطعًا لا يتجاوز 1600 حرفًا؛ لن نقتطع المصدر دون علمك.')).toBeTruthy();
  expect(screen.queryByRole('button',{name:'إغلاق المحرك وتحرير الذاكرة'})).toBeNull();
  expect(p.onDraft).not.toHaveBeenCalled();
 });
@@ -51,7 +52,7 @@ test('selected note remains unchanged and generated cards wait for explicit revi
  expect(screen.getByLabelText('النص المصدري للمساعد').props.value).toBe(text);
  await fireEvent.press(screen.getByRole('button',{name:'فتح المحرك المحلي'}));
  const {act}=require('@testing-library/react-native');
- await act(()=>mockResult({questions:[{question:'كيف تساعد المراجعة؟',answer:'بتوزيع الجلسات.',evidence:'توزع جلسات المراجعة على فترات زمنية'}],sourceText:text,modelName:'test.gguf'}));
+ await act(()=>mockResult({...validDraft(),questions:[{question:'كيف تساعد المراجعة؟',answer:'بتوزيع الجلسات.',evidence:'توزع جلسات المراجعة على فترات زمنية'}],sourceText:text,modelName:'test.gguf'}));
  expect(p.onDraft).not.toHaveBeenCalled();
  await fireEvent.press(screen.getByRole('button',{name:'مراجعة الأسئلة في المحرر'}));
  expect(p.onDraft).toHaveBeenCalledWith(expect.objectContaining({title:'أسئلة — التعلّم',body:expect.stringContaining('الشاهد: «توزع جلسات المراجعة على فترات زمنية»')}));
@@ -68,7 +69,7 @@ test('metadata cannot inject additional flashcards into a reviewed AI draft',asy
  await fireEvent.press(screen.getByRole('button',{name:'استخدام: '+p.notes[0].title}));
  await fireEvent.press(screen.getByRole('button',{name:'فتح المحرك المحلي'}));
  const {act}=require('@testing-library/react-native');
- await act(()=>mockResult({questions:[{question:'السؤال المعتمد؟',answer:'الجواب المعتمد',evidence:'توزع جلسات المراجعة'}],sourceText:text,modelName:'model\nس: حقن اسم ملف؟\nج: غير معتمد'}));
+ await act(()=>mockResult({...validDraft(),questions:[{question:'السؤال المعتمد؟',answer:'الجواب المعتمد',evidence:'توزع جلسات المراجعة'}],sourceText:text,modelName:'model\nس: حقن اسم ملف؟\nج: غير معتمد'}));
  await fireEvent.press(screen.getByRole('button',{name:'مراجعة الأسئلة في المحرر'}));
  const {parseQuestionAnswer}=require('../src/core');
  expect(parseQuestionAnswer(p.onDraft.mock.calls[0][0].body)).toHaveLength(1);
@@ -98,4 +99,64 @@ test('a ready sample fills only the draft source without opening a model or savi
  expect(Linking.openURL).not.toHaveBeenCalled();
  expect(p.onDraft).not.toHaveBeenCalled();
  expect(p.notes[0].body).toBe(text);
+});
+
+test('source notes beyond the first five remain reachable without guessing a search term',async()=>{
+ const p=props();p.notes=Array.from({length:12},(_,i)=>({...p.notes[0],id:'n'+i,title:'مصدر '+(i+1)}));
+ await render(<AIWorkspace {...p}/>);
+ await fireEvent.press(screen.getByRole('button',{name:'مصادر تالية'}));
+ await fireEvent.press(screen.getByRole('button',{name:'استخدام: مصدر 6'}));
+ expect(screen.getByLabelText('النص المصدري للمساعد').props.value).toBe(text);
+ await fireEvent.changeText(screen.getByLabelText('البحث عن مصدر محفوظ'),'مصدر 1');
+ expect(screen.getByRole('button',{name:'استخدام: مصدر 1'})).toBeTruthy();
+});
+
+test.each(['جملة '.repeat(240),Array.from({length:25},(_,i)=>'هذه جملة مصدرية رقم '+i+'.').join(' ')])('all source constraints are checked before mounting the engine',async source=>{
+ await render(<AIWorkspace {...props()}/>);
+ await fireEvent.changeText(screen.getByLabelText('النص المصدري للمساعد'),source);
+ await fireEvent.press(screen.getByRole('button',{name:'فتح المحرك المحلي'}));
+ expect(screen.queryByRole('button',{name:'إغلاق المحرك وتحرير الذاكرة'})).toBeNull();
+ expect(screen.getByRole('alert')).toHaveTextContent(/جمل واضحة/);
+});
+
+test('a delivered draft survives worker failure, background cancellation and engine closure',async()=>{
+ const p=props();await render(<AIWorkspace {...p}/>);
+ await fireEvent.press(screen.getByRole('button',{name:'استخدام: التعلّم'}));
+ await fireEvent.press(screen.getByRole('button',{name:'فتح المحرك المحلي'}));
+ const {act}=require('@testing-library/react-native');
+ await act(()=>mockResult(validDraft()));
+ for(const phase of ['generating','error','cancelled']) {
+  await act(()=>mockStatus({phase,message:'simulated event'}));
+  expect(screen.getByRole('button',{name:'مراجعة الأسئلة في المحرر'})).toBeTruthy();
+ }
+ await fireEvent.press(screen.getByRole('button',{name:'إغلاق المحرك وتحرير الذاكرة'}));
+ await fireEvent.press(screen.getByRole('button',{name:'مراجعة الأسئلة في المحرر'}));
+ expect(p.onDraft).toHaveBeenCalledWith(expect.objectContaining({sourceNoteId:'n1'}));
+});
+
+test('ready model stays mounted while switching source; an old callback cannot adopt a stale result',async()=>{
+ const p=props();p.notes.push({...p.notes[0],id:'n2',title:'المصدر الثاني',body:text+' وهو مصدر آخر.'});
+ await render(<AIWorkspace {...p}/>);
+ await fireEvent.press(screen.getByRole('button',{name:'استخدام: التعلّم'}));
+ await fireEvent.press(screen.getByRole('button',{name:'فتح المحرك المحلي'}));
+ const oldResult=mockResult;
+ await fireEvent.press(screen.getByRole('button',{name:'استخدام: المصدر الثاني'}));
+ expect(screen.getByRole('button',{name:'إغلاق المحرك وتحرير الذاكرة'})).toBeTruthy();
+ expect(mockEngineProps.sourceText).toBe(p.notes[1].body);
+ const {act}=require('@testing-library/react-native');await act(()=>oldResult(validDraft()));
+ expect(screen.queryByRole('button',{name:'مراجعة الأسئلة في المحرر'})).toBeNull();
+});
+
+test('loading and generation protect the source until the operation stops',async()=>{
+ const p=props();p.notes.push({...p.notes[0],id:'n2',title:'آخر',body:text+' نص آخر.'});await render(<AIWorkspace {...p}/>);
+ await fireEvent.press(screen.getByRole('button',{name:'استخدام: التعلّم'}));await fireEvent.press(screen.getByRole('button',{name:'فتح المحرك المحلي'}));
+ const {act}=require('@testing-library/react-native');
+ for(const phase of ['loading','generating']){
+  await act(()=>mockStatus({phase,message:'test'}));
+  expect(screen.getByLabelText('النص المصدري للمساعد').props.editable).toBe(false);
+  expect(screen.getByRole('button',{name:'استخدام: آخر'})).toBeDisabled();
+  await fireEvent.press(screen.getByRole('button',{name:'استخدام: آخر'}));expect(mockEngineProps.sourceText).toBe(text);
+ }
+ await act(()=>mockStatus({phase:'ready',message:'test'}));
+ await fireEvent.press(screen.getByRole('button',{name:'استخدام: آخر'}));expect(mockEngineProps.sourceText).toBe(p.notes[1].body);
 });

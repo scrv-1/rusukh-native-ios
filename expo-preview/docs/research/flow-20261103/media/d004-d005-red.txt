@@ -1,0 +1,47 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+FAIL iOS tests/reminders.ui.test.jsx
+  ● D005 returning to the foreground refreshes status without overwriting an edited time
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "20:30"
+    Received: "19:00"
+
+      175 |     await fireEvent.changeText(screen.getByLabelText('وقت التذكير (ساعة:دقيقة)'), '20:30');
+      176 |     await act(async () => foreground('active'));
+    > 177 |     expect(screen.getByLabelText('وقت التذكير (ساعة:دقيقة)').props.value).toBe('20:30');
+          |                                                                           ^
+      178 |     expect(gateway.schedule).not.toHaveBeenCalled();
+      179 |     await fireEvent.press(screen.getByRole('button', { name: 'فحص حالة التذكير' }));
+      180 |     await waitFor(() => expect(screen.getByRole('button', { name: 'تفعيل التذكير اليومي' })).toBeTruthy());
+
+      at Object.toBe (tests/reminders.ui.test.jsx:177:75)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+FAIL iOS tests/media-library.ui.test.jsx
+  ● D004 recovers an orphan photo after metadata failure and loss of its source cache
+
+    expect(received).toHaveLength(expected)
+
+    Expected length: 1
+    Received length: 0
+    Received array:  []
+
+      127 |   mockFailWrite = false; mockFiles.delete(photo.uri);
+      128 |   const recovered = await loadMediaLibrary(true);
+    > 129 |   expect(recovered.items).toHaveLength(1);
+          |                           ^
+      130 |   expect(recovered.items[0]).toMatchObject({ id: 'photo-1', kind: 'image', fileName: 'photo-1.jpg' });
+      131 |   expect(mediaUri(recovered.items[0])).toBe('file:///documents/rusukh-media/photo-1.jpg');
+      132 |   expect(recovered.warnings.join(' ')).toContain('مستعاد');
+
+      at Object.toHaveLength (tests/media-library.ui.test.jsx:129:27)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 2 failed, 2 total
+Tests:       2 failed, 22 skipped, 24 total
+Snapshots:   0 total
+Time:        1.037 s
+Ran all test suites within paths "tests/media-library.ui.test.jsx", "tests/reminders.ui.test.jsx".

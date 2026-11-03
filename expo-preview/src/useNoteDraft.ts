@@ -2,7 +2,9 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Database, getSetting, setSetting } from './storage';
 
 export const NOTE_DRAFT_KEY = 'noteDraft.v1';
+export type DraftSourceNote={id:string;createdAt:number;updatedAt:number};
 export type NoteDraft = {
+  sourceNote?: DraftSourceNote;
   version: 1;
   editingId: string | null;
   title: string;
@@ -15,6 +17,8 @@ type DraftStatus = 'idle' | 'saving' | 'saved' | 'error';
 function isDraft(value: unknown): value is NoteDraft {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
   const draft = value as Record<string, unknown>;
+  const source=draft.sourceNote as DraftSourceNote|undefined;
+  if(source!==undefined&&(!source||typeof source.id!=='string'||!source.id||source.id.length>200||!Number.isFinite(source.createdAt)||source.createdAt<0||!Number.isFinite(source.updatedAt)||source.updatedAt<0))return false;
   return draft.version === 1
     && (draft.editingId === null || (typeof draft.editingId === 'string' && draft.editingId.length > 0 && draft.editingId.length <= 200))
     && typeof draft.title === 'string' && draft.title.length <= 160

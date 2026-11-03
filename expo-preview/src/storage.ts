@@ -113,6 +113,31 @@ export async function saveCard(db: Database, card: StudyCard): Promise<void> {
     card.repetitions, card.updatedAt);
 }
 
+/** Edit a card in place; its scheduling state, note and review history stay intact. */
+export async function updateCard(db: Database, id: string, changes: Pick<StudyCard, 'question' | 'answer'>): Promise<void> {
+  if (typeof id !== 'string' || !id || id.length > 200 || !changes ||
+      typeof changes.question !== 'string' || typeof changes.answer !== 'string' ||
+      changes.question.length > MAX_NOTE_CHARS || changes.answer.length > MAX_NOTE_CHARS ||
+      !changes.question.trim() || !changes.answer.trim()) {
+    throw new Error('أدخل سؤالًا وإجابة غير فارغين، حتى مليون حرف لكل حقل.');
+  }
+  // Capture the caller's strings before the transaction can yield.
+  const question = changes.question.trim();
+  const answer = changes.answer.trim();
+  await db.withExclusiveTransactionAsync(async tx => {
+    const current = await tx.getFirstAsync<StudyCard>('SELECT * FROM cards WHERE id=?', id);
+    if (!current) throw new Error('البطاقة غير موجودة؛ أعد فتح قائمة البطاقات.');
+    const siblings = await tx.getAllAsync<Pick<StudyCard, 'question'>>(
+      'SELECT question FROM cards WHERE noteId=? AND id<>?', current.noteId, id);
+    const normalized = normalizeTitle(question);
+    if (siblings.some(card => normalizeTitle(card.question) === normalized)) {
+      throw new Error('السؤال مكرر في هذه الملاحظة. عدّل السؤال ثم حاول مجددًا.');
+    }
+    await tx.runAsync('UPDATE cards SET question=?,answer=?,updatedAt=? WHERE id=?',
+      question, answer, Math.max(current.updatedAt, Date.now()), id);
+  });
+}
+
 export async function deleteCard(db: Database, id: string) {
   await db.runAsync('DELETE FROM cards WHERE id = ?', id);
 }

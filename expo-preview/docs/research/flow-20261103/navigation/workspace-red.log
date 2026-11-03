@@ -1,0 +1,51 @@
+✔ new workspace starts with no installed sections and is independent between callers (1.794355ms)
+✔ simple remains an optional review and notes preset rather than the empty first workspace (0.257597ms)
+✔ invalid settings recover without throwing (0.433351ms)
+✔ existing saved settings retain their selected sections, order and density (0.29244ms)
+✔ unknown and duplicate IDs never produce duplicate or unsupported tools (0.184077ms)
+✔ hiding every module is valid and does not mutate original preferences (0.203956ms)
+✔ reorder respects boundaries and preserves each module exactly once (0.250426ms)
+✖ moving a visible section skips hidden sections and keeps their saved positions (1.137318ms)
+✔ tab bar respects order and caps optional pages at three, excluding quiz (0.198098ms)
+✔ text sources preserve Arabic, Q/A and transcript timestamps (0.501804ms)
+✔ source import rejects unsupported, oversized, empty and invalid text (15.28434ms)
+✔ Arabic search ignores diacritics, tatweel, alef forms and word order (0.508353ms)
+✔ markdown export preserves note body and wiki links (0.177737ms)
+✔ source limit includes metadata so every accepted source can be reimported from backup (24.297464ms)
+✔ adding the AI module preserves prior layout and keeps the new tool hidden (0.307772ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 14
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 133.546148
+
+✖ failing tests:
+
+test at tests/workspace.test.cjs:53:1
+✖ moving a visible section skips hidden sections and keeps their saved positions (1.137318ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+  +   'review',
+      'sources',
+  -   'review'
+    ]
+  
+      at TestContext.<anonymous> (/workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/tests/workspace.test.cjs:59:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'review', 'sources' ],
+    expected: [ 'sources', 'review' ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

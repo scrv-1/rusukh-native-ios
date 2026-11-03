@@ -1,0 +1,17 @@
+✔ fresh bootstrap creates the schema and a completely empty study library (11.463693ms)
+✔ repeated disk reopen of a new library never inserts sample content or a seeded flag (8.846412ms)
+✔ existing library with a seeded flag survives every bootstrap unchanged (41.551678ms)
+✔ existing library without a seeded flag survives every bootstrap unchanged (27.515146ms)
+✔ failed schema initialization leaves old content intact and the next open can retry safely (22.646569ms)
+✔ updateCard changes only text and updatedAt, preserving schedule, ownership and review history (3.936843ms)
+✔ updateCard rejects absent cards and invalid text without changing any existing row (2.388838ms)
+✔ duplicate questions are rejected within the same note but allowed in another note (1.635356ms)
+✔ a failed UPDATE rolls back text and preserves history instead of deleting and recreating the card (0.843747ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 217.523008

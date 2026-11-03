@@ -1,0 +1,50 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> rusukh-ios@0.5.1 test:ui
+> jest --runInBand --runTestsByPath tests/graph-navigation.ui.test.jsx
+
+  console.warn
+    expo-notifications: Android Push notifications (remote notifications) functionality provided by expo-notifications was removed from Expo Go with the release of SDK 53. Use a development build instead of Expo Go. Learn more at https://docs.expo.dev/develop/development-builds/introduction/.
+
+      1 | import { Platform } from 'react-native';
+    > 2 | import * as Notifications from 'expo-notifications';
+        | ^
+      3 | import { REMINDER_OWNER, type Permission, type ReminderGateway } from './service';
+      4 |
+      5 | const CHANNEL = 'rusukh-local-study';
+
+      at warn (node_modules/expo-notifications/build/warnOfExpoGoPushUsage.ts:13:15)
+      at addPushTokenListener (node_modules/expo-notifications/build/TokenEmitter.ts:44:3)
+      at Object.<anonymous> (node_modules/expo-notifications/build/DevicePushTokenAutoRegistration.fx.ts:109:3)
+      at Object.require (node_modules/expo-notifications/build/getExpoPushTokenAsync.ts:5:1)
+      at Object.require (node_modules/expo-notifications/build/index.ts:16:1)
+      at Object.require (src/reminders/expoGateway.ts:2:1)
+      at Object.require (src/reminders/RemindersPanel.tsx:5:1)
+      at Object.require (App.tsx:20:1)
+      at Object.require (tests/graph-navigation.ui.test.jsx:3:1)
+
+FAIL iOS tests/graph-navigation.ui.test.jsx
+  ● App retains graph view state after note modal and a real route unmount within one session
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "ملاحظة"
+    Received: ""
+
+      37 |   expect(screen.queryByTestId('graph-canvas')).toBeNull();
+      38 |   await openGraph();
+    > 39 |   expect(screen.getByLabelText('ابحث في جميع عناوين الملاحظات').props.value).toBe('ملاحظة');
+         |                                                                              ^
+      40 |   expect(screen.getByText('صفحة 2 من 2')).toBeTruthy();
+      41 |   expect(screen.getByText('120%')).toBeTruthy();
+      42 |   expect(screen.getByTestId('graph-node-n24').props.accessibilityState.selected).toBe(true);
+
+      at Object.toBe (tests/graph-navigation.ui.test.jsx:39:78)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 1 total
+Snapshots:   0 total
+Time:        1.623 s
+Ran all test suites within paths "tests/graph-navigation.ui.test.jsx".
