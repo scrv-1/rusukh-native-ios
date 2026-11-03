@@ -4,6 +4,7 @@ import { File } from 'expo-file-system';
 import * as DocumentPicker from 'expo-document-picker';
 import { arabicRow, Button, Field, Label, Palette, Panel } from './ui';
 import { MAX_SOURCE_BYTES, prepareSource } from './sources';
+import { utf8ByteLength } from './core';
 import { parseYouTubeUrl, prepareYouTubeSource, TranscriptFormat, YouTubeSource } from './youtube';
 import { MAX_PDF_BYTES, PdfRequest, PdfResult } from './pdf/contracts';
 import type { Note } from './types';
@@ -93,6 +94,7 @@ export function SourcesWorkbench({p, notes, onDraft, onImportText, initialDraft,
       if (Math.max(asset.size ?? 0,file.size ?? 0)>MAX_SOURCE_BYTES) throw new Error('الحد الأقصى للتفريغ 1 ميغابايت.');
       const text=await file.text();
       if (!isCurrent(id)) return;
+      if (utf8ByteLength(text) > MAX_SOURCE_BYTES) throw new Error('الحد الأقصى للتفريغ 1 ميغابايت.');
       // Full validation occurs in preview; selecting a file never writes notes.
       setTranscript(text); setFormat(extension === 'srt' ? 'srt' : extension === 'vtt' ? 'vtt' : 'text');
       setVideoTitle(asset.name.replace(/\.[^.]+$/,'').slice(0,160)); setVideoPreview(null);
