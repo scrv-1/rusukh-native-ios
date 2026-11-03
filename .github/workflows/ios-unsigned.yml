@@ -126,7 +126,7 @@ jobs:
           cp "$RUNNER_TEMP/device-build/Build/Products/Release-iphoneos/RusukhNative.app/PrivacyInfo.xcprivacy" evidence/PrivacyInfo.xcprivacy
           { echo '## Verified build outputs'; echo "Source commit: $GITHUB_SHA"; echo '- Core and Arabic UI/download tests passed'; echo '- MLX inference is unavailable in iOS Simulator; Swift inference verified separately on Mac with network denied'; echo '- xtool unsigned IPA build passed'; echo '- Simulator and unsigned device builds passed'; echo '- App launched on a cloud iOS simulator'; echo '- Screenshot, logs and checksums are in the evidence artifact'; echo '- Neither artifact installs itself on an iPhone'; } >> "$GITHUB_STEP_SUMMARY"
       - name: Upload simulator app
-        if: always() && steps.simulator.outcome == 'success'
+        if: success() && steps.simulator.outcome == 'success'
         uses: actions/upload-artifact@v4
         with:
           name: RusukhNative-simulator
@@ -134,7 +134,7 @@ jobs:
           if-no-files-found: error
           retention-days: 7
       - name: Upload unsigned device IPA
-        if: always() && steps.device.outcome == 'success'
+        if: success() && steps.device.outcome == 'success'
         uses: actions/upload-artifact@v4
         with:
           name: RusukhNative-unsigned-ipa
@@ -155,7 +155,7 @@ jobs:
           if-no-files-found: error
           retention-days: 7
       - name: Upload xtool IPA
-        if: always() && steps.xtool.outcome == 'success'
+        if: success() && steps.xtool.outcome == 'success'
         uses: actions/upload-artifact@v4
         with:
           name: RusukhNative-xtool-unsigned-ipa
