@@ -84,5 +84,11 @@ if [[ "$TEST_RESULT" == 0 ]]; then
   test -s "$FIXTURE_DIRECTORY/fixture-b.txt"
   test -s "$FIXTURE_DIRECTORY/verified.txt"
   echo 'POST_UI_FIXTURE_VERIFIED'
+  # Qwen files stay on the host path written before UI tests; confirm they still exist
+  # for the offline Mac probe after Simulator reinstalls.
+  MODEL_DIRECTORY=$(cat evidence/ai-simulator-model-directory.txt)
+  test -s "$MODEL_DIRECTORY/config.json"
+  test -s "$MODEL_DIRECTORY/model.safetensors"
+  echo 'POST_UI_MODEL_DIRECTORY_VERIFIED'
 fi
 exit "$TEST_RESULT"
