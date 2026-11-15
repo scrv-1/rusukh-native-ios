@@ -7,7 +7,7 @@ final class RusukhTourTests: XCTestCase {
         continueAfterFailure = false
         let app = XCUIApplication()
         app.launchArguments = ["-ui-tour", "-ui-testing", "-reset-test-data", "-AppleLanguages", "(ar)", "-AppleLocale", "ar_SA"]
-        app.launch()
+        launchReady(app)
         XCTAssertTrue(app.buttons["ملاحظاتي"].waitForExistence(timeout: 10))
         capture("tour-01-home")
         let gear = app.buttons["الإعدادات"]
@@ -148,7 +148,7 @@ final class RusukhTourTests: XCTestCase {
         app.terminate()
         app.launchArguments = ["-ui-tour", "-ui-testing", "-AppleLanguages", "(ar)", "-AppleLocale", "ar_SA",
                                "-UIPreferredContentSizeCategoryName", "UICTContentSizeCategoryAccessibilityXXXL"]
-        app.launch()
+        launchReady(app)
         XCTAssertTrue(app.buttons["ملاحظاتي"].waitForExistence(timeout: 10))
         capture("tour-26-dynamic-type")
 
@@ -211,6 +211,20 @@ final class RusukhTourTests: XCTestCase {
             paste.tap()
         } else {
             element.typeText(text)
+        }
+    }
+
+    @MainActor
+    private func launchReady(_ app: XCUIApplication) {
+        // CI simulators occasionally time out on the first Xcode-mediated launch.
+        for attempt in 1...3 {
+            app.launch()
+            if app.buttons["ملاحظاتي"].waitForExistence(timeout: 20) { return }
+            app.terminate()
+            RunLoop.current.run(until: Date().addingTimeInterval(2))
+            if attempt == 3 {
+                XCTFail("App failed to launch after \(attempt) attempts")
+            }
         }
     }
 

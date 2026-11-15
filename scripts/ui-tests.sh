@@ -8,6 +8,14 @@ xcrun simctl bootstatus "$SIMULATOR_ID" -b
 # Prefer the software keyboard so XCTest typeText can obtain first-responder focus.
 defaults write com.apple.iphonesimulator ConnectHardwareKeyboard -bool false || true
 xcrun simctl privacy "$SIMULATOR_ID" grant microphone com.scrv1.rusukhnative
+# Warm the simulator before XCTest's first launch to reduce Xcode launch timeouts.
+APP_PRODUCT="$RUNNER_TEMP/simulator-build/Build/Products/Debug-iphonesimulator/RusukhNative.app"
+if [[ -d "$APP_PRODUCT" ]]; then
+  xcrun simctl install "$SIMULATOR_ID" "$APP_PRODUCT" || true
+  xcrun simctl launch "$SIMULATOR_ID" com.scrv1.rusukhnative || true
+  sleep 2
+  xcrun simctl terminate "$SIMULATOR_ID" com.scrv1.rusukhnative || true
+fi
 FIXTURE_DIR="$RUNNER_TEMP/model-fixture"
 mkdir -p "$FIXTURE_DIR"
 printf 'abc' > "$FIXTURE_DIR/fixture-a.txt"
