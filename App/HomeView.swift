@@ -109,6 +109,7 @@ struct SettingsView: View {
     @State private var shareURL: URL?
     @State private var importing = false
     @State private var confirmImport = false
+    @State private var confirmErase = false
 
     var body: some View {
         NavigationStack {
@@ -132,6 +133,7 @@ struct SettingsView: View {
                 }
                 Section("الأمان") {
                     Text("كل الملاحظات تُحفظ محليًا. حذف التطبيق قد يحذف البيانات؛ صدّر نسخة دورية.")
+                    Button("مسح كل البيانات المحلية", role: .destructive) { confirmErase = true }
                 }
                 Section("وضع التطوير") {
                     Text("تجربة بدون عضوية Apple Developer مدفوعة. قد تحتاج إعادة توقيع كل 7 أيام.")
@@ -141,6 +143,9 @@ struct SettingsView: View {
             .toolbar { ToolbarItem(placement: .confirmationAction) { Button("إغلاق") { dismiss() } } }
             .confirmationDialog("سيُستبدل كل المحتوى. صدّر نسخة احتياطية أولًا.", isPresented: $confirmImport) {
                 Button("اختيار ملف الاستيراد", role: .destructive) { importing = true }
+            }
+            .confirmationDialog("مسح الملاحظات والبطاقات من هذا الجهاز؟ صدّر نسخة أولًا. لا يمكن التراجع.", isPresented: $confirmErase, titleVisibility: .visible) {
+                Button("مسح الكل", role: .destructive) { _ = library.eraseAll() }
             }
             .fileImporter(isPresented: $importing, allowedContentTypes: [.json]) { result in
                 switch result {

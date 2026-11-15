@@ -175,6 +175,9 @@ struct NoteEditorView: View {
                     }
                     if voice.preparing { ProgressView("تهيئة الصوت") }
                     if let error = voice.error { Text(error).foregroundStyle(.secondary).accessibilityIdentifier("voice.error") }
+                    if voice.microphoneDenied {
+                        Button("فتح إعدادات الآيفون") { Self.openSystemSettings() }
+                    }
                 }
                 Section("الكاميرا الأصلية") {
                     if let bytes = imageJPEG, let image = UIImage(data: bytes) {
@@ -256,6 +259,11 @@ struct NoteEditorView: View {
         } else {
             linkChoices = matches
         }
+    }
+
+    private static func openSystemSettings() {
+        guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+        UIApplication.shared.open(url)
     }
 }
 

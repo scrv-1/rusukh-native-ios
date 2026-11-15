@@ -157,4 +157,11 @@ final class LibraryStore: ObservableObject {
             message = "لم يتم تغيير بياناتك؛ فشل الاستيراد: \(error.localizedDescription)"
         }
     }
+
+    func eraseAll() -> Bool {
+        guard !storageLocked else { message = "البيانات مقفلة؛ لا يمكن مسحها قبل معالجة خطأ القراءة."; return false }
+        guard commit(StudySnapshot()) else { return false }
+        message = "مُسحت الملاحظات والبطاقات من هذا الجهاز."
+        return true
+    }
 }

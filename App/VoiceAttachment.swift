@@ -45,6 +45,7 @@ final class VoiceAttachment: NSObject, ObservableObject, AVAudioRecorderDelegate
     @Published private(set) var requestingPermission = false
     @Published private(set) var preparing = false
     @Published var error: String?
+    @Published private(set) var microphoneDenied = false
     var busy: Bool { requestingPermission || preparing }
     private static let sharedSession = AudioSessionCoordinator(driver: NativeAudioSessionDriver()) { error in
         Logger(subsystem: "com.scrv1.rusukhnative", category: "audio").error("Audio session cleanup failed: \(error.localizedDescription, privacy: .private)")
@@ -87,7 +88,12 @@ final class VoiceAttachment: NSObject, ObservableObject, AVAudioRecorderDelegate
         let allowed = await requestPermission()
         guard !closed, request == permissionRequest else { return }
         requestingPermission = false
-        guard allowed else { error = "لم يُمنح إذن الميكروفون. يمكنك السماح به من إعدادات الآيفون."; return }
+        guard allowed else {
+            microphoneDenied = true
+            error = "لم يُمنح إذن الميكروفون. يمكنك السماح به من إعدادات الآيفون."
+            return
+        }
+        microphoneDenied = false
         do {
             try await activateSession(owner: request, mode: .recording)
             guard acceptActivation(request) else { return }

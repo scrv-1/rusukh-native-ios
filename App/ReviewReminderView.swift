@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 import UserNotifications
 
 struct ReviewReminderView: View {
@@ -7,6 +8,7 @@ struct ReviewReminderView: View {
     @State private var enabled = false
     @State private var busy = false
     @State private var message = ""
+    @State private var notificationsDenied = false
     private let identifier = "rusukh.daily-review"
 
     var body: some View {
@@ -29,6 +31,9 @@ struct ReviewReminderView: View {
                     message = "التذكير متوقف."
                 }.disabled(busy).accessibilityIdentifier("reminder.disable")
             }
+            if notificationsDenied {
+                Button("فتح إعدادات الآيفون") { Self.openSystemSettings() }
+            }
             if !message.isEmpty { Text(message).font(.footnote).accessibilityIdentifier("reminder.status") }
         }
         .task { await refresh() }
@@ -43,7 +48,12 @@ struct ReviewReminderView: View {
             if let date = Calendar.current.date(from: trigger.dateComponents) { time = date }
             let settings = await center.notificationSettings()
             message = settings.authorizationStatus == .denied ? "الإشعارات محظورة من إعدادات النظام." : "التذكير اليومي محفوظ على هذا الجهاز."
-        } else { enabled = false }
+            notificationsDenied = settings.authorizationStatus == .denied
+        } else {
+            enabled = false
+            let settings = await center.notificationSettings()
+            notificationsDenied = settings.authorizationStatus == .denied
+        }
     }
 
     @MainActor private func scheduleIfDifferent(from chosen: DateComponents) async {
@@ -63,9 +73,11 @@ struct ReviewReminderView: View {
         do {
             let center = UNUserNotificationCenter.current()
             guard try await center.requestAuthorization(options: [.alert, .sound]) else {
+                notificationsDenied = true
                 message = "لم يُسمح بالإشعارات. يمكنك تفعيلها من إعدادات الآيفون."
                 return
             }
+            notificationsDenied = false
             let content = UNMutableNotificationContent()
             content.title = "رُسوخ — تعلّم يبقى"
             content.body = "حان وقت مراجعة قصيرة لما تعلمته."
@@ -74,5 +86,10 @@ struct ReviewReminderView: View {
             try await center.add(UNNotificationRequest(identifier: identifier, content: content, trigger: trigger))
             await refresh()
         } catch { message = "تعذّر جدولة التذكير: \(error.localizedDescription)" }
+    }
+
+    private static func openSystemSettings() {
+        guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+        UIApplication.shared.open(url)
     }
 }
