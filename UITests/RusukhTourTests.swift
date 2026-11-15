@@ -1,4 +1,5 @@
 import XCTest
+import UIKit
 
 final class RusukhTourTests: XCTestCase {
     @MainActor
@@ -28,7 +29,7 @@ final class RusukhTourTests: XCTestCase {
 
         dismissSearch(app)
         app.staticTexts["إبراهيم"].tap()
-        let editor = app.textViews["note.body"]
+        let editor = noteBodyField(in: app)
         XCTAssertTrue(editor.waitForExistence(timeout: 5))
         typeInto(editor, "\nس: سؤال معدّل؟\nج: إجابة معدّلة", in: app)
         app.buttons["note.save"].tap()
@@ -69,7 +70,7 @@ final class RusukhTourTests: XCTestCase {
         XCTAssertTrue(app.navigationBars["ملاحظة جديدة"].waitForExistence(timeout: 5))
         let secondTitle = app.textFields["note.title"]
         typeInto(secondTitle, "مراجعة", in: app)
-        typeInto(app.textViews["note.body"], "س: ما الثاني؟\nج: ثاني", in: app)
+        typeInto(noteBodyField(in: app), "س: ما الثاني؟\nج: ثاني", in: app)
         app.buttons["note.save"].tap()
         XCTAssertTrue(app.buttons["notes.add"].waitForExistence(timeout: 5))
 
@@ -161,8 +162,7 @@ final class RusukhTourTests: XCTestCase {
         let title = app.textFields["note.title"]
         XCTAssertTrue(title.waitForExistence(timeout: 5))
         typeInto(title, "إبراهيم", in: app)
-        let editor = app.textViews["note.body"]
-        typeInto(editor, "صلاة\nس: ما الرسوخ؟\nج: ثبات المعرفة\nس: ما الاسترجاع؟\nج: تذكر المعلومة\nس: ما السهل؟\nج: إجابة سهلة\nس: ما الصعب؟\nج: إجابة صعبة", in: app)
+        typeInto(noteBodyField(in: app), "صلاة\nس: ما الرسوخ؟\nج: ثبات المعرفة\nس: ما الاسترجاع؟\nج: تذكر المعلومة\nس: ما السهل؟\nج: إجابة سهلة\nس: ما الصعب؟\nج: إجابة صعبة", in: app)
         capture("tour-03-editor")
         reveal(app.buttons["voice.record"], in: app)
         app.buttons["voice.record"].tap()
@@ -182,20 +182,35 @@ final class RusukhTourTests: XCTestCase {
     @MainActor
     private func typeInto(_ element: XCUIElement, _ text: String, in app: XCUIApplication) {
         XCTAssertTrue(element.waitForExistence(timeout: 5))
-        // XCTest on this SDK does not expose hasKeyboardFocus to Swift; use KVC + keyboard.
-        for _ in 0..<5 {
-            if keyboardReady(element, in: app) { break }
-            element.tap()
-            _ = app.keyboards.firstMatch.waitForExistence(timeout: 1)
+        // Only THIS element's focus counts — a keyboard left open from the title field
+        // previously made body typing skip its tap and fail hasKeyboardFocus checks.
+        for _ in 0..<8 {
+            if elementIsFocused(element) {
+                element.typeText(text)
+                return
+            }
+            element.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.2)).tap()
+            RunLoop.current.run(until: Date().addingTimeInterval(0.3))
         }
-        XCTAssertTrue(keyboardReady(element, in: app), "Expected keyboard focus before typing into \(element)")
-        element.typeText(text)
+        // Paste works when the simulator's hardware keyboard blocks typeText focus.
+        UIPasteboard.general.string = text
+        element.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.2)).press(forDuration: 1.1)
+        let paste = app.menuItems.matching(
+            NSPredicate(format: "label CONTAINS[c] %@ OR label CONTAINS %@", "Paste", "لصق")
+        ).firstMatch
+        XCTAssertTrue(paste.waitForExistence(timeout: 3), "No Paste menu for \(element)\n\(app.debugDescription)")
+        paste.tap()
     }
 
     @MainActor
-    private func keyboardReady(_ element: XCUIElement, in app: XCUIApplication) -> Bool {
-        if (element.value(forKey: "hasKeyboardFocus") as? Bool) == true { return true }
-        return app.keyboards.firstMatch.exists
+    private func elementIsFocused(_ element: XCUIElement) -> Bool {
+        (element.value(forKey: "hasKeyboardFocus") as? Bool) == true
+    }
+
+    @MainActor
+    private func noteBodyField(in app: XCUIApplication) -> XCUIElement {
+        // Vertical TextField may surface as TextField or TextView depending on iOS.
+        app.descendants(matching: .any)["note.body"]
     }
 
     @MainActor
@@ -209,10 +224,15 @@ final class RusukhTourTests: XCTestCase {
     private func clearSearch(_ app: XCUIApplication) {
         let search = app.searchFields.firstMatch
         XCTAssertTrue(search.waitForExistence(timeout: 5))
-        if !keyboardReady(search, in: app) { search.tap() }
+        if !elementIsFocused(search) { search.tap() }
         let current = (search.value as? String) ?? ""
         if !current.isEmpty {
-            search.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: current.count + 2))
+            if elementIsFocused(search) {
+                search.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: current.count + 2))
+            } else {
+                typeInto(search, "", in: app)
+                search.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: current.count + 2))
+            }
         }
         dismissSearch(app)
     }

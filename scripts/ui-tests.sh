@@ -5,6 +5,8 @@ if ! xcrun simctl list devices booted -j | python3 -c 'import json,sys; target=s
   xcrun simctl boot "$SIMULATOR_ID"
 fi
 xcrun simctl bootstatus "$SIMULATOR_ID" -b
+# Prefer the software keyboard so XCTest typeText can obtain first-responder focus.
+defaults write com.apple.iphonesimulator ConnectHardwareKeyboard -bool false || true
 xcrun simctl privacy "$SIMULATOR_ID" grant microphone com.scrv1.rusukhnative
 FIXTURE_DIR="$RUNNER_TEMP/model-fixture"
 mkdir -p "$FIXTURE_DIR"

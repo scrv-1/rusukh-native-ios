@@ -143,7 +143,9 @@ struct NoteEditorView: View {
     @State private var cameraOpen = false
     @State private var photoError = false
     @State private var confirmDiscard = false
-    @FocusState private var titleFocused: Bool
+    @FocusState private var focusedField: EditorField?
+
+    private enum EditorField: Hashable { case title, body }
 
     init(note: StudyNote?) {
         self.note = note
@@ -158,13 +160,20 @@ struct NoteEditorView: View {
             Form {
                 Section("العنوان") {
                     TextField("مثال: التعلّم النشط", text: $title)
-                        .focused($titleFocused)
+                        .focused($focusedField, equals: .title)
+                        .submitLabel(.next)
+                        .onSubmit { focusedField = .body }
                         .accessibilityIdentifier("note.title")
                 }
                 Section("المحتوى") {
-                    TextEditor(text: $noteBody).accessibilityLabel("محتوى الملاحظة").accessibilityIdentifier("note.body")
-                        .frame(minHeight: 220)
+                    // Vertical TextField focuses more reliably under XCUITest than TextEditor in a Form.
+                    TextField("محتوى الملاحظة", text: $noteBody, axis: .vertical)
+                        .focused($focusedField, equals: .body)
+                        .lineLimit(8...24)
+                        .frame(minHeight: 220, alignment: .topLeading)
                         .autocorrectionDisabled(false)
+                        .accessibilityLabel("محتوى الملاحظة")
+                        .accessibilityIdentifier("note.body")
                     Text("اربط ملاحظة: [[عنوان آخر]]  ·  بطاقة: س: السؤال ثم ج: الإجابة")
                         .font(.caption).foregroundStyle(.secondary)
                 }
@@ -255,7 +264,9 @@ struct NoteEditorView: View {
             .onAppear {
                 voice.open()
                 // New notes start in the title field so typing works without a flaky focus race.
-                if note == nil { titleFocused = true }
+                if note == nil {
+                    DispatchQueue.main.async { focusedField = .title }
+                }
             }
             .onDisappear { voice.close() }
         }

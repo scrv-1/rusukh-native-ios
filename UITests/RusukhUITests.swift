@@ -1,4 +1,5 @@
 import XCTest
+import UIKit
 
 final class RusukhUITests: XCTestCase {
     @MainActor
@@ -60,7 +61,7 @@ final class RusukhUITests: XCTestCase {
         // A screenshot of this screen does not verify model inference.
         app.buttons["ملاحظاتي"].tap()
         app.staticTexts["رُسُوخ"].tap()
-        let editor = app.textViews["note.body"]
+        let editor = noteBodyField(in: app)
         XCTAssertTrue(editor.waitForExistence(timeout: 5))
         XCTAssertTrue((editor.value as? String ?? "").contains("[[التعلم]]"))
         reveal(app.buttons["التقاط صورة"], in: app)
@@ -218,24 +219,30 @@ final class RusukhUITests: XCTestCase {
         let field = app.textFields["note.title"]
         XCTAssertTrue(field.waitForExistence(timeout: 5))
         typeInto(field, title, in: app)
-        typeInto(app.textViews["note.body"], body, in: app)
+        typeInto(noteBodyField(in: app), body, in: app)
         app.buttons["note.save"].tap()
         XCTAssertTrue(app.buttons["notes.add"].waitForExistence(timeout: 5))
     }
+    @MainActor private func noteBodyField(in app: XCUIApplication) -> XCUIElement {
+        app.descendants(matching: .any)["note.body"]
+    }
     @MainActor private func typeInto(_ element: XCUIElement, _ text: String, in app: XCUIApplication) {
         XCTAssertTrue(element.waitForExistence(timeout: 5))
-        // XCTest on this SDK does not expose hasKeyboardFocus to Swift; use KVC + keyboard.
-        for _ in 0..<5 {
-            if keyboardReady(element, in: app) { break }
-            element.tap()
-            _ = app.keyboards.firstMatch.waitForExistence(timeout: 1)
+        for _ in 0..<8 {
+            if (element.value(forKey: "hasKeyboardFocus") as? Bool) == true {
+                element.typeText(text)
+                return
+            }
+            element.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.2)).tap()
+            RunLoop.current.run(until: Date().addingTimeInterval(0.3))
         }
-        XCTAssertTrue(keyboardReady(element, in: app), "Expected keyboard focus before typing into \(element)")
-        element.typeText(text)
-    }
-    @MainActor private func keyboardReady(_ element: XCUIElement, in app: XCUIApplication) -> Bool {
-        if (element.value(forKey: "hasKeyboardFocus") as? Bool) == true { return true }
-        return app.keyboards.firstMatch.exists
+        UIPasteboard.general.string = text
+        element.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.2)).press(forDuration: 1.1)
+        let paste = app.menuItems.matching(
+            NSPredicate(format: "label CONTAINS[c] %@ OR label CONTAINS %@", "Paste", "لصق")
+        ).firstMatch
+        XCTAssertTrue(paste.waitForExistence(timeout: 3), "No Paste menu for \(element)\n\(app.debugDescription)")
+        paste.tap()
     }
     @MainActor private func capture(_ name: String) {
         let attachment = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
