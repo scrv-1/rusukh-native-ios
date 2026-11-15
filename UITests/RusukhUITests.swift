@@ -31,7 +31,7 @@ final class RusukhUITests: XCTestCase {
         app.buttons["الشبكة"].tap()
         let edges = app.staticTexts["graph.edge-count"]
         XCTAssertTrue(edges.waitForExistence(timeout: 5))
-        XCTAssertEqual(digits(edges.label), "1 علاقة")
+        XCTAssertEqual(edges.label, "علاقة واحدة")
         capture("04-graph")
         app.buttons["المراجعة"].tap()
         XCTAssertTrue(app.staticTexts["ما الرسوخ؟"].exists)
@@ -131,6 +131,9 @@ final class RusukhUITests: XCTestCase {
         XCTAssertFalse(app.buttons["إيقاف التشغيل"].exists)
         // Closing an editor must release the singleton session for the next one.
         app.buttons["إلغاء"].tap()
+        let discard = app.buttons["تجاهل التغييرات"]
+        XCTAssertTrue(discard.waitForExistence(timeout: 5))
+        discard.tap()
         XCTAssertTrue(app.buttons["notes.add"].waitForExistence(timeout: 5))
         app.buttons["notes.add"].tap()
         reveal(app.buttons["voice.record"], in: app)
@@ -147,7 +150,7 @@ final class RusukhUITests: XCTestCase {
     func testSimulatorModelAvailabilityDoesNotStartUnsupportedGPU() throws {
         continueAfterFailure = false
         let app = XCUIApplication()
-        app.launchArguments = ["-ui-testing", "-reset-test-data", "-AppleLanguages", "(ar)", "-AppleLocale", "ar_SA"]
+        app.launchArguments = ["-ui-testing", "-reset-test-data", "-model-fixture", "-seed-model-fixture", "-model-fixture-base", "http://127.0.0.1:8765", "-AppleLanguages", "(ar)", "-AppleLocale", "ar_SA"]
         app.launch()
         XCTAssertTrue(app.buttons["ذكاء محلي"].waitForExistence(timeout: 10))
         app.buttons["ذكاء محلي"].tap()
@@ -171,7 +174,7 @@ final class RusukhUITests: XCTestCase {
     func testZModelDownloadCancellationAndIntegrityThroughUI() throws {
         continueAfterFailure = false
         let app = XCUIApplication()
-        app.launchArguments = ["-ui-testing", "-AppleLanguages", "(ar)", "-AppleLocale", "ar_SA"]
+        app.launchArguments = ["-ui-testing", "-model-fixture", "-seed-model-fixture", "-model-fixture-base", "http://127.0.0.1:8765", "-AppleLanguages", "(ar)", "-AppleLocale", "ar_SA"]
         app.launch()
         XCTAssertTrue(app.buttons["ذكاء محلي"].waitForExistence(timeout: 10))
         app.buttons["ذكاء محلي"].tap()

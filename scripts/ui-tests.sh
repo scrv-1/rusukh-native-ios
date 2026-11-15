@@ -5,8 +5,14 @@ if ! xcrun simctl list devices booted -j | python3 -c 'import json,sys; target=s
   xcrun simctl boot "$SIMULATOR_ID"
 fi
 xcrun simctl bootstatus "$SIMULATOR_ID" -b
-trap 'xcrun simctl shutdown "$SIMULATOR_ID" || true' EXIT
 xcrun simctl privacy "$SIMULATOR_ID" grant microphone com.scrv1.rusukhnative
+FIXTURE_DIR="$RUNNER_TEMP/model-fixture"
+mkdir -p "$FIXTURE_DIR"
+printf 'abc' > "$FIXTURE_DIR/fixture-a.txt"
+printf 'abcd' > "$FIXTURE_DIR/fixture-b.txt"
+python3 scripts/fixture-model-server.py --directory "$FIXTURE_DIR" --port 8765 --delay 12 > evidence/fixture-model-server.log 2>&1 &
+FIXTURE_SERVER_PID=$!
+trap 'kill "$FIXTURE_SERVER_PID" >/dev/null 2>&1 || true; xcrun simctl shutdown "$SIMULATOR_ID" || true' EXIT
 set +e
 xcodebuild -project RusukhNative.xcodeproj -scheme RusukhNative \
   -configuration Debug -destination "platform=iOS Simulator,id=$SIMULATOR_ID" \
@@ -17,6 +23,28 @@ TEST_RESULT=${PIPESTATUS[0]}
 set -e
 xcrun xcresulttool help export attachments > evidence/xcresult-help.txt
 xcrun xcresulttool export attachments --path evidence/RusukhUI.xcresult --output-path evidence/ui-attachments
+python3 - <<'PY' || true
+import json, shutil
+from pathlib import Path
+manifest_path = Path("evidence/ui-attachments/manifest.json")
+destination = Path("evidence/tour")
+destination.mkdir(exist_ok=True)
+if not manifest_path.exists():
+    print("TOUR_SCREENSHOTS none")
+    raise SystemExit
+manifest = json.loads(manifest_path.read_text())
+for test in manifest:
+    for attachment in test.get("attachments", []):
+        name = attachment.get("suggestedHumanReadableName") or ""
+        if "tour-" not in name or not name.endswith(".png"):
+            continue
+        source = Path("evidence/ui-attachments") / attachment["exportedFileName"]
+        label = name.split("_0_")[0]
+        if not label.endswith(".png"):
+            label += ".png"
+        shutil.copyfile(source, destination / Path(label).name)
+print("TOUR_SCREENSHOTS", sorted(p.name for p in destination.glob("*.png")))
+PY
 xcrun xcresulttool get test-results summary --path evidence/RusukhUI.xcresult > evidence/ui-summary.json
 xcrun simctl spawn "$SIMULATOR_ID" log show --last 10m --style compact --predicate 'process == "RusukhNative"' > evidence/app-system.log || true
 # Keep simulator failures visible in Actions even if artifact downloads are unavailable.
@@ -41,10 +69,10 @@ PYLOG
 # current container after the final download test, while Simulator is booted.
 if [[ "$TEST_RESULT" == 0 ]]; then
   APP_DATA=$(xcrun simctl get_app_container "$SIMULATOR_ID" com.scrv1.rusukhnative data)
-  MODEL_DIRECTORY="$APP_DATA/Library/Application Support/RusukhTestModels/Qwen3-Instruct-2507"
-  test -s "$MODEL_DIRECTORY/config.json"
-  test -s "$MODEL_DIRECTORY/model.safetensors"
-  printf '%s\n' "$MODEL_DIRECTORY" > evidence/ai-simulator-model-directory.txt
-  echo 'POST_UI_MODEL_DIRECTORY_VERIFIED'
+  FIXTURE_DIRECTORY="$APP_DATA/Library/Application Support/RusukhTestModels/Qwen3-Fixture"
+  test -s "$FIXTURE_DIRECTORY/fixture-a.txt"
+  test -s "$FIXTURE_DIRECTORY/fixture-b.txt"
+  test -s "$FIXTURE_DIRECTORY/verified.txt"
+  echo 'POST_UI_FIXTURE_VERIFIED'
 fi
 exit "$TEST_RESULT"

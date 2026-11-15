@@ -1,0 +1,86 @@
+{
+  "sourceLanguage" : "ar",
+  "strings" : {
+    "graph.edges" : {
+      "localizations" : {
+        "ar" : {
+          "variations" : {
+            "plural" : {
+              "few" : { "stringUnit" : { "state" : "translated", "value" : "%lld علاقات" } },
+              "many" : { "stringUnit" : { "state" : "translated", "value" : "%lld علاقة" } },
+              "one" : { "stringUnit" : { "state" : "translated", "value" : "علاقة واحدة" } },
+              "other" : { "stringUnit" : { "state" : "translated", "value" : "%lld علاقة" } },
+              "two" : { "stringUnit" : { "state" : "translated", "value" : "علاقتان" } },
+              "zero" : { "stringUnit" : { "state" : "translated", "value" : "لا علاقات" } }
+            }
+          }
+        }
+      }
+    },
+    "graph.nodes" : {
+      "localizations" : {
+        "ar" : {
+          "variations" : {
+            "plural" : {
+              "few" : { "stringUnit" : { "state" : "translated", "value" : "%lld عقد" } },
+              "many" : { "stringUnit" : { "state" : "translated", "value" : "%lld عقدة" } },
+              "one" : { "stringUnit" : { "state" : "translated", "value" : "عقدة واحدة" } },
+              "other" : { "stringUnit" : { "state" : "translated", "value" : "%lld عقدة" } },
+              "two" : { "stringUnit" : { "state" : "translated", "value" : "عقدتان" } },
+              "zero" : { "stringUnit" : { "state" : "translated", "value" : "لا عقد" } }
+            }
+          }
+        }
+      }
+    },
+    "cards.count" : {
+      "localizations" : {
+        "ar" : {
+          "variations" : {
+            "plural" : {
+              "few" : { "stringUnit" : { "state" : "translated", "value" : "%lld بطاقات" } },
+              "many" : { "stringUnit" : { "state" : "translated", "value" : "%lld بطاقة" } },
+              "one" : { "stringUnit" : { "state" : "translated", "value" : "بطاقة واحدة" } },
+              "other" : { "stringUnit" : { "state" : "translated", "value" : "%lld بطاقة" } },
+              "two" : { "stringUnit" : { "state" : "translated", "value" : "بطاقتان" } },
+              "zero" : { "stringUnit" : { "state" : "translated", "value" : "لا بطاقات" } }
+            }
+          }
+        }
+      }
+    },
+    "notes.count" : {
+      "localizations" : {
+        "ar" : {
+          "variations" : {
+            "plural" : {
+              "few" : { "stringUnit" : { "state" : "translated", "value" : "%lld ملاحظات" } },
+              "many" : { "stringUnit" : { "state" : "translated", "value" : "%lld ملاحظة" } },
+              "one" : { "stringUnit" : { "state" : "translated", "value" : "ملاحظة واحدة" } },
+              "other" : { "stringUnit" : { "state" : "translated", "value" : "%lld ملاحظة" } },
+              "two" : { "stringUnit" : { "state" : "translated", "value" : "ملاحظتان" } },
+              "zero" : { "stringUnit" : { "state" : "translated", "value" : "لا ملاحظات" } }
+            }
+          }
+        }
+      }
+    },
+    "review.due" : {
+      "localizations" : {
+        "ar" : {
+          "variations" : {
+            "plural" : {
+              "few" : { "stringUnit" : { "state" : "translated", "value" : "%lld بطاقات مستحقة" } },
+              "many" : { "stringUnit" : { "state" : "translated", "value" : "%lld بطاقة مستحقة" } },
+              "one" : { "stringUnit" : { "state" : "translated", "value" : "بطاقة مستحقة واحدة" } },
+              "other" : { "stringUnit" : { "state" : "translated", "value" : "%lld بطاقة مستحقة" } },
+              "two" : { "stringUnit" : { "state" : "translated", "value" : "بطاقتان مستحقتان" } },
+              "zero" : { "stringUnit" : { "state" : "translated", "value" : "لا بطاقات مستحقة" } }
+            }
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

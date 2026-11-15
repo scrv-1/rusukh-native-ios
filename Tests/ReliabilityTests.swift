@@ -29,11 +29,14 @@ final class ReliabilityTests: XCTestCase {
         let repository = StudyRepository(fileURL: folder.appendingPathComponent("study.json"))
         let original = StudySnapshot(notes: [StudyNote(title: "محفوظ", body: "بياناتي")])
         try repository.save(original)
-        let image = Data(count: 4_000_000)
+        let image = Data(repeating: 0xAB, count: 4_000_000)
         let tooLarge = StudySnapshot(notes: (0..<16).map { StudyNote(title: "صورة \($0)", body: "", imageJPEG: image) })
         XCTAssertTrue(tooLarge.isValid())
-        XCTAssertThrowsError(try repository.save(tooLarge))
-        XCTAssertEqual(try repository.load(), original)
+        try repository.save(tooLarge)
+        let stored = try Data(contentsOf: repository.fileURL)
+        XCTAssertLessThan(stored.count, 1_000_000)
+        XCTAssertFalse(String(decoding: stored, as: UTF8.self).contains("imageJPEG"))
+        XCTAssertEqual(try repository.load(), tooLarge)
     }
     func testOversizedFileRejectedBeforeDecoding() throws {
         let url = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)

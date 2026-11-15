@@ -11,7 +11,7 @@ struct ReviewView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
                     HStack {
-                        Text("\(library.due.count) بطاقات مستحقة").font(.headline)
+                        Text(ArabicPlurals.dueCards(library.due.count)).font(.headline)
                         Spacer()
                         Button { creatingCard = true } label: { Label("بطاقة", systemImage: "plus") }
                     }
@@ -51,7 +51,7 @@ struct ReviewView: View {
             }
             .navigationTitle("المراجعة")
             .sheet(isPresented: $creatingCard) { CardComposerView() }
-            .sheet(isPresented: $takingQuiz) { QuizView() }
+            .sheet(isPresented: $takingQuiz) { QuizView(cards: library.snapshot.cards) }
         }
     }
 
@@ -99,12 +99,16 @@ struct CardComposerView: View {
 }
 
 struct QuizView: View {
-    @EnvironmentObject private var library: LibraryStore
     @Environment(\.dismiss) private var dismiss
     @State private var index = 0
     @State private var selectedAnswer: String?
     @State private var score = 0
-    private var questions: [QuizQuestion] { StudyEngine.quiz(from: library.snapshot.cards) }
+    @State private var questions: [QuizQuestion]
+
+    init(cards: [StudyCard]) {
+        var generator = SystemRandomNumberGenerator()
+        _questions = State(initialValue: StudyEngine.quiz(from: cards, using: &generator))
+    }
 
     var body: some View {
         NavigationStack {

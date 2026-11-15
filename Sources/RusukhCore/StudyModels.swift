@@ -8,8 +8,12 @@ public struct StudyNote: Codable, Identifiable, Equatable, Sendable {
     public var updatedAt: Date
     public var imageJPEG: Data?
     public var audioM4A: Data?
+    /// Relative path inside the attachment directory. Nil on notes held in memory; set only in the on-disk JSON.
+    public var imageFile: String?
+    /// Relative path inside the attachment directory. Nil on notes held in memory; set only in the on-disk JSON.
+    public var audioFile: String?
 
-    public init(id: UUID = UUID(), title: String, body: String, createdAt: Date = .now, updatedAt: Date = .now, imageJPEG: Data? = nil, audioM4A: Data? = nil) {
+    public init(id: UUID = UUID(), title: String, body: String, createdAt: Date = .now, updatedAt: Date = .now, imageJPEG: Data? = nil, audioM4A: Data? = nil, imageFile: String? = nil, audioFile: String? = nil) {
         self.id = id
         self.title = title
         self.body = body
@@ -17,6 +21,8 @@ public struct StudyNote: Codable, Identifiable, Equatable, Sendable {
         self.updatedAt = updatedAt
         self.imageJPEG = imageJPEG
         self.audioM4A = audioM4A
+        self.imageFile = imageFile
+        self.audioFile = audioFile
     }
 }
 

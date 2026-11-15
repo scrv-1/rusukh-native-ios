@@ -62,9 +62,9 @@ struct GraphView: View {
                 .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 16))
                 .padding(.horizontal)
                 HStack {
-                    Label("\(library.snapshot.notes.count) عقدة", systemImage: "circle.fill")
+                    Label(ArabicPlurals.nodes(library.snapshot.notes.count), systemImage: "circle.fill")
                     Spacer()
-                    Text("\(StudyEngine.graphEdges(library.snapshot.notes).count) علاقة").accessibilityIdentifier("graph.edge-count")
+                    Text(ArabicPlurals.edges(StudyEngine.graphEdges(library.snapshot.notes).count)).accessibilityIdentifier("graph.edge-count")
                     Spacer()
                     Button("توسيط") { zoom = 1; zoomStart = 1; pan = .zero; panStart = .zero }
                 }
