@@ -217,12 +217,16 @@ final class RusukhTourTests: XCTestCase {
     @MainActor
     private func launchReady(_ app: XCUIApplication) {
         // CI simulators occasionally time out on the first Xcode-mediated launch.
+        let previous = continueAfterFailure
+        continueAfterFailure = true
+        defer { continueAfterFailure = previous }
         for attempt in 1...3 {
-            app.launch()
-            if app.buttons["ملاحظاتي"].waitForExistence(timeout: 20) { return }
             app.terminate()
+            app.launch()
+            if app.buttons["ملاحظاتي"].waitForExistence(timeout: 25) { return }
             RunLoop.current.run(until: Date().addingTimeInterval(2))
             if attempt == 3 {
+                continueAfterFailure = false
                 XCTFail("App failed to launch after \(attempt) attempts")
             }
         }
