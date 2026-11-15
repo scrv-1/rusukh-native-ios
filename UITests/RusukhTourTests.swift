@@ -31,7 +31,13 @@ final class RusukhTourTests: XCTestCase {
         app.staticTexts["إبراهيم"].tap()
         let editor = noteBodyField(in: app)
         XCTAssertTrue(editor.waitForExistence(timeout: 5))
-        typeInto(editor, "\nس: سؤال معدّل؟\nج: إجابة معدّلة", in: app)
+        // Replace with the full body so the fifth Q/A is definitely imported (append can
+        // wipe a selected TextField and syncedCards would only rewrite leftover cards).
+        replaceText(
+            editor,
+            "صلاة\nس: ما الرسوخ؟\nج: ثبات المعرفة\nس: ما الاسترجاع؟\nج: تذكر المعلومة\nس: ما السهل؟\nج: إجابة سهلة\nس: ما الصعب؟\nج: إجابة صعبة\nس: سؤال معدّل؟\nج: إجابة معدّلة",
+            in: app
+        )
         app.buttons["note.save"].tap()
         // Search UI hides the notes toolbar; dismiss it before asserting the add control.
         dismissSearch(app)
@@ -181,25 +187,42 @@ final class RusukhTourTests: XCTestCase {
 
     @MainActor
     private func typeInto(_ element: XCUIElement, _ text: String, in app: XCUIApplication) {
-        XCTAssertTrue(element.waitForExistence(timeout: 5))
-        // Only THIS element's focus counts — a keyboard left open from the title field
-        // previously made body typing skip its tap and fail hasKeyboardFocus checks.
-        for _ in 0..<8 {
-            if elementIsFocused(element) {
-                element.typeText(text)
-                return
-            }
-            element.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.2)).tap()
-            RunLoop.current.run(until: Date().addingTimeInterval(0.3))
+        focus(element)
+        element.typeText(text)
+    }
+
+    @MainActor
+    private func replaceText(_ element: XCUIElement, _ text: String, in app: XCUIApplication) {
+        focus(element)
+        let current = (element.value as? String) ?? ""
+        let placeholder = (element.placeholderValue as? String) ?? ""
+        let content = current == placeholder ? "" : current
+        if !content.isEmpty {
+            element.coordinate(withNormalizedOffset: CGVector(dx: 0.95, dy: 0.95)).tap()
+            element.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: content.count + 8))
         }
-        // Paste works when the simulator's hardware keyboard blocks typeText focus.
+        // Paste is faster and more reliable for multi-line Arabic bodies than typeText.
         UIPasteboard.general.string = text
-        element.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.2)).press(forDuration: 1.1)
+        element.press(forDuration: 1.0)
         let paste = app.menuItems.matching(
             NSPredicate(format: "label CONTAINS[c] %@ OR label CONTAINS %@", "Paste", "لصق")
         ).firstMatch
-        XCTAssertTrue(paste.waitForExistence(timeout: 3), "No Paste menu for \(element)\n\(app.debugDescription)")
-        paste.tap()
+        if paste.waitForExistence(timeout: 2) {
+            paste.tap()
+        } else {
+            element.typeText(text)
+        }
+    }
+
+    @MainActor
+    private func focus(_ element: XCUIElement) {
+        XCTAssertTrue(element.waitForExistence(timeout: 5))
+        for _ in 0..<8 {
+            if elementIsFocused(element) { return }
+            element.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.2)).tap()
+            RunLoop.current.run(until: Date().addingTimeInterval(0.3))
+        }
+        XCTAssertTrue(elementIsFocused(element), "Expected keyboard focus on \(element)")
     }
 
     @MainActor
