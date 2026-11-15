@@ -1,12 +1,24 @@
+import CryptoKit
 import Foundation
 
-public enum StudyStorageError: Error, LocalizedError {
+public enum StudyStorageError: Error, LocalizedError, Equatable {
     case invalidBackup
+    case confirmationRequired
 
     public var errorDescription: String? {
         switch self {
         case .invalidBackup: return "ملف النسخة الاحتياطية غير صالح أو يحتوي بيانات غير مترابطة."
+        case .confirmationRequired: return "استبدال البيانات يحتاج تأكيدًا صريحًا."
         }
+    }
+}
+
+public struct RestoreOutcome: Equatable, Sendable {
+    public var snapshot: StudySnapshot
+    public var notice: String?
+    public init(snapshot: StudySnapshot, notice: String? = nil) {
+        self.snapshot = snapshot
+        self.notice = notice
     }
 }
 
@@ -16,9 +28,34 @@ public struct StudyRepository {
 
     public init(fileURL: URL) { self.fileURL = fileURL }
 
+    public var backupURL: URL { URL(fileURLWithPath: fileURL.path + ".bak") }
+    public var attachmentDirectory: URL {
+        fileURL.deletingLastPathComponent().appendingPathComponent("attachments", isDirectory: true)
+    }
+    public var quarantineDirectory: URL {
+        fileURL.deletingLastPathComponent().appendingPathComponent("quarantine", isDirectory: true)
+    }
+
     public func load() throws -> StudySnapshot {
-        guard FileManager.default.fileExists(atPath: fileURL.path) else { return .empty }
-        return try Self.read(from: fileURL)
+        try restoringLoad().snapshot
+    }
+
+    /// A damaged store is moved aside. The last JSON that decoded is copied back, and the app keeps running.
+    public func restoringLoad() -> RestoreOutcome {
+        guard FileManager.default.fileExists(atPath: fileURL.path) else {
+            return RestoreOutcome(snapshot: .empty)
+        }
+        if let snapshot = try? hydrate(try Self.read(from: fileURL)) {
+            return RestoreOutcome(snapshot: snapshot)
+        }
+        let quarantined = quarantineCurrentFile()
+        if FileManager.default.fileExists(atPath: backupURL.path),
+           let snapshot = try? hydrate(try Self.read(from: backupURL)) {
+            try? FileManager.default.copyItem(at: backupURL, to: fileURL)
+            let where_ = quarantined?.lastPathComponent ?? "quarantine"
+            return RestoreOutcome(snapshot: snapshot, notice: "تعذّرت قراءة ملف البيانات. استُعيدت آخر نسخة سليمة، وعُزل الملف التالف (\(where_)).")
+        }
+        return RestoreOutcome(snapshot: .empty, notice: "تعذّرت قراءة ملف البيانات. عُزل الملف التالف ولم تُقفل الملاحظات.")
     }
 
     public static func read(from url: URL) throws -> StudySnapshot {
@@ -32,13 +69,30 @@ public struct StudyRepository {
 
     public func save(_ snapshot: StudySnapshot) throws {
         guard snapshot.isValid() else { throw StudyStorageError.invalidBackup }
-        let bytes = try Self.encode(snapshot)
+        let persisted = externalized(snapshot)
+        guard persisted.isValid() else { throw StudyStorageError.invalidBackup }
+        let bytes = try Self.encode(persisted)
         try FileManager.default.createDirectory(at: fileURL.deletingLastPathComponent(), withIntermediateDirectories: true)
+        // New bytes go to unused content-addressed names first, so a failed JSON write leaves the previous store intact.
+        try writeAttachments(for: snapshot, manifest: persisted)
+        if FileManager.default.fileExists(atPath: fileURL.path), (try? Self.read(from: fileURL)) != nil {
+            if FileManager.default.fileExists(atPath: backupURL.path) {
+                try FileManager.default.removeItem(at: backupURL)
+            }
+            try FileManager.default.copyItem(at: fileURL, to: backupURL)
+        }
         #if os(iOS)
         try bytes.write(to: fileURL, options: [.atomic, .completeFileProtectionUntilFirstUserAuthentication])
         #else
         try bytes.write(to: fileURL, options: .atomic)
         #endif
+        try removeUnreferencedAttachments(keeping: referencedFiles(in: persisted, and: backupURL))
+    }
+
+    /// Replacement does not write until the caller passes `confirmed: true`.
+    public func replace(_ current: StudySnapshot, with incoming: StudySnapshot, confirmed: Bool) throws -> StudySnapshot {
+        guard confirmed else { throw StudyStorageError.confirmationRequired }
+        return try StudyLibrary.applying(current, incoming: incoming, mode: .replace)
     }
 
     public static func encode(_ snapshot: StudySnapshot) throws -> Data {
@@ -61,6 +115,100 @@ public struct StudyRepository {
         }
         // Keep compatibility with the earlier Expo Rusukh JSON export.
         return try LegacyExpoMigration.converted(from: data)
+    }
+
+    private func externalized(_ snapshot: StudySnapshot) -> StudySnapshot {
+        let notes = snapshot.notes.map { note -> StudyNote in
+            var stored = note
+            stored.imageFile = note.imageJPEG.map { mediaName(noteID: note.id, kind: "image", ext: "jpg", data: $0) }
+            stored.audioFile = note.audioM4A.map { mediaName(noteID: note.id, kind: "audio", ext: "m4a", data: $0) }
+            stored.imageJPEG = nil
+            stored.audioM4A = nil
+            return stored
+        }
+        return StudySnapshot(notes: notes, cards: snapshot.cards, reviews: snapshot.reviews)
+    }
+
+    private func writeAttachments(for snapshot: StudySnapshot, manifest: StudySnapshot) throws {
+        try FileManager.default.createDirectory(at: attachmentDirectory, withIntermediateDirectories: true)
+        for (note, stored) in zip(snapshot.notes, manifest.notes) {
+            if let data = note.imageJPEG, let name = stored.imageFile { try write(data, named: name) }
+            if let data = note.audioM4A, let name = stored.audioFile { try write(data, named: name) }
+        }
+    }
+
+    private func write(_ data: Data, named relative: String) throws {
+        let url = try safeURL(relative)
+        try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+        if !FileManager.default.fileExists(atPath: url.path) {
+            try data.write(to: url, options: .atomic)
+        }
+    }
+
+    private func hydrate(_ snapshot: StudySnapshot) -> StudySnapshot {
+        let notes = snapshot.notes.map { note -> StudyNote in
+            var copy = note
+            if copy.imageJPEG == nil, let name = copy.imageFile, let url = try? safeURL(name) {
+                copy.imageJPEG = try? Data(contentsOf: url)
+            }
+            if copy.audioM4A == nil, let name = copy.audioFile, let url = try? safeURL(name) {
+                copy.audioM4A = try? Data(contentsOf: url)
+            }
+            // Memory matches notes built by the app. The file name stays only in the JSON.
+            copy.imageFile = nil
+            copy.audioFile = nil
+            return copy
+        }
+        return StudySnapshot(notes: notes, cards: snapshot.cards, reviews: snapshot.reviews)
+    }
+
+    private func referencedFiles(in snapshot: StudySnapshot, and backup: URL) -> Set<String> {
+        var names = Set(snapshot.notes.compactMap(\.imageFile) + snapshot.notes.compactMap(\.audioFile))
+        if let previous = try? Self.read(from: backup) {
+            names.formUnion(previous.notes.compactMap(\.imageFile))
+            names.formUnion(previous.notes.compactMap(\.audioFile))
+        }
+        return names
+    }
+
+    private func removeUnreferencedAttachments(keeping names: Set<String>) throws {
+        guard FileManager.default.fileExists(atPath: attachmentDirectory.path) else { return }
+        for folder in try FileManager.default.contentsOfDirectory(at: attachmentDirectory, includingPropertiesForKeys: nil) {
+            let files = (try? FileManager.default.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil)) ?? []
+            for file in files {
+                let relative = folder.lastPathComponent + "/" + file.lastPathComponent
+                if !names.contains(relative) { try FileManager.default.removeItem(at: file) }
+            }
+            if let left = try? FileManager.default.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil), left.isEmpty {
+                try FileManager.default.removeItem(at: folder)
+            }
+        }
+    }
+
+    private func mediaName(noteID: UUID, kind: String, ext: String, data: Data) -> String {
+        let digest = SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined()
+        return "\(noteID.uuidString)/\(kind)-\(digest.prefix(16)).\(ext)"
+    }
+
+    private func safeURL(_ relative: String) throws -> URL {
+        let parts = relative.split(separator: "/", omittingEmptySubsequences: false).map(String.init)
+        guard parts.count == 2, parts.allSatisfy({ !$0.isEmpty && $0 != "." && $0 != ".." && !$0.contains("\\") }) else {
+            throw StudyStorageError.invalidBackup
+        }
+        return attachmentDirectory.appendingPathComponent(parts[0]).appendingPathComponent(parts[1])
+    }
+
+    private func quarantineCurrentFile() -> URL? {
+        guard FileManager.default.fileExists(atPath: fileURL.path) else { return nil }
+        do {
+            try FileManager.default.createDirectory(at: quarantineDirectory, withIntermediateDirectories: true)
+            let stamp = ISO8601DateFormatter().string(from: Date()).replacingOccurrences(of: ":", with: "-")
+            let destination = quarantineDirectory.appendingPathComponent("study-\(stamp).json")
+            try FileManager.default.moveItem(at: fileURL, to: destination)
+            return destination
+        } catch {
+            return nil
+        }
     }
 }
 
