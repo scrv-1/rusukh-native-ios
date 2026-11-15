@@ -24,6 +24,7 @@ final class DataSafetyTests: XCTestCase {
 
     func testInlineAudioMigratesOnTheNextSave() throws {
         let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: directory) }
         let note = StudyNote(title: "قديم", body: "صوت", audioM4A: Data([9, 8, 7, 6]))
         let repository = StudyRepository(fileURL: directory.appendingPathComponent("study.json"))
@@ -56,6 +57,7 @@ final class DataSafetyTests: XCTestCase {
 
     func testCorruptFileWithoutBackupOpensEmpty() throws {
         let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: directory) }
         let repository = StudyRepository(fileURL: directory.appendingPathComponent("study.json"))
         try Data("broken".utf8).write(to: repository.fileURL)
