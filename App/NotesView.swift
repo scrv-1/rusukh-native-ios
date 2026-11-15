@@ -172,6 +172,10 @@ struct NoteEditorView: View {
                         Image(uiImage: image).resizable().scaledToFit().frame(maxHeight: 200)
                         Button("إزالة الصورة", role: .destructive) { imageJPEG = nil }
                     }
+                    if TourHooks.enabled {
+                        Button("إرفاق صورة تجريبية") { imageJPEG = TourHooks.sampleImage }
+                            .accessibilityIdentifier("tour.attach-image")
+                    }
                     Button {
                         if UIImagePickerController.isSourceTypeAvailable(.camera) { cameraOpen = true }
                         else { photoError = true }

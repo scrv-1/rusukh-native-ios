@@ -142,7 +142,7 @@ final class LibraryStore: ObservableObject {
             let incoming = try StudyRepository.read(from: url)
             if mode == .replace {
                 pendingImport = PendingImport(incoming: incoming, noteCount: incoming.notes.count, cardCount: incoming.cards.count)
-                message = "الملف صالح: \(incoming.notes.count) ملاحظة و\(incoming.cards.count) بطاقة. أكّد الاستبدال قبل أن يحل محل بياناتك."
+                message = "الملف صالح: \(ArabicPlurals.notes(incoming.notes.count)) و\(ArabicPlurals.cards(incoming.cards.count)). أكّد الاستبدال قبل أن يحل محل بياناتك."
                 return
             }
             let result = try StudyLibrary.applying(snapshot, incoming: incoming, mode: .merge)
@@ -167,5 +167,16 @@ final class LibraryStore: ObservableObject {
 
     func cancelPendingImport() {
         pendingImport = nil
+    }
+
+    /// UI-tour only. Writes garbage over the store, then reopens through the same recovery path as launch.
+    func corruptStoreForTour() {
+        #if DEBUG
+        guard ProcessInfo.processInfo.arguments.contains("-ui-tour") else { return }
+        try? Data("not json".utf8).write(to: repository.fileURL)
+        let restored = repository.restoringLoad()
+        snapshot = restored.snapshot
+        message = restored.notice
+        #endif
     }
 }

@@ -19,6 +19,14 @@ final class StringCatalogTests: XCTestCase {
             0: ArabicPlurals.nodes(0), 1: ArabicPlurals.nodes(1), 2: ArabicPlurals.nodes(2),
             5: ArabicPlurals.nodes(5), 21: ArabicPlurals.nodes(21)
         ])
+        try expect(strings, key: "notes.count", samples: [
+            0: ArabicPlurals.notes(0), 1: ArabicPlurals.notes(1), 2: ArabicPlurals.notes(2),
+            4: ArabicPlurals.notes(4), 15: ArabicPlurals.notes(15)
+        ])
+        try expect(strings, key: "cards.count", samples: [
+            0: ArabicPlurals.cards(0), 1: ArabicPlurals.cards(1), 2: ArabicPlurals.cards(2),
+            6: ArabicPlurals.cards(6), 100: ArabicPlurals.cards(100)
+        ])
         try expect(strings, key: "review.due", samples: [
             0: ArabicPlurals.dueCards(0), 1: ArabicPlurals.dueCards(1), 2: ArabicPlurals.dueCards(2),
             4: ArabicPlurals.dueCards(4), 15: ArabicPlurals.dueCards(15)

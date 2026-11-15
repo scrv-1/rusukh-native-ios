@@ -27,7 +27,7 @@ struct HomeView: View {
                     VStack(alignment: .leading, spacing: 12) {
                         Label("جلسة اليوم", systemImage: "clock.arrow.circlepath")
                             .font(.headline)
-                        Text(library.due.isEmpty ? "ليس لديك مراجعات مستحقة" : "لديك \(library.due.count) بطاقات تنتظرك")
+                        Text(library.due.isEmpty ? "ليس لديك مراجعات مستحقة" : ArabicPlurals.dueCards(library.due.count))
                             .font(.title2.bold())
                         Text("أنشئ بطاقات من ملاحظاتك باستخدام الأسطر س: وج:، أو أضفها يدويًا.")
                             .font(.subheadline)
@@ -87,6 +87,7 @@ struct SettingsView: View {
                 ReviewReminderView()
                 Section("النسخ الاحتياطي") {
                     Button("تجهيز نسخة JSON شاملة مع المرفقات") { shareURL = library.exportToTemporaryFile() }
+                        .accessibilityIdentifier("backup.prepare")
                     if let shareURL {
                         ShareLink(item: shareURL) { Label("حفظ النسخة في الملفات", systemImage: "square.and.arrow.up") }
                     }
@@ -102,6 +103,12 @@ struct SettingsView: View {
                     .accessibilityIdentifier("backup.import-replace")
                     Text("الصور والتسجيلات المحفوظة داخل الملاحظات موجودة في النسخة. النسخة غير مشفّرة؛ احفظها بمكان آمن.")
                         .font(.footnote).foregroundStyle(.secondary)
+                    if TourHooks.enabled, let shareURL {
+                        Button("استيراد النسخة المجهزة") { library.importFromFile(shareURL, mode: .replace) }
+                            .accessibilityIdentifier("tour.import-prepared")
+                        Button("محاكاة تلف ملف البيانات") { library.corruptStoreForTour() }
+                            .accessibilityIdentifier("tour.corrupt")
+                    }
                 }
                 Section("الأمان") {
                     Text("كل الملاحظات تُحفظ محليًا. حذف التطبيق قد يحذف البيانات؛ صدّر نسخة دورية.")
@@ -127,7 +134,7 @@ struct SettingsView: View {
                 }
             }
             .confirmationDialog(
-                "استبدال كل البيانات بهذا الملف (\(library.pendingImport?.noteCount ?? 0) ملاحظة و\(library.pendingImport?.cardCount ?? 0) بطاقة)؟ تُحفظ النسخة الحالية تلقائيًا قبل ذلك.",
+                "استبدال كل البيانات بهذا الملف (\(ArabicPlurals.notes(library.pendingImport?.noteCount ?? 0)) و\(ArabicPlurals.cards(library.pendingImport?.cardCount ?? 0)))؟ تُحفظ النسخة الحالية تلقائيًا قبل ذلك.",
                 isPresented: Binding(get: { library.pendingImport != nil }, set: { if !$0 { library.cancelPendingImport() } }),
                 titleVisibility: .visible
             ) {

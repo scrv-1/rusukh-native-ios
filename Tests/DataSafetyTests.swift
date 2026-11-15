@@ -19,6 +19,7 @@ final class DataSafetyTests: XCTestCase {
         let loaded = try repository.load()
         XCTAssertEqual(loaded.notes.count, 30)
         XCTAssertEqual(loaded.notes.map(\.audioM4A), notes.map(\.audioM4A))
+        XCTAssertThrowsError(try StudyRepository.encode(snapshot))
     }
 
     func testInlineAudioMigratesOnTheNextSave() throws {

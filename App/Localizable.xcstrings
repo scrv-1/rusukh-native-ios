@@ -33,6 +33,38 @@
         }
       }
     },
+    "cards.count" : {
+      "localizations" : {
+        "ar" : {
+          "variations" : {
+            "plural" : {
+              "few" : { "stringUnit" : { "state" : "translated", "value" : "%lld بطاقات" } },
+              "many" : { "stringUnit" : { "state" : "translated", "value" : "%lld بطاقة" } },
+              "one" : { "stringUnit" : { "state" : "translated", "value" : "بطاقة واحدة" } },
+              "other" : { "stringUnit" : { "state" : "translated", "value" : "%lld بطاقة" } },
+              "two" : { "stringUnit" : { "state" : "translated", "value" : "بطاقتان" } },
+              "zero" : { "stringUnit" : { "state" : "translated", "value" : "لا بطاقات" } }
+            }
+          }
+        }
+      }
+    },
+    "notes.count" : {
+      "localizations" : {
+        "ar" : {
+          "variations" : {
+            "plural" : {
+              "few" : { "stringUnit" : { "state" : "translated", "value" : "%lld ملاحظات" } },
+              "many" : { "stringUnit" : { "state" : "translated", "value" : "%lld ملاحظة" } },
+              "one" : { "stringUnit" : { "state" : "translated", "value" : "ملاحظة واحدة" } },
+              "other" : { "stringUnit" : { "state" : "translated", "value" : "%lld ملاحظة" } },
+              "two" : { "stringUnit" : { "state" : "translated", "value" : "ملاحظتان" } },
+              "zero" : { "stringUnit" : { "state" : "translated", "value" : "لا ملاحظات" } }
+            }
+          }
+        }
+      }
+    },
     "review.due" : {
       "localizations" : {
         "ar" : {

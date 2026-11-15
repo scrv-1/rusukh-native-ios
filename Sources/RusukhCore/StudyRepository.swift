@@ -141,7 +141,11 @@ public struct StudyRepository {
         let url = try safeURL(relative)
         try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
         if !FileManager.default.fileExists(atPath: url.path) {
+            #if os(iOS)
+            try data.write(to: url, options: [.atomic, .completeFileProtectionUntilFirstUserAuthentication])
+            #else
             try data.write(to: url, options: .atomic)
+            #endif
         }
     }
 

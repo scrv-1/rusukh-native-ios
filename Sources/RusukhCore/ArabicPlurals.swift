@@ -20,6 +20,8 @@ public enum ArabicPlurals {
     public static func edges(_ count: Int) -> String { phrase(count, forms: edgeForms) }
     public static func nodes(_ count: Int) -> String { phrase(count, forms: nodeForms) }
     public static func dueCards(_ count: Int) -> String { phrase(count, forms: dueForms) }
+    public static func notes(_ count: Int) -> String { phrase(count, forms: noteForms) }
+    public static func cards(_ count: Int) -> String { phrase(count, forms: cardForms) }
 
     private static let edgeForms: [Category: String] = [
         .zero: "لا علاقات", .one: "علاقة واحدة", .two: "علاقتان",
@@ -32,6 +34,14 @@ public enum ArabicPlurals {
     private static let dueForms: [Category: String] = [
         .zero: "لا بطاقات مستحقة", .one: "بطاقة مستحقة واحدة", .two: "بطاقتان مستحقتان",
         .few: "%d بطاقات مستحقة", .many: "%d بطاقة مستحقة", .other: "%d بطاقة مستحقة"
+    ]
+    private static let noteForms: [Category: String] = [
+        .zero: "لا ملاحظات", .one: "ملاحظة واحدة", .two: "ملاحظتان",
+        .few: "%d ملاحظات", .many: "%d ملاحظة", .other: "%d ملاحظة"
+    ]
+    private static let cardForms: [Category: String] = [
+        .zero: "لا بطاقات", .one: "بطاقة واحدة", .two: "بطاقتان",
+        .few: "%d بطاقات", .many: "%d بطاقة", .other: "%d بطاقة"
     ]
 
     private static func phrase(_ count: Int, forms: [Category: String]) -> String {
