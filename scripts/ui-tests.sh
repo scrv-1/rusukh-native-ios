@@ -23,6 +23,28 @@ TEST_RESULT=${PIPESTATUS[0]}
 set -e
 xcrun xcresulttool help export attachments > evidence/xcresult-help.txt
 xcrun xcresulttool export attachments --path evidence/RusukhUI.xcresult --output-path evidence/ui-attachments
+python3 - <<'PY' || true
+import json, shutil
+from pathlib import Path
+manifest_path = Path("evidence/ui-attachments/manifest.json")
+destination = Path("evidence/tour")
+destination.mkdir(exist_ok=True)
+if not manifest_path.exists():
+    print("TOUR_SCREENSHOTS none")
+    raise SystemExit
+manifest = json.loads(manifest_path.read_text())
+for test in manifest:
+    for attachment in test.get("attachments", []):
+        name = attachment.get("suggestedHumanReadableName") or ""
+        if "tour-" not in name or not name.endswith(".png"):
+            continue
+        source = Path("evidence/ui-attachments") / attachment["exportedFileName"]
+        label = name.split("_0_")[0]
+        if not label.endswith(".png"):
+            label += ".png"
+        shutil.copyfile(source, destination / Path(label).name)
+print("TOUR_SCREENSHOTS", sorted(p.name for p in destination.glob("*.png")))
+PY
 xcrun xcresulttool get test-results summary --path evidence/RusukhUI.xcresult > evidence/ui-summary.json
 xcrun simctl spawn "$SIMULATOR_ID" log show --last 10m --style compact --predicate 'process == "RusukhNative"' > evidence/app-system.log || true
 # Keep simulator failures visible in Actions even if artifact downloads are unavailable.
