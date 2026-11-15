@@ -79,9 +79,15 @@ final class RusukhTourTests: XCTestCase {
         app.buttons["ملاحظاتي"].tap()
         let row = app.staticTexts["إبراهيم"]
         XCTAssertTrue(row.waitForExistence(timeout: 5))
-        row.swipeRight()
-        if !app.buttons["حذف"].waitForExistence(timeout: 2) { row.swipeLeft() }
-        XCTAssertTrue(app.buttons["حذف"].waitForExistence(timeout: 5))
+        // Prefer the list cell swipe target; StaticText-only swipes often miss swipeActions.
+        let cell = app.cells.containing(.staticText, identifier: "إبراهيم").element
+        let swipeTarget = cell.exists ? cell : row
+        for direction in [0, 1, 0] {
+            if app.buttons["حذف"].exists { break }
+            if direction == 0 { swipeTarget.swipeLeft() } else { swipeTarget.swipeRight() }
+            if app.buttons["حذف"].waitForExistence(timeout: 2) { break }
+        }
+        XCTAssertTrue(app.buttons["حذف"].waitForExistence(timeout: 5), app.debugDescription)
         capture("tour-17-delete-swipe")
         app.buttons["حذف"].tap()
         let confirmDelete = app.buttons["حذف الملاحظة"]

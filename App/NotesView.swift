@@ -31,24 +31,34 @@ struct NotesView: View {
         NavigationStack {
             List {
                 ForEach(results) { note in
-                    Button { editing = EditingNote(note: note) } label: {
-                        HStack(spacing: 12) {
-                            if let bytes = note.imageJPEG, let image = UIImage(data: bytes) {
-                                Image(uiImage: image).resizable().scaledToFill()
-                                    .frame(width: 48, height: 48).clipShape(RoundedRectangle(cornerRadius: 9))
-                            }
-                            VStack(alignment: .leading, spacing: 5) {
-                                Text(note.title).foregroundStyle(.primary).font(.headline)
-                                Text(note.body).font(.caption).foregroundStyle(.secondary).lineLimit(2)
-                            }
-                            Spacer(minLength: 4)
-                            Image(systemName: "chevron.left").font(.caption).foregroundStyle(.tertiary)
+                    HStack(spacing: 12) {
+                        if let bytes = note.imageJPEG, let image = UIImage(data: bytes) {
+                            Image(uiImage: image).resizable().scaledToFill()
+                                .frame(width: 48, height: 48).clipShape(RoundedRectangle(cornerRadius: 9))
                         }
+                        VStack(alignment: .leading, spacing: 5) {
+                            Text(note.title).foregroundStyle(.primary).font(.headline)
+                            Text(note.body).font(.caption).foregroundStyle(.secondary).lineLimit(2)
+                        }
+                        Spacer(minLength: 4)
+                        Image(systemName: "chevron.left").font(.caption).foregroundStyle(.tertiary)
                     }
-                    .swipeActions {
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .contentShape(Rectangle())
+                    .onTapGesture { editing = EditingNote(note: note) }
+                    // Both edges so RTL and XCUITest swipes can reveal delete.
+                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                         Button("حذف", role: .destructive) { pendingDelete = note }
                             .accessibilityIdentifier("note.delete")
                     }
+                    .swipeActions(edge: .leading, allowsFullSwipe: false) {
+                        Button("حذف", role: .destructive) { pendingDelete = note }
+                            .accessibilityIdentifier("note.delete")
+                    }
+                    .accessibilityElement(children: .combine)
+                    .accessibilityAddTraits(.isButton)
+                    .accessibilityLabel(note.title)
+                    .accessibilityIdentifier("note.row.\(note.id.uuidString)")
                 }
             }
             .overlay {
