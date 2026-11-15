@@ -215,13 +215,27 @@ final class RusukhUITests: XCTestCase {
     }
     @MainActor private func addNote(_ app: XCUIApplication, title: String, body: String) {
         app.buttons["notes.add"].tap()
+        XCTAssertTrue(app.navigationBars["ملاحظة جديدة"].waitForExistence(timeout: 5))
         let field = app.textFields["note.title"]
         XCTAssertTrue(field.waitForExistence(timeout: 5))
-        field.tap(); field.typeText(title)
-        let editor = app.textViews["note.body"]
-        editor.tap(); editor.typeText(body)
+        typeInto(field, title, in: app)
+        typeInto(app.textViews["note.body"], body, in: app)
         app.buttons["note.save"].tap()
         XCTAssertTrue(app.buttons["notes.add"].waitForExistence(timeout: 5))
+    }
+    @MainActor private func typeInto(_ element: XCUIElement, _ text: String, in app: XCUIApplication) {
+        XCTAssertTrue(element.waitForExistence(timeout: 5))
+        for _ in 0..<5 {
+            if element.hasKeyboardFocus { break }
+            element.tap()
+            if element.hasKeyboardFocus { break }
+            _ = app.keyboards.firstMatch.waitForExistence(timeout: 1)
+        }
+        XCTAssertTrue(
+            element.hasKeyboardFocus || app.keyboards.firstMatch.exists,
+            "Expected keyboard focus before typing into \(element)"
+        )
+        element.typeText(text)
     }
     @MainActor private func capture(_ name: String) {
         let attachment = XCTAttachment(screenshot: XCUIScreen.main.screenshot())

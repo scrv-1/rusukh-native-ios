@@ -30,8 +30,7 @@ final class RusukhTourTests: XCTestCase {
         app.staticTexts["إبراهيم"].tap()
         let editor = app.textViews["note.body"]
         XCTAssertTrue(editor.waitForExistence(timeout: 5))
-        editor.tap()
-        editor.typeText("\nس: سؤال معدّل؟\nج: إجابة معدّلة")
+        typeInto(editor, "\nس: سؤال معدّل؟\nج: إجابة معدّلة", in: app)
         app.buttons["note.save"].tap()
         // Search UI hides the notes toolbar; dismiss it before asserting the add control.
         dismissSearch(app)
@@ -67,12 +66,10 @@ final class RusukhTourTests: XCTestCase {
 
         app.buttons["ملاحظاتي"].tap()
         app.buttons["notes.add"].tap()
+        XCTAssertTrue(app.navigationBars["ملاحظة جديدة"].waitForExistence(timeout: 5))
         let secondTitle = app.textFields["note.title"]
-        XCTAssertTrue(secondTitle.waitForExistence(timeout: 5))
-        secondTitle.tap()
-        secondTitle.typeText("مراجعة")
-        app.textViews["note.body"].tap()
-        app.textViews["note.body"].typeText("س: ما الثاني؟\nج: ثاني")
+        typeInto(secondTitle, "مراجعة", in: app)
+        typeInto(app.textViews["note.body"], "س: ما الثاني؟\nج: ثاني", in: app)
         app.buttons["note.save"].tap()
         XCTAssertTrue(app.buttons["notes.add"].waitForExistence(timeout: 5))
 
@@ -160,13 +157,12 @@ final class RusukhTourTests: XCTestCase {
     @MainActor
     private func addStudyNote(_ app: XCUIApplication) {
         app.buttons["notes.add"].tap()
+        XCTAssertTrue(app.navigationBars["ملاحظة جديدة"].waitForExistence(timeout: 5))
         let title = app.textFields["note.title"]
         XCTAssertTrue(title.waitForExistence(timeout: 5))
-        title.tap()
-        title.typeText("إبراهيم")
+        typeInto(title, "إبراهيم", in: app)
         let editor = app.textViews["note.body"]
-        editor.tap()
-        editor.typeText("صلاة\nس: ما الرسوخ؟\nج: ثبات المعرفة\nس: ما الاسترجاع؟\nج: تذكر المعلومة\nس: ما السهل؟\nج: إجابة سهلة\nس: ما الصعب؟\nج: إجابة صعبة")
+        typeInto(editor, "صلاة\nس: ما الرسوخ؟\nج: ثبات المعرفة\nس: ما الاسترجاع؟\nج: تذكر المعلومة\nس: ما السهل؟\nج: إجابة سهلة\nس: ما الصعب؟\nج: إجابة صعبة", in: app)
         capture("tour-03-editor")
         reveal(app.buttons["voice.record"], in: app)
         app.buttons["voice.record"].tap()
@@ -184,17 +180,34 @@ final class RusukhTourTests: XCTestCase {
     }
 
     @MainActor
+    private func typeInto(_ element: XCUIElement, _ text: String, in app: XCUIApplication) {
+        XCTAssertTrue(element.waitForExistence(timeout: 5))
+        for _ in 0..<5 {
+            if element.hasKeyboardFocus { break }
+            element.tap()
+            if element.hasKeyboardFocus { break }
+            // Sheet/keyboard animations can steal focus briefly after the first tap.
+            _ = app.keyboards.firstMatch.waitForExistence(timeout: 1)
+        }
+        XCTAssertTrue(
+            element.hasKeyboardFocus || app.keyboards.firstMatch.exists,
+            "Expected keyboard focus before typing into \(element)"
+        )
+        element.typeText(text)
+    }
+
+    @MainActor
     private func search(_ app: XCUIApplication, _ query: String) {
         let search = app.searchFields.firstMatch
         XCTAssertTrue(search.waitForExistence(timeout: 5))
-        search.tap()
-        search.typeText(query)
+        typeInto(search, query, in: app)
     }
 
     @MainActor
     private func clearSearch(_ app: XCUIApplication) {
         let search = app.searchFields.firstMatch
-        search.tap()
+        XCTAssertTrue(search.waitForExistence(timeout: 5))
+        if !search.hasKeyboardFocus { search.tap() }
         let current = (search.value as? String) ?? ""
         if !current.isEmpty {
             search.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: current.count + 2))

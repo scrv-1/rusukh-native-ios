@@ -143,6 +143,7 @@ struct NoteEditorView: View {
     @State private var cameraOpen = false
     @State private var photoError = false
     @State private var confirmDiscard = false
+    @FocusState private var titleFocused: Bool
 
     init(note: StudyNote?) {
         self.note = note
@@ -156,7 +157,9 @@ struct NoteEditorView: View {
         NavigationStack {
             Form {
                 Section("العنوان") {
-                    TextField("مثال: التعلّم النشط", text: $title).accessibilityIdentifier("note.title")
+                    TextField("مثال: التعلّم النشط", text: $title)
+                        .focused($titleFocused)
+                        .accessibilityIdentifier("note.title")
                 }
                 Section("المحتوى") {
                     TextEditor(text: $noteBody).accessibilityLabel("محتوى الملاحظة").accessibilityIdentifier("note.body")
@@ -249,7 +252,11 @@ struct NoteEditorView: View {
                 if phase == .background { voice.pauseForBackground() }
             }
             .onReceive(NotificationCenter.default.publisher(for: AVAudioSession.interruptionNotification)) { _ in voice.pauseForBackground() }
-            .onAppear { voice.open() }
+            .onAppear {
+                voice.open()
+                // New notes start in the title field so typing works without a flaky focus race.
+                if note == nil { titleFocused = true }
+            }
             .onDisappear { voice.close() }
         }
     }
