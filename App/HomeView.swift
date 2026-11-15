@@ -4,6 +4,7 @@ import UniformTypeIdentifiers
 struct HomeView: View {
     @EnvironmentObject private var library: LibraryStore
     @State private var showingSettings = false
+    @State private var openedNote: StudyNote?
 
     var body: some View {
         NavigationStack {
@@ -38,14 +39,17 @@ struct HomeView: View {
                     .background(Color.black, in: RoundedRectangle(cornerRadius: 20))
                     Text("آخر الملاحظات").font(.headline)
                     ForEach(library.snapshot.notes.prefix(4)) { note in
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text(note.title).font(.headline)
-                            Text(note.body.isEmpty ? "ملاحظة فارغة" : note.body)
-                                .font(.footnote).foregroundStyle(.secondary).lineLimit(2)
+                        Button { openedNote = note } label: {
+                            VStack(alignment: .leading, spacing: 5) {
+                                Text(note.title).font(.headline).foregroundStyle(.primary)
+                                Text(note.body.isEmpty ? "ملاحظة فارغة" : note.body)
+                                    .font(.footnote).foregroundStyle(.secondary).lineLimit(2)
+                            }
+                            .padding(14)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 14))
                         }
-                        .padding(14)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 14))
+                        .buttonStyle(.plain)
                     }
                     if library.snapshot.notes.isEmpty {
                         ContentUnavailableView("ابدأ بملاحظة", systemImage: "square.and.pencil", description: Text("اضغط «ملاحظاتي» لإضافة أول ملاحظة."))
@@ -59,6 +63,7 @@ struct HomeView: View {
                     .accessibilityLabel("الإعدادات")
             }
             .sheet(isPresented: $showingSettings) { SettingsView() }
+            .sheet(item: $openedNote) { note in NoteEditorView(note: note) }
         }
     }
 
@@ -94,6 +99,10 @@ struct SettingsView: View {
                 ReviewReminderView()
                 Section("النسخ الاحتياطي") {
                     Button("تجهيز نسخة JSON شاملة مع المرفقات") { shareURL = library.exportToTemporaryFile() }
+                    if shareURL == nil {
+                        Text("التجهيز لا يحفظ الملف وحده. بعد نجاحه يظهر زر الحفظ.")
+                            .font(.footnote).foregroundStyle(.secondary)
+                    }
                     if let shareURL {
                         ShareLink(item: shareURL) { Label("حفظ النسخة في الملفات", systemImage: "square.and.arrow.up") }
                     }

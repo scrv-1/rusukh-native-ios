@@ -13,6 +13,11 @@ struct ReviewReminderView: View {
         Section("تذكير المراجعة") {
             DatePicker("وقت التذكير اليومي", selection: $time, displayedComponents: .hourAndMinute)
                 .disabled(busy)
+                .onChange(of: time) { _, newValue in
+                    guard enabled, !busy else { return }
+                    let chosen = Calendar.current.dateComponents([.hour, .minute], from: newValue)
+                    Task { await scheduleIfDifferent(from: chosen) }
+                }
             Text("تذكير محلي عام، دون عرض محتوى ملاحظاتك. يرسله النظام حتى لو كان التطبيق مغلقًا.")
                 .font(.footnote).foregroundStyle(.secondary)
             Button(enabled ? "تحديث وقت التذكير" : "تفعيل التذكير") { Task { await schedule() } }
@@ -39,6 +44,15 @@ struct ReviewReminderView: View {
             let settings = await center.notificationSettings()
             message = settings.authorizationStatus == .denied ? "الإشعارات محظورة من إعدادات النظام." : "التذكير اليومي محفوظ على هذا الجهاز."
         } else { enabled = false }
+    }
+
+    @MainActor private func scheduleIfDifferent(from chosen: DateComponents) async {
+        let pending = await UNUserNotificationCenter.current().pendingNotificationRequests()
+        if let trigger = pending.first(where: { $0.identifier == identifier })?.trigger as? UNCalendarNotificationTrigger,
+           trigger.dateComponents.hour == chosen.hour, trigger.dateComponents.minute == chosen.minute {
+            return
+        }
+        await schedule()
     }
 
     @MainActor private func schedule() async {

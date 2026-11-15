@@ -6,6 +6,12 @@ import CoreML
 /// Live Apple on-device text model. Requires an eligible device, enabled Apple Intelligence,
 /// downloaded model weights, and an input language supported by the model on that OS.
 struct NativeAIEngine {
+    func canGenerate(for locale: Locale = .current) -> Bool {
+        let model = SystemLanguageModel.default
+        guard model.isAvailable else { return false }
+        return model.supportsLocale(locale)
+    }
+
     func status(for locale: Locale = .current) -> String {
         let model = SystemLanguageModel.default
         switch model.availability {

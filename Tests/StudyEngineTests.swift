@@ -22,6 +22,21 @@ final class StudyEngineTests: XCTestCase {
     }
     func testQuestionAnswerMissingAnswer() {
         XCTAssertEqual(StudyEngine.questionAnswers(from: "س: سؤال فقط").count, 0)
+        XCTAssertTrue(StudyEngine.looksLikeCardPrompt("س: سؤال فقط"))
+        XCTAssertFalse(StudyEngine.looksLikeCardPrompt("نص عادي"))
+    }
+    func testMultilineQuestionAnswerStopsAtBlankLine() {
+        let entries = StudyEngine.questionAnswers(from: "س: ما العلم؟\nتعريف قصير\nج: المعرفة\nسطر ثان\n\nليست بطاقة")
+        XCTAssertEqual(entries.count, 1)
+        XCTAssertEqual(entries[0].question, "ما العلم؟\nتعريف قصير")
+        XCTAssertEqual(entries[0].answer, "المعرفة\nسطر ثان")
+    }
+    func testSearchFoldsAlefAndRejectsMarkOnlyQuery() {
+        let note = StudyNote(title: "أحمد", body: "على النهر")
+        XCTAssertTrue(StudyEngine.matches(note, query: "احمد"))
+        XCTAssertTrue(StudyEngine.matches(note, query: "علي"))
+        XCTAssertFalse(StudyEngine.matches(note, query: "ــ"))
+        XCTAssertFalse(StudyEngine.matches(note, query: "ُ"))
     }
     func testCardDueNow() {
         let card = StudyCard(noteID: UUID(), question: "?", answer: "A")

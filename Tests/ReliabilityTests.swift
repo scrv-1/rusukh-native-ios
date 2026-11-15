@@ -11,12 +11,14 @@ final class ReliabilityTests: XCTestCase {
             XCTAssertNoThrow(try StudyRepository.encode(result), "\(grade)")
         }
     }
-    func testAmbiguousLinkDoesNotChooseAnArbitraryNote() {
+    func testDuplicateTitleLinksEveryMatch() {
         let source = StudyNote(title: "بداية", body: "[[متكرر]]")
         let a = StudyNote(title: "متكرر", body: "")
         let b = StudyNote(title: " متكرر ", body: "")
-        XCTAssertTrue(StudyEngine.graphEdges([source, a, b]).isEmpty)
-        XCTAssertTrue(StudyEngine.graphEdges([b, source, a]).isEmpty)
+        XCTAssertEqual(Set(StudyEngine.graphEdges([source, a, b])), Set([
+            GraphEdge(from: source.id, to: a.id),
+            GraphEdge(from: source.id, to: b.id)
+        ]))
     }
     func testArabicSearchIgnoresDiacriticsAndTatweel() {
         let note = StudyNote(title: "رُسُوخ", body: "تَعَلُّـم يبقى")

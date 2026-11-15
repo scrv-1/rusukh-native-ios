@@ -13,6 +13,10 @@ struct GraphView: View {
             VStack(spacing: 8) {
                 Text("اضغط على عقدة لفتحها. استخدم السحب والتكبير لتحريك الشبكة.")
                     .font(.footnote).foregroundStyle(.secondary).padding(.horizontal)
+                if Dictionary(grouping: library.snapshot.notes, by: { StudyEngine.normalized($0.title) }).contains(where: { $0.value.count > 1 }) {
+                    Text("عنوان مكرر يتصل بكل الملاحظات المطابقة، لا بواحدة تُختار عشوائيًا.")
+                        .font(.footnote).foregroundStyle(.secondary).padding(.horizontal)
+                }
                 GeometryReader { geometry in
                     let size = geometry.size
                     let notes = library.snapshot.notes

@@ -134,6 +134,7 @@ final class RusukhUITests: XCTestCase {
         XCTAssertFalse(app.buttons["إيقاف التشغيل"].exists)
         // Closing an editor must release the singleton session for the next one.
         app.buttons["إلغاء"].tap()
+        app.buttons["تجاهل"].tap()
         XCTAssertTrue(app.buttons["notes.add"].waitForExistence(timeout: 5))
         app.buttons["notes.add"].tap()
         reveal(app.buttons["voice.record"], in: app)

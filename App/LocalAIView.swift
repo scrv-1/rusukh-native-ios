@@ -29,6 +29,8 @@ struct LocalAIView: View {
                             Text("English").tag("en-US")
                         }
                         .pickerStyle(.segmented)
+                        Text("مقطع English يغيّر لغة هذا المحرك فقط، ولا يغيّر لغة الآيفون. إذا كانت لغة الجهاز غير مدعومة يبقى الزر معطّلًا.")
+                            .font(.caption).foregroundStyle(.secondary)
                         Text("إذا لم يدعم نموذج Apple اللغة المختارة، لا يُحمَّل Qwen تلقائيًا. افتح القسم التجريبي أسفل الحقل. المحاكي لا يشغّل MLX.")
                             .font(.caption).foregroundStyle(.secondary)
                     }
@@ -59,7 +61,7 @@ struct LocalAIView: View {
                         .frame(maxWidth: .infinity)
                     }
                     .buttonStyle(.borderedProminent).tint(.primary)
-                    .disabled(busy || inferenceGate.busy || prompt.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                    .disabled(busy || inferenceGate.busy || !engine.canGenerate(for: selectedLocale) || prompt.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                     if let errorText {
                         Text(errorText).foregroundStyle(.red).font(.footnote)
                     }

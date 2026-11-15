@@ -1,6 +1,7 @@
 import SwiftUI
 import UIKit
 import os
+import Network
 
 @MainActor
 final class LocalInferenceGate: ObservableObject {
@@ -120,6 +121,7 @@ struct ArabicModelView: View {
     let prompt: String
     let context: String?
     @ObservedObject var gate: LocalInferenceGate
+    @StateObject private var wifi = WiFiPathMonitor()
     @State private var isExpanded = false
     #if canImport(MLXLLM)
     @StateObject private var model = ArabicModelController()
@@ -163,9 +165,11 @@ struct ArabicModelView: View {
                         Button("حذف أوزان النموذج", role: .destructive) { confirmDelete = true }
                             .disabled(model.busy || gate.busy)
                     } else {
+                        Text(wifi.cellularOnly ? "التنزيل متوقف لأن الاتصال بيانات خلوية فقط." : "التنزيل عبر Wi-Fi فقط. البيانات الخلوية لا تُستخدم.")
+                            .font(.caption).foregroundStyle(.secondary)
                         Button("تنزيل النموذج — 2.28GB") { model.download(gate: gate) }
                             .accessibilityIdentifier("arabic-model-download")
-                            .disabled(model.busy || gate.busy)
+                            .disabled(model.busy || gate.busy || wifi.cellularOnly)
                         Button("حذف ملفات التنزيل الجزئي", role: .destructive) { confirmDelete = true }
                             .disabled(model.busy || gate.busy)
                     }
@@ -199,4 +203,22 @@ struct ArabicModelView: View {
         }
         #endif
     }
+}
+
+@MainActor
+final class WiFiPathMonitor: ObservableObject {
+    /// True only when the path is up, cellular is in use, and neither Wi-Fi nor Ethernet is.
+    @Published private(set) var cellularOnly = false
+    private let monitor = NWPathMonitor()
+
+    init() {
+        monitor.pathUpdateHandler = { path in
+            let lan = path.usesInterfaceType(.wifi) || path.usesInterfaceType(.wiredEthernet)
+            let blocked = path.status == .satisfied && path.usesInterfaceType(.cellular) && !lan
+            Task { @MainActor [weak self] in self?.cellularOnly = blocked }
+        }
+        monitor.start(queue: DispatchQueue(label: "rusukh.wifi"))
+    }
+
+    deinit { monitor.cancel() }
 }

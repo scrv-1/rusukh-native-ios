@@ -5,6 +5,8 @@ struct ReviewView: View {
     @State private var showAnswer = false
     @State private var creatingCard = false
     @State private var takingQuiz = false
+    @State private var confirmDelete = false
+    @State private var openedNote: StudyNote?
 
     var body: some View {
         NavigationStack {
@@ -33,6 +35,10 @@ struct ReviewView: View {
                                 Button("إظهار الإجابة") { showAnswer = true }
                                     .buttonStyle(.borderedProminent).tint(.primary)
                             }
+                            if let note = library.snapshot.notes.first(where: { $0.id == card.noteID }) {
+                                Button("فتح الملاحظة") { openedNote = note }
+                            }
+                            Button("حذف البطاقة", role: .destructive) { confirmDelete = true }
                         }
                         .padding(20)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -44,6 +50,10 @@ struct ReviewView: View {
                     Button("اختبار اختيار من متعدد") { takingQuiz = true }
                         .buttonStyle(.bordered)
                         .disabled(StudyEngine.quiz(from: library.snapshot.cards).isEmpty)
+                    if StudyEngine.quiz(from: library.snapshot.cards).isEmpty {
+                        Text("يلزم بطاقتان بإجابتين مختلفتين. الزر يبقى معطّلًا قبل ذلك.")
+                            .font(.footnote).foregroundStyle(.secondary)
+                    }
                     Text("البطاقات الجديدة تستخدم FSRS-6. البطاقات القديمة تحتفظ بجدولتها الحالية.")
                         .font(.footnote).foregroundStyle(.secondary)
                 }
@@ -52,6 +62,13 @@ struct ReviewView: View {
             .navigationTitle("المراجعة")
             .sheet(isPresented: $creatingCard) { CardComposerView() }
             .sheet(isPresented: $takingQuiz) { QuizView() }
+            .sheet(item: $openedNote) { note in NoteEditorView(note: note) }
+            .confirmationDialog("حذف هذه البطاقة من المراجعة؟ الملاحظة تبقى.", isPresented: $confirmDelete, titleVisibility: .visible) {
+                Button("حذف البطاقة", role: .destructive) {
+                    if let card = library.due.first { library.deleteCard(card) }
+                    showAnswer = false
+                }
+            }
         }
     }
 
@@ -75,16 +92,25 @@ struct CardComposerView: View {
     var body: some View {
         NavigationStack {
             Form {
-                Picker("الملاحظة", selection: $noteID) {
-                    Text("اختر ملاحظة").tag(nil as UUID?)
-                    ForEach(library.snapshot.notes) { note in
-                        Text(note.title).tag(Optional(note.id))
+                if library.snapshot.notes.isEmpty {
+                    Text("لا توجد ملاحظات. أضف ملاحظة من تبويب «ملاحظاتي» أولًا، ثم ارجع وأنشئ البطاقة.")
+                        .font(.footnote)
+                } else {
+                    Picker("الملاحظة", selection: $noteID) {
+                        Text("اختر ملاحظة").tag(nil as UUID?)
+                        ForEach(library.snapshot.notes) { note in
+                            Text(note.title).tag(Optional(note.id))
+                        }
+                    }
+                    TextField("السؤال", text: $question, axis: .vertical)
+                        .multilineTextAlignment(.leading)
+                    TextField("الإجابة", text: $answer, axis: .vertical)
+                        .multilineTextAlignment(.leading)
+                    if noteID == nil || question.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || answer.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                        Text("اختر ملاحظة واكتب السؤال والإجابة لتفعيل «إضافة».")
+                            .font(.caption).foregroundStyle(.secondary)
                     }
                 }
-                TextField("السؤال", text: $question, axis: .vertical)
-                    .multilineTextAlignment(.leading)
-                TextField("الإجابة", text: $answer, axis: .vertical)
-                    .multilineTextAlignment(.leading)
             }
             .navigationTitle("بطاقة جديدة")
             .toolbar {
