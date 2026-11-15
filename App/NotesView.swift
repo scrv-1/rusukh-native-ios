@@ -32,10 +32,11 @@ struct NotesView: View {
                             if let bytes = note.imageJPEG, let image = UIImage(data: bytes) {
                                 Image(uiImage: image).resizable().scaledToFill()
                                     .frame(width: 48, height: 48).clipShape(RoundedRectangle(cornerRadius: 9))
+                                    .accessibilityHidden(true)
                             }
                             VStack(alignment: .leading, spacing: 5) {
                                 Text(note.title).foregroundStyle(.primary).font(.headline)
-                                Text(note.body).font(.caption).foregroundStyle(.secondary).lineLimit(2)
+                                Text(note.body.isEmpty ? "ملاحظة فارغة" : note.body).font(.caption).foregroundStyle(.secondary).lineLimit(2)
                             }
                             Spacer(minLength: 4)
                             Image(systemName: "chevron.forward").font(.caption).foregroundStyle(.tertiary)
@@ -94,6 +95,9 @@ struct NotesView: View {
                 let text = try await Task.detached(priority: .userInitiated) { try PDFTextImport.read(from: url) }.value
                 if let note = library.saveNote(title: name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? "ملف PDF" : name, body: text, imageJPEG: nil) {
                     _ = library.importQACards(for: note.id)
+                    if StudyEngine.questionAnswers(from: text).isEmpty, StudyEngine.looksLikeCardPrompt(text) {
+                        library.message = "استُورد النص دون بطاقات. يلزم س: ثم السؤال، وبعده ج: ثم الإجابة."
+                    }
                 }
             } catch { library.message = error.localizedDescription }
         }

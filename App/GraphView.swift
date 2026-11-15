@@ -57,7 +57,7 @@ struct GraphView: View {
                     .offset(pan)
                     .environment(\.layoutDirection, .leftToRight)
                     .contentShape(Rectangle())
-                    .simultaneousGesture(DragGesture()
+                    .simultaneousGesture(DragGesture(minimumDistance: 12)
                         .onChanged { value in pan = CGSize(width: panStart.width + value.translation.width,
                                                           height: panStart.height + value.translation.height) }
                         .onEnded { _ in panStart = pan })

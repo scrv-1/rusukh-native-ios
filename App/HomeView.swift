@@ -3,6 +3,7 @@ import UniformTypeIdentifiers
 
 struct HomeView: View {
     @EnvironmentObject private var library: LibraryStore
+    @Environment(\.rusukhTab) private var tab
     @State private var showingSettings = false
     @State private var openedNote: StudyNote?
 
@@ -12,10 +13,11 @@ struct HomeView: View {
                 VStack(alignment: .leading, spacing: 20) {
                     HStack {
                         Text("رُسوخ")
-                            .font(.system(size: 36, weight: .black, design: .rounded))
+                            .font(.system(.largeTitle, design: .rounded).weight(.black))
                         Spacer()
                         Image(systemName: "circle.hexagongrid.fill")
                             .font(.largeTitle)
+                            .accessibilityHidden(true)
                     }
                     Text("تعلّم يبقى.").font(.title2.weight(.semibold))
                     Text("ملاحظاتك ومراجعاتك على جهازك، دون خادم خارجي.")
@@ -25,18 +27,22 @@ struct HomeView: View {
                         metricsRow
                         HorizontalRail { metricsRow }
                     }
-                    VStack(alignment: .leading, spacing: 12) {
-                        Label("جلسة اليوم", systemImage: "clock.arrow.circlepath")
-                            .font(.headline)
-                        Text(library.due.isEmpty ? "ليس لديك مراجعات مستحقة" : "لديك \(BidirectionalText.count(library.due.count)) بطاقات تنتظرك")
-                            .font(.title2.bold())
-                        Text("أنشئ بطاقات من ملاحظاتك باستخدام الأسطر س: وج:، أو أضفها يدويًا.")
-                            .font(.subheadline)
+                    Button { tab.wrappedValue = .review } label: {
+                        VStack(alignment: .leading, spacing: 12) {
+                            Label("جلسة اليوم", systemImage: "clock.arrow.circlepath")
+                                .font(.headline)
+                            Text(library.due.isEmpty ? "ليس لديك مراجعات مستحقة" : "لديك \(BidirectionalText.count(library.due.count)) بطاقات تنتظرك")
+                                .font(.title2.bold())
+                            Text("أنشئ بطاقات من ملاحظاتك باستخدام الأسطر س: وج:، أو أضفها يدويًا.")
+                                .font(.subheadline)
+                        }
+                        .padding(20)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .foregroundStyle(.white)
+                        .background(Color.black, in: RoundedRectangle(cornerRadius: 20))
                     }
-                    .padding(20)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .foregroundStyle(.white)
-                    .background(Color.black, in: RoundedRectangle(cornerRadius: 20))
+                    .buttonStyle(.plain)
+                    .accessibilityHint("يفتح المراجعة")
                     Text("آخر الملاحظات").font(.headline)
                     ForEach(library.snapshot.notes.prefix(4)) { note in
                         Button { openedNote = note } label: {
@@ -69,20 +75,29 @@ struct HomeView: View {
 
     private var metricsRow: some View {
         HStack(spacing: 10) {
-            metric(title: "الملاحظات", value: library.snapshot.notes.count)
-            metric(title: "البطاقات", value: library.snapshot.cards.count)
-            metric(title: "تستحق مراجعة", value: library.due.count)
+            metric(title: "الملاحظات", value: library.snapshot.notes.count, destination: .notes, hint: "يفتح ملاحظاتي")
+            metric(title: "البطاقات", value: library.snapshot.cards.count, destination: nil, hint: nil)
+            metric(title: "تستحق مراجعة", value: library.due.count, destination: .review, hint: "يفتح المراجعة")
         }
     }
 
-    private func metric(title: String, value: Int) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
+    private func metric(title: String, value: Int, destination: RusukhTab?, hint: String?) -> some View {
+        let card = VStack(alignment: .leading, spacing: 6) {
             Text(BidirectionalText.count(value)).font(.title.bold()).monospacedDigit()
             Text(title).font(.caption).foregroundStyle(.secondary)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(12)
         .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 14))
+        return Group {
+            if let destination, let hint {
+                Button { tab.wrappedValue = destination } label: { card }
+                    .buttonStyle(.plain)
+                    .accessibilityHint(hint)
+            } else {
+                card.accessibilityElement(children: .combine)
+            }
+        }
     }
 }
 
