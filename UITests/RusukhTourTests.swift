@@ -91,10 +91,12 @@ final class RusukhTourTests: XCTestCase {
             if direction == 0 { swipeTarget.swipeLeft() } else { swipeTarget.swipeRight() }
             if app.buttons["حذف"].waitForExistence(timeout: 2) { break }
         }
-        XCTAssertTrue(app.buttons["حذف"].waitForExistence(timeout: 5), app.debugDescription)
+        let deleteAction = app.buttons["حذف"].firstMatch
+        XCTAssertTrue(deleteAction.waitForExistence(timeout: 5), app.debugDescription)
         capture("tour-17-delete-swipe")
-        app.buttons["حذف"].tap()
-        let confirmDelete = app.buttons["حذف الملاحظة"]
+        deleteAction.tap()
+        // confirmationDialog exposes nested duplicate buttons; target the identifier once.
+        let confirmDelete = app.buttons["note.confirm-delete"].firstMatch
         XCTAssertTrue(confirmDelete.waitForExistence(timeout: 5))
         capture("tour-18-delete-confirm")
         confirmDelete.tap()
