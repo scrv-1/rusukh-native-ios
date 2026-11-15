@@ -1,0 +1,58 @@
+name: Publish Expo update
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: EAS Update branch
+        type: choice
+        options:
+          - preview
+          - production
+        default: preview
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    name: Publish to the selected EAS branch
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: expo-preview
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: expo-preview/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Refuse the placeholder project
+        run: |
+          node --input-type=module -e '
+            import { readFileSync } from "node:fs";
+            const id = JSON.parse(readFileSync("app.json", "utf8")).expo?.extra?.eas?.projectId;
+            if (!id || String(id).includes("REPLACE_WITH_EAS_PROJECT_ID")) {
+              console.error("app.json still has the placeholder project id. Run eas init locally, commit the real id, then publish.");
+              process.exit(1);
+            }
+          '
+
+      - name: Publish update
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: |
+          if [ -z "${EXPO_TOKEN}" ]; then
+            echo "The EXPO_TOKEN secret is missing. Nothing was published."
+            exit 1
+          fi
+          npx --yes eas-cli update --branch "${{ inputs.branch }}" --non-interactive --message "manual ${{ inputs.branch }} update"
