@@ -14,6 +14,17 @@ final class StudyEngineTests: XCTestCase {
         let b = StudyNote(title: "باء", body: "[[ألف]]")
         XCTAssertEqual(Set(StudyEngine.graphEdges([a,b])), Set([GraphEdge(from: a.id, to: b.id), GraphEdge(from: b.id, to: a.id)]))
     }
+    func testBacklinksFollowAliasAndIgnoreSelfAndDuplicates() {
+        let target = StudyNote(title: "التكرار المتباعد", body: "")
+        let alias = StudyNote(title: "مصدر", body: "انظر [[التكرار المتباعد|راجع]]")
+        let selfLink = StudyNote(id: target.id, title: target.title, body: "[[التكرار المتباعد]]")
+        let duplicateA = StudyNote(title: "مكرر", body: "")
+        let duplicateB = StudyNote(title: "مكرر", body: "")
+        let linker = StudyNote(title: "رابط", body: "[[مكرر]]")
+        XCTAssertEqual(StudyEngine.backlinks(to: target, in: [target, alias]).map(\.id), [alias.id])
+        XCTAssertTrue(StudyEngine.backlinks(to: selfLink, in: [selfLink]).isEmpty)
+        XCTAssertTrue(StudyEngine.backlinks(to: duplicateA, in: [duplicateA, duplicateB, linker]).isEmpty)
+    }
     func testQuestionAnswerArabicEnglish() {
         let entries = StudyEngine.questionAnswers(from: "س: ما العلم؟\nج: المعرفة\nQ: Define recall\nA: Retrieval")
         XCTAssertEqual(entries.count, 2)

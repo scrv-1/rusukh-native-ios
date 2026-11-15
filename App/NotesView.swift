@@ -123,6 +123,16 @@ struct NoteEditorView: View {
                     Text("اربط ملاحظة: [[عنوان آخر]]  ·  بطاقة: س: السؤال ثم ج: الإجابة")
                         .font(.caption).foregroundStyle(.secondary)
                 }
+                if let note {
+                    let incoming = StudyEngine.backlinks(to: note, in: library.snapshot.notes)
+                    if !incoming.isEmpty {
+                        Section("روابط خلفية") {
+                            ForEach(incoming) { item in
+                                Text(item.title).accessibilityIdentifier("note.backlink")
+                            }
+                        }
+                    }
+                }
                 Section("مرفق صوتي") {
                     Text("تسجيل محلي حتى 3 دقائق. يتوقف عند مغادرة التطبيق؛ اضغط حفظ للاحتفاظ به.")
                         .font(.footnote).foregroundStyle(.secondary)

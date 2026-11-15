@@ -46,6 +46,16 @@ public enum StudyEngine {
         return result
     }
 
+    /// Notes that link to `note`. Ambiguous duplicate titles resolve to nothing, matching `graphEdges`.
+    public static func backlinks(to note: StudyNote, in notes: [StudyNote]) -> [StudyNote] {
+        let key = normalized(note.title)
+        let titled = Dictionary(grouping: notes, by: { normalized($0.title) })
+        guard titled[key]?.count == 1 else { return [] }
+        return notes.filter { other in
+            other.id != note.id && wikiLinks(in: other.body).contains { normalized($0) == key }
+        }
+    }
+
     // Explicit human-written Q: / A: lines; not an AI generator.
     public static func questionAnswers(from text: String) -> [(question: String, answer: String)] {
         var question: String?
