@@ -96,7 +96,8 @@ jobs:
           set -o pipefail
           python3 scripts/verify-fsrs-license.py | tee evidence/fsrs-license-verification.txt
       - name: Provision verified local model for simulator test
-        timeout-minutes: 5
+        # Cold runners need >5m for the ~2.2GB model hash + swiftc of the verifier.
+        timeout-minutes: 15
         run: |
           set -o pipefail
           SIMULATOR_ID=$(cat evidence/simulator-id.txt)
