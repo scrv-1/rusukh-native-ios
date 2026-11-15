@@ -26,13 +26,16 @@ final class RusukhTourTests: XCTestCase {
         capture("tour-08-search-hamza")
         clearSearch(app)
 
+        dismissSearch(app)
         app.staticTexts["إبراهيم"].tap()
         let editor = app.textViews["note.body"]
         XCTAssertTrue(editor.waitForExistence(timeout: 5))
         editor.tap()
         editor.typeText("\nس: سؤال معدّل؟\nج: إجابة معدّلة")
         app.buttons["note.save"].tap()
-        XCTAssertTrue(app.buttons["notes.add"].waitForExistence(timeout: 5))
+        // Search UI hides the notes toolbar; dismiss it before asserting the add control.
+        dismissSearch(app)
+        XCTAssertTrue(app.buttons["notes.add"].waitForExistence(timeout: 8))
         capture("tour-09-note-edited")
 
         app.buttons["المراجعة"].tap()
@@ -189,6 +192,15 @@ final class RusukhTourTests: XCTestCase {
         let current = (search.value as? String) ?? ""
         if !current.isEmpty {
             search.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: current.count + 2))
+        }
+        dismissSearch(app)
+    }
+
+    @MainActor
+    private func dismissSearch(_ app: XCUIApplication) {
+        let close = app.navigationBars.buttons["إغلاق"]
+        if close.waitForExistence(timeout: 2), close.isHittable {
+            close.tap()
         }
     }
 

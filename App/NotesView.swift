@@ -4,8 +4,12 @@ import UniformTypeIdentifiers
 import AVFoundation
 
 private struct EditingNote: Identifiable {
-    let id = UUID()
+    let id: UUID
     let note: StudyNote?
+    init(note: StudyNote?) {
+        self.note = note
+        self.id = note?.id ?? UUID()
+    }
 }
 
 struct NotesView: View {
@@ -59,8 +63,11 @@ struct NotesView: View {
                     .accessibilityLabel("استيراد نص PDF").accessibilityIdentifier("notes.import-pdf")
                     .disabled(importingPDF)
                 if importingPDF { ProgressView("استخراج النص") }
-                Button { editing = EditingNote(note: nil) } label: { Image(systemName: "plus") }
-                    .accessibilityLabel("ملاحظة جديدة").accessibilityIdentifier("notes.add")
+                // Keep add outside searchable's collapsing toolbar so it stays reachable while searching.
+                ToolbarItem(placement: .bottomBar) {
+                    Button { editing = EditingNote(note: nil) } label: { Label("ملاحظة جديدة", systemImage: "plus") }
+                        .accessibilityIdentifier("notes.add")
+                }
             }
             .sheet(item: $editing) { route in NoteEditorView(note: route.note) }
             .confirmationDialog(
@@ -191,7 +198,12 @@ struct NoteEditorView: View {
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("حفظ") {
-                        guard voice.finish() else { return }
+                        // Only block save when an in-progress take fails; keep prior audio otherwise.
+                        if voice.recording {
+                            guard voice.finish() else { return }
+                        } else {
+                            _ = voice.finish()
+                        }
                         if let saved = library.saveNote(id: note?.id, title: title, body: noteBody, imageJPEG: imageJPEG, audioM4A: voice.data) {
                             _ = library.importQACards(for: saved.id)
                             dismiss()
