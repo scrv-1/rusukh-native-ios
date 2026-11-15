@@ -1,0 +1,52 @@
+✖ worker failure during generation unloads immediately and rejects a late completion (9.052412ms)
+✔ worker failure while loading reports an error without waiting for the watchdog (3.235972ms)
+✔ late worker events from a disposed runtime cannot stop a new generation (3.328931ms)
+✖ delayed failed-runtime cleanup preserves a new generation and its WASM URL (5.825042ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 2
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 119.804018
+
+✖ failing tests:
+
+test at ai-lab/engine-runtime.test.mjs:64:1
+✖ worker failure during generation unloads immediately and rejects a late completion (9.052412ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'generating'
+  - 'error'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/ai-lab/engine-runtime.test.mjs:72:10)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'generating',
+    expected: 'error',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ai-lab/engine-runtime.test.mjs:114:1
+✖ delayed failed-runtime cleanup preserves a new generation and its WASM URL (5.825042ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'error'
+  - 'generating'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/ai-lab/engine-runtime.test.mjs:125:10)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'generating',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

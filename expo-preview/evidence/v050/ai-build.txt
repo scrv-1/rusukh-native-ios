@@ -1,0 +1,17 @@
+
+> build
+> node build.mjs
+
+{
+  "engine": "@wllama/wllama",
+  "version": "3.8.1",
+  "compatVersion": "3.8.1",
+  "license": "MIT",
+  "mode": "CPU/single-thread/Asyncify",
+  "wasmBytes": 16005007,
+  "wasmSHA256": "2db3f67d0bcc19cdf8f14f129e46cab691bff898954808f8a2dc4c586eb5bb68",
+  "nativeHTMLBytes": 21853775,
+  "nativeHTMLSHA256": "00f1de9bb4db7f0dcd20ab93b68c031937ec1ea267ce33eb605cdeb7718f288d",
+  "diagnosticHTMLBytes": 21853774,
+  "diagnostic": "/workspaces/rusukh-native-ios/expo-preview/ai-lab/dist/index.html"
+}

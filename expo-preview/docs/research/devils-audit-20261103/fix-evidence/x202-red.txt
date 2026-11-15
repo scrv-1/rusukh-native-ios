@@ -1,0 +1,26 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+FAIL iOS tests/ai-bridge.ui.test.jsx
+  ● the laboratory error declares a readable surface inside a dark parent
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "#111"
+    Received: undefined
+
+      69 |   await act(async () => screen.getByTestId('local-ai-webview').props.onError());
+      70 |   const alert = screen.getByRole('alert');
+    > 71 |   expect(StyleSheet.flatten(alert.parent.props.style).backgroundColor).toBe('#111');
+         |                                                                        ^
+      72 |   expect(StyleSheet.flatten(alert.props.style).color).toBe('#FF8989');
+      73 |   expect(alert).toHaveTextContent('أغلق المختبر وافتحه للمحاولة مجددًا.');
+      74 | });
+
+      at Object.toBe (tests/ai-bridge.ui.test.jsx:71:72)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 4 skipped, 5 total
+Snapshots:   0 total
+Time:        0.791 s, estimated 1 s
+Ran all test suites within paths "tests/ai-bridge.ui.test.jsx".

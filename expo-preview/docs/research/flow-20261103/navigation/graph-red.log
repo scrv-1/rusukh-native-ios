@@ -1,0 +1,1654 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> rusukh-ios@0.5.1 test:ui
+> jest --runInBand --runTestsByPath tests/graph-session.ui.test.jsx
+
+FAIL iOS tests/graph-session.ui.test.jsx
+  ● route unmount preserves search, note page, zoom, list and selected note in the supplied session
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "ملاحظة"
+    Received: ""
+
+      37 |   expect(onOpen).toHaveBeenCalledWith(notes[24]);
+      38 |   await leaveAndReturn();
+    > 39 |   expect(screen.getByLabelText('ابحث في جميع عناوين الملاحظات').props.value).toBe('ملاحظة');
+         |                                                                              ^
+      40 |   expect(screen.getByText('صفحة 2 من 2')).toBeTruthy();
+      41 |   expect(screen.getByText('120%')).toBeTruthy();
+      42 |   expect(screen.getByRole('button',{name:'إخفاء قائمة الملاحظات'})).toBeTruthy();
+
+      at Object.toBe (tests/graph-session.ui.test.jsx:39:78)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● pan snapshots are passed back as scroll offsets on remount and fit resets them (props only, not native scrolling)
+
+    Unable to find an element with testID: graph-pan-horizontal
+
+    [36m<View>[39m
+      [36m<View[39m
+        [33maccessibilityLabel[39m=[32m"تبديل المسار للاختبار"[39m
+        [33maccessibilityRole[39m=[32m"button"[39m
+        [33maccessibilityState[39m=[32m{
+          {
+            "disabled": false,
+          }
+        }[39m
+        [33maccessible[39m=[32m{true}[39m
+      [36m>[39m
+        [36m<Text>[39m
+          [0mتبديل المسار للاختبار[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<View>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mابحث في جميع عناوين الملاحظات[0m
+            [36m</Text>[39m
+            [36m<TextInput[39m
+              [33maccessibilityLabel[39m=[32m"ابحث في جميع عناوين الملاحظات"[39m
+              [33meditable[39m=[32m{true}[39m
+              [33mplaceholder[39m=[32m"عنوان الملاحظة…"[39m
+              [33mvalue[39m=[32m""[39m
+            [36m/>[39m
+          [36m</View>[39m
+          [36m<Text>[39m
+            [0mالملاحظات 1–24 من 31[0m
+          [36m</Text>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"صفحة الملاحظات السابقة"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": true,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0mالسابق[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<Text>[39m
+              [0mصفحة 1 من 2[0m
+            [36m</Text>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"صفحة الملاحظات التالية"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0mالتالي[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mشبكة أفكاري[0m
+            [36m</Text>[39m
+            [36m<View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"تصغير الشبكة"[39m
+                [33maccessibilityRole[39m=[32m"button"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "disabled": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0m−[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<Text>[39m
+                [0m200[0m
+                [0m%[0m
+              [36m</Text>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"تكبير الشبكة"[39m
+                [33maccessibilityRole[39m=[32m"button"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "disabled": true,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0m+[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"ملاءمة الشبكة"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mملاءمة الشبكة[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33mtestID[39m=[32m"graph-viewport"[39m
+          [36m>[39m
+            [36m<RCTScrollView>[39m
+              [36m<View>[39m
+                [36m<RCTScrollView>[39m
+                  [36m<View>[39m
+                    [36m<View[39m
+                      [33maccessibilityElementsHidden[39m=[32m{false}[39m
+                      [33mimportantForAccessibility[39m=[32m"auto"[39m
+                      [33mtestID[39m=[32m"graph-canvas"[39m
+                    [36m>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 0 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n0"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 0[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 1 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n1"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 1[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 2 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n2"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 2[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 3 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n3"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 3[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 4 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n4"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 4[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 5 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n5"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 5[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 6 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n6"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 6[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 7 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n7"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 7[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 8 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n8"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 8[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 9 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n9"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 9[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 10 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n10"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 10[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 11 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n11"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 11[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 12 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n12"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 12[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 13 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n13"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 13[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 14 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n14"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 14[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 15 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n15"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 15[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 16 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n16"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 16[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 17 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n17"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 17[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 18 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n18"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 18[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 19 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n19"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 19[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 20 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n20"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 20[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 21 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n21"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 21[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 22 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n22"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 22[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 23 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n23"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 23[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                    [36m</View>[39m
+                  [36m</View>[39m
+                [36m</RCTScrollView>[39m
+              [36m</View>[39m
+            [36m</RCTScrollView>[39m
+          [36m</View>[39m
+          [36m<Text>[39m
+            [0mكبّر لقراءة العقد واسحب للتحريك. تُرسم حتى 24 ملاحظة في الصفحة؛ البحث والصفحات يتيحان الوصول إلى المكتبة كاملة.[0m
+          [36m</Text>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"عرض الملاحظات كقائمة"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mعرض الملاحظات كقائمة[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+        [36m<Text>[39m
+          [0mعلاقات هذه الصفحة: 30 من إجمالي 30 علاقة[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mتشمل القائمة روابط بملاحظات خارج الرسم. اضغط العلاقة لفتح الملاحظة غير المعروضة.[0m
+        [36m</Text>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"صفحة العلاقات السابقة"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": true,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mالعلاقات السابقة[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<Text>[39m
+            [0mصفحة العلاقات 1 من 2[0m
+          [36m</Text>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"صفحة العلاقات التالية"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mالعلاقات التالية[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 1 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n1"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 1[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 2 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n2"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 2[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 3 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n3"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 3[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 4 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n4"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 4[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 5 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n5"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 5[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 6 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n6"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 6[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 7 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n7"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 7[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 8 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n8"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 8[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 9 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n9"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 9[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 10 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n10"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 10[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 11 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n11"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 11[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 12 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n12"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 12[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 13 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n13"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 13[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 14 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n14"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 14[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 15 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n15"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 15[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 16 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n16"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 16[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 17 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n17"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 17[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 18 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n18"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 18[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 19 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n19"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 19[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 20 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n20"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 20[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 21 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n21"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 21[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 22 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n22"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 22[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 23 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n23"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 23[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 24 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n24"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 24[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</View>[39m
+
+      48 |   await fireEvent(screen.getByTestId('graph-viewport'),'layout',{nativeEvent:{layout:{width:320,height:405,x:0,y:0}}});
+      49 |   for(let i=0;i<5;i++) await fireEvent.press(screen.getByRole('button',{name:'تكبير الشبكة'}));
+    > 50 |   await fireEvent.scroll(screen.getByTestId('graph-pan-horizontal'),{nativeEvent:{contentOffset:{x:80,y:0}}});
+         |                                 ^
+      51 |   await fireEvent.scroll(screen.getByTestId('graph-pan-vertical'),{nativeEvent:{contentOffset:{x:0,y:60}}});
+      52 |   await leaveAndReturn();
+      53 |   expect(screen.getByTestId('graph-pan-horizontal').props.contentOffset).toEqual({x:80,y:0});
+
+      at Object.getByTestId (tests/graph-session.ui.test.jsx:50:33)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● relation page and off-page selected target survive leaving the route
+
+    Unable to find an element with text: صفحة العلاقات 2 من 2
+
+    [36m<View>[39m
+      [36m<View[39m
+        [33maccessibilityLabel[39m=[32m"تبديل المسار للاختبار"[39m
+        [33maccessibilityRole[39m=[32m"button"[39m
+        [33maccessibilityState[39m=[32m{
+          {
+            "disabled": false,
+          }
+        }[39m
+        [33maccessible[39m=[32m{true}[39m
+      [36m>[39m
+        [36m<Text>[39m
+          [0mتبديل المسار للاختبار[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<View>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mابحث في جميع عناوين الملاحظات[0m
+            [36m</Text>[39m
+            [36m<TextInput[39m
+              [33maccessibilityLabel[39m=[32m"ابحث في جميع عناوين الملاحظات"[39m
+              [33meditable[39m=[32m{true}[39m
+              [33mplaceholder[39m=[32m"عنوان الملاحظة…"[39m
+              [33mvalue[39m=[32m""[39m
+            [36m/>[39m
+          [36m</View>[39m
+          [36m<Text>[39m
+            [0mالملاحظات 1–24 من 31[0m
+          [36m</Text>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"صفحة الملاحظات السابقة"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": true,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0mالسابق[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<Text>[39m
+              [0mصفحة 1 من 2[0m
+            [36m</Text>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"صفحة الملاحظات التالية"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0mالتالي[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mشبكة أفكاري[0m
+            [36m</Text>[39m
+            [36m<View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"تصغير الشبكة"[39m
+                [33maccessibilityRole[39m=[32m"button"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "disabled": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0m−[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<Text>[39m
+                [0m100[0m
+                [0m%[0m
+              [36m</Text>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"تكبير الشبكة"[39m
+                [33maccessibilityRole[39m=[32m"button"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "disabled": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0m+[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33mtestID[39m=[32m"graph-viewport"[39m
+          [36m>[39m
+            [36m<RCTScrollView>[39m
+              [36m<View>[39m
+                [36m<RCTScrollView>[39m
+                  [36m<View>[39m
+                    [36m<View[39m
+                      [33maccessibilityElementsHidden[39m=[32m{false}[39m
+                      [33mimportantForAccessibility[39m=[32m"auto"[39m
+                      [33mtestID[39m=[32m"graph-canvas"[39m
+                    [36m>[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View />[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 0 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n0"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 0[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 1 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n1"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 1[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 2 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n2"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 2[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 3 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n3"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 3[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 4 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n4"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 4[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 5 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n5"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 5[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 6 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n6"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 6[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 7 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n7"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 7[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 8 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n8"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 8[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 9 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n9"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 9[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 10 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n10"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 10[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 11 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n11"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 11[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 12 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n12"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 12[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 13 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n13"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 13[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 14 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n14"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 14[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 15 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n15"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 15[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 16 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n16"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 16[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 17 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n17"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 17[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 18 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n18"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 18[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 19 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n19"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 19[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 20 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n20"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 20[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 21 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n21"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 21[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 22 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n22"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 22[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                      [36m<View[39m
+                        [33maccessibilityLabel[39m=[32m"فتح ملاحظة 23 من الرسم"[39m
+                        [33maccessibilityRole[39m=[32m"button"[39m
+                        [33maccessible[39m=[32m{true}[39m
+                        [33mtestID[39m=[32m"graph-node-n23"[39m
+                      [36m>[39m
+                        [36m<View />[39m
+                        [36m<View />[39m
+                        [36m<Text>[39m
+                          [0mملاحظة 23[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                    [36m</View>[39m
+                  [36m</View>[39m
+                [36m</RCTScrollView>[39m
+              [36m</View>[39m
+            [36m</RCTScrollView>[39m
+          [36m</View>[39m
+          [36m<Text>[39m
+            [0mكبّر لقراءة العقد واسحب للتحريك. تُرسم حتى 24 ملاحظة في الصفحة؛ البحث والصفحات يتيحان الوصول إلى المكتبة كاملة.[0m
+          [36m</Text>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"عرض الملاحظات كقائمة"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mعرض الملاحظات كقائمة[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+        [36m<Text>[39m
+          [0mعلاقات هذه الصفحة: 30 من إجمالي 30 علاقة[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mتشمل القائمة روابط بملاحظات خارج الرسم. اضغط العلاقة لفتح الملاحظة غير المعروضة.[0m
+        [36m</Text>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"صفحة العلاقات السابقة"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": true,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mالعلاقات السابقة[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<Text>[39m
+            [0mصفحة العلاقات 1 من 2[0m
+          [36m</Text>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"صفحة العلاقات التالية"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mالعلاقات التالية[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 1 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n1"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 1[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 2 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n2"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 2[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 3 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n3"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 3[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 4 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n4"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 4[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 5 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n5"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 5[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 6 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n6"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 6[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 7 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n7"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 7[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 8 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n8"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 8[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 9 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n9"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 9[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 10 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n10"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 10[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 11 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n11"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 11[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 12 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n12"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 12[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 13 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n13"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 13[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 14 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n14"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 14[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 15 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n15"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 15[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 16 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n16"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 16[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 17 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n17"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 17[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 18 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n18"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 18[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 19 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n19"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 19[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 20 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n20"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 20[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 21 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n21"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 21[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 22 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n22"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 22[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 23 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n23"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 23[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"فتح ملاحظة 24 المرتبطة بـ ملاحظة 0"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"graph-relation-n0-n24"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظة 0[0m
+            [0m ← [0m
+            [0mملاحظة 24[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</View>[39m
+
+      63 |   await fireEvent.press(screen.getByRole('button',{name:'فتح ملاحظة 30 المرتبطة بـ ملاحظة 0'}));
+      64 |   await leaveAndReturn();
+    > 65 |   expect(screen.getByText('صفحة العلاقات 2 من 2')).toBeTruthy();
+         |                 ^
+      66 |   expect(screen.getByRole('button',{name:'فتح ملاحظة 30 المرتبطة بـ ملاحظة 0',selected:true})).toBeTruthy();
+      67 | });
+      68 |
+
+      at Object.getByText (tests/graph-session.ui.test.jsx:65:17)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● deleted selected notes and obsolete page numbers are cleared from the session
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: undefined
+
+      77 |   expect(screen.getByText('صفحة 1 من 2')).toBeTruthy();
+      78 |   await fireEvent.press(screen.getByRole('button',{name:'صفحة الملاحظات التالية'}));
+    > 79 |   expect(screen.getByTestId('graph-node-n24').props.accessibilityState?.selected).toBe(false);
+         |                                                                                   ^
+      80 | });
+      81 |
+
+      at Object.toBe (tests/graph-session.ui.test.jsx:79:83)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 1 failed, 1 total
+Tests:       4 failed, 4 total
+Snapshots:   0 total
+Time:        1.394 s
+Ran all test suites within paths "tests/graph-session.ui.test.jsx".

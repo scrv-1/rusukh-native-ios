@@ -1,0 +1,49 @@
+{
+  "finding_id": "S003",
+  "status": "fixed",
+  "changed_product_files": [
+    "src/core.ts"
+  ],
+  "changed_test_files": [
+    "tests/core.test.cjs"
+  ],
+  "scope": "Ordering of successful-grade intervals for the same incoming card and now; next review only.",
+  "policy": {
+    "hard": "H=max(1,ceil(1.2*d))",
+    "good": "G=max(H, r===0?1:r===1?3:ceil(d*clamp(e,1.3,3)))",
+    "easy": "E=max(G,r===0?4:max(4,ceil(1.3*d*clamp(e+0.15,1.3,3))))",
+    "again_minutes": 10
+  },
+  "verification": {
+    "typescript_test_build": "passed",
+    "red": {
+      "tests": 4,
+      "passed": 1,
+      "failed": 3,
+      "log": "S003-red.txt"
+    },
+    "green": {
+      "tests": 47,
+      "passed": 47,
+      "failed": 0,
+      "log": "S003-green.txt"
+    },
+    "generated_states_checked": 21845,
+    "accepted_backup_states_checked": 280,
+    "first_success_intervals_days": [
+      1,
+      1,
+      4
+    ],
+    "good_sequence_days": [
+      1,
+      3,
+      8
+    ]
+  },
+  "no_migration": true,
+  "no_rescheduling_on_open_or_restore": true,
+  "git_commands_used": false,
+  "device_tested": false,
+  "known_scope_limit": "Existing backup numeric output ceilings are unchanged and are not the scope of this interval-order fix."
+}

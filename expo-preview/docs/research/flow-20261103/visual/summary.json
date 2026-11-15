@@ -1,0 +1,58 @@
+{
+  "date": "2026-11-03",
+  "status": "implemented; visual-preview TypeScript passes; browser validation pending with root",
+  "file": "visual-preview/VisualLab.tsx",
+  "sha256": "8575f110052e1c79205ac7672790d81c2278af5cd9cf2a469a35cf42da7f7304",
+  "initial_state": {
+    "notes": 0,
+    "cards": 0,
+    "home_sections": 0
+  },
+  "actual_components": [
+    "StudyHome",
+    "ToolsScreen",
+    "StudyQuiz",
+    "WorkspaceEditor",
+    "KnowledgeGraph",
+    "ui"
+  ],
+  "real_core_helpers": [
+    "parseQuestionAnswer",
+    "wikiLinkTitleError",
+    "normalizeTitle",
+    "replaceWikiLinks",
+    "graphEdges",
+    "dueCards"
+  ],
+  "scenarios": [
+    "empty home",
+    "explicit optional examples",
+    "tools open and pin/unpin",
+    "text to material to Q/A cards",
+    "manual card creation/editing",
+    "recall reveal and self-grade",
+    "summary to source and back",
+    "graph links"
+  ],
+  "verification": {
+    "visual_typecheck_exit_code": 0,
+    "log": "typecheck.txt",
+    "browser": "pending — root owns Codespaces 8082",
+    "screenshots": []
+  },
+  "scope_guards": {
+    "app_edited": false,
+    "product_components_edited": false,
+    "storage_or_sqlite_used": false,
+    "dependencies_added": false,
+    "general_tests_run": false,
+    "commits_created": false
+  },
+  "limitations": [
+    "In-memory browser harness, not full App or an iPhone simulator",
+    "Data and workspace reset on reload",
+    "No SQLite, persistence, native file import, media, AI, or scheduled-review session",
+    "Source edits do not auto-update existing card answers inside this harness; explicit card editing is available",
+    "Frame width does not change browser viewport or useWindowDimensions values"
+  ]
+}

@@ -1,0 +1,28 @@
+FAIL iOS ../../data_review_probes/audio-ownership.ui.test.jsx
+  ● probe: native release failure still returns global recording ownership
+
+    expect(jest.fn()).toHaveBeenLastCalledWith(...expected)
+
+    Expected: false
+    Received: true
+
+    Number of calls: 1
+
+      187 |   try { await first.session.stop(); } catch (caught) { error = caught; }
+      188 |   try {
+    > 189 |     expect(first.deps.setRecordingMode).toHaveBeenLastCalledWith(false);
+          |                                         ^
+      190 |   } finally {
+      191 |     first.recorder.release.mockImplementation(() => {});
+      192 |     // A second stop releases the stranded recorder so this probe does not poison later tests.
+
+      at Object.toHaveBeenLastCalledWith (../../data_review_probes/audio-ownership.ui.test.jsx:189:41)
+          at Generator.throw (<anonymous>)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _throw (node_modules/@babel/runtime/helpers/asyncToGenerator.js:20:9)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 12 skipped, 13 total
+Snapshots:   0 total
+Time:        0.726 s
+Ran all test suites matching audio-ownership with tests matching "probe:".

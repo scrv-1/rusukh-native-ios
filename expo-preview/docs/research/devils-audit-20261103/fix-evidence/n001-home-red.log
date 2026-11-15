@@ -1,0 +1,108 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> rusukh-ios@0.5.0 test:ui
+> jest --runInBand --runTestsByPath tests/home.ui.test.jsx
+
+FAIL iOS tests/home.ui.test.jsx
+  ● first workspace is blank but can capture material or a note without installing sections
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  -  2
+    + Received  + 25
+
+      Array [
+    -   "إضافة أداة",
+    -   "إضافة مادة",
+    +   "0 بطاقة مستحقة الآن",
+    +   "0 ملاحظة محفوظة على جهازك",
+    +   Array [
+    +     0,
+    +     " ملاحظة · ",
+    +     0,
+    +     " بطاقة · ",
+    +     0,
+    +     " مراجعة اليوم",
+    +   ],
+    +   "أضف أول بطاقة من ملاحظاتك، ثم ارجع لتراجعها هنا.",
+    +   "أضف بطاقات من ملاحظاتك",
+    +   "إضافة أول ملاحظة",
+    +   "إضافة مصدر",
+    +   "ابدأ بفكرة قصيرة أو أضف مصدرًا. يمكنك إنشاء بطاقات من داخل الملاحظة.",
+    +   "ابدأ بما يناسب وقتك",
+    +   "الاثنين، ٢ نوفمبر",
+    +   "البحث في ملاحظاتي",
+    +   "تخصيص مساحتي",
+    +   "خطوة صغيرة اليوم. تعلّم يبقى.",
+    +   "كل الأدوات",
+    +   "محتواك محفوظ على جهازك. صدّر نسخة احتياطية من الإعدادات.",
+    +   "مراجعة اليوم",
+    +   "مساحتي",
+    +   "ملاحظاتي",
+        "ملاحظة جديدة",
+      ]
+
+      44 |
+      45 | function expectOnlyBlankWorkspaceActions() {
+    > 46 |   expect(screen.getAllByText(/.+/).map(node => node.props.children).sort()).toEqual(
+         |                                                                             ^
+      47 |     ['إضافة مادة', 'ملاحظة جديدة', 'إضافة أداة'].sort());
+      48 |   expect(screen.queryAllByRole('header')).toHaveLength(0);
+      49 |   expect(screen.getAllByRole('button')).toHaveLength(3);
+
+      at toEqual (tests/home.ui.test.jsx:46:77)
+      at Object.expectOnlyBlankWorkspaceActions (tests/home.ui.test.jsx:55:3)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● hiding all sections restores a blank canvas while keeping hidden tools recoverable
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  -  2
+    + Received  + 20
+
+      Array [
+    -   "إضافة أداة",
+    -   "إضافة مادة",
+    +   Array [
+    +     2,
+    +     " ملاحظة · ",
+    +     3,
+    +     " بطاقة · ",
+    +     2,
+    +     " مراجعة اليوم",
+    +   ],
+    +   "إضافة أدوات لمساحتي",
+    +   "إضافة مصدر",
+    +   "الاثنين، ٢ نوفمبر",
+    +   "البحث في ملاحظاتي",
+    +   "بياناتك محفوظة. أضف أداة أو افتحها من كل الأدوات.",
+    +   "تخصيص مساحتي",
+    +   "خطوة صغيرة اليوم. تعلّم يبقى.",
+    +   "راجعت اليوم 2 بطاقة",
+    +   "كل الأدوات",
+    +   "محتواك محفوظ على جهازك. صدّر نسخة احتياطية من الإعدادات.",
+    +   "مساحة هادئة على ذوقك",
+    +   "مساحتي",
+        "ملاحظة جديدة",
+      ]
+
+      44 |
+      45 | function expectOnlyBlankWorkspaceActions() {
+    > 46 |   expect(screen.getAllByText(/.+/).map(node => node.props.children).sort()).toEqual(
+         |                                                                             ^
+      47 |     ['إضافة مادة', 'ملاحظة جديدة', 'إضافة أداة'].sort());
+      48 |   expect(screen.queryAllByRole('header')).toHaveLength(0);
+      49 |   expect(screen.getAllByRole('button')).toHaveLength(3);
+
+      at toEqual (tests/home.ui.test.jsx:46:77)
+      at Object.expectOnlyBlankWorkspaceActions (tests/home.ui.test.jsx:69:3)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 1 failed, 1 total
+Tests:       2 failed, 8 passed, 10 total
+Snapshots:   0 total
+Time:        1.096 s
+Ran all test suites within paths "tests/home.ui.test.jsx".

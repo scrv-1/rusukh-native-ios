@@ -1,0 +1,788 @@
+{
+  "research_date": "2026-11-03",
+  "timezone": "Asia/Riyadh",
+  "scope_ar": "سير الدراسة والبطاقات والمراجعة والاختبارات وربط الملاحظات والرسم المعرفي",
+  "method_ar": "قراءة فعلية لـ18 صفحة مصدرية أساسية من وثائق المشاريع ونقاشاتها الأصلية وممارسين يصفون عملهم. جميع تطبيقات رسوخ اقتراحات تصميمية تحتاج التحقق؛ لم تُجر تجربة تعلم أو مشاهدة فيديو. المستوى description يعني قراءة وصف/فهرس مفهرس، وsearch_metadata يعني عنوانًا/بيانات فقط. تاريخ null غير موثق. لا توصية بخوارزمية FSRS ولا إثبات أن رسوخ يستخدمها.",
+  "evidence_gaps_ar": [
+    "لم تتوفر نصوص أصلية كاملة للفيديوهات؛ لا توجد حالة transcript ولا ادعاء مشاهدة.",
+    "فيديوهات V031–V034 أقل عمقًا من مصادر النص: تعتمد جزئيًا على فهرسة خارجية؛ لا تستخرج منها حقائق علمية.",
+    "تواريخ V025 وV026 وV027 وV031 وV034 غير مؤكدة وتُركت null.",
+    "توصيات المجتمع خبرات فردية، لا إجماع ولا تجارب مضبوطة.",
+    "لا تثبت هذه المصادر مقدار تحسن الاحتفاظ أو التحصيل في رسوخ. أرقام الجدولة أو إعدادات Anki لا تُنقل إليه."
+  ],
+  "tips": [
+    {
+      "id": "T036",
+      "title_ar": "استرجع قبل كشف الإجابة",
+      "advice_ar": "يعرض دليل Anki السؤال أولًا، ثم يطلب التفكير قبل كشف الإجابة.",
+      "source_url": "https://docs.ankiweb.net/manual/studying",
+      "source_title": "Studying — Anki Docs",
+      "source_kind": "official_documentation",
+      "verification": "تم فتح المصدر أو قراءة مقتطفه الأصلي؛ موضع الدليل: L43–57. وصف المصدر موثق؛ تطبيق رسوخ وفكرة الاختبار استنتاج تصميمي، وليسا نتيجة تجربة على رسوخ.",
+      "application_ar": "أبقِ الإجابة وأزرار التقييم مخفية حتى ضغط «إظهار الإجابة».",
+      "test_idea": "ابدأ بطاقة جديدة وتحقق من عدم ظهور الإجابة أو إمكان التقييم قبل الكشف.",
+      "source_ref": "turn17view0"
+    },
+    {
+      "id": "T037",
+      "title_ar": "ميّز النسيان من الصعوبة",
+      "advice_ar": "يوثق النقاش خلط «صعب» بالنسيان؛ الصعب جواب صحيح بتردد، والفشل يعني عدم تذكره.",
+      "source_url": "https://forums.ankiweb.net/t/have-the-concepts-of-the-again-hard-good-and-easy-buttons-changed/49664",
+      "source_title": "Have the concepts of the Again, Hard, Good, and Easy buttons changed?",
+      "source_kind": "original_community_discussion",
+      "verification": "تم فتح المصدر أو قراءة مقتطفه الأصلي؛ موضع الدليل: L37–64. وصف المصدر موثق؛ تطبيق رسوخ وفكرة الاختبار استنتاج تصميمي، وليسا نتيجة تجربة على رسوخ.",
+      "application_ar": "اكتب تحت أزرار رسوخ وصفًا عربيًا واضحًا للحالات الأربع، مرتبطًا بالجواب الفعلي.",
+      "test_idea": "اعرض ثلاث حالات إجابة على خمسة مستخدمين وسجل اختيارهم دون شرح شفهي.",
+      "source_ref": "turn13view9"
+    },
+    {
+      "id": "T038",
+      "title_ar": "اختبر تقليل قرارات التقييم",
+      "advice_ar": "يسمح دليل Anki بالاكتفاء بـ Again وGood لمن يصعب عليه الاختيار بين أربعة أزرار.",
+      "source_url": "https://docs.ankiweb.net/manual/studying",
+      "source_title": "Studying — Anki Docs",
+      "source_kind": "official_documentation",
+      "verification": "تم فتح المصدر أو قراءة مقتطفه الأصلي؛ موضع الدليل: L57. وصف المصدر موثق؛ تطبيق رسوخ وفكرة الاختبار استنتاج تصميمي، وليسا نتيجة تجربة على رسوخ.",
+      "application_ar": "اختبر وضعًا اختياريًا «لم أتذكر/تذكرت» قبل تغيير الواجهة الافتراضية؛ لا تستنتج أنه أدق للجميع.",
+      "test_idea": "قارن زمن اختيار التقييم وأخطاء الفهم بين النموذجين دون تغيير جدولة الإنتاج.",
+      "source_ref": "turn17view0"
+    },
+    {
+      "id": "T039",
+      "title_ar": "احتفظ بالسؤال بعد الكشف",
+      "advice_ar": "يبقي Anki السؤال ظاهرًا عندما يظهر الجواب، لتظل المقارنة ضمن السياق.",
+      "source_url": "https://docs.ankiweb.net/manual/getting-started",
+      "source_title": "Getting Started — Anki Docs",
+      "source_kind": "official_documentation",
+      "verification": "تم فتح المصدر أو قراءة مقتطفه الأصلي؛ موضع الدليل: Cards. وصف المصدر موثق؛ تطبيق رسوخ وفكرة الاختبار استنتاج تصميمي، وليسا نتيجة تجربة على رسوخ.",
+      "application_ar": "اعرض السؤال والإجابة مع فاصل واضح بدل استبدال وجه البطاقة بالكامل.",
+      "test_idea": "اكشف جوابًا طويلًا وتأكد أن السؤال ما زال ظاهرًا ويمكن الرجوع إليه بالتمرير.",
+      "source_ref": "turn51search1"
+    },
+    {
+      "id": "T040",
+      "title_ar": "اجعل لكل بطاقة هدفًا واحدًا",
+      "advice_ar": "يوصي ووزنياك بتقسيم المادة المركبة إلى عناصر صغيرة يمكن مراجعتها باستقلال.",
+      "source_url": "https://super-memory.com/articles/20rules.htm",
+      "source_title": "Effective learning: Twenty rules of formulating knowledge",
+      "source_kind": "first_party_practitioner",
+      "verification": "تم فتح المصدر أو قراءة مقتطفه الأصلي؛ موضع الدليل: Rule 4. وصف المصدر موثق؛ تطبيق رسوخ وفكرة الاختبار استنتاج تصميمي، وليسا نتيجة تجربة على رسوخ.",
+      "application_ar": "أضف مثالًا عربيًا في محرر البطاقة يحوّل سؤالًا واسعًا إلى سؤال واحد محدد.",
+      "test_idea": "حرر بطاقة متعددة الفقرات واطلب تحديد المعلومة التي سيحكم عليها التقييم.",
+      "source_ref": "turn13view2"
+    },
+    {
+      "id": "T041",
+      "title_ar": "حدد نوع الجواب المطلوب",
+      "advice_ar": "يوصي ماتوشاك بصياغة دقيقة تمنع اختلاف تفسير المطلوب عند كل مراجعة.",
+      "source_url": "https://andymatuschak.org/prompts/",
+      "source_title": "How to write good prompts: using spaced repetition to create understanding",
+      "source_kind": "first_party_practitioner",
+      "verification": "تم فتح المصدر أو قراءة مقتطفه الأصلي؛ موضع الدليل: L63–65. وصف المصدر موثق؛ تطبيق رسوخ وفكرة الاختبار استنتاج تصميمي، وليسا نتيجة تجربة على رسوخ.",
+      "application_ar": "ضع مثالًا «ما السبب الرئيسي لـ…؟» بدل «ماذا تعرف عن…؟».",
+      "test_idea": "اطلب من شخصين الإجابة عن السؤال نفسه؛ افحص هل اتفقا على حدود المطلوب.",
+      "source_ref": "turn13view3"
+    },
+    {
+      "id": "T042",
+      "title_ar": "افهم الأصل قبل الحفظ",
+      "advice_ar": "تحذر وثائق Anki من حفظ موضوع مركب دون الشرح والسياق الذي اعتمد عليه منشئ البطاقات.",
+      "source_url": "https://docs.ankiweb.net/manual/getting-started",
+      "source_title": "Getting Started — Anki Docs",
+      "source_kind": "official_documentation",
+      "verification": "تم فتح المصدر أو قراءة مقتطفه الأصلي؛ موضع الدليل: Shared Decks. وصف المصدر موثق؛ تطبيق رسوخ وفكرة الاختبار استنتاج تصميمي، وليسا نتيجة تجربة على رسوخ.",
+      "application_ar": "اجعل فتح الملاحظة المصدر إجراءً متاحًا من البطاقة، مع العودة إلى موضع المراجعة.",
+      "test_idea": "افتح ملاحظة من بطاقة ثم عد؛ يجب بقاء البطاقة الحالية وحالة كشفها.",
+      "source_ref": "turn51search1"
+    },
+    {
+      "id": "T043",
+      "title_ar": "اختصر النص دون حذف المعنى",
+      "advice_ar": "توصية ماتوشاك للمطالب الإجرائية هي إزالة التفاصيل المشتتة وتغطيتها بأسئلة أخرى عند الحاجة.",
+      "source_url": "https://andymatuschak.org/prompts/",
+      "source_title": "How to write good prompts: using spaced repetition to create understanding",
+      "source_kind": "first_party_practitioner",
+      "verification": "تم فتح المصدر أو قراءة مقتطفه الأصلي؛ موضع الدليل: L330–333. وصف المصدر موثق؛ تطبيق رسوخ وفكرة الاختبار استنتاج تصميمي، وليسا نتيجة تجربة على رسوخ.",
+      "application_ar": "اجعل الشرح المطول في الملاحظة المرتبطة، مع سؤال وجواب موجزين في البطاقة.",
+      "test_idea": "اختبر بطاقة على شاشة iPhone صغيرة؛ يجب أن يفهم المستخدم المطلوب دون فقد الشرح المرجعي.",
+      "source_ref": "turn13view3"
+    },
+    {
+      "id": "T044",
+      "title_ar": "أنشئ أسئلة تفسيرية أيضًا",
+      "advice_ar": "يعرض ماتوشاك سؤالًا تفسيريًا محددًا يربط حقيقة بسببها بدل الاقتصار على تسمية الحقيقة.",
+      "source_url": "https://andymatuschak.org/prompts/",
+      "source_title": "How to write good prompts: using spaced repetition to create understanding",
+      "source_kind": "first_party_practitioner",
+      "verification": "تم فتح المصدر أو قراءة مقتطفه الأصلي؛ موضع الدليل: L176–187. وصف المصدر موثق؛ تطبيق رسوخ وفكرة الاختبار استنتاج تصميمي، وليسا نتيجة تجربة على رسوخ.",
+      "application_ar": "اعرض مثال «كيف يفسر هذا السبب النتيجة؟» في إرشادات تأليف البطاقات.",
+      "test_idea": "أنشئ بطاقة تفسير؛ راجع أن جوابها يشرح علاقة محددة لا قائمة معلومات عامة.",
+      "source_ref": "turn13view3"
+    },
+    {
+      "id": "T045",
+      "title_ar": "أرفق المصدر دون إلزام حفظه",
+      "advice_ar": "يوصي ووزنياك بإرفاق المصدر للتحقق من التعارض، وفصله عن المطلوب حفظه ما لم يكن المصدر نفسه الهدف.",
+      "source_url": "https://super-memory.com/articles/20rules.htm",
+      "source_title": "Effective learning: Twenty rules of formulating knowledge",
+      "source_kind": "first_party_practitioner",
+      "verification": "تم فتح المصدر أو قراءة مقتطفه الأصلي؛ موضع الدليل: Rule 18. وصف المصدر موثق؛ تطبيق رسوخ وفكرة الاختبار استنتاج تصميمي، وليسا نتيجة تجربة على رسوخ.",
+      "application_ar": "أظهر عنوان الملاحظة أو مرجعها تحت الإجابة، لا داخل السؤال تلقائيًا.",
+      "test_idea": "افتح المرجع من بطاقة وتحقق أن العنوان المرجعي لا يسرب الجواب قبل الكشف.",
+      "source_ref": "turn13view2"
+    },
+    {
+      "id": "T046",
+      "title_ar": "أرخ المعلومات المتغيرة",
+      "advice_ar": "يوصي ووزنياك بتاريخ أو إصدار للمعلومات التي يمكن أن تصبح قديمة.",
+      "source_url": "https://super-memory.com/articles/20rules.htm",
+      "source_title": "Effective learning: Twenty rules of formulating knowledge",
+      "source_kind": "first_party_practitioner",
+      "verification": "تم فتح المصدر أو قراءة مقتطفه الأصلي؛ موضع الدليل: Rule 19. وصف المصدر موثق؛ تطبيق رسوخ وفكرة الاختبار استنتاج تصميمي، وليسا نتيجة تجربة على رسوخ.",
+      "application_ar": "أضف تاريخًا أو إصدارًا في نص الملاحظة المرجعية عند بطاقات الإحصاءات والبرمجيات.",
+      "test_idea": "عدّل معلومة مرتبطة بإصدار وتحقق أن بطاقة المراجعة تعرض سياق الإصدار الصحيح.",
+      "source_ref": "turn13view2"
+    },
+    {
+      "id": "T047",
+      "title_ar": "اسمح بتحسين البطاقة أثناء المراجعة",
+      "advice_ar": "ينصح مشارك مجتمع Anki بإعادة الصياغة أثناء المراجعة قبل أن تتكرر مشكلة البطاقة.",
+      "source_url": "https://forums.ankiweb.net/t/can-i-disable-leeches-altogether/4767",
+      "source_title": "Can I disable leeches altogether?",
+      "source_kind": "original_community_discussion",
+      "verification": "تم فتح المصدر أو قراءة مقتطفه الأصلي؛ موضع الدليل: L31–34. وصف المصدر موثق؛ تطبيق رسوخ وفكرة الاختبار استنتاج تصميمي، وليسا نتيجة تجربة على رسوخ.",
+      "application_ar": "ضع «تعديل البطاقة» في إجراء قريب من السؤال مع حفظ تقدم الجلسة.",
+      "test_idea": "عدّل سؤالًا ملتبسًا ثم استأنف؛ تحقق من عدم زيادة عدد المراجعات بسبب فتح المحرر.",
+      "source_ref": "turn13view11"
+    },
+    {
+      "id": "T048",
+      "title_ar": "اجعل تنبيه الصعوبة قابلًا للفعل",
+      "advice_ar": "يشتكي المستخدم من تنبيه leech بعد اختفاء البطاقة، فلا يعرف أين يتصرف.",
+      "source_url": "https://forums.ankiweb.net/t/can-i-disable-leeches-altogether/4767",
+      "source_title": "Can I disable leeches altogether?",
+      "source_kind": "original_community_discussion",
+      "verification": "تم فتح المصدر أو قراءة مقتطفه الأصلي؛ موضع الدليل: L5–23. وصف المصدر موثق؛ تطبيق رسوخ وفكرة الاختبار استنتاج تصميمي، وليسا نتيجة تجربة على رسوخ.",
+      "application_ar": "عند تنبيه الأخطاء المتكررة أظهر عنوان البطاقة و«عدّلها/راجع المصدر» في نفس السياق.",
+      "test_idea": "استحث تنبيهًا تجريبيًا وتحقق أن الإجراء يفتح البطاقة التي سببت التنبيه تحديدًا.",
+      "source_ref": "turn13view11"
+    },
+    {
+      "id": "T049",
+      "title_ar": "راجع قيمة البطاقة الصعبة",
+      "advice_ar": "تعرض وثائق leeches التعليق كخيار لمادة لا تستحق الوقت الحالي مع إمكان الاحتفاظ بها للمرجع.",
+      "source_url": "https://docs.ankiweb.net/manual/leeches",
+      "source_title": "Leeches — Anki Docs",
+      "source_kind": "official_documentation",
+      "verification": "تم فتح المصدر أو قراءة مقتطفه الأصلي؛ موضع الدليل: Deleting. وصف المصدر موثق؛ تطبيق رسوخ وفكرة الاختبار استنتاج تصميمي، وليسا نتيجة تجربة على رسوخ.",
+      "application_ar": "اقترح تعليقًا قابلًا للعكس للبطاقات المتعثرة؛ لا تحذف محتوى المتعلم تلقائيًا.",
+      "test_idea": "علّق بطاقة ثم أعدها؛ يجب بقاء نصها ورابط مصدرها وسجلها.",
+      "source_ref": "turn13view1"
+    },
+    {
+      "id": "T050",
+      "title_ar": "ارجع للمادة عند ضعف الفهم",
+      "advice_ar": "يقترح نقاش leeches مراجعة الدرس الأصلي عندما تكون الصعوبة ناتجة عن غياب الصورة العامة.",
+      "source_url": "https://forums.ankiweb.net/t/using-filtered-decks-to-reintroduce-leeches/21699",
+      "source_title": "Using filtered decks to reintroduce leeches",
+      "source_kind": "original_community_discussion",
+      "verification": "تم فتح المصدر أو قراءة مقتطفه الأصلي؛ موضع الدليل: L19. وصف المصدر موثق؛ تطبيق رسوخ وفكرة الاختبار استنتاج تصميمي، وليسا نتيجة تجربة على رسوخ.",
+      "application_ar": "بعد أخطاء متكررة اقترح قراءة الملاحظة المرتبطة قبل مزيد من التكرار.",
+      "test_idea": "اجعل بطاقة بلا مصدر؛ يجب ألا يظهر زر فتح مصدر وهمي، بل اقتراح ربطها.",
+      "source_ref": "turn13view10"
+    },
+    {
+      "id": "T051",
+      "title_ar": "افصل العناصر المتداخلة مؤقتًا",
+      "advice_ar": "تعرض الوثائق تأجيل أحد عنصرين متشابهين عندما يتداخلان، ثم إعادته بعد تعلم الآخر.",
+      "source_url": "https://docs.ankiweb.net/manual/leeches",
+      "source_title": "Leeches — Anki Docs",
+      "source_kind": "official_documentation",
+      "verification": "تم فتح المصدر أو قراءة مقتطفه الأصلي؛ موضع الدليل: Waiting. وصف المصدر موثق؛ تطبيق رسوخ وفكرة الاختبار استنتاج تصميمي، وليسا نتيجة تجربة على رسوخ.",
+      "application_ar": "يمكن دعم «تأجيل هذه البطاقة» مع سبب اختياري؛ احتفظ بالبطاقتين في البيانات.",
+      "test_idea": "أجّل بطاقة من زوج متشابه وتحقق أنها لم تُحذف ولم تُحتسب نجاحًا.",
+      "source_ref": "turn13view1"
+    },
+    {
+      "id": "T052",
+      "title_ar": "لا تجعل العودة تبدأ بمحو التقدم",
+      "advice_ar": "تنصح FAQ أن يعالج المتعلم التراكم على دفعات بدل إعادة ضبط المجموعة لمجرد الانقطاع.",
+      "source_url": "https://docs.ankiweb.net/faqs/resetting-progress-in-a-deck",
+      "source_title": "Resetting progress in a deck — Anki Docs",
+      "source_kind": "official_documentation",
+      "verification": "تم فتح المصدر أو قراءة مقتطفه الأصلي؛ موضع الدليل: Resetting progress in a deck. وصف المصدر موثق؛ تطبيق رسوخ وفكرة الاختبار استنتاج تصميمي، وليسا نتيجة تجربة على رسوخ.",
+      "application_ar": "اعرض «ابدأ بدفعة مراجعة» عند تراكم الاستحقاقات مع الاحتفاظ بالتاريخ السابق.",
+      "test_idea": "كوّن تراكمًا ثم افتح جلسة محدودة؛ تحقق من عدم إعادة البطاقات القديمة لحالة جديدة.",
+      "source_ref": "turn85view0"
+    },
+    {
+      "id": "T053",
+      "title_ar": "خفف الجديد عند تراكم المستحق",
+      "advice_ar": "يوصي دليل الخيارات بإيقاف إدخال الجديد مؤقتًا عند وجود تراكم، لأن الجديد يزيد الحمل.",
+      "source_url": "https://docs.ankiweb.net/manual/deck-options",
+      "source_title": "Deck Options — Anki Docs",
+      "source_kind": "official_documentation",
+      "verification": "تم فتح المصدر أو قراءة مقتطفه الأصلي؛ موضع الدليل: L141–167. وصف المصدر موثق؛ تطبيق رسوخ وفكرة الاختبار استنتاج تصميمي، وليسا نتيجة تجربة على رسوخ.",
+      "application_ar": "اجعل البدء بالمستحق واضحًا واسمح بجلسة للمستحق فقط؛ لا تحذف البطاقات الجديدة.",
+      "test_idea": "أنشئ مستحقًا وجديدًا ثم تحقق أن جلسة المستحق لا تسحب الجديد خلاف الوصف.",
+      "source_ref": "turn85view1"
+    },
+    {
+      "id": "T054",
+      "title_ar": "افصل أعداد الحالات",
+      "advice_ar": "تفصل واجهة Anki بين الجديد وما يُتعلّم والمستحق بدل عرض عدد واحد مبهم.",
+      "source_url": "https://docs.ankiweb.net/manual/studying",
+      "source_title": "Studying — Anki Docs",
+      "source_kind": "official_documentation",
+      "verification": "تم فتح المصدر أو قراءة مقتطفه الأصلي؛ موضع الدليل: L29–37. وصف المصدر موثق؛ تطبيق رسوخ وفكرة الاختبار استنتاج تصميمي، وليسا نتيجة تجربة على رسوخ.",
+      "application_ar": "اعرض الحالات التي يدعمها رسوخ فعلًا مثل «جديد» و«مستحق اليوم» بأسماء صريحة.",
+      "test_idea": "قارن أعداد الواجهة باستعلامات SQLite لبيانات تشمل بطاقات مستقبلية وجديدة ومستحقة.",
+      "source_ref": "turn17view0"
+    },
+    {
+      "id": "T055",
+      "title_ar": "صرّح بنطاق التدريب الإضافي",
+      "advice_ar": "تتيح المجموعات المفلترة تدريب موضوعات محددة، والمراجعة قبل الموعد، ومراجعة أخطاء اليوم.",
+      "source_url": "https://docs.ankiweb.net/manual/filtered-decks",
+      "source_title": "Filtered Decks & Cramming — Anki Docs",
+      "source_kind": "official_documentation",
+      "verification": "تم فتح المصدر أو قراءة مقتطفه الأصلي؛ موضع الدليل: L23–25. وصف المصدر موثق؛ تطبيق رسوخ وفكرة الاختبار استنتاج تصميمي، وليسا نتيجة تجربة على رسوخ.",
+      "application_ar": "وضح أن الاختبار تدريب على البطاقات المختارة، وحدد صراحة هل يؤثر في جدول المراجعة.",
+      "test_idea": "أكمل اختبارًا ثم قارن الاستحقاقات قبل وبعد؛ يجب أن يطابق السلوك النص المعروض.",
+      "source_ref": "turn44view2"
+    },
+    {
+      "id": "T056",
+      "title_ar": "اجعل تصحيح الاختبار قابلًا للمقارنة",
+      "advice_ar": "تشرح وثائق البطاقات عرض السؤال مع الجواب للتحقق مما استُرجع؛ تطبيق ذلك على اختبار رسوخ استنتاج تصميمي.",
+      "source_url": "https://docs.ankiweb.net/manual/getting-started",
+      "source_title": "Getting Started — Anki Docs",
+      "source_kind": "official_documentation",
+      "verification": "تم فتح المصدر أو قراءة مقتطفه الأصلي؛ موضع الدليل: Cards. وصف المصدر موثق؛ تطبيق رسوخ وفكرة الاختبار استنتاج تصميمي، وليسا نتيجة تجربة على رسوخ.",
+      "application_ar": "بعد الاختبار أظهر السؤال، اختيار المستخدم، الجواب المعتمد، ورابط الملاحظة عند توفره.",
+      "test_idea": "أجب خطأ ثم افتح النتيجة؛ تأكد من بقاء الاختيار الخاطئ واضحًا بجانب التصحيح.",
+      "source_ref": "turn51search1"
+    },
+    {
+      "id": "T057",
+      "title_ar": "لا تعاقب جوابًا مكافئًا",
+      "advice_ar": "يوصي ووزنياك بقبول الصيغ المكافئة عندما يجيز السؤال أكثر من استجابة صحيحة.",
+      "source_url": "https://super-memory.com/articles/20rules.htm",
+      "source_title": "Effective learning: Twenty rules of formulating knowledge",
+      "source_kind": "first_party_practitioner",
+      "verification": "تم فتح المصدر أو قراءة مقتطفه الأصلي؛ موضع الدليل: Rule 17. وصف المصدر موثق؛ تطبيق رسوخ وفكرة الاختبار استنتاج تصميمي، وليسا نتيجة تجربة على رسوخ.",
+      "application_ar": "قبل تحويل البطاقة لاختيار متعدد، افحص ألا توجد إجابتان متكافئتان ضمن الخيارات.",
+      "test_idea": "جرب مرادفات عربية جوابها واحد؛ يجب تعديل السؤال أو استبعاد المثال الملتبس.",
+      "source_ref": "turn13view2"
+    },
+    {
+      "id": "T058",
+      "title_ar": "تجنب تلميح يكشف الجواب",
+      "advice_ar": "يميّز ماتوشاك بين الإشارة المفيدة وبين صياغة تعطي الإجابة بدل طلب استرجاعها.",
+      "source_url": "https://andymatuschak.org/prompts/",
+      "source_title": "How to write good prompts: using spaced repetition to create understanding",
+      "source_kind": "first_party_practitioner",
+      "verification": "تم فتح المصدر أو قراءة مقتطفه الأصلي؛ موضع الدليل: L69–71. وصف المصدر موثق؛ تطبيق رسوخ وفكرة الاختبار استنتاج تصميمي، وليسا نتيجة تجربة على رسوخ.",
+      "application_ar": "لا تعرض وسمًا أو عنوان ملاحظة يكشف الإجابة أعلى سؤال المراجعة تلقائيًا.",
+      "test_idea": "استخدم بطاقة اسم مفهوم ومصدر يحمل الاسم؛ افحص شاشة السؤال قبل الكشف.",
+      "source_ref": "turn13view3"
+    },
+    {
+      "id": "T059",
+      "title_ar": "أبقِ عدة بطاقات مرتبطة بمصدر واحد",
+      "advice_ar": "يفصل Anki بين الملاحظة والمخرجات المتعددة منها، مع تحديث البيانات المشتركة عند التحرير.",
+      "source_url": "https://docs.ankiweb.net/manual/getting-started",
+      "source_title": "Getting Started — Anki Docs",
+      "source_kind": "official_documentation",
+      "verification": "تم فتح المصدر أو قراءة مقتطفه الأصلي؛ موضع الدليل: Notes. وصف المصدر موثق؛ تطبيق رسوخ وفكرة الاختبار استنتاج تصميمي، وليسا نتيجة تجربة على رسوخ.",
+      "application_ar": "حافظ على noteId لكل بطاقة وبيّن أي ملاحظة أنشأتها؛ لا تنسخ المصدر نصيًا فقط.",
+      "test_idea": "أنشئ بطاقتين من ملاحظة وتحقق أن فتح مصدر كل منهما يقود للملاحظة نفسها.",
+      "source_ref": "turn51search1"
+    },
+    {
+      "id": "T060",
+      "title_ar": "اكتب سبب الرابط في السياق",
+      "advice_ar": "يربط نقاش Obsidian فائدة الشبكة بجعل العلاقة واضحة داخل الملاحظة قبل توقع ظهور معنى في الرسم.",
+      "source_url": "https://forum.obsidian.md/t/q-how-should-i-use-graph-view-correctly-because-im-not-getting-any-ideas/82382",
+      "source_title": "Q: How should I use graph view correctly because I'm not getting any ideas",
+      "source_kind": "original_community_discussion",
+      "verification": "تم فتح المصدر أو قراءة مقتطفه الأصلي؛ موضع الدليل: L22–32. وصف المصدر موثق؛ تطبيق رسوخ وفكرة الاختبار استنتاج تصميمي، وليسا نتيجة تجربة على رسوخ.",
+      "application_ar": "شجع جملة مثل «يختلف هذا عن [[…]] لأن…» بجوار الرابط، دون توليد علاقة تلقائية.",
+      "test_idea": "أعط مستخدمًا ملاحظتين مرتبطتين واطلب شرح العلاقة من النص دون تخمين الرسم.",
+      "source_ref": "turn13view7"
+    },
+    {
+      "id": "T061",
+      "title_ar": "اعرض سياق الروابط الواردة",
+      "advice_ar": "توفر Backlinks في Obsidian عرض المقطع أو الفقرة التي ورد فيها الرابط.",
+      "source_url": "https://obsidian.md/help/plugins/backlinks",
+      "source_title": "Backlinks — Obsidian Help",
+      "source_kind": "official_documentation",
+      "verification": "تم فتح المصدر أو قراءة مقتطفه الأصلي؛ موضع الدليل: L0–3. وصف المصدر موثق؛ تطبيق رسوخ وفكرة الاختبار استنتاج تصميمي، وليسا نتيجة تجربة على رسوخ.",
+      "application_ar": "اعرض مقتطفًا قصيرًا حول الرابط الوارد أسفل الملاحظة مع فتح المصدر.",
+      "test_idea": "أنشئ رابطين من ملاحظتين؛ يجب أن يرى المستخدم سبب كل إحالة ومصدرها.",
+      "source_ref": "turn13view5"
+    },
+    {
+      "id": "T062",
+      "title_ar": "ميّز الوارد من الصادر",
+      "advice_ar": "توضح وثائق Outgoing links الفرق بين ما تشير إليه الملاحظة وما يشير إليها.",
+      "source_url": "https://obsidian.md/help/plugins/outgoing-links",
+      "source_title": "Outgoing links — Obsidian Help",
+      "source_kind": "official_documentation",
+      "verification": "تم فتح المصدر أو قراءة مقتطفه الأصلي؛ موضع الدليل: L0. وصف المصدر موثق؛ تطبيق رسوخ وفكرة الاختبار استنتاج تصميمي، وليسا نتيجة تجربة على رسوخ.",
+      "application_ar": "استخدم عنوانين «تشير إلى» و«تشير إليها» في تفاصيل الربط أو مفتاح الرسم.",
+      "test_idea": "أنشئ A→B فقط؛ تحقق أن الاتجاه لا يوصف بعلاقة متبادلة لم تُكتب.",
+      "source_ref": "turn44view4"
+    },
+    {
+      "id": "T063",
+      "title_ar": "بيّن الرابط غير المنشأ",
+      "advice_ar": "تميز وثائق الرسم بين الملفات الموجودة وروابط عناوين لم تنشأ بعد.",
+      "source_url": "https://obsidian.md/help/plugins/graph",
+      "source_title": "Graph view — Obsidian Help",
+      "source_kind": "official_documentation",
+      "verification": "تم فتح المصدر أو قراءة مقتطفه الأصلي؛ موضع الدليل: L3. وصف المصدر موثق؛ تطبيق رسوخ وفكرة الاختبار استنتاج تصميمي، وليسا نتيجة تجربة على رسوخ.",
+      "application_ar": "اعرض حالة «ملاحظة غير منشأة» للرابط المفقود مع إجراء إنشاء واضح بعد ضغطه.",
+      "test_idea": "اكتب [[فكرة لاحقة]] دون إنشائها؛ يجب ألا يوحي الرسم أن المحتوى موجود.",
+      "source_ref": "turn13view6"
+    },
+    {
+      "id": "T064",
+      "title_ar": "اجعل الاسم البديل يحفظ الوجهة",
+      "advice_ar": "تدعم وثائق Obsidian اسمًا بديلًا أو نص عرض مختلفًا مع بقاء وجهة الملاحظة الأساسية.",
+      "source_url": "https://obsidian.md/help/aliases",
+      "source_title": "Aliases — Obsidian Help",
+      "source_kind": "official_documentation",
+      "verification": "تم فتح المصدر أو قراءة مقتطفه الأصلي؛ موضع الدليل: L0–2. وصف المصدر موثق؛ تطبيق رسوخ وفكرة الاختبار استنتاج تصميمي، وليسا نتيجة تجربة على رسوخ.",
+      "application_ar": "إن أضيف دعم [[الوجهة|النص]]، فليظل معرف الوجهة ثابتًا حتى مع لقب عربي أو إنجليزي.",
+      "test_idea": "اربط ملاحظة باسم مختصر وتحقق من فتح الوجهة الصحيحة وظهور الرابط الوارد.",
+      "source_ref": "turn44view5"
+    },
+    {
+      "id": "T065",
+      "title_ar": "قدّم شبكة الملاحظة عند مهمة محلية",
+      "advice_ar": "يفرق دليل Obsidian بين الشبكة الشاملة والشبكة حول الملاحظة النشطة.",
+      "source_url": "https://obsidian.md/help/plugins/graph",
+      "source_title": "Graph view — Obsidian Help",
+      "source_kind": "official_documentation",
+      "verification": "تم فتح المصدر أو قراءة مقتطفه الأصلي؛ موضع الدليل: L7. وصف المصدر موثق؛ تطبيق رسوخ وفكرة الاختبار استنتاج تصميمي، وليسا نتيجة تجربة على رسوخ.",
+      "application_ar": "أضف تركيزًا على الملاحظة المختارة عند المراجعة؛ أبقِ عرض الشبكة الشاملة اختيارًا.",
+      "test_idea": "في مجموعة كبيرة افتح علاقات ملاحظة؛ يجب أن تبدأ من الجيران المرتبطين بها.",
+      "source_ref": "turn13view6"
+    },
+    {
+      "id": "T066",
+      "title_ar": "عامل الملاحظة اليتيمة كحالة للمراجعة",
+      "advice_ar": "يقترح المجتمع فحص الملاحظات اليتيمة والعناقيد المنفصلة، مع احتمال وجود سبب مشروع لعدم الربط.",
+      "source_url": "https://forum.obsidian.md/t/q-how-should-i-use-graph-view-correctly-because-im-not-getting-any-ideas/82382",
+      "source_title": "Q: How should I use graph view correctly because I'm not getting any ideas",
+      "source_kind": "original_community_discussion",
+      "verification": "تم فتح المصدر أو قراءة مقتطفه الأصلي؛ موضع الدليل: L23–24; L44–45. وصف المصدر موثق؛ تطبيق رسوخ وفكرة الاختبار استنتاج تصميمي، وليسا نتيجة تجربة على رسوخ.",
+      "application_ar": "اعرض «بلا روابط» كمرشح محايد، دون وصفها خطأً أو فرض روابط لتحسين رقم.",
+      "test_idea": "أضف ملاحظة مستقلة عمدًا وتحقق أنها قابلة للاستخدام دون تنبيه عقابي.",
+      "source_ref": "turn13view7"
+    },
+    {
+      "id": "T067",
+      "title_ar": "اجعل عمق الشبكة صريحًا",
+      "advice_ar": "يوضح دليل الرسم أن زيادة العمق تضيف جيران الملاحظات المكتشفة في المستوى السابق.",
+      "source_url": "https://obsidian.md/help/plugins/graph",
+      "source_title": "Graph view — Obsidian Help",
+      "source_kind": "official_documentation",
+      "verification": "تم فتح المصدر أو قراءة مقتطفه الأصلي؛ موضع الدليل: L7. وصف المصدر موثق؛ تطبيق رسوخ وفكرة الاختبار استنتاج تصميمي، وليسا نتيجة تجربة على رسوخ.",
+      "application_ar": "إن توفر عمق محلي، سمّه «روابط مباشرة/خطوتان» وأظهر المستوى الحالي.",
+      "test_idea": "في A→B→C تحقق أن C لا تظهر ضمن الروابط المباشرة لـA.",
+      "source_ref": "turn13view6"
+    },
+    {
+      "id": "T068",
+      "title_ar": "استخدم ملاحظة فهرس عندما تساعد",
+      "advice_ar": "يصف مشارك استخدام ملاحظة أب أو فهرس لتسهيل الوصول عبر الروابط؛ هذه خبرة فردية وليست شرطًا عامًا.",
+      "source_url": "https://forum.obsidian.md/t/how-do-you-use-the-graph-view/2785",
+      "source_title": "How do you use the graph view?",
+      "source_kind": "original_community_discussion",
+      "verification": "تم فتح المصدر أو قراءة مقتطفه الأصلي؛ موضع الدليل: L65–66. وصف المصدر موثق؛ تطبيق رسوخ وفكرة الاختبار استنتاج تصميمي، وليسا نتيجة تجربة على رسوخ.",
+      "application_ar": "اعرض مثال ملاحظة «خريطة موضوع» تجمع روابط المفاهيم، دون إلزام بعدد روابط.",
+      "test_idea": "كوّن فهرسًا لثلاث ملاحظات؛ اختبر الوصول لكل مفهوم والعودة للفهرس من روابط حقيقية.",
+      "source_ref": "turn13view8"
+    },
+    {
+      "id": "T069",
+      "title_ar": "صفِّ الشبكة لمهمة مراجعة محددة",
+      "advice_ar": "يصف مستخدم تصفية شبكة موضوع ثم تتبع مفهوم غير واضح لاستعادة سياقه.",
+      "source_url": "https://forum.obsidian.md/t/how-do-you-use-the-graph-view/2785",
+      "source_title": "How do you use the graph view?",
+      "source_kind": "original_community_discussion",
+      "verification": "تم فتح المصدر أو قراءة مقتطفه الأصلي؛ موضع الدليل: L34–36; L44–59. وصف المصدر موثق؛ تطبيق رسوخ وفكرة الاختبار استنتاج تصميمي، وليسا نتيجة تجربة على رسوخ.",
+      "application_ar": "بعد تصفية الشبكة اعرض اسم النطاق والعدد المعروض، مع بقاء فتح الملاحظات ممكنًا.",
+      "test_idea": "صفِّ مجموعة ثم افتح عقدة؛ يجب أن تنتمي للنتائج وأن يبقى مرشح المجموعة ظاهرًا عند الرجوع.",
+      "source_ref": "turn13view8"
+    },
+    {
+      "id": "T070",
+      "title_ar": "افصل إصلاح المحتوى عن تقييم الذاكرة",
+      "advice_ar": "يقترح المجتمع المرور دوريًا على البطاقات المتعثرة لإعادة صياغتها، لا رفع العتبة وإهمال المشكلة.",
+      "source_url": "https://forums.ankiweb.net/t/can-i-disable-leeches-altogether/4767",
+      "source_title": "Can I disable leeches altogether?",
+      "source_kind": "original_community_discussion",
+      "verification": "تم فتح المصدر أو قراءة مقتطفه الأصلي؛ موضع الدليل: L31–34. وصف المصدر موثق؛ تطبيق رسوخ وفكرة الاختبار استنتاج تصميمي، وليسا نتيجة تجربة على رسوخ.",
+      "application_ar": "وفّر قائمة «تحتاج تحسينًا» مستقلة عن «أجبت خطأ» حتى لا تعني مشكلة الصياغة ضعف المتعلم.",
+      "test_idea": "علّم بطاقة للإصلاح؛ تحقق أن الوسم لا يسجل مراجعة أو يغير تقييم الذاكرة.",
+      "source_ref": "turn13view11"
+    }
+  ],
+  "videos": [
+    {
+      "id": "V018",
+      "url": "https://www.youtube.com/watch?v=8zaKVFC9Eu4",
+      "title": "How to Study for Exams with Flashcards (Anki Masterclass)",
+      "channel": "Ali Abdaal",
+      "published_date": "2024-10-08",
+      "access_level": "description",
+      "supported_lesson_ar": "الفهرس يحدد تحرير البطاقة وتحسينها وطولها وتجنب التراكم؛ يدعم اختيار مقاطع لصياغة البطاقات، دون نسخ إعدادات Anki.",
+      "related_tip_ids": [
+        "T040",
+        "T047",
+        "T053"
+      ],
+      "source_ref": "turn54youtube24"
+    },
+    {
+      "id": "V019",
+      "url": "https://www.youtube.com/watch?v=b1NIQeFYQFQ",
+      "title": "Anki: Making Effective Cards",
+      "channel": "The AnKing",
+      "published_date": "2018-12-02",
+      "access_level": "description",
+      "supported_lesson_ar": "الوصف ينصح بمراجعة جودة البطاقات مع الزمن ويذكر تعديلها أثناء المراجعة.",
+      "related_tip_ids": [
+        "T040",
+        "T047"
+      ],
+      "source_ref": "turn42youtube21"
+    },
+    {
+      "id": "V020",
+      "url": "https://www.youtube.com/watch?v=7K2StK7e3ww",
+      "title": "How to Use Anki Effectively - Flash Card Basics for Pre-Med and Med Students [Part 1]",
+      "channel": "Med School Insiders",
+      "published_date": "2016-11-12",
+      "access_level": "description",
+      "supported_lesson_ar": "الوصف يسرد البطاقة الأساسية والحذف والسؤال المصور؛ مرجع لشرح الفصل بين السؤال والجواب، ولا يثبت دعم رسوخ لهذه الأنواع.",
+      "related_tip_ids": [
+        "T036",
+        "T039",
+        "T040"
+      ],
+      "source_ref": "turn42youtube22"
+    },
+    {
+      "id": "V021",
+      "url": "https://www.youtube.com/watch?v=eauQac_23R0",
+      "title": "How to use Anki like a PRO (by a Learning Expert)",
+      "channel": "Justin Sung",
+      "published_date": "2023-10-03",
+      "access_level": "description",
+      "supported_lesson_ar": "الوصف المتاح يعلن استراتيجية لاستخدام البطاقات فقط؛ يصلح مرجعًا للمراجعة اللاحقة ولا ينسب إليه تفصيل علمي غير مقروء.",
+      "related_tip_ids": [
+        "T042",
+        "T050"
+      ],
+      "source_ref": "turn37youtube8"
+    },
+    {
+      "id": "V022",
+      "url": "https://www.youtube.com/watch?v=uLfczzq9z_8",
+      "title": "Anki Settings: A Complete Guide and Recommended Settings For Medical School",
+      "channel": "Zach Highley",
+      "published_date": "2021-02-05",
+      "access_level": "description",
+      "supported_lesson_ar": "الفهرس يميز بطاقات التعلم والمراجعة والتعثر؛ يؤكد ضرورة شرح الحالات للمستخدم. إعدادات 2021 ليست وصفًا لجدولة رسوخ.",
+      "related_tip_ids": [
+        "T037",
+        "T054"
+      ],
+      "source_ref": "turn40youtube32"
+    },
+    {
+      "id": "V023",
+      "url": "https://www.youtube.com/watch?v=gbi90aa-h3I",
+      "title": "Medical School Anki Beginner Tutorial | AnKing Deck",
+      "channel": "Zach Highley",
+      "published_date": "2020-07-01",
+      "access_level": "description",
+      "supported_lesson_ar": "الوصف يتضمن قسم سير عمل ويصحح توصيات إعدادات قديمة؛ يفيد بضرورة فصل سير الدراسة عن إعدادات إصدار قديم.",
+      "related_tip_ids": [
+        "T042",
+        "T046"
+      ],
+      "source_ref": "turn40youtube33"
+    },
+    {
+      "id": "V024",
+      "url": "https://www.youtube.com/watch?v=QS2G-k2hQyg",
+      "title": "Anki 2: Shared decks and review basics",
+      "channel": "Anki Flashcards",
+      "published_date": "2012-09-13",
+      "access_level": "search_metadata",
+      "supported_lesson_ar": "وثائق Anki الحالية تربطه كأساسيات مراجعة مع تنبيه قدم بعض الفيديوهات؛ لا يُستدل منه على واجهة رسوخ الحالية.",
+      "related_tip_ids": [
+        "T036",
+        "T039"
+      ],
+      "source_ref": "turn51youtube35"
+    },
+    {
+      "id": "V025",
+      "url": "https://www.youtube.com/watch?v=ukLnPbIffxE",
+      "title": "How to study for exams - Evidence-based revision tips",
+      "channel": "Ali Abdaal",
+      "published_date": null,
+      "access_level": "description",
+      "supported_lesson_ar": "الفهرس المفهرس يشير لاستراتيجيات تطبيق الاسترجاع؛ الربط هنا بمرحلة التفكير قبل كشف الجواب فقط، دون نقل نسب فعالية.",
+      "related_tip_ids": [
+        "T036"
+      ],
+      "source_ref": "turn48youtube24"
+    },
+    {
+      "id": "V026",
+      "url": "https://www.youtube.com/watch?v=Lt54CX9DmS4",
+      "title": "How to Study for Exams - An Evidence-Based Masterclass",
+      "channel": "Ali Abdaal",
+      "published_date": null,
+      "access_level": "description",
+      "supported_lesson_ar": "الوصف يفصل الفهم والاسترجاع والتكرار والاستراحات؛ تطبيقه المقترح ربط البطاقة بالمادة الأصلية وتوضيح نطاق التدريب.",
+      "related_tip_ids": [
+        "T042",
+        "T050",
+        "T055"
+      ],
+      "source_ref": "turn48youtube25"
+    },
+    {
+      "id": "V027",
+      "url": "https://www.youtube.com/watch?v=L33_JNGid4M",
+      "title": "How to use Anki like a Pro | Med School Guide",
+      "channel": "Zach Highley",
+      "published_date": null,
+      "access_level": "description",
+      "supported_lesson_ar": "الوصف المفهرس يقدم خبرة شخصية في استخدام Anki؛ لا تُعمم ساعات الاستخدام أو النتيجة على كل متعلم.",
+      "related_tip_ids": [
+        "T052",
+        "T053"
+      ],
+      "source_ref": "turn17youtube48"
+    },
+    {
+      "id": "V028",
+      "url": "https://www.youtube.com/watch?v=a4AyDRpeXwM",
+      "title": "My Complete Obsidian Masterclass (FULL GUIDE + SETUP)",
+      "channel": "Linking Your Thinking with Nick Milo",
+      "published_date": "2025-09-02",
+      "access_level": "description",
+      "supported_lesson_ar": "الفهرس يغطي الروابط المؤقتة والروابط الواردة والرسم وتحديث الرابط عند إعادة التسمية؛ يدعم جعل حالة العلاقة واضحة.",
+      "related_tip_ids": [
+        "T060",
+        "T061",
+        "T063"
+      ],
+      "source_ref": "turn9youtube7"
+    },
+    {
+      "id": "V029",
+      "url": "https://www.youtube.com/watch?v=z4AbijUCoKU",
+      "title": "Give Me 15 Minutes. I'll Teach You 80% of Obsidian",
+      "channel": "Linking Your Thinking with Nick Milo",
+      "published_date": "2025-09-26",
+      "access_level": "description",
+      "supported_lesson_ar": "الوصف والفهرس يحددان إنشاء الملاحظات المرتبطة وتنظيمها؛ نقتصر على قابلية الربط بين الملاحظات.",
+      "related_tip_ids": [
+        "T060",
+        "T068"
+      ],
+      "source_ref": "turn9youtube8"
+    },
+    {
+      "id": "V030",
+      "url": "https://www.youtube.com/watch?v=KekL4cLtpuc",
+      "title": "The Biggest Obsidian Upgrade I’ve Made in Years…",
+      "channel": "Linking Your Thinking with Nick Milo",
+      "published_date": "2025-11-28",
+      "access_level": "description",
+      "supported_lesson_ar": "الوصف يسرد ملاحظة رئيسية والتقاط الأفكار؛ مثال عملي لفهرس مرتبط، وليس دليلًا على وجوب تقليد النظام الكامل.",
+      "related_tip_ids": [
+        "T068"
+      ],
+      "source_ref": "turn23youtube5"
+    },
+    {
+      "id": "V031",
+      "url": "https://www.youtube.com/watch?v=QgbLb6QCK88",
+      "title": "Obsidian for Beginners: Start HERE — How to Use the Obsidian App for Notes",
+      "channel": "Linking Your Thinking with Nick Milo",
+      "published_date": null,
+      "access_level": "search_metadata",
+      "supported_lesson_ar": "العنوان والرابط مثبتان في مصادر الفهرسة؛ لا يتوفر نص أصلي كافٍ لاستخراج تفاصيل إضافية. موضوعه المناسب: بدء الملاحظات المرتبطة.",
+      "related_tip_ids": [
+        "T060",
+        "T061"
+      ],
+      "source_ref": "turn34search0"
+    },
+    {
+      "id": "V032",
+      "url": "https://www.youtube.com/watch?v=GKl07tS06yE",
+      "title": "Do less note-taking. Do more note-making. Supercharge your Ideaverse (LYT Kit Lesson 2) w Obsidian",
+      "channel": "Linking Your Thinking with Nick Milo",
+      "published_date": "2022-09-27",
+      "access_level": "search_metadata",
+      "supported_lesson_ar": "المتاح بيانات عنوان وفهرسة في Glasp، لا مشاهدة ولا نص أصلي كامل؛ يرشح لمراجعة صياغة العلاقات داخل الملاحظات.",
+      "related_tip_ids": [
+        "T060",
+        "T068"
+      ],
+      "source_ref": "turn37search3"
+    },
+    {
+      "id": "V033",
+      "url": "https://www.youtube.com/watch?v=w63O0FxvxRc",
+      "title": "How to Create an Interconnected Obsidian Ideaverse",
+      "channel": "Linking Your Thinking with Nick Milo",
+      "published_date": "2023-09-29",
+      "access_level": "search_metadata",
+      "supported_lesson_ar": "المتاح عنوان وقناة وتاريخ مفهرس لدى Glasp؛ استخدام الملاحظات المترابطة موضوع بحث لاحق وليس مصدر إثبات لتأثير معرفي.",
+      "related_tip_ids": [
+        "T060",
+        "T065",
+        "T068"
+      ],
+      "source_ref": "turn37search4"
+    },
+    {
+      "id": "V034",
+      "url": "https://www.youtube.com/watch?v=KuI_eD1VbqU",
+      "title": "What Everyone Gets WRONG About Spaced Repetition",
+      "channel": "Justin Sung",
+      "published_date": null,
+      "access_level": "search_metadata",
+      "supported_lesson_ar": "عنوان YouTube متاح وبيانات القناة مفهرسة؛ يحتاج نصًا أصليًا قبل نسبة موقف تفصيلي إليه أو اعتماد توصية تعليمية.",
+      "related_tip_ids": [
+        "T042",
+        "T050"
+      ],
+      "source_ref": "turn30view8"
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://docs.ankiweb.net/manual/studying",
+      "title": "Studying — Anki Docs",
+      "kind": "official_documentation",
+      "source_ref": "turn17view0"
+    },
+    {
+      "url": "https://forums.ankiweb.net/t/have-the-concepts-of-the-again-hard-good-and-easy-buttons-changed/49664",
+      "title": "Have the concepts of the Again, Hard, Good, and Easy buttons changed?",
+      "kind": "original_community_discussion",
+      "source_ref": "turn13view9"
+    },
+    {
+      "url": "https://docs.ankiweb.net/manual/leeches",
+      "title": "Leeches — Anki Docs",
+      "kind": "official_documentation",
+      "source_ref": "turn13view1"
+    },
+    {
+      "url": "https://super-memory.com/articles/20rules.htm",
+      "title": "Effective learning: Twenty rules of formulating knowledge",
+      "kind": "first_party_practitioner",
+      "source_ref": "turn13view2"
+    },
+    {
+      "url": "https://andymatuschak.org/prompts/",
+      "title": "How to write good prompts: using spaced repetition to create understanding",
+      "kind": "first_party_practitioner",
+      "source_ref": "turn13view3"
+    },
+    {
+      "url": "https://obsidian.md/help/links",
+      "title": "Internal links — Obsidian Help",
+      "kind": "official_documentation",
+      "source_ref": "turn13view4"
+    },
+    {
+      "url": "https://obsidian.md/help/plugins/backlinks",
+      "title": "Backlinks — Obsidian Help",
+      "kind": "official_documentation",
+      "source_ref": "turn13view5"
+    },
+    {
+      "url": "https://obsidian.md/help/plugins/graph",
+      "title": "Graph view — Obsidian Help",
+      "kind": "official_documentation",
+      "source_ref": "turn13view6"
+    },
+    {
+      "url": "https://forum.obsidian.md/t/q-how-should-i-use-graph-view-correctly-because-im-not-getting-any-ideas/82382",
+      "title": "Q: How should I use graph view correctly because I'm not getting any ideas",
+      "kind": "original_community_discussion",
+      "source_ref": "turn13view7"
+    },
+    {
+      "url": "https://forum.obsidian.md/t/how-do-you-use-the-graph-view/2785",
+      "title": "How do you use the graph view?",
+      "kind": "original_community_discussion",
+      "source_ref": "turn13view8"
+    },
+    {
+      "url": "https://forums.ankiweb.net/t/using-filtered-decks-to-reintroduce-leeches/21699",
+      "title": "Using filtered decks to reintroduce leeches",
+      "kind": "original_community_discussion",
+      "source_ref": "turn13view10"
+    },
+    {
+      "url": "https://forums.ankiweb.net/t/can-i-disable-leeches-altogether/4767",
+      "title": "Can I disable leeches altogether?",
+      "kind": "original_community_discussion",
+      "source_ref": "turn13view11"
+    },
+    {
+      "url": "https://docs.ankiweb.net/manual/deck-options",
+      "title": "Deck Options — Anki Docs",
+      "kind": "official_documentation",
+      "source_ref": "turn85view1"
+    },
+    {
+      "url": "https://docs.ankiweb.net/faqs/resetting-progress-in-a-deck",
+      "title": "Resetting progress in a deck — Anki Docs",
+      "kind": "official_documentation",
+      "source_ref": "turn85view0"
+    },
+    {
+      "url": "https://docs.ankiweb.net/manual/filtered-decks",
+      "title": "Filtered Decks & Cramming — Anki Docs",
+      "kind": "official_documentation",
+      "source_ref": "turn44view2"
+    },
+    {
+      "url": "https://docs.ankiweb.net/manual/getting-started",
+      "title": "Getting Started — Anki Docs",
+      "kind": "official_documentation",
+      "source_ref": "turn51search1"
+    },
+    {
+      "url": "https://obsidian.md/help/plugins/outgoing-links",
+      "title": "Outgoing links — Obsidian Help",
+      "kind": "official_documentation",
+      "source_ref": "turn44view4"
+    },
+    {
+      "url": "https://obsidian.md/help/aliases",
+      "title": "Aliases — Obsidian Help",
+      "kind": "official_documentation",
+      "source_ref": "turn44view5"
+    }
+  ]
+}

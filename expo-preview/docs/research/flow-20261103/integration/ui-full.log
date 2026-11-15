@@ -1,0 +1,191 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> rusukh-ios@0.5.2 test:ui
+> jest --runInBand
+
+FAIL iOS tests/backup-app-integration.ui.test.jsx
+  ● recovery cancel and native dismissal both resolve false without changing content or draft
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: true
+
+      108 |   });
+      109 |   expect(result).toBe(false); expect(storage.restoreRecoveryPoint).not.toHaveBeenCalled();
+    > 110 |   expect(mockSettings.get(NOTE_DRAFT_KEY)).toBe(previous); expect(draftWasCleared()).toBe(false);
+          |                                                                                      ^
+      111 |   expect(screen.getByLabelText('المحتوى').props.value).toBe('مسودة عربية يجب ألا تضيع');
+      112 | });
+      113 |
+
+      at Object.toBe (tests/backup-app-integration.ui.test.jsx:110:86)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● portable restore blocks a live unpublished editor before SQL
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: true
+
+      152 |   expect(JSON.parse(mockSettings.get(NOTE_DRAFT_KEY)).body).toBe('مسودة عربية يجب ألا تضيع');
+      153 |   expect(screen.getByLabelText('المحتوى').props.value).toBe('مسودة عربية يجب ألا تضيع');
+    > 154 |   expect(draftWasCleared()).toBe(false);
+          |                             ^
+      155 | });
+      156 |
+      157 | test('preference import writes only presentation keys through one exclusive transaction', async () => {
+
+      at Object.toBe (tests/backup-app-integration.ui.test.jsx:154:29)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● JSON selection started before a new draft cannot discard the newer editor or autosave
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: true
+
+      302 |   await act(async()=>{importAlert()[2].find(item=>item.text==='استبدال').onPress();});
+      303 |   expect(storage.restoreBackup).not.toHaveBeenCalled();
+    > 304 |   expect(mockSettings.get(NOTE_DRAFT_KEY)).toBe(previous); expect(draftWasCleared()).toBe(false);
+          |                                                                                      ^
+      305 |   expect(screen.getByLabelText('المحتوى').props.value).toBe('مسودة عربية يجب ألا تضيع');
+      306 | });
+      307 |
+
+      at Object.toBe (tests/backup-app-integration.ui.test.jsx:304:86)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+FAIL iOS tests/draft-integration.ui.test.jsx
+  ● Console
+
+    console.warn
+      expo-notifications: Android Push notifications (remote notifications) functionality provided by expo-notifications was removed from Expo Go with the release of SDK 53. Use a development build instead of Expo Go. Learn more at https://docs.expo.dev/develop/development-builds/introduction/.
+
+      1 | import { Platform } from 'react-native';
+    > 2 | import * as Notifications from 'expo-notifications';
+        | ^
+      3 | import { REMINDER_OWNER, type Permission, type ReminderGateway } from './service';
+      4 |
+      5 | const CHANNEL = 'rusukh-local-study';
+
+      at warn (node_modules/expo-notifications/build/warnOfExpoGoPushUsage.ts:13:15)
+      at addPushTokenListener (node_modules/expo-notifications/build/TokenEmitter.ts:44:3)
+      at Object.<anonymous> (node_modules/expo-notifications/build/DevicePushTokenAutoRegistration.fx.ts:109:3)
+      at Object.require (node_modules/expo-notifications/build/getExpoPushTokenAsync.ts:5:1)
+      at Object.require (node_modules/expo-notifications/build/index.ts:16:1)
+      at Object.require (src/reminders/expoGateway.ts:2:1)
+      at Object.require (src/reminders/RemindersPanel.tsx:5:1)
+      at Object.require (App.tsx:20:1)
+      at Object.require (tests/draft-integration.ui.test.jsx:4:1)
+
+  ● pending autosave cannot resurrect draft after publishing and clearing
+
+    expect(jest.fn()).toHaveBeenCalledTimes(expected)
+
+    Expected number of calls: 1
+    Received number of calls: 2
+
+      87 |   await fireEvent.changeText(screen.getByLabelText('المحتوى'),'النص المنشور');
+      88 |   await act(async () => { jest.advanceTimersByTime(701); });
+    > 89 |   expect(storage.setSetting).toHaveBeenCalledTimes(1);
+         |                              ^
+      90 |   await fireEvent.press(screen.getByRole('button',{name:'حفظ الملاحظة'}));
+      91 |   await waitFor(() => expect(storage.saveNoteAndCards).toHaveBeenCalledTimes(1));
+      92 |   await act(async () => { release(); });
+
+      at Object.toHaveBeenCalledTimes (tests/draft-integration.ui.test.jsx:89:30)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+
+Summary of all failing tests
+FAIL tests/backup-app-integration.ui.test.jsx
+  ● recovery cancel and native dismissal both resolve false without changing content or draft
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: true
+
+      108 |   });
+      109 |   expect(result).toBe(false); expect(storage.restoreRecoveryPoint).not.toHaveBeenCalled();
+    > 110 |   expect(mockSettings.get(NOTE_DRAFT_KEY)).toBe(previous); expect(draftWasCleared()).toBe(false);
+          |                                                                                      ^
+      111 |   expect(screen.getByLabelText('المحتوى').props.value).toBe('مسودة عربية يجب ألا تضيع');
+      112 | });
+      113 |
+
+      at Object.toBe (tests/backup-app-integration.ui.test.jsx:110:86)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● portable restore blocks a live unpublished editor before SQL
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: true
+
+      152 |   expect(JSON.parse(mockSettings.get(NOTE_DRAFT_KEY)).body).toBe('مسودة عربية يجب ألا تضيع');
+      153 |   expect(screen.getByLabelText('المحتوى').props.value).toBe('مسودة عربية يجب ألا تضيع');
+    > 154 |   expect(draftWasCleared()).toBe(false);
+          |                             ^
+      155 | });
+      156 |
+      157 | test('preference import writes only presentation keys through one exclusive transaction', async () => {
+
+      at Object.toBe (tests/backup-app-integration.ui.test.jsx:154:29)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● JSON selection started before a new draft cannot discard the newer editor or autosave
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: true
+
+      302 |   await act(async()=>{importAlert()[2].find(item=>item.text==='استبدال').onPress();});
+      303 |   expect(storage.restoreBackup).not.toHaveBeenCalled();
+    > 304 |   expect(mockSettings.get(NOTE_DRAFT_KEY)).toBe(previous); expect(draftWasCleared()).toBe(false);
+          |                                                                                      ^
+      305 |   expect(screen.getByLabelText('المحتوى').props.value).toBe('مسودة عربية يجب ألا تضيع');
+      306 | });
+      307 |
+
+      at Object.toBe (tests/backup-app-integration.ui.test.jsx:304:86)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+FAIL tests/draft-integration.ui.test.jsx
+  ● pending autosave cannot resurrect draft after publishing and clearing
+
+    expect(jest.fn()).toHaveBeenCalledTimes(expected)
+
+    Expected number of calls: 1
+    Received number of calls: 2
+
+      87 |   await fireEvent.changeText(screen.getByLabelText('المحتوى'),'النص المنشور');
+      88 |   await act(async () => { jest.advanceTimersByTime(701); });
+    > 89 |   expect(storage.setSetting).toHaveBeenCalledTimes(1);
+         |                              ^
+      90 |   await fireEvent.press(screen.getByRole('button',{name:'حفظ الملاحظة'}));
+      91 |   await waitFor(() => expect(storage.saveNoteAndCards).toHaveBeenCalledTimes(1));
+      92 |   await act(async () => { release(); });
+
+      at Object.toHaveBeenCalledTimes (tests/draft-integration.ui.test.jsx:89:30)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+
+Test Suites: 2 failed, 27 passed, 29 total
+Tests:       4 failed, 298 passed, 302 total
+Snapshots:   0 total
+Time:        11.529 s, estimated 16 s
+Ran all test suites.

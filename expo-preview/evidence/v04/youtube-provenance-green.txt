@@ -1,0 +1,25 @@
+✔ recognizes official watch, short, live, embed and no-cookie video URLs (1.735076ms)
+✔ rejects deceptive hosts, credentials, unsupported protocol, ports and paths (0.201452ms)
+✔ rejects missing, invalid, ambiguous and malformed video identifiers (0.156295ms)
+✔ normalizes valid timestamps while discarding tracking parameters (0.333561ms)
+✔ rejects invalid and excessive timestamps rather than guessing (0.297196ms)
+✔ parses SRT milliseconds, original text, cue labels and line provenance (0.691399ms)
+✔ parses VTT identifiers, settings, BOM, short timestamps and markup without exposing markup as questions (0.414132ms)
+✔ malformed or missing timings fail instead of silently dropping transcript evidence (0.475855ms)
+✔ preserves original cue order and overlaps without manufacturing chronology (0.952631ms)
+✔ plain pasted transcript has no fabricated video timestamps (0.240731ms)
+✔ extracts only explicit written Q/A across cues with both source references (0.663487ms)
+✔ ordinary narration never becomes an invented question or answer (0.864609ms)
+✔ ignores incomplete pairs and captures Arabic or English explicit markers (0.234202ms)
+✔ rejects empty, corrupted, excessive or unsupported transcript input (10.212188ms)
+✔ saved VTT note exposes only validated visible questions to the card parser (0.593141ms)
+✔ quoted original transcript remains exactly recoverable without duplicate card extraction (0.287722ms)
+✔ out-of-order question and answer cues use a valid time envelope while retaining evidence order (0.243325ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 104.642469

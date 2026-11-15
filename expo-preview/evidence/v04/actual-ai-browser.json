@@ -1,0 +1,47 @@
+{
+  "observedAt": "2026-11-02",
+  "environment": "Cloud Chrome Linux; not iOS",
+  "model": "Qwen3-0.6B-Q8_0.gguf",
+  "modelBytes": 639446688,
+  "modelSHA256": "9465e63a22add5354d9bb4b99e90117043c7124007664907259bd16d043bb031",
+  "diagnosticHTMLSHA256": "0e7813e1068711689219ef32f39d96f840642f1a86125d2f7d1983fd7591de47",
+  "nativeEquivalentHTMLSHA256": "01bbca6af58d7ce2ae69db796ecd26e0bdb0c286db4586a004c3b5139258686f",
+  "network": "Page loaded through private HTTPS; inference uses selected local file and embedded WASM; CSP connect-src blob: disallows HTTP connections. Not a cold offline app launch test.",
+  "inferenceMs": 83304,
+  "promptTokens": 243,
+  "completionTokens": 80,
+  "question": "ما هو نوع المذاكرة الذي يُستخدم في تجربة الصف؟",
+  "answer": "المراجعة المتباعدة",
+  "evidence": "المراجعة المتباعدة هي توزيع جلسات المذاكرة على فترات زمنية.",
+  "limits": [
+    "Two distinct Arabic cases plus a final release repeat are not general quality validation",
+    "CPU single thread, GPU/Neural Engine false",
+    "Final release engine tested with late Worker.onerror guard",
+    "Two earlier unsuccessful generations retained in evidence"
+  ],
+  "secondCase": {
+    "source": "تعمل الميتوكوندريا داخل الخلية على إنتاج الطاقة. تحتوي الخلية النباتية على جدار خلوي وبلاستيدات خضراء. تقوم البلاستيدات الخضراء بالبناء الضوئي باستخدام الضوء والماء وثاني أكسيد الكربون.",
+    "question": "ما هو عمل الميتوكوندريا في الخلية النباتية؟",
+    "answer": "تعمل الميتوكوندريا داخل الخلية على إنتاج الطاقة.",
+    "evidence": "تعمل الميتوكوندريا داخل الخلية على إنتاج الطاقة.",
+    "milliseconds": 52160,
+    "promptTokens": 244,
+    "cachedPromptTokens": 165,
+    "completionTokens": 85
+  },
+  "cancellation": {
+    "elapsedAtCancellationMs": 12111,
+    "visibleState": "cancelled; generation disabled; choose model enabled; no draft shown"
+  },
+  "finalReleaseCase": {
+    "nativeHTMLSHA256": "d95ab1e48e5a1cc9a3a9adf7a1b447ddac95ad82a91a5f359622083e3b7f1c60",
+    "elapsedMs": 88441,
+    "promptTokens": 243,
+    "completionTokens": 80,
+    "totalTokens": 323,
+    "question": "ما هو نوع المذاكرة الذي يُستخدم في تجربة الصف؟",
+    "answer": "المراجعة المتباعدة",
+    "evidence": "المراجعة المتباعدة هي توزيع جلسات المذاكرة على فترات زمنية.",
+    "proof": "rusukh04-ai-final-success.txt"
+  }
+}

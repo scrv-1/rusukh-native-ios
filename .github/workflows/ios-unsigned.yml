@@ -37,6 +37,10 @@ jobs:
           { echo "Commit: $GITHUB_SHA"; date -u; sw_vers; xcodebuild -version; swift --version; uname -m; xcode-select -p; xcodebuild -showsdks; ls -d /Applications/Xcode*; xcrun --find simctl; xcrun lldb --version; python3 --version; git --version; } | tee evidence/environment.txt
       - name: Install XcodeGen
         run: brew install xcodegen
+      - name: Verify reviewed source bytes
+        run: |
+          set -o pipefail
+          shasum -a 256 -c docs/SAFE_IMPORT_SOURCE_SHA256.txt | tee evidence/source-verification.txt
       - name: Test core logic
         run: |
           set -o pipefail

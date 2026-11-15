@@ -1,0 +1,2 @@
+Current bootstrap remains empty: {"notes":0,"cards":0,"reviews":0,"titles":[]}
+D002 REPRODUCED: individually allowed notes save successfully but export and protected replacement fail {"notes":9,"charsPerNote":999990,"serializedUTF8Bytes":18001085,"backupLimitBytes":15728640,"preservedAfterRejectedRestore":true}

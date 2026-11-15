@@ -1,0 +1,19 @@
+{
+  "tips": 100,
+  "videos": 50,
+  "unique_video_ids": 50,
+  "video_access": {
+    "search_metadata": 28,
+    "description": 22
+  },
+  "decision_statuses": {
+    "منفذ في 0.5.0": 21,
+    "موجود سابقًا": 21,
+    "جزئي": 19,
+    "غير منفذ": 24,
+    "غير منطبق حاليًا": 3,
+    "يحتاج اختبار الجهاز": 12
+  },
+  "source_urls": 69,
+  "limits": "Counts and schema validation; not proof of video viewing, content completeness or device behavior."
+}

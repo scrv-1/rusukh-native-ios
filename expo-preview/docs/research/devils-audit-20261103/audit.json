@@ -1,0 +1,2687 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-03T00:18:02.315233+00:00",
+  "upstreamReviewedCommit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+  "nativeReviewedCommit": "93f5adb1c2ee43195e0ceda35d39a9992c11e320",
+  "baseline_version": "0.5.0",
+  "scope_ar": [
+    "التدقيق يصف Expo 0.5.0 عند الالتزام 2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0. أرقام الأسطر تخص المصدر وقت المراجعة، وقد تتحرك بعد الإصلاح.",
+    "ملفات SwiftUI المفحوصة نسخة قراءة منفصلة عند 93f5adb1c2ee43195e0ceda35d39a9992c11e320؛ لا تنسب إليها إصلاحات Expo أو اختبارات JavaScript.",
+    "الالتزام المحلي المصطنع 2372410 ليس التزام إصدار على GitHub. حالة الإصلاح مستقلة عن لقطة اكتشاف المشكلة وعن رفعها أو اعتمادها للإصدار.",
+    "الاختبار المعاد إنتاجه قد يستخدم Node SQLite أو مكونات حقيقية مع موائمات أصلية محاكية. لا يعني تشغيلًا على iPhone. التقرير لا يثبت تثبيت SwiftUI المستقل.",
+    "مراجع المجتمع والوثائق تساند اقتراح الحل. دليل عيب رُسوخ هو مصدره أو اختبار محدد عليه؛ وجود نصيحة خارجية ليس دليل عيب.",
+    "هذه حصيلة تدقيق محدد وليست حصرًا لكل عيوب المنتج أو إعلان اكتماله. لا يستهدف التقرير عددًا معينًا من القرارات."
+  ],
+  "limits_ar": [
+    "التدقيق يصف Expo 0.5.0 عند الالتزام 2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0. أرقام الأسطر تخص المصدر وقت المراجعة، وقد تتحرك بعد الإصلاح.",
+    "ملفات SwiftUI المفحوصة نسخة قراءة منفصلة عند 93f5adb1c2ee43195e0ceda35d39a9992c11e320؛ لا تنسب إليها إصلاحات Expo أو اختبارات JavaScript.",
+    "الالتزام المحلي المصطنع 2372410 ليس التزام إصدار على GitHub. حالة الإصلاح مستقلة عن لقطة اكتشاف المشكلة وعن رفعها أو اعتمادها للإصدار.",
+    "الاختبار المعاد إنتاجه قد يستخدم Node SQLite أو مكونات حقيقية مع موائمات أصلية محاكية. لا يعني تشغيلًا على iPhone. التقرير لا يثبت تثبيت SwiftUI المستقل.",
+    "مراجع المجتمع والوثائق تساند اقتراح الحل. دليل عيب رُسوخ هو مصدره أو اختبار محدد عليه؛ وجود نصيحة خارجية ليس دليل عيب.",
+    "هذه حصيلة تدقيق محدد وليست حصرًا لكل عيوب المنتج أو إعلان اكتماله. لا يستهدف التقرير عددًا معينًا من القرارات.",
+    "R008: نجاح الاختبارات والصور وHTTP 200 لا يثبت Files/iCloud أو VoiceOver أو استدلال النموذج والذاكرة والبطارية والحرارة على الهاتف."
+  ],
+  "kind_labels_ar": {
+    "reproduced-bug": "خطأ أعيد إنتاجه",
+    "source-bug": "خطأ مثبت بالمصدر",
+    "requirement-gap": "متطلب ناقص",
+    "design-risk": "خطر تصميم",
+    "release-risk": "خطر إصدار",
+    "device-gap": "فجوة تحقق جهاز"
+  },
+  "status_labels_ar": {
+    "open": "مفتوح",
+    "implemented-pending-verification": "تعديل منفذ؛ تحقق نهائي منتظر",
+    "fixed-verified": "أصلح واختبر ضمن النطاق المسجل"
+  },
+  "area_labels_ar": {
+    "data": "البيانات والاسترجاع",
+    "navigation": "التنقل والتخصيص",
+    "study": "الدراسة والبطاقات",
+    "ai": "الذكاء المحلي",
+    "release-native": "الإصدار وSwiftUI",
+    "access-sources": "الوصول والصوت والمصادر",
+    "root": "الاعتماديات"
+  },
+  "summary": {
+    "raw_findings": 52,
+    "merged_duplicates": 4,
+    "moved_to_limits": 1,
+    "total": 47,
+    "bugs": 16,
+    "gaps": 14,
+    "risks": 17,
+    "by_kind": {
+      "requirement-gap": 10,
+      "reproduced-bug": 8,
+      "design-risk": 13,
+      "source-bug": 8,
+      "device-gap": 4,
+      "release-risk": 4
+    },
+    "by_severity": {
+      "P1": 11,
+      "P2": 31,
+      "P3": 5
+    },
+    "by_status": {
+      "fixed-verified": 29,
+      "open": 18
+    }
+  },
+  "deduplication": [
+    {
+      "merged_id": "A008",
+      "canonical_id": "S006",
+      "reason_ar": "منشأ السؤال والمصدر والنموذج جزء من مشكلة التتبع نفسها."
+    },
+    {
+      "merged_id": "X203",
+      "canonical_id": "D007",
+      "reason_ar": "حذف الوسائط: التحكم في المحتوى والخصوصية ضمن مسار حذف واحد."
+    },
+    {
+      "merged_id": "X204",
+      "canonical_id": "N007",
+      "reason_ar": "اختبار لوحة المفاتيح يشمل المحرر وحقول المصادر والمحرك."
+    },
+    {
+      "merged_id": "X206",
+      "canonical_id": "D006",
+      "reason_ar": "إذن الميكروفون الأول جزء من قبول التسجيل الأصلي على الجهاز."
+    }
+  ],
+  "findings": [
+    {
+      "id": "D001",
+      "title_ar": "قاعدة جديدة تُملأ بملاحظات وبطاقات تجريبية رغم طلب بداية فارغة",
+      "kind": "requirement-gap",
+      "severity": "P1",
+      "file": "expo-preview/src/storage.ts",
+      "line_start": 53,
+      "line_end": 75,
+      "evidence": [
+        "غياب meta.seeded يشغّل INSERT لملاحظتين وبطاقتين في معاملة؛ لا يوجد اختيار اختياري للمستخدم.",
+        "docs/research/devils-audit-20261103/data-evidence/storage-probes.log: openStorage() الحقيقي أعاد notes=2,cards=2,reviews=0؛ العنوانان التعلّم النشط والمراجعة المتباعدة."
+      ],
+      "scenario": "شغّل التطبيق على تثبيت جديد بقاعدة SQLite فارغة.",
+      "impact_ar": "تظهر بيانات لم ينشئها المستخدم وتدخل العدادات والمراجعة والبحث؛ هذا يخالف المطلوب الصريح: مساحة فارغة مع أدوات جاهزة. ليست مشكلة تلف SQLite.",
+      "fix_ar": "افصل إنشاء الجداول عن أمثلة المحتوى. أبقِ المكتبة الجديدة فارغة، واجعل تجربة الأمثلة إجراءً اختياريًا صريحًا قابلًا للإزالة دون مساس ببيانات قديمة.",
+      "acceptance_ar": "openStorage على قاعدة جديدة ثم إعادة الفتح يعيدان صفر ملاحظات وبطاقات ومراجعات. التثبيت الذي يحتوي بيانات مسبقة لا تُحذف بياناته. أدوات الإضافة والاستيراد تبقى متاحة.",
+      "verification": {
+        "status": "reproduced",
+        "method": "تشغيل مصدر TypeScript الحقيقي بعد تحويله في الذاكرة فوق Node SQLite؛ ليس iPhone.",
+        "command": "node docs/research/devils-audit-20261103/data-evidence/storage-probes.cjs",
+        "artifacts": [
+          "docs/research/devils-audit-20261103/data-evidence/storage-probes.cjs",
+          "docs/research/devils-audit-20261103/data-evidence/storage-probes.log"
+        ]
+      },
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/storage.ts#L53-L75"
+      ],
+      "raw_kind": "missing-requirement",
+      "raw_severity": "P1",
+      "area": "data",
+      "area_ar": "البيانات والاسترجاع",
+      "original_file": "src/storage.ts",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/storage.ts#L53-L75",
+      "supporting_source_urls": [],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "fixed-verified",
+      "fix_status": {
+        "id": "D001",
+        "status": "fixed-verified",
+        "verification": "نجح التحقق على Codespaces/Linux Node 24.22.2: 111 اختبار نواة و 208 واجهة و 28 AI ؛ TypeScript والتوافق و Expo Doctor 20/20 وتصدير iOS 909 وحدات. السجلات والبصمات في evidence/v051. ليس اختبار iPhone.",
+        "evidence": "fix-evidence/first-launch-green.log"
+      }
+    },
+    {
+      "id": "D003",
+      "title_ar": "استعادة النسخة تمحو المسودة المحفوظة دون ذكرها في التأكيد أو تضمينها في نقطة الرجوع",
+      "kind": "reproduced-bug",
+      "severity": "P1",
+      "file": "expo-preview/App.tsx",
+      "line_start": 365,
+      "line_end": 371,
+      "evidence": [
+        "finishStudyRestore يستدعي draft.clear بعد استعادة SQL؛ يُستخدم في استيراد JSON والمجلد ونقاط الرجوع.",
+        "تنبيه App.tsx:408–411 يذكر استبدال عدد الملاحظات ونقطة الرجوع فقط؛ تنبيه نقطة الرجوع :386–390 لا يذكر حذف المسودة أيضًا.",
+        "src/storage.ts:165–168 يجمع notes/cards/reviews فقط؛ noteDraft.v1 ليست داخل النقطة. PortableBackupPanel.tsx:98 يستبعد المسودة من التصدير.",
+        "docs/research/devils-audit-20261103/data-evidence/draft-audit.ui.test.jsx أثبت أن مسودة جديدة unpublished محفوظة في meta تصبح null بعد التأكيد، وأن نص التأكيد لا يحتوي «مسود»."
+      ],
+      "scenario": "احفظ مسودة غير منشورة وأغلق المحرر، ثم من الإعدادات استورد نسخة دراسة ووافق على استبدال الملاحظات المعروضة.",
+      "impact_ar": "تختفي كتابة المستخدم التي ليست ضمن أي ملاحظة منشورة. العودة إلى نقطة الرجوع تعيد الدراسة فقط ولا تستعيد تلك الكتابة. موافقة استبدال الدراسة لا تكشف هذه الخسارة المنفصلة.",
+      "fix_ar": "احفظ المسودة السابقة في خانة استرجاع مستقلة قبل الاستعادة، أو امنع الاستعادة حتى يختار المستخدم حفظها/تصديرها/تجاهلها صراحة. عند الاحتفاظ بها بعد تبدل المكتبة لا تربطها تلقائيًا بمعرّف قد يشير إلى ملاحظة مختلفة.",
+      "acceptance_ar": "مع مسودة محفوظة ثم استيراد JSON أو مجلد أو نقطة رجوع: تظهر المسودة بعد العملية كمسودة قابلة للاستعادة أو يسبق حذفها قرار صريح يذكرها. إلغاء التأكيد لا يغيرها، وفشل SQL يبقيها كما هي.",
+      "verification": {
+        "status": "reproduced",
+        "method": "واجهة App/useNoteDraft الحقيقية مع موائم تخزين وهمي؛ تحقق مصدر مستقل من استبعاد المسودة من نقطة SQL.",
+        "command": "./node_modules/.bin/jest --config docs/research/devils-audit-20261103/data-evidence/jest.config.cjs --runInBand",
+        "artifacts": [
+          "docs/research/devils-audit-20261103/data-evidence/draft-audit.ui.test.jsx",
+          "docs/research/devils-audit-20261103/data-evidence/ui-probes.log"
+        ]
+      },
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/App.tsx#L365-L371"
+      ],
+      "raw_kind": "bug",
+      "raw_severity": "P1",
+      "area": "data",
+      "area_ar": "البيانات والاسترجاع",
+      "original_file": "App.tsx",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/App.tsx#L365-L371",
+      "supporting_source_urls": [],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "fixed-verified",
+      "fix_status": {
+        "id": "D003",
+        "status": "fixed-verified",
+        "verification": "نجح التحقق على Codespaces/Linux Node 24.22.2: 111 اختبار نواة و 208 واجهة و 28 AI ؛ TypeScript والتوافق و Expo Doctor 20/20 وتصدير iOS 909 وحدات. السجلات والبصمات في evidence/v051. ليس اختبار iPhone.",
+        "evidence": "fix-evidence/restore-draft-summary.json"
+      }
+    },
+    {
+      "id": "N001",
+      "title_ar": "المساحة الفارغة المطلوبة غير ممثلة في أول تشغيل ولا في إخفاء جميع الأقسام",
+      "kind": "requirement-gap",
+      "severity": "P1",
+      "file": "expo-preview/src/workspace.ts",
+      "line_start": 18,
+      "line_end": 20,
+      "evidence": "defaultWorkspace يفعّل review وnotes تلقائيًا، وreadWorkspace(null) يعيده (31–33). StudyHome.tsx:39–67 يرسم العنوان والتوجيه وإجراءات الإنشاء والبحث وإحصاءات الدراسة وبطاقة فارغة خارج shown.map؛ لذلك إخفاء كل modules لا يزيل لوحة الدراسة المفروضة. الاختبار tests/workspace.test.cjs:6–8 يثبت التوقع القديم review+notes. هذه النتيجة تخص تركيب الواجهة فقط؛ زرع محتوى الدراسة في storage.ts تدقيق مستقل لدى الفريق.",
+      "scenario": "يفتح مستخدم جديد يريد صفحة يركبها بنفسه التطبيق، ثم يحاول إخفاء جميع الأقسام ليبدأ من مساحة فارغة.",
+      "impact_ar": "الافتراض السابق عن لوحة دراسة جاهزة يطغى على اختيار المستخدم الصريح، وإخفاء الأقسام لا يحقق الوعد بالفراغ. يتحمل المستخدم إعدادًا عكسيًا قبل أن يبدأ.",
+      "fix_ar": "اجعل إعداد المساحة الجديدة بلا أقسام مثبّتة. افصل شريط أدوات صغيرًا دائمًا عن مساحة المستخدم؛ لا تضع الإحصاءات والشعارات وبطاقة الفراغ كأقسام إجبارية. اجعل الإحصاءات وأي إجراء مركّب أقسامًا يضيفها المستخدم. احتفظ بترتيبات المستخدمين المحفوظة؛ لا تصفّرها بلا طلب.",
+      "acceptance_ar": "مع workspace غير موجود: صفر أقسام دراسة مثبتة وصفر إحصاءات أو بطاقات مفروضة داخل مساحة المحتوى، ومدخل أدوات واضح. بعد إخفاء الجميع يتحقق الشرط نفسه. تظهر الأقسام فقط بعد إضافتها. يبقى تخطيط مستخدم سابق محفوظًا دون تغيير غير مطلوب.",
+      "verification": "مثبت بتتبع الكود وإعادة تنفيذ دالة workspace الحالية عبر TypeScript في الذاكرة: firstRunEnabled=['review','notes']. لم نفترض أن قاعدة بيانات الدراسة فارغة. المصادر التالية تدعم فصل القدرة المتاحة عن القسم المعروض، ولا تثبت عيب رسوخ.",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/workspace.ts#L18-L20",
+        "https://obsidian.md/help/plugins",
+        "https://support.apple.com/guide/iphone/add-edit-and-remove-widgets-iphb8f1bf206/ios"
+      ],
+      "raw_kind": "missing-requirement",
+      "raw_severity": "P1",
+      "area": "navigation",
+      "area_ar": "التنقل والتخصيص",
+      "original_file": "src/workspace.ts",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/workspace.ts#L18-L20",
+      "supporting_source_urls": [
+        "https://obsidian.md/help/plugins",
+        "https://support.apple.com/guide/iphone/add-edit-and-remove-widgets-iphb8f1bf206/ios"
+      ],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "fixed-verified",
+      "fix_status": {
+        "id": "N001",
+        "status": "fixed-verified",
+        "verification": "نجح التحقق على Codespaces/Linux Node 24.22.2: 111 اختبار نواة و 208 واجهة و 28 AI ؛ TypeScript والتوافق و Expo Doctor 20/20 وتصدير iOS 909 وحدات. السجلات والبصمات في evidence/v051. ليس اختبار iPhone.",
+        "evidence": "fix-evidence/n001-summary.json"
+      }
+    },
+    {
+      "id": "S001",
+      "title_ar": "تصحيح جواب الملاحظة لا يصل إلى البطاقة ولا توجد وسيلة لتحريرها مع حفظ تاريخها",
+      "kind": "reproduced-bug",
+      "severity": "P1",
+      "file": "expo-preview/App.tsx",
+      "line_start": 266,
+      "line_end": 281,
+      "evidence": "commitNote(true) يبني existing من نص السؤال ويستبعد كل سؤال موجود قبل فحص تغير الجواب (267–274). saveNoteAndCards لا يغير إلا البطاقات الممررة إليه (storage.ts:124–125)، ومحرر البطاقة ينشئ دائمًا id جديدًا ويمنع السؤال الموجود (App.tsx:313–320). إدارة البطاقات تعرض الحذف فقط (550–555). اختبار الواجهة S001 صحح النص ثم التقط saveNoteAndCards(noteUpdated,[]) ووجد الجواب القديم بعد ذلك.",
+      "scenario": "أنشئ بطاقة من «س: كم عدد الأقمار؟ / ج: جواب قديم»، راجعها عدة مرات، ثم صحح الجواب داخل الملاحظة واضغط «حفظ واستخراج بطاقات س/ج». الملاحظة تحفظ التصحيح لكن البطاقة والاختبار يستمران بالجواب القديم، ويظهر تنبيه عدم العثور على أسئلة جديدة.",
+      "impact_ar": "يستمر المتعلم في ترسيخ معلومة يعلم أنها خاطئة. الحل المتاح عبر الحذف وإعادة الإنشاء يمحو تاريخ البطاقة وجدولها؛ فتح الملاحظة الأصلية وحده لا يكمل عملية التصحيح.",
+      "fix_ar": "إضافة تحرير بطاقة موجودة باستخدام card.id، وفحص اختلاف جواب سؤال معروف عند إعادة الاستخراج مع معاينة تحديث صريحة. الحفاظ على المراجعات والجدولة افتراضيًا، مع قرار مستقل لإعادة التعلم إذا تغير المعنى. لا تحاول مطابقة تغيّر السؤال بالحدس ولا تنشئ نسخة ثانية بصمت.",
+      "acceptance_ar": "بطاقة ذات مراجعات محفوظة: تصحيح الجواب واعتماد التحديث يغير answer في نفس id، ولا يزيد عدد البطاقات، ويحفظ سجلها. إعادة الاستخراج بلا تغييرات عملية خاملة. تغيير السؤال يعرض ربط التعديل ببطاقة قائمة بدل مضاعفتها تلقائيًا.",
+      "verification": "مثبت باختبار مكون App الحقيقي مع mock لتسجيل عمليات التخزين: study-evidence/study-flow.ui.test.jsx، اختبار S001. تم تتبع كتابة SQLite لكن لم تُنفذ واجهة على iPhone. جُمعت فجوة التحرير وتقادم الجواب في سبب واحد.",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/App.tsx#L266-L281",
+        "https://forums.ankiweb.net/t/can-i-disable-leeches-altogether/4767",
+        "https://docs.ankiweb.net/manual/leeches",
+        "https://super-memory.com/articles/20rules.htm"
+      ],
+      "raw_kind": "bug/source-proven",
+      "raw_severity": "high",
+      "area": "study",
+      "area_ar": "الدراسة والبطاقات",
+      "original_file": "App.tsx",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/App.tsx#L266-L281",
+      "supporting_source_urls": [
+        "https://forums.ankiweb.net/t/can-i-disable-leeches-altogether/4767",
+        "https://docs.ankiweb.net/manual/leeches",
+        "https://super-memory.com/articles/20rules.htm"
+      ],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "fixed-verified",
+      "fix_status": {
+        "id": "S001",
+        "status": "fixed-verified",
+        "scope_ar": "تعديل البطاقة بنفس id مع حفظ الجدولة والسجل؛ عند تغير جواب مستخرج يطلب اعتماد تحديث صريح بدل تجاهله.",
+        "verification": "31 اختبار Node SQLite للبيانات تشمل updateCard ، واختبار App لتحرير البطاقة دون إنشاء جديدة؛ مراجعة مستقلة لحماية المسودات.",
+        "evidence": "../flow-20261103/data/data-result.json",
+        "limits_ar": "لا تخمين لهوية سؤال تغير معناه، ولا إعادة جدولة تلقائية عند تحرير النص.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      }
+    },
+    {
+      "id": "S002",
+      "title_ar": "تحويل إجابات البطاقات إلى مشتتات قد ينتج سؤال اختيار متعدد له أكثر من جواب صحيح",
+      "kind": "design-risk",
+      "severity": "P1",
+      "file": "expo-preview/src/core.ts",
+      "line_start": 176,
+      "line_end": 188,
+      "evidence": "makeQuiz يجمع أجوبة جميع البطاقات ثم يختار منها مشتتات دون وجود خيارات معتمدة أو مجموعة إجابات صحيحة في StudyCard. App.tsx:691–704 يعتبر المطابقة النصية مع answer وحدها صحيحة. إثبات S002: السؤال «اذكر عددًا أوليًا» يعرض ['3','2']؛ answer='2'، وبالتالي يُرفض 3 رغم صحته.",
+      "scenario": "بطاقة تسأل «اذكر عددًا أوليًا» وجوابها 2، وأخرى تسأل «ما أصغر عدد أولي فردي؟» وجوابها 3. الاختبار التلقائي يضع الجوابين ضمن سؤال البطاقة الأولى ويصحح أحدهما فقط.",
+      "impact_ar": "يمكن أن يتلقى المتعلم تصحيحًا خاطئًا ويثق به. المثال يثبت خطرًا محددًا للأسئلة المفتوحة أو الأجوبة المتكافئة؛ لا يثبت أن كل اختبار مولد غير صالح.",
+      "fix_ar": "لا تجعل جمع أجوبة المكتبة افتراضيًا دليلًا على مشتتات خاطئة. استخدم أسئلة متعددة الخيارات مؤلفة/مراجعة بخياراتها أو حوّل البطاقة غير المعتمدة إلى استرجاع ثم تقييم ذاتي. إن استُخدمت مسودة خيارات فاعرضها للمراجعة وحدد نطاق المصدر، ولا تدّع أن التطبيع النصي يتحقق من المعنى.",
+      "acceptance_ar": "المثال 2/3 لا يظهر كتقييم آلي أحادي الجواب. سؤال اختيار معتمد يحتوي جوابًا صحيحًا واحدًا يبقى قابلًا للتصحيح. الأسئلة ذات جوابين صحيحين إما تدعم قبولهما صراحة أو تعود إلى استرجاع ذاتي.",
+      "verification": "إعادة إنتاج حتمية على makeQuiz الفعلي في study-evidence/logic-reproductions.test.cjs، S002؛ صحة العددين الأوليين حقيقة مباشرة. ضعف صلاحية التوليد مصنف خطر تصميم، وليس ادعاءً بفشل كل المكتبة أو أداء المتعلم.",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/core.ts#L176-L188",
+        "https://super-memory.com/articles/20rules.htm",
+        "https://andymatuschak.org/prompts/"
+      ],
+      "raw_kind": "design-risk",
+      "raw_severity": "high",
+      "area": "study",
+      "area_ar": "الدراسة والبطاقات",
+      "original_file": "src/core.ts",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/core.ts#L176-L188",
+      "supporting_source_urls": [
+        "https://super-memory.com/articles/20rules.htm",
+        "https://andymatuschak.org/prompts/"
+      ],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "fixed-verified",
+      "fix_status": {
+        "id": "S002",
+        "status": "fixed-verified",
+        "scope_ar": "استبدال الاختيار المتعدد من أجوبة عشوائية بتدريب استرجاع ثم كشف الإجابة وتقييم الطالب لنفسه.",
+        "verification": "74 اختبار منطق و YouTube و 7 اختبارات StudyQuiz ، وفق سجل الدور.",
+        "evidence": "../flow-20261103/study/summary.json",
+        "limits_ar": "ليس تصحيحًا دلاليًا أو درجة اختبار موضوعية؛ لا يغير جدولة المراجعة.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      }
+    },
+    {
+      "id": "A001",
+      "title_ar": "اختيار مسار تجهيز لا يحقق إدارة النماذج الجاهزة",
+      "kind": "requirement-gap",
+      "severity": "P1",
+      "file": "expo-preview/src/AIWorkspace.tsx",
+      "line_start": 50,
+      "line_end": 62,
+      "evidence": "يوجد زران يبدلان modelSetup فقط. التنزيل Linking.openURL خارجي. contracts.ts:6–13 يعرّف نموذجًا مرجعيًا واحدًا؛ engine-entry.mjs:69–76 يعطل تخزين النماذج، وLocalAILab.tsx:63–64 يعطل التخزين المؤقت ويستخدم incognito.",
+      "scenario": "طالب جديد يحتاج فتح المتصفح، تنزيل 639 MB، معرفة موضع الملف ثم اختياره يدويًا داخل المختبر. لا قائمة نماذج مثبتة أو اختيار بين نماذج موثقة.",
+      "impact_ar": "أهم مطلب للمستخدم ما زال غير منفذ؛ تغيير النصوص خفف الشرح ولم يُلغِ الإعداد اليدوي.",
+      "fix_ar": "مدير نماذج أصلي بمصدر مثبت وحالة تنزيل/تحقق/جاهز، وإلغاء واسترداد ومساحة متاحة؛ اربطه بمحرك يدعم قراءة الملف المحلي. لا تفعّل OPFS افتراضيًا داخل الأصل الحالي دون إثبات.",
+      "acceptance_ar": "من تثبيت نظيف: يختار المستخدم نموذجًا من داخل التطبيق، يرى حجم التنزيل ويتحكم فيه، ثم يعيد فتح التطبيق بلا شبكة ويشغله دون إعادة اختيار ملف. لا تظهر جاهز قبل تحقق الملف ونجاح التحميل.",
+      "verification": "مثبت من تدفق المصدر فقط. لم نجرّب مديرًا بديلًا أو نفترض عمل التخزين في WKWebView.",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/AIWorkspace.tsx#L50-L62",
+        "https://github.com/ngxson/wllama/blob/master/README-dev.md",
+        "https://docs.expo.dev/versions/latest/sdk/webview/"
+      ],
+      "raw_kind": "missing-requirement",
+      "raw_severity": "P1",
+      "area": "ai",
+      "area_ar": "الذكاء المحلي",
+      "original_file": "src/AIWorkspace.tsx",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/AIWorkspace.tsx#L50-L62",
+      "supporting_source_urls": [
+        "https://github.com/ngxson/wllama/blob/master/README-dev.md",
+        "https://docs.expo.dev/versions/latest/sdk/webview/"
+      ],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "open",
+      "fix_status": {
+        "status": "open"
+      }
+    },
+    {
+      "id": "A002",
+      "title_ar": "تبديل التبويب يفقد النص الملصق ومسودة الذكاء قبل المحرر",
+      "kind": "source-bug",
+      "severity": "P1",
+      "file": "expo-preview/src/AIWorkspace.tsx",
+      "line_start": 15,
+      "line_end": 25,
+      "evidence": "sourceText وresult حالات محلية فقط. App.tsx:623–628 يزيل فرع AIWorkspace عند تغيير tab ويغيّر مفتاح ScrollView. حفظ useNoteDraft في App.tsx:121–135 يخص محرر الملاحظة، لا شاشة الذكاء.",
+      "scenario": "يلصق الطالب مصدرًا غير محفوظ أو يحصل على نتيجة، ثم يفتح ملاحظاته للتحقق من معلومة ويرجع إلى المساعد.",
+      "impact_ar": "يفقد عمله دون تحذير أو نقطة استرجاع، ويحتاج إعادة اللصق أو إعادة الاستدلال.",
+      "fix_ar": "احفظ مسودة جلسة الذكاء منفصلة عن اعتماد البطاقات، وارفع حالتها خارج التبويب مع استرجاع محلي. لا تحفظ نتائج جديدة كحقائق معتمدة تلقائيًا.",
+      "acceptance_ar": "اختبار تبديل AI→Notes→AI يحفظ النص والعنوان والمسودة، واختبار إعادة تشغيل يسترجع مسودة غير معتمدة. فشل الحفظ ظاهر ولا يمسح النص.",
+      "verification": "استنتاج حتمي من ملكية الحالة وإزالة المكون؛ لم ينفذ اختبار واجهة جديد في هذا التدقيق.",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/AIWorkspace.tsx#L15-L25",
+        "https://react.dev/learn/preserving-and-resetting-state"
+      ],
+      "raw_kind": "bug/source-proven",
+      "raw_severity": "P1",
+      "area": "ai",
+      "area_ar": "الذكاء المحلي",
+      "original_file": "src/AIWorkspace.tsx",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/AIWorkspace.tsx#L15-L25",
+      "supporting_source_urls": [
+        "https://react.dev/learn/preserving-and-resetting-state"
+      ],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "fixed-verified",
+      "fix_status": {
+        "id": "A002",
+        "status": "fixed-verified",
+        "scope_ar": "مصدر ونتيجة المساعد في جلسة فوق التبويبات، مع تخزين متحقق ومنع الكتابة فوق خانة فشلت قراءتها.",
+        "verification": "38 اختبار Jest للمساعد والجسر و 32 عقود/runtime محاكى وفق الدور؛ إزالة/تركيب الشاشة ثم استعادة الحاضن.",
+        "evidence": "../flow-20261103/ai/verification.json",
+        "limits_ar": "لا حفظ لملف النموذج أو worker ، ولا استدلال جهاز في هذه الأدلة.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      }
+    },
+    {
+      "id": "A003",
+      "title_ar": "الحالة inactive تمسح مسودة وصلت بالفعل إلى واجهة الدراسة",
+      "kind": "source-bug",
+      "severity": "P1",
+      "file": "expo-preview/src/ai/LocalAILab.tsx",
+      "line_start": 46,
+      "line_end": 53,
+      "evidence": "كل state غير active يرسل unload ثم onStatus(cancelled). AIWorkspace.tsx:85 يستدعي setResult(null) لكل cancelled، حتى إذا كانت المسودة وصلت سابقًا عبر onResult. unload يمسح draft وresult في engine-entry.mjs:88–92.",
+      "scenario": "بعد ظهور مسودة المراجعة في رُسوخ، يفتح المستخدم مركز الإشعارات أو ينتقل مؤقتًا لتطبيق آخر ثم يعود. توثيق React Native يذكر Notification Center ضمن inactive على iOS.",
+      "impact_ar": "إيقاف الحساب يزيل أيضًا نص النتيجة الذي لا يحتاج بقاء المحرك؛ إعادة اختيار النموذج والاستدلال تصبح مطلوبة بلا سبب دراسي.",
+      "fix_ar": "افصل إيقاف المحرك عن دورة حياة مسودة الدراسة. احتفظ بالنتيجة المعاد التحقق منها محليًا عند المقاطعة، مع إبطال الرسائل المتأخرة وعدم استئناف الحساب في الخلفية تلقائيًا.",
+      "acceptance_ar": "بعد نتيجة صالحة، inactive ثم active لا يمسحان المصدر أو المسودة؛ generation قد توقف، والنتائج المتأخرة تُرفض. اختبر مركز الإشعارات وFiles والمكالمة على آيفون.",
+      "verification": "سلسلة callbacks مثبتة في المصدر. أحداث منتقي Files الفعلية على آيفون لم تُرصد؛ ليست ادعاء تعطل مثبت لذلك المنتقي.",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/ai/LocalAILab.tsx#L46-L53",
+        "https://reactnative.dev/docs/appstate"
+      ],
+      "raw_kind": "bug/source-proven",
+      "raw_severity": "P1",
+      "area": "ai",
+      "area_ar": "الذكاء المحلي",
+      "original_file": "src/ai/LocalAILab.tsx",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/ai/LocalAILab.tsx#L46-L53",
+      "supporting_source_urls": [
+        "https://reactnative.dev/docs/appstate"
+      ],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "fixed-verified",
+      "fix_status": {
+        "id": "A003",
+        "status": "fixed-verified",
+        "scope_ar": "الخطأ والإلغاء وإيقاف المحرك لا تمحو نتيجة مكتملة وصلت إلى الحاضن؛ draft متحقق يرسل قبل الاعتماد في الدراسة.",
+        "verification": "اختبارات انتقالات الحالة والجسر والحدث التلقائي ضمن 38 Jest و 32 runtime/contracts.",
+        "evidence": "../flow-20261103/ai/verification.json",
+        "limits_ar": "نتيجة لم تصل للحاضن قبل إبطال الطلب لا يمكن الادعاء باسترجاعها.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      }
+    },
+    {
+      "id": "A004",
+      "title_ar": "تغيير مصدر الدراسة يجبر المستخدم على إعادة تحميل النموذج",
+      "kind": "requirement-gap",
+      "severity": "P1",
+      "file": "expo-preview/src/AIWorkspace.tsx",
+      "line_start": 64,
+      "line_end": 86,
+      "evidence": "جميع حقول اختيار المصدر مخفية عند running=true. المتاح للخروج هو setRunning(false)، فيزال Engine. إعادة فتحه تنشئ WebView جديدًا بلا النموذج. الجسر نفسه يقبل source جديدًا أثناء ready في engine-entry.mjs:186–197 لكن الواجهة لا تتيح ذلك.",
+      "scenario": "يريد الطالب إنشاء سؤال من المقطع الثاني أو ملاحظة أخرى بعد انتهائه من الأول.",
+      "impact_ar": "كل مقطع يتطلب إغلاق المحرك وإعادة اختيار GGUF وتحميله، ثم المرور بمراجعة WebView ومراجعة رُسوخ ومحرر الملاحظة قبل إنشاء البطاقات.",
+      "fix_ar": "أبقِ اختيار المصدر متاحًا عندما يكون المحرك غير مشغول، مع حماية المسودة السابقة. أضف إجراء استخدام هذا المصدر من الملاحظة، ثم اعتماد بطاقات محددة بعد مراجعة واضحة دون تكرار شاشة التأكيد.",
+      "acceptance_ar": "يعالج المستخدم مقطعين متتاليين بتحميل نموذج واحد، ويُلغى العمل القديم عند تغيير المصدر أثناء الانشغال، ولا تضيع مسودة سابقة دون اختيار. لا تُحفظ بطاقات قبل الاعتماد.",
+      "verification": "مثبت من شروط العرض ومن وجود مسار تحديث المصدر غير المستخدم. لم نقس زمن تحميل الجهاز.",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/AIWorkspace.tsx#L64-L86"
+      ],
+      "raw_kind": "missing-requirement",
+      "raw_severity": "P1",
+      "area": "ai",
+      "area_ar": "الذكاء المحلي",
+      "original_file": "src/AIWorkspace.tsx",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/AIWorkspace.tsx#L64-L86",
+      "supporting_source_urls": [],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "fixed-verified",
+      "fix_status": {
+        "id": "A004",
+        "status": "fixed-verified",
+        "scope_ar": "اختيار المصدر يبقى متاحًا مع نموذج جاهز في الشاشة؛ تحديث المصدر يستعمل instance نفسه ويمنع callbacks السابقة.",
+        "verification": "runtime StubWllama والتحقق من بقاء instance واحد، وتعطيل تغيير المصدر أثناء التحميل والتوليد.",
+        "evidence": "../flow-20261103/ai/verification.json",
+        "limits_ar": "إعادة استعمال داخل الشاشة فقط؛ مغادرتها أو تفريغ المحرك يتطلب اختيار الملف مجددًا، بلا إثبات أداء هاتف.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      }
+    },
+    {
+      "id": "A010",
+      "title_ar": "لا دليل تشغيل للنسخة الحالية على آيفون ولا ميزانية ذاكرة مثبتة",
+      "kind": "device-gap",
+      "severity": "P1",
+      "file": "expo-preview/src/ai/engine-manifest.json",
+      "line_start": 6,
+      "line_end": 11,
+      "evidence": "المورد الحالي HTML=21853775 بايت وWASM=16005007، والنموذج المرجعي639446688 بايت. engine-entry.mjs:133 يثبت CPU بخيط واحد وn_ctx=2048. سجل evidence/v04/actual-ai-browser.json يصرح Chrome Linux وبصمات HTML أقدم. verification.json للإصدار0.5.0 يحتوي اختبارات وتصديرًا، لا قياسات جهاز.",
+      "scenario": "آيفون المستخدم يفتح المختبر ثم يختار النموذج ويولد دون اتصال، مع مقاطعة أو نقص ذاكرة.",
+      "impact_ar": "لا يمكن الجزم بإتمام أهم رحلة AI أو اختيار نموذج مناسب للجهاز أو سلامة البطارية والحرارة، مهما نجحت اختبارات المحاكاة.",
+      "fix_ar": "بوابة قبول جهاز تسجل موديل الآيفون/iOS/Expo والذاكرة ووقت التحميل وأول رمز والتوليد والمقاطعات والاستئناف دون شبكة. اجعل توصية النموذج تابعة لهذه النتائج.",
+      "acceptance_ar": "سجل مستقل قابل لإعادة الاختبار للـSHA الحالي على آيفون حقيقي، يشمل قتل WebView ونقص المساحة ومصدرًا محفوظًا محليًا. لا تستخدم حجم GGUF كبديل لاستهلاك الذاكرة.",
+      "verification": "مقارنة سجلات ومستندات المصدر فقط؛ لا توجد قياسات جهاز جديدة في هذه المهمة.",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/ai/engine-manifest.json#L6-L11",
+        "https://docs.expo.dev/versions/latest/sdk/webview/",
+        "https://github.com/react-native-webview/react-native-webview/blob/master/docs/Reference.md"
+      ],
+      "raw_kind": "device-validation-gap",
+      "raw_severity": "P1",
+      "area": "ai",
+      "area_ar": "الذكاء المحلي",
+      "original_file": "src/ai/engine-manifest.json",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/ai/engine-manifest.json#L6-L11",
+      "supporting_source_urls": [
+        "https://docs.expo.dev/versions/latest/sdk/webview/",
+        "https://github.com/react-native-webview/react-native-webview/blob/master/docs/Reference.md"
+      ],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "open",
+      "fix_status": {
+        "status": "open"
+      }
+    },
+    {
+      "id": "A011",
+      "title_ar": "اختبارات العقود لا تقيس منفعة الأسئلة العربية أو صحة الاستنتاج",
+      "kind": "requirement-gap",
+      "severity": "P1",
+      "file": "expo-preview/src/ai/contracts.ts",
+      "line_start": 42,
+      "line_end": 53,
+      "evidence": "التحقق يختبر حقولًا وحدودًا وحروفًا عربية وشاهدًا substring. evidence/v04/actual-ai-browser.json:16–20 يقر بحالتين عربيتين فقط ونتائج إخفاق سابقة؛ لا مجموعة تقييم واسعة للنسخة الحالية. بطاقة Qwen الرسمية تعلن تعدد اللغات ولا تثبت إعداد رُسوخ.",
+      "scenario": "إجابة عربية خاطئة أو غير مسندة تُرفق بجملة صحيحة من النص؛ القواعد الشكلية قد تقبلها.",
+      "impact_ar": "يبقى الطالب مضطرًا للتحقق من المنطق بنفسه دون معيار معلن لجودة التوليد، ولا نعرف أين يوفر المساعد وقتًا فعليًا.",
+      "fix_ar": "مجموعة تقييم عربية بشرية تشمل مواد مختلفة ونفيًا وأرقامًا ونصوصًا بلا جواب وحقن تعليمات؛ قياس صحة الإجابة ودعم الشاهد والفائدة والتكرار والرفض لكل نموذج وإعداد.",
+      "acceptance_ar": "تقرير نتائج مفصول بحسب الفئة، مع الأمثلة الفاشلة وحد قبول معلن قبل توصية نموذج. لا يُحسب استخراج شاهد حرفي نجاحًا دلاليًا وحده.",
+      "verification": "فجوة تقييم مثبتة بحدود الاختبارات والسجلات المقروءة؛ لم يُستنتج أداء جديد من بطاقة النموذج.",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/ai/contracts.ts#L42-L53",
+        "https://huggingface.co/Qwen/Qwen3-0.6B-GGUF/blob/23749fefcc72300e3a2ad315e1317431b06b590a/README.md"
+      ],
+      "raw_kind": "missing-requirement",
+      "raw_severity": "P1",
+      "area": "ai",
+      "area_ar": "الذكاء المحلي",
+      "original_file": "src/ai/contracts.ts",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/ai/contracts.ts#L42-L53",
+      "supporting_source_urls": [
+        "https://huggingface.co/Qwen/Qwen3-0.6B-GGUF/blob/23749fefcc72300e3a2ad315e1317431b06b590a/README.md"
+      ],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "open",
+      "fix_status": {
+        "status": "open"
+      }
+    },
+    {
+      "id": "D002",
+      "title_ar": "حفظ محتوى مسموح قد يجعل المكتبة أكبر من كل مسارات النسخ والاستعادة",
+      "kind": "reproduced-bug",
+      "severity": "P2",
+      "file": "expo-preview/src/core.ts",
+      "line_start": 18,
+      "line_end": 23,
+      "evidence": [
+        "App.tsx:259–260 يقبل حتى مليون حرف لكل ملاحظة، وsaveNoteAndCards لا يفرض حدًا إجماليًا للمكتبة. serializeBackup يرفض ما فوق 15 MiB، وexportPortableFolder يستعمله أيضًا (src/backup/portable.ts:119).",
+        "src/storage.ts:163–170 يستعمل serializeBackup لنقطة الرجوع، ولذلك استعادة نسخة صغيرة تتعطل عندما تكون المكتبة الحالية أكبر من الحد.",
+        "docs/research/devils-audit-20261103/data-evidence/storage-probes.log: حُفظت 9 ملاحظات × 999990 حرف عربي؛ JSON UTF-8 حجمه 18001085 بايت أمام حد15728640. فشل التصدير والاستبدال، وبقيت الملاحظات التسع."
+      ],
+      "scenario": "أضف عدة ملاحظات طويلة مسموحة كل على حدة، ثم حاول تصدير JSON أو مجلد شامل أو استعادة نسخة أصغر.",
+      "impact_ar": "يستطيع المستخدم الوصول إلى مكتبة سليمة محفوظة لكن لا يملك التطبيق طريقًا كاملًا لنقلها أو نسخها احتياطيًا أو استبدالها. تصدير Markdown منفرد لا ينقل البطاقات وسجل المراجعة. لم يثبت الاختبار حذفًا أو مشكلة ذاكرة iPhone.",
+      "fix_ar": "اجعل صيغة النسخ ونقاط الرجوع قادرة على تمثيل البيانات التي يسمح المنتج بحفظها، مثل تقسيم البيانات أو تدفقها، مع فحص قبل الكتابة. إذا بقي حد إجمالي فليكن ظاهرًا وقابلًا للإدارة قبل تجاوزه مع طريق إخراج لا يتطلب حذف محتوى.",
+      "acceptance_ar": "مكتبة السيناريو ذات18001085 بايت تُصدر وتُستعاد كاملة مع أعداد وحقول مطابقة، أو يسبق تجاوز الحد تحذير قابل للتصرف وإخراج كامل. فشل أي عملية لا يغير بيانات المصدر.",
+      "verification": {
+        "status": "reproduced",
+        "method": "حفظ ومعاينة واستعادة فوق Node SQLite الحقيقي؛ قياس UTF-8 للملف لا ذاكرة الجهاز.",
+        "command": "node docs/research/devils-audit-20261103/data-evidence/storage-probes.cjs",
+        "artifacts": [
+          "docs/research/devils-audit-20261103/data-evidence/storage-probes.cjs",
+          "docs/research/devils-audit-20261103/data-evidence/storage-probes.log"
+        ]
+      },
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/core.ts#L18-L23"
+      ],
+      "raw_kind": "bug",
+      "raw_severity": "P2",
+      "area": "data",
+      "area_ar": "البيانات والاسترجاع",
+      "original_file": "src/core.ts",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/core.ts#L18-L23",
+      "supporting_source_urls": [],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "open",
+      "fix_status": {
+        "id": "D002",
+        "status": "open",
+        "partial_progress_ar": "أضيف إنقاذ مستقل بصيغة SQLite حتى 512MiB يشمل الدراسة و meta والمسودات والتفضيلات ونقاط الرجوع، مع تحقق integrity/foreign keys وبقاء المصدر مفتوحًا. مثال المكتبة 9 ملاحظات أكبر من JSON أعطى نسخة SQLite قابلة للفحص.",
+        "remaining_ar": "حد JSON15MiB باقٍ، ولا استعادة SQLite داخل التطبيق، ولا وسائط داخل ملف الإنقاذ؛ لذلك لا دورة نسخ/استعادة داخل المنتج ولا إغلاق لـ D002.",
+        "verification": "31 اختبار بيانات مستهدفًا تشمل الإنقاذ؛ Node SQLite حقيقي وموائم Expo ، لا Files/iCloud على iPhone.",
+        "evidence": "../flow-20261103/data/data-result.json",
+        "device_verified": false
+      }
+    },
+    {
+      "id": "D004",
+      "title_ar": "فشل بيانات الصورة الوصفية يترك صورة غير قابلة للاستعادة من المكتبة بعد فقد نسخة cache",
+      "kind": "reproduced-bug",
+      "severity": "P2",
+      "file": "expo-preview/src/media/library.ts",
+      "line_start": 54,
+      "line_end": 71,
+      "evidence": [
+        "يُنسخ payload إلى documents قبل نشر ملف JSON. إعادة المحاولة تشترط وجود source أولًا (:54–55) حتى إن كان target المكتمل موجودًا.",
+        "loadMediaLibrary(true) يستعيد تسجيلات Audio/ExpoAudio فقط (:83–95) ويكتشف المكتبة عبر *.json فقط (:98–105). لا يُظهر payload الصورة اليتيم ولا تحذيرًا بشأنه.",
+        "pendingPhoto موجود في useState فقط (MediaCapturePanel.tsx:53,119–121)، فيفقد عند إعادة تركيب الشاشة.",
+        "docs/research/devils-audit-20261103/data-evidence/media-audit.ui.test.jsx: فشل كتابة metadata، بقي photo-1.jpg؛ بعد فقد source cache عاد recovery items=[] وwarnings=[]، وفشلت retry رغم بقاء payload."
+      ],
+      "scenario": "تلتقط صورة؛ ينجح نسخ الصورة ثم تفشل كتابة metadata بسبب امتلاء التخزين أو انقطاع. تُعاد الشاشة/التطبيق وتختفي نسخة cache الأصلية.",
+      "impact_ar": "بايتات الصورة باقية داخل التطبيق لكنها غير متاحة من المكتبة أو المشاركة أو النسخة الشاملة، ولا يوجد تحذير يوجه المستخدم لاستعادتها. ليس ادعاءً بأن save أعلن نجاحًا؛ الخطأ الأول يظهر، لكن طريق إعادة المحاولة لا يستمر بعد إعادة الفتح.",
+      "fix_ar": "اكتب سجل نية متينًا قبل النسخ أو أصلح metadata من payload متحقق منه عند الفتح. احتفظ بمعلومات الصورة المعلقة خارج React، واجعل retry تستخدم النسخة الداخلية المكتملة عند غياب cache. أبلغ عن الملفات اليتيمة بدل تجاهلها.",
+      "acceptance_ar": "احقن فشلًا بعد نسخ jpg وقبل نشر JSON، أزل مصدر cache وأعد الفتح؛ تظهر الصورة مرة واحدة أو عملية استعادة واضحة تعيدها مع إمكانية المشاركة. لا يحذف فشل الإصلاح payload الأصلي.",
+      "verification": {
+        "status": "reproduced",
+        "method": "دوال library الحقيقية مع filesystem adapter في الذاكرة؛ ليس إثبات أعطال تخزين iOS.",
+        "command": "./node_modules/.bin/jest --config docs/research/devils-audit-20261103/data-evidence/jest.config.cjs --runInBand",
+        "artifacts": [
+          "docs/research/devils-audit-20261103/data-evidence/media-audit.ui.test.jsx",
+          "docs/research/devils-audit-20261103/data-evidence/ui-probes.log"
+        ]
+      },
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/media/library.ts#L54-L71"
+      ],
+      "raw_kind": "bug",
+      "raw_severity": "P2",
+      "area": "data",
+      "area_ar": "البيانات والاسترجاع",
+      "original_file": "src/media/library.ts",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/media/library.ts#L54-L71",
+      "supporting_source_urls": [],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "fixed-verified",
+      "fix_status": {
+        "id": "D004",
+        "status": "fixed-verified",
+        "scope_ar": "حفظ الوسائط عبر staging والتحقق من الحجم؛ استرجاع metadata معلقة صالحة وإظهار اليتيم القابل للاستعادة مع تحذير.",
+        "verification": "77 اختبار وسائط وتذكير مستهدفًا، وانحسار النسخ المحمول؛ includes أخطاء النسخ الجزئي والبيانات الوصفية.",
+        "evidence": "../flow-20261103/media/result.json",
+        "limits_ar": "موائم filesystem محاكى؛ لا ضمان تحمل كل انقطاع طاقة، والملف القديم بلا metadata لا يثبت اكتماله من الاسم وحده.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      }
+    },
+    {
+      "id": "D006",
+      "title_ar": "سلامة المسارات الأصلية للملفات والتسجيل وتسليم الإشعار لم تُثبت على iPhone في الأدلة المفحوصة",
+      "kind": "device-gap",
+      "severity": "P2",
+      "file": "expo-preview/src/backup/PORTABLE_BACKUP.md",
+      "line_start": 39,
+      "line_end": 43,
+      "evidence": [
+        "PORTABLE_BACKUP.md:41–43 يصرح بأن الملفات وSHA-256 اختُبرت بموائم memory filesystem وأن Files/iCloud ونفاد المساحة على الجهاز لم تُختبر.",
+        "src/reminders/README.md:20,24–32 يميز native mocks عن تسليم الإشعار ويترك اختبار الهاتف مطلوبًا.",
+        "tests/media-native.ui.test.jsx:1–15 يستبدل AudioModule وRecorder وfilesystem بمزيّفات؛ اختبارات الجلسة تتحقق من الترتيب لا من صلاحية الملف الصوتي بعد مكالمة أو تعليق النظام."
+      ],
+      "scenario": "تصدير مجلد إلى Files/iCloud ثم إعادة فتحه، أو خروج/مكالمة أثناء تسجيل، أو انتظار تذكير والهاتف مقفل.",
+      "impact_ar": "لا يمكن تحويل نجاح اختبارات المنطق إلى ضمان بأن الملفات قابلة للاستعادة أو التسجيل صالح أو الإشعار وصل في بيئة الهاتف. هذه فجوة دليل، وليست عطلًا أصليًا مثبتًا.",
+      "fix_ar": "نفذ مصفوفة قبول على iPhone وسجل نسخة iOS وExpo Go/البناء والجهاز ومزود الملفات، مع hashes قبل/بعد وملف تسجيل قابل للتشغيل وصور الإشعارات. أبقِ الصياغة التجريبية حتى ذلك.",
+      "acceptance_ar": "تصدير ثم إغلاق/إعادة فتح واستعادة على تثبيت فارغ من On My iPhone ومن iCloud مع تطابق المحتوى والوسائط؛ تسجيل ثم background/مكالمة واستعادة وتشغيل؛ تفعيل/تعديل/إلغاء تذكير وفحص وصوله وعدم وصول القديم. احتفظ بالمصدر أثناء التجربة.",
+      "verification": {
+        "status": "source-proven-gap",
+        "method": "قراءة حدود الاختبارات والتوثيق المحلي؛ لم يتوفر اختبار جهاز في هذا التدقيق.",
+        "artifacts": [
+          "docs/research/devils-audit-20261103/data-evidence/source-hashes.json"
+        ]
+      },
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/backup/PORTABLE_BACKUP.md#L39-L43"
+      ],
+      "raw_kind": "device-validation-gap",
+      "raw_severity": "P2",
+      "area": "data",
+      "area_ar": "البيانات والاسترجاع",
+      "original_file": "src/backup/PORTABLE_BACKUP.md",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/backup/PORTABLE_BACKUP.md#L39-L43",
+      "supporting_source_urls": [],
+      "merged_ids": [
+        "X206"
+      ],
+      "merged_findings": [
+        {
+          "id": "X206",
+          "title_ar": "اختبار أول إذن للميكروفون مطلوب مع سياسة الإيقاف عند inactive",
+          "kind": "device-gap",
+          "severity": "P2",
+          "file": "expo-preview/src/media/MediaCapturePanel.tsx",
+          "line_start": 94,
+          "line_end": 94,
+          "evidence": "أي AppState غير active يمرر false إلى session.setActive. AudioCaptureSession.ts:151–153 يزيد generation؛ start:71–77 ينتظر إذن الميكروفون ثم يعود idle إذا تغير الجيل، حتى لو منح المستخدم الإذن. توثيق RN يفرق بين inactive وbackground. لا دليل هنا على أن نافذة إذن إصدار iOS المستهدف تصدر inactive فعلًا.",
+          "scenario": "على تثبيت جديد يضغط المستخدم «بدء التسجيل»، تظهر نافذة إذن النظام، ثم يوافق. يجب مراقبة أحداث AppState الحقيقية أثناء هذه النافذة.",
+          "impact_ar": "إذا صدر inactive أثناء الإذن، يُلغى الطلب دون تسجيل ولا رسالة تشرح وجوب الضغط مرة ثانية. هذه فرضية انتقال نظام قابلة للاختبار، لا عيب native مثبت.",
+          "fix_ar": "سجل تسلسل الحالات على جهاز. إذا تحقق السيناريو، ميّز طلب الإذن المتوقع عن مغادرة فعلية أو اشرح بوضوح أن الإذن مُنح وأن ضغطة جديدة لازمة؛ حافظ على التوقف الآمن عند المكالمة والخلفية.",
+          "acceptance_ar": "تحقق من تثبيت جديد: السماح والرفض والعودة من الإعدادات والمكالمة وفتح مركز التحكم. لا يبدأ تسجيل خفي، ولا تعلق الواجهة في preparing، ويعرف المستخدم بدقة هل بدأ التسجيل بعد الموافقة.",
+          "verification": "مسار الإلغاء مشروط ومثبت من الكود؛ صدور inactive من نافذة الإذن نفسها لم يُتحقق منه على iPhone.",
+          "source_urls": [
+            "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/media/MediaCapturePanel.tsx#L94",
+            "https://reactnative.dev/docs/appstate"
+          ],
+          "raw_kind": "device-validation gap",
+          "raw_severity": "P2",
+          "area": "access-sources",
+          "area_ar": "الوصول والصوت والمصادر",
+          "original_file": "src/media/MediaCapturePanel.tsx",
+          "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+          "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/media/MediaCapturePanel.tsx#L94",
+          "supporting_source_urls": [
+            "https://reactnative.dev/docs/appstate"
+          ],
+          "merged_ids": [],
+          "merged_findings": [],
+          "status": "open",
+          "fix_status": {
+            "status": "open"
+          }
+        }
+      ],
+      "status": "open",
+      "fix_status": {
+        "status": "open"
+      }
+    },
+    {
+      "id": "D007",
+      "title_ar": "مكتبة الوسائط لا توفر حذف ملف محفوظ لتصحيح الإدخال أو تحرير المساحة",
+      "kind": "requirement-gap",
+      "severity": "P2",
+      "file": "expo-preview/src/media/MediaCapturePanel.tsx",
+      "line_start": 168,
+      "line_end": 179,
+      "evidence": [
+        "أفعال الوسيط المنشور محصورة بالاستماع وإغلاق المشغل والمشاركة؛ لا يوجد فعل حذف.",
+        "src/media/library.ts يصدّر save/load/mediaUri/validation وتتبع التسجيل فقط؛ الحذف الوحيد في :73–74 ينظف مصدر تسجيل مكرر، ولا يحذف عنصرًا من المكتبة.",
+        "النسخ الشامل محدود512 MiB و1000 عنصر (src/backup/portable.ts:8–9)، بينما يمكن إضافة وسائط لاحقة بلا إدارة إزالة داخل التطبيق."
+      ],
+      "scenario": "يحفظ المستخدم صورة خاطئة أو تسجيلًا غير مرغوب أو يريد إزالة ملفات كبيرة بعد تصديرها.",
+      "impact_ar": "لا يستطيع تصحيح المكتبة أو تحرير مساحة عنصر بعينه من المنتج؛ مشاركة الملف لا تزيله من التطبيق. قد تتراكم وسائط لا يريدها وتتجاوز حدود النسخة الشاملة. هذا نقص في إدارة محتوى المستخدم، لا حذف تلقائي مثبت.",
+      "fix_ar": "أضف حذفًا محددًا لعنصر مع تأكيد واضح وفصل أخطاء حذف payload وmetadata وإمكانية التراجع إن كانت متاحة. أبقِ العناصر الأخرى والنسخ الخارجية دون تغيير.",
+      "acceptance_ar": "حذف صورة وتسجيل محددين يزيلهما من العرض وإعادة الفتح فقط بعد نجاح العملية؛ الإلغاء أو فشلfilesystem لا يعلن حذفًا ناجحًا ولا يؤثر في عناصر أخرى، والحذف أثناء التشغيل يعالج المشغل بأمان.",
+      "verification": {
+        "status": "source-proven",
+        "method": "قراءة أفعال كل عنصر ومجموع exports في مكتبة الوسائط؛ لم يُغيّر المنتج.",
+        "artifacts": [
+          "docs/research/devils-audit-20261103/data-evidence/source-hashes.json"
+        ]
+      },
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/media/MediaCapturePanel.tsx#L168-L179"
+      ],
+      "raw_kind": "missing-requirement",
+      "raw_severity": "P2",
+      "area": "data",
+      "area_ar": "البيانات والاسترجاع",
+      "original_file": "src/media/MediaCapturePanel.tsx",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/media/MediaCapturePanel.tsx#L168-L179",
+      "supporting_source_urls": [],
+      "merged_ids": [
+        "X203"
+      ],
+      "merged_findings": [
+        {
+          "id": "X203",
+          "title_ar": "لا يستطيع المستخدم حذف وسيط التقطه بالخطأ من المكتبة",
+          "kind": "design-risk",
+          "severity": "P2",
+          "file": "expo-preview/src/media/MediaCapturePanel.tsx",
+          "line_start": 168,
+          "line_end": 179,
+          "evidence": "إجراءات كل وسيط هي الاستماع والمشاركة فقط. راجعت src/media/library.ts كاملاً: توجد saveCapturedMedia/loadMediaLibrary/mediaUri ولا توجد عملية حذف عنصر محفوظ؛ source.delete في السطر74 ينظف التسجيل الأصلي بعد النسخ ولا يحذف عنصر المكتبة بطلب المستخدم. المكوّن يصرح بأن الملفات داخل بيانات التطبيق.",
+          "scenario": "يلتقط المستخدم صورة شخصية أو يسجل حديثًا بالخطأ، ثم يريد إزالة هذا الملف وحده دون حذف التطبيق وكل ملاحظاته.",
+          "impact_ar": "احتفاظ غير مرغوب ببيانات حساسة واستهلاك مساحة؛ هذا قصور تحكم وخصوصية، وليس دليل إرسال البيانات لخادم أو اختراق.",
+          "fix_ar": "أضف حذفًا واضحًا لكل وسيط بتأكيد يذكر عنوانه، وأوقف تشغيله قبل الحذف، واحذف ملفه وبيان فهرسته مع معالجة فشل جزئي؛ لا تزعم حذف النسخ التي سبق للمستخدم تصديرها.",
+          "acceptance_ar": "يمكن حذف صورة وتسجيل محددين مع بقاء بقية البيانات؛ لا يعود العنصر بعد تحديث المكتبة أو تشغيل التطبيق أو التصدير اللاحق؛ إلغاء التأكيد لا يغير الملفات، وفشل الحذف يظهر سببه.",
+          "verification": "غياب مسار الحذف ثابت من واجهة المكتبة وواجهتها البرمجية الحالية؛ أولوية الحل استنتاج تصميمي لحماية تحكم المستخدم، لا متطلب صريح جرى افتراض وجوده.",
+          "source_urls": [
+            "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/media/MediaCapturePanel.tsx#L168-L179"
+          ],
+          "raw_kind": "design risk",
+          "raw_severity": "P2",
+          "area": "access-sources",
+          "area_ar": "الوصول والصوت والمصادر",
+          "original_file": "src/media/MediaCapturePanel.tsx",
+          "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+          "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/media/MediaCapturePanel.tsx#L168-L179",
+          "supporting_source_urls": [],
+          "merged_ids": [],
+          "merged_findings": [],
+          "status": "open",
+          "fix_status": {
+            "status": "open"
+          }
+        }
+      ],
+      "status": "fixed-verified",
+      "fix_status": {
+        "id": "D007",
+        "status": "fixed-verified",
+        "scope_ar": "نقل وسيط محدد إلى محذوفات قابلة للاستعادة، وحذف نهائي بتأكيد مستقل؛ معالجة فشل payload/metadata وإيقاف الصوت المعلق.",
+        "verification": "اختبارات النقل والاستعادة والحذف والفشل الجزئي وإيقاف التشغيل ضمن 77 اختبارًا؛ انحسار النسخ المحمول مسجل.",
+        "evidence": "../flow-20261103/media/result.json",
+        "limits_ar": "ليس filesystem transaction ذريًا. الحذف النهائي لا يُعكس ولا يحذف نسخًا صدرها الطالب خارج التطبيق. يشمل الدليل المدمج X203.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      }
+    },
+    {
+      "id": "D008",
+      "title_ar": "مسودة البطاقة اليدوية لا تملك استرجاعًا مماثلًا لمسودة الملاحظة",
+      "kind": "design-risk",
+      "severity": "P2",
+      "file": "expo-preview/App.tsx",
+      "line_start": 57,
+      "line_end": 59,
+      "evidence": [
+        "cardEditorNoteId/question/answer محفوظة في useState فقط.",
+        "الحفظ المؤجل وعند AppState غيرactive في App.tsx:121–135 مقصور على editorOpen وdraftTitle/draftBody، ولا يتناول حقول البطاقة.",
+        "closeCard:304–307 يسأل عند الإغلاق الصريح، لكن لا توجد كتابة durable لحقول السؤال والإجابة قبل commitCard:309–321."
+      ],
+      "scenario": "يكتب المستخدم بطاقة يدوية طويلة، يترك التطبيق دون نشرها ثم ينهي النظام العملية أو يُعاد فتح التطبيق.",
+      "impact_ar": "الحقول غير المنشورة غير قابلة للاسترجاع من التخزين الحالي ويضطر المستخدم لإعادتها. هذا خطر ناتج عن عدم الاستمرار؛ لم يُختبر قتل عملية iPhone ولم يدّع المنتج هنا حفظ البطاقة قبل النشر.",
+      "fix_ar": "مدد آلية المسودة لتشمل نوع البطاقة ومعرّف الملاحظة والسؤال والإجابة، أو قدم حفظ مسودة صريحًا. تحقق عند الاستعادة من بقاء الملاحظة الأصلية ولا تنشر بطاقة تلقائيًا.",
+      "acceptance_ar": "اكتب السؤال والإجابة، احفظ/اترك المسودة وأعد تركيب التطبيق؛ استرجع النصين دون إنشاء بطاقة منشورة. حذف الملاحظة الأصلية يعرض معالجة واضحة، وفشل حفظ المسودة يبقي الحقول قابلة للتصدير أو المحاولة.",
+      "verification": {
+        "status": "source-proven-risk",
+        "method": "تتبع حالة حقول البطاقة ومواضع persist؛ لا ادعاء اختبار إنهاء العملية على هاتف.",
+        "artifacts": [
+          "docs/research/devils-audit-20261103/data-evidence/source-hashes.json"
+        ]
+      },
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/App.tsx#L57-L59"
+      ],
+      "raw_kind": "risk",
+      "raw_severity": "P2",
+      "area": "data",
+      "area_ar": "البيانات والاسترجاع",
+      "original_file": "App.tsx",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/App.tsx#L57-L59",
+      "supporting_source_urls": [],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "fixed-verified",
+      "fix_status": {
+        "id": "D008",
+        "status": "fixed-verified",
+        "scope_ar": "خانة دائمة لمسودة البطاقة مع هوية المصدر؛ استرجاع النص، وحماية التراجع إلى الأصل، والتجاهل المتسلسل، والتحقق من حفظ snapshot الحالي قبل الإغلاق.",
+        "verification": "15 حالة مراجعة مستقلة نهائية، ومنها App remount لمحارف التحكم، clear/background/unmount والتراجع أثناء حفظ معلق.",
+        "evidence": "../flow-20261103/independent-review.json",
+        "limits_ar": "تخزين و AppState محاكيان؛ لا اختبار قتل عملية iPhone أو نقص مساحة فعلية.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      }
+    },
+    {
+      "id": "N002",
+      "title_ar": "اكتشاف الأداة وإضافتها للمساحة مساران منفصلان يعيدان المستخدم للبحث عنها",
+      "kind": "design-risk",
+      "severity": "P2",
+      "file": "expo-preview/App.tsx",
+      "line_start": 471,
+      "line_end": 489,
+      "evidence": "صفوف toolsScreen تنفذ openModule(module.id) فقط؛ لا تتيح الإضافة أو الإزالة. زر تخصيص مساحتي أسفل الدليل يفتح WorkspaceEditor العام، الذي يعرض القوالب والكثافة ثم قائمة الوحدات ومفتاحًا لكل وحدة (WorkspaceEditor.tsx:20–61) وحفظًا منفصلًا (65–70). الوظيفة موجودة، لذلك لا تصنف غيابًا كليًا للتركيب.",
+      "scenario": "يعثر المستخدم في دليل الأدوات على شبكة أفكاري ويريد الاحتفاظ بقسمها. عليه فتح تخصيص عام، وإيجاد الأداة ثانية، وتفعيلها، ثم الحفظ.",
+      "impact_ar": "الانتقال من الاكتشاف إلى التركيب يحتاج إعادة تحديد الشيء الذي اختاره المستخدم بالفعل، ويزيد العمل اليدوي في المهمة التي طلب تبسيطها.",
+      "fix_ar": "أضف إلى صف الأداة إجراء واضحًا لإضافتها للمساحة أو إزالتها، منفصلًا عن فتحها. احفظ التغيير الصغير فورًا مع تراجع قابل للاستخدام، واحتفظ بالمحرر العام للترتيب الجماعي. الإزالة هنا إزالة القسم من العرض فقط.",
+      "acceptance_ar": "من صف الأداة: إضافة واحدة تُظهر الحالة الجديدة وتبقى بعد إعادة التشغيل، وإزالة واحدة تخفي القسم مع خيار تراجع. لا تُستدعى وظائف حذف الملاحظات أو البطاقات. لا يُطلب إعادة العثور على الأداة داخل محرر آخر.",
+      "verification": "تتبع مصدر فقط؛ عدد الخطوات ناتج من المعالجات الظاهرة، ولم يُقَس زمن استخدام على جهاز. خطر تصميم مرتبط بطلب تقليل العمل اليدوي، وليس خطأ في تنفيذ التخصيص الموجود. Apple تعرض الإضافة من معرض العنصر؛ هذا مثال لحل وليس معيارًا إلزاميًا.",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/App.tsx#L471-L489",
+        "https://support.apple.com/guide/iphone/add-edit-and-remove-widgets-iphb8f1bf206/ios"
+      ],
+      "raw_kind": "design-risk",
+      "raw_severity": "P2",
+      "area": "navigation",
+      "area_ar": "التنقل والتخصيص",
+      "original_file": "App.tsx",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/App.tsx#L471-L489",
+      "supporting_source_urls": [
+        "https://support.apple.com/guide/iphone/add-edit-and-remove-widgets-iphb8f1bf206/ios"
+      ],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "fixed-verified",
+      "fix_status": {
+        "id": "N002",
+        "status": "fixed-verified",
+        "scope_ar": "فتح الأداة وإضافة/إزالة قسمها في دليل الأدوات نفسه، مع تحديث العرض بعد نجاح حفظ التفضيلات فقط.",
+        "verification": "55 اختبار واجهة تنقل، تشمل التكامل، و 15 اختبار workspace/source ؛ الأعداد متداخلة ولا تُجمع إلى مجموع جديد.",
+        "evidence": "../flow-20261103/navigation/summary.json",
+        "limits_ar": "الإضافة إظهار قسم أداة مدمجة، وليست تنزيل إضافة أو نموذج.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      }
+    },
+    {
+      "id": "N003",
+      "title_ar": "تقديم قسم ظاهر قد لا يغيّر ترتيبه المرئي بسبب الأقسام المخفية",
+      "kind": "design-risk",
+      "severity": "P2",
+      "file": "expo-preview/src/workspace.ts",
+      "line_start": 55,
+      "line_end": 61,
+      "evidence": "moveModule يبدل عنصرًا مع جاره داخل workspace.modules، بما فيها العناصر المخفية. WorkspaceEditor.tsx:42–58 يعرض أزرار تقديم وتأخير لهذه القائمة، بينما StudyHome.tsx:28 يرشح enabled قبل العرض. مع ظهور notes وai فقط، تقديم ai مرة واحدة ينقله فوق sources المخفي، فتظل الرئيسية notes ثم ai.",
+      "scenario": "يخفي المستخدم معظم الأدوات ويظهر ملاحظاتي والمساعد، ثم يقدم المساعد خطوة ليأتي قبل الملاحظات.",
+      "impact_ar": "الفعل لا يغير ترتيب الأقسام الذي يراه في مساحته، وقد يحتاج تكرار الضغط عبر أقسام لا يستخدمها. الخطر هو عدم تطابق نموذج الترتيب مع مساحة المستخدم، وليس فشل تبديل عناصر المصفوفة.",
+      "fix_ar": "رتّب الأقسام الظاهرة فيما بينها، واعرض الأدوات غير المضافة في قائمة منفصلة. يمكن الإبقاء على أزرار التقديم والتأخير؛ ليس السحب شرطًا للإصلاح.",
+      "acceptance_ar": "عندما تكون الأقسام الظاهرة notes ثم ai، يؤدي تقديم ai مرة واحدة إلى ai ثم notes بغض النظر عن عدد الأقسام المخفية بينهما. لا تضيع مواضع أو حالات الأدوات الأخرى، وتبقى البيانات كما هي.",
+      "verification": "أعيد تنفيذ المصدر الحالي في الذاكرة: visibleBeforeMove=['notes','ai'] وvisibleAfterSingleMove=['notes','ai']. هذا سلوك مثبت؛ تصنيفه مشكلة تجربة استنتاج معلن لأن المحرر الحالي يعرض ترتيب القائمة الكاملة.",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/workspace.ts#L55-L61",
+        "https://support.apple.com/guide/iphone/add-edit-and-remove-widgets-iphb8f1bf206/ios"
+      ],
+      "raw_kind": "design-risk",
+      "raw_severity": "P2",
+      "area": "navigation",
+      "area_ar": "التنقل والتخصيص",
+      "original_file": "src/workspace.ts",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/workspace.ts#L55-L61",
+      "supporting_source_urls": [
+        "https://support.apple.com/guide/iphone/add-edit-and-remove-widgets-iphb8f1bf206/ios"
+      ],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "fixed-verified",
+      "fix_status": {
+        "id": "N003",
+        "status": "fixed-verified",
+        "scope_ar": "تحريك القسم الظاهر مع أقرب قسم ظاهر، دون أن تبتلع الأقسام المخفية خطوة التحريك.",
+        "verification": "اختبارات ترتيب workspace ومحرر الأقسام، ضمن نتائج التنقل المسجلة.",
+        "evidence": "../flow-20261103/navigation/summary.json",
+        "limits_ar": "لا ادعاء قياس حركة أو لمس على جهاز.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      }
+    },
+    {
+      "id": "N004",
+      "title_ar": "زر عرض بطاقاتي لا يفتح قائمة البطاقات",
+      "kind": "source-bug",
+      "severity": "P2",
+      "file": "expo-preview/src/StudyHome.tsx",
+      "line_start": 98,
+      "line_end": 99,
+      "evidence": "حين cardsCount>0 وdueCount=0 يحمل الزر اسم عرض بطاقاتي وينادي onModule('review'). App.tsx:156–159 يغير tab فقط؛ showCards يبدأ false في السطر61، والقائمة محجوبة بشرط showCards في 550–557. فلا تُعرض البطاقات إلا بضغط إدارة البطاقات لاحقًا.",
+      "scenario": "على جلسة جديدة توجد بطاقات مستقبلية ولا بطاقة مستحقة. يضغط المستخدم عرض بطاقاتي من قسم مراجعة اليوم.",
+      "impact_ar": "وعد الإجراء محدد لكن نتيجته شاشة مراجعة فارغة وقائمة مغلقة، فيحتاج المستخدم اكتشاف فعل ثانٍ لتحقيق ما طلبه.",
+      "fix_ar": "اجعل الإجراء يفتح إدارة البطاقات مباشرة عبر مقصد صريح، أو سمّه فتح المراجعة إذا بقي ينقل للشاشة العامة. الأفضل تنفيذ المقصد المعلن لتقليل النقرات.",
+      "acceptance_ar": "بوجود بطاقة مستقبلية وshowCards=false، يؤدي الضغط على عرض بطاقاتي إلى ظهور سؤالها وإجابتها في قائمة الإدارة دون ضغطة إضافية، ولا يسجل مراجعة ولا يغير موعدها.",
+      "verification": "مسار الشرط والمعالج وحارس القائمة مثبت من المصدر الحالي. لم يُشغّل اختبار مخصص لهذه الحالة. اختبارات home/workspace الحالية نجحت 21/21، لكنها لا تغطي انتقال عرض بطاقاتي إلى قائمة مرئية؛ نجاحها لا ينفي هذا المسار.",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/StudyHome.tsx#L98-L99",
+        "https://www.nngroup.com/articles/progressive-disclosure/"
+      ],
+      "raw_kind": "bug/source-proven",
+      "raw_severity": "P2",
+      "area": "navigation",
+      "area_ar": "التنقل والتخصيص",
+      "original_file": "src/StudyHome.tsx",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/StudyHome.tsx#L98-L99",
+      "supporting_source_urls": [
+        "https://www.nngroup.com/articles/progressive-disclosure/"
+      ],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "fixed-verified",
+      "fix_status": {
+        "id": "N004",
+        "status": "fixed-verified",
+        "scope_ar": "فتح إدارة البطاقات عند عدم وجود بطاقات مستحقة؛ عند وجود مراجعة مستحقة تبقى الإدارة مطوية حتى لا تكشف الأجوبة.",
+        "verification": "اختبارا انحسار لمسار App ضمن all_navigation_UI=55 ؛ لا سجل أحمر منفصل لهذين الاختبارين.",
+        "evidence": "../flow-20261103/navigation/summary.json",
+        "limits_ar": "السلوك مصمم لفرع عرض البطاقات عندما تنتهي المستحقات، وليس كشف الإدارة في كل زيارة.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      }
+    },
+    {
+      "id": "N005",
+      "title_ar": "مغادرة أداة ثم الرجوع تعيد حالة العمل المحلية بدل استئنافها",
+      "kind": "design-risk",
+      "severity": "P2",
+      "file": "expo-preview/App.tsx",
+      "line_start": 623,
+      "line_end": 628,
+      "evidence": "يُرسم مقصد واحد فقط داخل ScrollView ذي key=tab؛ تغيير tab يعيد إنشاء شاشات الأدوات. KnowledgeGraph.tsx:14–18 يحتفظ بالبحث والصفحة والتكبير وقائمة العرض في useState محلي يبدأ من الصفر. فتح ملاحظة فوق الشبكة لا يزيلها لأن المحرر Modal؛ هذه الحالة مستثناة من النتيجة.",
+      "scenario": "يفتح المستخدم الشبكة ويصل إلى صفحة متأخرة أو يكتب بحثًا، ثم يفتح الملاحظات من الشريط ويعود للشبكة عبر الأدوات.",
+      "impact_ar": "يضطر لإعادة البحث أو التقليب إلى الصفحة التي كان فيها. هذا يزيد العمل المتكرر حتى لو كانت البيانات نفسها محفوظة.",
+      "fix_ar": "احفظ حالة مقصد الأداة أثناء الجلسة خارج الفرع الذي يُزال، أو استخدم مكدس تنقل يحتفظ بها. استعد البحث والصفحة الصحيحة بعد العودة مع ضبط حدود الصفحة عند تغير البيانات.",
+      "acceptance_ar": "بعد البحث أو الانتقال إلى الصفحة2 من الشبكة ثم فتح تبويب آخر والعودة، يبقى الاستعلام والصفحة والتكبير. بعد حذف عناصر تجعل الصفحة خارج النطاق تُضبط لأقرب صفحة صالحة. يظل إغلاق ملاحظة فوق الشبكة محافظًا على السياق.",
+      "verification": "الـunmount وإعادة قيم useState نتيجة بنيوية للكود؛ لم تُنفذ رحلة جهاز لهذه الحالة. صنفت design-risk لعدم وجود عقد صريح في المنتج يعد بحفظ حالة كل أداة. تقرير Obsidian تاريخي وورد فيه رد بالإصلاح؛ يستعمل لدعم أهمية الاستئناف فقط.",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/App.tsx#L623-L628",
+        "https://forum.obsidian.md/t/preserve-scroll-position-in-the-file-explorer-for-obsidian-mobile/93965",
+        "https://discourse.joplinapp.org/t/mobile-navigation-experience-with-note-links/23810"
+      ],
+      "raw_kind": "design-risk",
+      "raw_severity": "P2",
+      "area": "navigation",
+      "area_ar": "التنقل والتخصيص",
+      "original_file": "App.tsx",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/App.tsx#L623-L628",
+      "supporting_source_urls": [
+        "https://forum.obsidian.md/t/preserve-scroll-position-in-the-file-explorer-for-obsidian-mobile/93965",
+        "https://discourse.joplinapp.org/t/mobile-navigation-experience-with-note-links/23810"
+      ],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "fixed-verified",
+      "fix_status": {
+        "id": "N005",
+        "status": "fixed-verified",
+        "scope_ar": "رفع حالة شبكة المعرفة فوق مسار التبويب: البحث والصفحات والتكبير والقائمة والتحريك والملاحظة المختارة تعود عند التنقل.",
+        "verification": "15 اختبارًا للمكوّن ومسار App في graph-green وفق تقرير التنقل؛ يشمل unmount/remount وتغير التبويب.",
+        "evidence": "../flow-20261103/navigation/summary.json",
+        "limits_ar": "جلسة الشبكة في الذاكرة فقط؛ لا استمرار بعد إعادة تشغيل التطبيق، ولا قياس pan أصلي على iPhone.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      }
+    },
+    {
+      "id": "N006",
+      "title_ar": "التقاط نص سريع يتوقف على اختيار عنوان يدوي فريد",
+      "kind": "design-risk",
+      "severity": "P2",
+      "file": "expo-preview/App.tsx",
+      "line_start": 253,
+      "line_end": 257,
+      "evidence": "commitNote يرفض العنوان الفارغ ثم أي عنوان يطابق normalizeTitle لملاحظة أخرى، حتى عند وجود محتوى. المحرر يعرض حقل العنوان مستقلًا قبل المحتوى (643–645). المسودة تحفظ تلقائيًا، لكن تحويلها إلى ملاحظة قابلة للاسترجاع ما زال مشروطًا بالعنوان. هذا قيد مقصود لصحة الروابط، وليس عطل حفظ مثبتًا.",
+      "scenario": "يريد المستخدم تسجيل جملة أثناء القراءة ويكتب المتن ثم يحفظ، أو يستخدم عنوان محاضرة له ملاحظة سابقة.",
+      "impact_ar": "يتحول الالتقاط إلى مهمة تسمية وحل تعارض يدوي قبل إكمال الحفظ، بما يخالف اتجاه تقليل العمل اليدوي. لا ندعي أن غياب عنوان تلقائي وحده bug.",
+      "fix_ar": "اقترح عنوانًا أوليًا فريدًا من النص أو الوقت عندما لا يكتبه المستخدم، مع إبقاء التعديل اختياريًا. لا تغيّر عنوانًا يدويًا مع كل تعديل للمتن، ولا تكسر قواعد الروابط الحالية عند توليد الاسم.",
+      "acceptance_ar": "يمكن حفظ نص قصير بعنوان فارغ دون مطالبة تسمية. إذا تكرر العنوان المولد يضاف تمييز آمن تلقائيًا. يبقى العنوان اليدوي ثابتًا وتظل روابط الملاحظات دقيقة. يمكن للمستخدم تعديل العنوان لاحقًا.",
+      "verification": "شرطان مثبتان من المصدر؛ أثرهما على سرعة التقاط المستخدم استنتاج يحتاج اختبارًا. نقاش Joplin يضم آراء متعارضة حول العنوان التلقائي، لذلك لا يوصف الحل بأنه إجماع أو يطبق بتحديث العنوان باستمرار.",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/App.tsx#L253-L257",
+        "https://discourse.joplinapp.org/t/change-title-when-editing-a-note/37671",
+        "https://forum.obsidian.md/t/mobile-add-the-ability-to-select-a-template-when-using-the-open-new-note-shortcut-command/110549"
+      ],
+      "raw_kind": "design-risk",
+      "raw_severity": "P2",
+      "area": "navigation",
+      "area_ar": "التنقل والتخصيص",
+      "original_file": "App.tsx",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/App.tsx#L253-L257",
+      "supporting_source_urls": [
+        "https://discourse.joplinapp.org/t/change-title-when-editing-a-note/37671",
+        "https://forum.obsidian.md/t/mobile-add-the-ability-to-select-a-template-when-using-the-open-new-note-shortcut-command/110549"
+      ],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "fixed-verified",
+      "fix_status": {
+        "id": "N006",
+        "status": "fixed-verified",
+        "scope_ar": "عند ترك عنوان ملاحظة جديدة فارغًا يُشتق من متنها، مع تمييز آلي للاسم المولد المتكرر؛ يبقى العنوان اليدوي كما كتبه الطالب.",
+        "verification": "اختبار الالتقاط بعنوان تلقائي في study-flow-integration.ui.test.jsx ؛ منطق التمييز وقواعد العنوان مراجع في App.",
+        "evidence": "../flow-20261103/REVIEW.md",
+        "limits_ar": "لا تغيير تلقائي مستمر لعنوان يدوي؛ عنوان الملف المسمى صراحة قد يظل يحتاج تعديلًا عند تعارضه.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      }
+    },
+    {
+      "id": "N007",
+      "title_ar": "وصول الحفظ والعودة مع لوحة مفاتيح الآيفون لم يتحقق على الجهاز",
+      "kind": "device-gap",
+      "severity": "P2",
+      "file": "expo-preview/App.tsx",
+      "line_start": 637,
+      "line_end": 659,
+      "evidence": "المحرر pageSheet يحتوي KeyboardAvoidingView ثم ScrollView وفي نهايته أزرار الحفظ، وField في ui.tsx:60–70 يستخدم TextInput متعدد الأسطر عند المحتوى. RELEASE_0.5.0.md:47–51 يصرح أن واجهة الآيفون ولوحة المفاتيح وحجم الخط وRTL لم تُختبر. اختبارات Jest تستخدم واجهات أصلية محاكية؛ لا تثبت التمرير أو موضع لوحة المفاتيح الحقيقي.",
+      "scenario": "على آيفون صغير وبالعربية، يكتب المستخدم نصًا طويلًا ثم يحاول الحفظ والإغلاق أو العودة، مع لوحة المفاتيح ظاهرة وحجم خط كبير.",
+      "impact_ar": "لا توجد أدلة كافية لتأكيد أن المسار المعلن قليل النقرات أو أن الحفظ والرجوع يظلان واضحين. لا نسجل انسداد زر أو فقد مسودة كعطل مؤكد دون إعادة إنتاج.",
+      "fix_ar": "نفّذ تسجيل رحلة فعلية على آيفون صغير: إنشاء، كتابة، حفظ، إغلاق آمن، ثم استئناف. إن ظهر احتجاب أو تمرير زائد للحفظ، ثبّت إجراء إنهاء واضحًا في رأس المحرر أو فوق لوحة المفاتيح وفق النتيجة المرصودة.",
+      "acceptance_ar": "تسجيل على جهاز iOS فعلي مع لوحة عربية وحجمين للخط يثبت إمكان الوصول للحفظ والإغلاق دون حجب أو تغيير نص غير مقصود. تُسجل اللمسات الفعلية. أي فشل مرصود يحول هذه الفجوة إلى bug مستقل مع خطوات إعادة إنتاج.",
+      "verification": "فجوة مثبتة بإقرار الإصدار؛ لا اختبار جهاز في هذا التدقيق. قُرئت وثائق React Native الحالية المتوافقة مع 0.88 عن KeyboardAvoidingView وModal لتحديد ما يحتاج تحققًا، ولم يُستنتج فشل من مجرد استخدامهما.",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/App.tsx#L637-L659",
+        "https://reactnative.dev/docs/keyboardavoidingview",
+        "https://reactnative.dev/docs/modal"
+      ],
+      "raw_kind": "device-validation-gap",
+      "raw_severity": "P2",
+      "area": "navigation",
+      "area_ar": "التنقل والتخصيص",
+      "original_file": "App.tsx",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/App.tsx#L637-L659",
+      "supporting_source_urls": [
+        "https://reactnative.dev/docs/keyboardavoidingview",
+        "https://reactnative.dev/docs/modal"
+      ],
+      "merged_ids": [
+        "X204"
+      ],
+      "merged_findings": [
+        {
+          "id": "X204",
+          "title_ar": "حقول المصادر والمحرك لا تشارك محررات الملاحظات معالجة لوحة المفاتيح",
+          "kind": "device-gap",
+          "severity": "P2",
+          "file": "expo-preview/App.tsx",
+          "line_start": 623,
+          "line_end": 625,
+          "evidence": "ScrollView الرئيسي الذي يحتوي SourcesWorkbench وAIWorkspace يحدد keyboardShouldPersistTaps فقط؛ لا يحدد automaticallyAdjustKeyboardInsets ولا يحيط به KeyboardAvoidingView. في المقابل محررا الملاحظات والبطاقات يستخدمان KeyboardAvoidingView عند639 و664. توثيق RN يحدد قيمة automaticallyAdjustKeyboardInsets الافتراضية false على iOS.",
+          "scenario": "على iPhone صغير، يكتب المستخدم تفريغًا طويلًا أو نص المصدر في أسفل الشاشة ثم يحاول الوصول إلى المعاينة أو فتح المحرك ولوحة المفاتيح ظاهرة.",
+          "impact_ar": "احتمال إخفاء السطر الجاري أو زر الإكمال خلف لوحة المفاتيح؛ لم يثبت حدوث الحجب على جهاز في هذا التدقيق.",
+          "fix_ar": "تحقق أولًا على الجهاز؛ عند ثبوت الحجب استخدم استراتيجية واحدة لضبط inset أو إزاحة المحتوى مع مراعاة شريط التبويب، وتجنب جمع استراتيجيتين تسببان فراغًا مضاعفًا.",
+          "acceptance_ar": "على أصغر iPhone مدعوم ومع أكبر نص إمكانية وصول، تبقى نقطة الإدخال مرئية ويمكن الوصول لزر الإكمال والضغط عليه دون فقد النص، في حقول النص والتفريغ وAI؛ سجل إعدادات الجهاز والنتيجة.",
+          "verification": "غياب الضبط ثابت من الكود؛ أثره البصري واللمسي فجوة تحقق native، وليس فشلًا مثبتًا من لقطة أو Jest.",
+          "source_urls": [
+            "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/App.tsx#L623-L625",
+            "https://reactnative.dev/docs/scrollview"
+          ],
+          "raw_kind": "device-validation gap",
+          "raw_severity": "P2",
+          "area": "access-sources",
+          "area_ar": "الوصول والصوت والمصادر",
+          "original_file": "App.tsx",
+          "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+          "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/App.tsx#L623-L625",
+          "supporting_source_urls": [
+            "https://reactnative.dev/docs/scrollview"
+          ],
+          "merged_ids": [],
+          "merged_findings": [],
+          "status": "open",
+          "fix_status": {
+            "status": "open"
+          }
+        }
+      ],
+      "status": "open",
+      "fix_status": {
+        "status": "open"
+      }
+    },
+    {
+      "id": "S003",
+      "title_ar": "نفس حالة البطاقة تؤجل «صعب» أكثر من «جيد» بعد أول تقييم «سهل»",
+      "kind": "reproduced-bug",
+      "severity": "P2",
+      "file": "expo-preview/src/core.ts",
+      "line_start": 141,
+      "line_end": 149,
+      "evidence": "فرع hard يضاعف intervalDays×1.2 بينما good يعيد الفترة إلى 3 أيام عندما repetitions===1 مهما كانت الفترة الحالية. S003: أول easy ينشئ intervalDays=4 وrepetitions=1؛ التقييم التالي لنفس الحالة يعطي hard=5 أيام وgood=3 أيام.",
+      "scenario": "ابدأ بطاقة جديدة، اختر «سهل»، وعندما تستحق بعد أربعة أيام قارن الموعد الناتج عن «صعب» بالموعد الناتج عن «جيد». الأكثر صعوبة يُدفع أبعد من الجواب الأسهل.",
+      "impact_ar": "تتناقض استجابة الجدولة مع التدرج الظاهر لدرجات التذكر، وقد يبتعد عنصر أصعب عن المراجعة أكثر من عنصر أسهل. لا توجد بيانات تسمح بحساب أثر ذلك على الاحتفاظ.",
+      "fix_ar": "تعريف قواعد متسقة لحالة التعلم والبطاقة المتخرجة أو فرض حدود ترتيب الفترات للحالة نفسها، خصوصًا بعد easy. لا يتطلب هذا تبديل الخوارزمية إلى FSRS. يفضل عرض الموعد التالي المحسوب قرب التقييم لتجعل السياسة قابلة للفهم والفحص.",
+      "acceptance_ar": "اختبارات انتقال للحالات التي ينشئها التطبيق نفسه: للمقارنة على نفس card وnow، لا ينتج hard موعدًا بعد good دون سياسة مصرح بها ومبررة. يغطي الاختبار easy→hard وeasy→good وسلاسل hard/good، مع بقاء again قصيرًا.",
+      "verification": "مثبت حسابيًا باختبار S003؛ الملف logic-results.txt يسجل prior:4,hard:5,good:3. توصية اتساق الترتيب استنتاج من معاني الدرجات، وليست مقارنة ادعائية مع FSRS ولا إثباتًا سريريًا/تعليميًا.",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/core.ts#L141-L149",
+        "https://docs.ankiweb.net/manual/studying",
+        "https://forums.ankiweb.net/t/have-the-concepts-of-the-again-hard-good-and-easy-buttons-changed/49664"
+      ],
+      "raw_kind": "bug/source-proven",
+      "raw_severity": "medium",
+      "area": "study",
+      "area_ar": "الدراسة والبطاقات",
+      "original_file": "src/core.ts",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/core.ts#L141-L149",
+      "supporting_source_urls": [
+        "https://docs.ankiweb.net/manual/studying",
+        "https://forums.ankiweb.net/t/have-the-concepts-of-the-again-hard-good-and-easy-buttons-changed/49664"
+      ],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "fixed-verified",
+      "fix_status": {
+        "id": "S003",
+        "status": "fixed-verified",
+        "verification": "نجح التحقق على Codespaces/Linux Node 24.22.2: 111 اختبار نواة و 208 واجهة و 28 AI ؛ TypeScript والتوافق و Expo Doctor 20/20 وتصدير iOS 909 وحدات. السجلات والبصمات في evidence/v051. ليس اختبار iPhone.",
+        "evidence": "fix-evidence/S003-summary.json"
+      }
+    },
+    {
+      "id": "S004",
+      "title_ar": "استخراج س/ج يحفظ أول سطر من جواب متعدد الأسطر دون كشف أن بقية الإجابة لم تدخل البطاقة",
+      "kind": "design-risk",
+      "severity": "P2",
+      "file": "expo-preview/src/core.ts",
+      "line_start": 115,
+      "line_end": 129,
+      "evidence": "عند أول سطر ج:، تُنشأ البطاقة ويصفّر question فورًا؛ الأسطر اللاحقة لا تجمع. زر الحفظ يكتب البطاقات مباشرة دون معاينة الأزواج (App.tsx:266–281). S004 يعيد «الشرط الأول.» فقط من إجابة نصها «الشرط الأول.\\nوالشرط الثاني أيضًا.».",
+      "scenario": "الصق ملاحظات سؤال وجواب يكون الجواب فيها قائمة أو فقرتين. اضغط الحفظ والاستخراج؛ تظهر رسالة إنشاء بطاقة ناجحة، لكن المراجعة اللاحقة لا تتضمن شرطًا لازمًا ورد في السطر التالي.",
+      "impact_ar": "نتيجة جزئية صامتة قد تبدو للمتعلم إجابة كاملة. الواجهة الحالية تذكر صيغة الأسطر، لذا لا نصنفها خرقًا لوعد بدعم كل تنسيق؛ الخطر هو عدم إظهار ما استُخرج قبل إدخاله في التعلم.",
+      "fix_ar": "معاينة الأسئلة والأجوبة قبل الحفظ، وبيان الأسطر غير الداخلة في الاستخراج. إما دعم كتلة جواب متعددة الأسطر بحدود واضحة، أو رفض الشكل الملتبس مع إجراء تحرير، دون ابتلاع فقرة المصدر أو الشاهد في الجواب.",
+      "acceptance_ar": "المثال ذو الشرطين لا ينتج بطاقة تدعي اكتمال جواب من شرط واحد دون موافقة واضحة. يظل استخراج س/ج البسيط يعمل، ولا تُفسر أسطر الشاهد أو النص المرجعي في مسودة AI كجزء من جواب بلا حدود.",
+      "verification": "مثبت في S004 واختبار الضابط لصيغة السطر الواحد. المنطق لم يفقد نص الملاحظة الأصلية؛ الفقد واقع في نتيجة البطاقة المشتقة فقط.",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/core.ts#L115-L129",
+        "https://andymatuschak.org/prompts/",
+        "https://docs.ankiweb.net/manual/getting-started"
+      ],
+      "raw_kind": "design-risk",
+      "raw_severity": "medium",
+      "area": "study",
+      "area_ar": "الدراسة والبطاقات",
+      "original_file": "src/core.ts",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/core.ts#L115-L129",
+      "supporting_source_urls": [
+        "https://andymatuschak.org/prompts/",
+        "https://docs.ankiweb.net/manual/getting-started"
+      ],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "fixed-verified",
+      "fix_status": {
+        "id": "S004",
+        "status": "fixed-verified",
+        "scope_ar": "محلل مشترك يحتفظ بالإجابة متعددة الأسطر ونطاق المصدر؛ تفريغ YouTube يحتفظ بالمقاطع والتوقيتات المساهمة.",
+        "verification": "حالات multiline والاقتباسات والفواصل ومقاطع YouTube ضمن 74 اختبار منطق.",
+        "evidence": "../flow-20261103/study/summary.json",
+        "limits_ar": "المثال داخل code fence مستبعد عمدًا؛ جودة نص PDF أو التفريغ تبقى بحاجة مراجعة.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      }
+    },
+    {
+      "id": "S006",
+      "title_ar": "بطاقات مسودة الذكاء الاصطناعي ترتبط بملاحظة الأسئلة الجديدة لا بالمصدر المحفوظ الذي أُخذت منه",
+      "kind": "design-risk",
+      "severity": "P2",
+      "file": "expo-preview/src/AIWorkspace.tsx",
+      "line_start": 40,
+      "line_end": 45,
+      "evidence": "review() يخرج {title,body} فقط مع «المصدر: عنوان» كنص عادي ونسخة sourceText. App.tsx:496–497 يفتح مسودة editingId:null، ثم يجعل noteId للبطاقات معرف الملاحظة الجديدة (272). لا sourceNoteId ولا wiki link. اختبار S006 مرر ملاحظة محفوظة إلى AIWorkspace ووجد graphEdges([]) بين الأصل والمسودة الناتجة.",
+      "scenario": "اختر ملاحظة محفوظة، أنشئ أسئلة واعتمدها، ثم عدّل الملاحظة الأصلية أو عنوانها. «فتح الملاحظة الأصلية» من البطاقة يفتح ملاحظة الأسئلة والاقتباس القديم، ولا توجد إحالة قابلة للتتبع إلى الأصل الحي.",
+      "impact_ar": "ينقطع مسار التحقق من المعرفة وتبقى النسخة المقتبسة قديمة دون حالة واضحة. حفظ الاقتباس مفيد للأثر التاريخي؛ المشكلة هي غياب التمييز والرابط إلى المصدر الحالي.",
+      "fix_ar": "حمل sourceNoteId ومعلومات المقطع عند اعتماد الأسئلة، مع الاحتفاظ بالنص المقتبس بوصفه لقطة. إتاحة «المصدر الحالي» و«المقطع المستخدم» بوضوح، أو على الأقل إنشاء رابط مستقر للأصل وتحديثه عند التسمية. لا تعدل أجوبة المتعلم تلقائيًا عند تغير المصدر.",
+      "acceptance_ar": "بعد إنشاء بطاقة من مصدر محفوظ، يمكن الوصول إلى المصدر نفسه من البطاقة حتى بعد تغيير عنوانه؛ يظهر المقطع الذي استخدم تاريخيًا منفصلًا. تحديث الأصل يتيح كشف قدم المصدر دون استبدال البطاقة بصمت.",
+      "verification": "S006 يستخدم المكون الحقيقي ونتيجة نموذج معزولة؛ يختبر تشكيل المسودة فقط ولا يزعم تشغيل النموذج. تعقب noteId وفتح المصدر مثبت من App.tsx، ولا يتطلب قياس توليد أو اتصالًا خارجيًا.",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/AIWorkspace.tsx#L40-L45",
+        "https://super-memory.com/articles/20rules.htm",
+        "https://obsidian.md/help/plugins/backlinks"
+      ],
+      "raw_kind": "design-risk",
+      "raw_severity": "medium",
+      "area": "study",
+      "area_ar": "الدراسة والبطاقات",
+      "original_file": "src/AIWorkspace.tsx",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/AIWorkspace.tsx#L40-L45",
+      "supporting_source_urls": [
+        "https://super-memory.com/articles/20rules.htm",
+        "https://obsidian.md/help/plugins/backlinks"
+      ],
+      "merged_ids": [
+        "A008"
+      ],
+      "merged_findings": [
+        {
+          "id": "A008",
+          "title_ar": "التحويل إلى بطاقات يفقد المرجع البنيوي للمصدر والنموذج",
+          "kind": "design-risk",
+          "severity": "P2",
+          "file": "expo-preview/src/AIWorkspace.tsx",
+          "line_start": 40,
+          "line_end": 45,
+          "evidence": "review() يحول النتيجة إلى title/body نصيين ويضم عنوان المصدر واسم النموذج فقط. App.tsx:264–273 ينشئ ملاحظة جديدة وبطاقات منها. StudyCard في types.ts:11–21 لا يحتفظ بالشاهد أو sourceNoteId أو hash/model revision، وparseQuestionAnswer في core.ts:115–129 يعيد السؤال والجواب فقط.",
+          "scenario": "بعد أسابيع يريد الطالب مراجعة سبب جواب بطاقة مولدة أو الرجوع إلى PDF/الملاحظة الأصلية بعد إعادة تسميتها.",
+          "impact_ar": "الشاهد يبقى نصًا في الملاحظة المولدة، لكن الارتباط بالمصدر الأصلي ونسخته غير قابلين للتتبع الآلي؛ شبكة المعرفة لا تستفيد منهما.",
+          "fix_ar": "احفظ بيانات منشأ محددة لكل مسودة وبطاقة مولدة: معرف المصدر وإصداره أو بصمته ومجال النص والشاهد ومعرف النموذج المثبت. اعرض رجوعًا للمصدر وإشارة تغيره.",
+          "acceptance_ar": "تظل البطاقة مرتبطة بمصدرها بعد إعادة التسمية، وتكشف تعديل المصدر؛ تتضمن النسخة الاحتياطية منشأ البطاقة وتستعيده. يُرفض أي معرف أو مجال غير صالح.",
+          "verification": "تحليل مخطط البيانات ومسار التحويل فقط؛ لم تُجر هجرة أو إضافة حقول.",
+          "source_urls": [
+            "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/AIWorkspace.tsx#L40-L45"
+          ],
+          "raw_kind": "design-risk",
+          "raw_severity": "P2",
+          "area": "ai",
+          "area_ar": "الذكاء المحلي",
+          "original_file": "src/AIWorkspace.tsx",
+          "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+          "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/AIWorkspace.tsx#L40-L45",
+          "supporting_source_urls": [],
+          "merged_ids": [],
+          "merged_findings": [],
+          "status": "open",
+          "fix_status": {
+            "status": "open"
+          }
+        }
+      ],
+      "status": "open",
+      "fix_status": {
+        "id": "S006",
+        "status": "open",
+        "partial_progress_ar": "مرجع المصدر ومعرّفا زمن الإنشاء/التعديل محفوظة في NoteDraft. استخراج البطاقات عند اعتماد مسودة AI لأول مرة يربط الأصل المطابق؛ المصدر المعدل/المستبدل/المحذوف يمنع الاستخراج ويتيح حفظ النص فقط. يشمل التقدم A008 المدمج.",
+        "remaining_ar": "فتح ملاحظة الأسئلة بعد حفظها كنص عادي لا يستعيد مرجع المصدر البنيوي؛ مخطط البطاقة لا يحمل إصدار المصدر/النموذج والشاهد كاملًا لكل بطاقة. لا اكتمال منشأ دائم أو هجرة نسخ احتياطي لهذا المخطط.",
+        "verification": "أربع حالات App مستقلة للربط والمنع ضمن 15 اختبار مراجعة ناجحًا؛ تخزين محاكى.",
+        "evidence": "../flow-20261103/independent-review.json",
+        "device_verified": false
+      }
+    },
+    {
+      "id": "S007",
+      "title_ar": "فتح الاختبار بلا بطاقات ينتهي بتنبيه شرط مسبق بدل مسار داخل الأداة لبناء أول اختبار",
+      "kind": "requirement-gap",
+      "severity": "P2",
+      "file": "expo-preview/App.tsx",
+      "line_start": 332,
+      "line_end": 337,
+      "evidence": "startQuiz ينفذ makeQuiz(cards,8)، وعند النتيجة الفارغة يعرض Alert فقط ثم return. اختبار S007 أثبت أن شاشة الاختبار لا تُفتح على مجموعة فارغة وأن التنبيه لا يحمل إجراءات لاختيار مصدر أو إنشاء بطاقات. يوجد مسار عام إلى الملاحظات في المراجعة؛ لكنه ليس مسارًا موجهًا داخل الاختبار.",
+      "scenario": "في مكتبة فارغة أو تحوي بطاقة واحدة، افتح «اختبار اختيارات». تظهر رسالة أنشئ بطاقتين بإجابتين مختلفتين ثم يعود المستخدم إلى المكان نفسه ليكتشف الخطوات بنفسه.",
+      "impact_ar": "لا يحقق الأداة طلب المستخدم الصريح بأن يبدأ فارغًا وتعمل الأدوات عند فتحها مع أتمتة عملية؛ تعطيه قائمة شروط بدل مساعدته على توفيرها. التنبيه صادق ولا يدعي جاهزية غير موجودة.",
+      "fix_ar": "افتح حالة إعداد للاختبار تعرض اختيار ملاحظة/إضافة نص، ثم اقتراح أو تأليف سؤال ومراجعته، مع بديل استرجاع لبطاقة واحدة. أظهر التقدم حتى أول جلسة ولا تزرع محتوى تجريبيًا في مكتبة المستخدم.",
+      "acceptance_ar": "من صفر ملاحظات يصل المستخدم بعد إدخال محتواه عبر الأداة نفسها إلى تمرين صالح. بطاقة واحدة تسمح بمراجعة استرجاع أو إجراء إنشاء إضافية واضح. لا ينشأ محتوى تلقائي وهمي لمجرد ملء الحالة.",
+      "verification": "S007 يثبت نقطة الانقطاع في App؛ وصفها نقص متطلب يستند إلى طلب المستخدم الحالي، وليس إلى ضرورة تقليد Anki. لا يتداخل مع عيب seed الذي يتولاه تدقيق البيانات.",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/App.tsx#L332-L337",
+        "https://docs.ankiweb.net/manual/getting-started"
+      ],
+      "raw_kind": "missing-requirement",
+      "raw_severity": "medium",
+      "area": "study",
+      "area_ar": "الدراسة والبطاقات",
+      "original_file": "App.tsx",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/App.tsx#L332-L337",
+      "supporting_source_urls": [
+        "https://docs.ankiweb.net/manual/getting-started"
+      ],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "fixed-verified",
+      "fix_status": {
+        "id": "S007",
+        "status": "fixed-verified",
+        "scope_ar": "التدريب الفارغ يعرض مسارات إضافة مادة أو كتابة ملاحظة داخل الأداة؛ بطاقة واحدة تكفي لبدء الاسترجاع الذاتي.",
+        "verification": "7 اختبارات StudyQuiz تشمل empty state والأفعال، مع حالات المنطق.",
+        "evidence": "../flow-20261103/study/summary.json",
+        "limits_ar": "لا إنشاء محتوى أو بطاقة تلقائيًا عند فتح الأداة.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      }
+    },
+    {
+      "id": "S008",
+      "title_ar": "نهاية الاختبار تحتفظ بالدرجة فقط وتفقد مسار مراجعة الأخطاء وفتح مصادرها",
+      "kind": "design-risk",
+      "severity": "P2",
+      "file": "expo-preview/App.tsx",
+      "line_start": 679,
+      "line_end": 707,
+      "evidence": "الحالة تحتفظ quizSelected للسؤال الجاري وquizScore الإجمالي، وتصفّر الاختيار عند التالي. شاشة النهاية تعرض score/count وإعادة الاختبار والعودة فقط. S008 أجاب «ألف» على سؤالين بجوابين مختلفين، فوجد 1/2 ولم يجد إجراء مراجعة الأخطاء أو مصدر السؤال؛ الجواب الآخر لم يبق في النهاية.",
+      "scenario": "أخطأ المتعلم في عدة أسئلة ثم ضغط التالي حتى النتيجة، وأراد فهم ما أخطأ فيه. إعادة الاختبار تسحب عينة جديدة من كامل البطاقات بدل إعادة أسئلته الخاطئة، ولا يستطيع من النتيجة فتح الملاحظات ذات الصلة.",
+      "impact_ar": "تنتهي جلسة التعلم برقم دون إجراء تصحيح؛ يعوق ذلك مطلب المستخدم أن تكون الأدوات عملية لا مجرد عرض أعداد. يظهر تصحيح فوري أثناء السؤال بالفعل، وهذا ليس ادعاء بعدم وجود أي تغذية راجعة.",
+      "fix_ar": "احتفظ بإجابات الجلسة محليًا داخل حالتها واعرض ملخصًا قابلًا للفتح للأخطاء مع السؤال واختيار المتعلم والجواب والمصدر. أضف «راجع أخطاء هذه الجلسة» يحافظ على المجموعة الحالية؛ لا تغيّر مواعيد المراجعة ما دام النص يَعِد بأنها تدريب إضافي.",
+      "acceptance_ar": "بعد جلسة تحتوي خطأين، تعرض النتيجة الخطأين نفسهما ويمكن فتح مصدر كل سؤال والعودة للنتيجة. إعادة أخطاء الجلسة لا تسحب عينة عشوائية جديدة ولا تكتب ReviewEvent من دون قرار منتج واضح.",
+      "verification": "S008 في study-flow.ui.test.jsx يثبت السلوك النهائي على مكون App الحقيقي. توصية تلخيص الأخطاء تحسين تصميم مستند إلى سير إصلاح المعرفة، ولا تزعم أثرًا تجريبيًا مقاسًا.",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/App.tsx#L679-L707",
+        "https://docs.ankiweb.net/manual/filtered-decks",
+        "https://forums.ankiweb.net/t/can-i-disable-leeches-altogether/4767",
+        "https://andymatuschak.org/prompts/"
+      ],
+      "raw_kind": "design-risk",
+      "raw_severity": "medium",
+      "area": "study",
+      "area_ar": "الدراسة والبطاقات",
+      "original_file": "App.tsx",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/App.tsx#L679-L707",
+      "supporting_source_urls": [
+        "https://docs.ankiweb.net/manual/filtered-decks",
+        "https://forums.ankiweb.net/t/can-i-disable-leeches-altogether/4767",
+        "https://andymatuschak.org/prompts/"
+      ],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "fixed-verified",
+      "fix_status": {
+        "id": "S008",
+        "status": "fixed-verified",
+        "scope_ar": "ملخص جلسة يحفظ الإجابات والتقييم الذاتي، وفلتر ما لم يتذكره الطالب، وفتح المصدر الحالي دون بدء جلسة جديدة.",
+        "verification": "اختبارات ملخص الجلسة والرجوع للمصدر وعدم إعادة ضبطها مع إعادة عرض الأب.",
+        "evidence": "../flow-20261103/study/summary.json",
+        "limits_ar": "نتيجة الجلسة باقية أثناء بقاء المكوّن فقط؛ لا سجل دائم للنتائج بعد الإغلاق.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      }
+    },
+    {
+      "id": "A005",
+      "title_ar": "اختيار المصدر يقطع نتائج الملاحظات عند خمسة دون متابعة",
+      "kind": "source-bug",
+      "severity": "P2",
+      "file": "expo-preview/src/AIWorkspace.tsx",
+      "line_start": 67,
+      "line_end": 68,
+      "evidence": "notes.filter(...).slice(0,5) تعرض خمسة فقط دون عدد إجمالي أو صفحات أو زر المزيد أو حالة انعدام نتائج.",
+      "scenario": "ست ملاحظات أو أكثر تشترك في عنوان أو كلمة البحث؛ المطلوبة ليست ضمن الخمس الأولى.",
+      "impact_ar": "يحتاج المستخدم تخمين بحث أكثر تحديدًا، وقد يستنتج أن ملاحظته لم تُحفظ أو لا تصلح للمساعد.",
+      "fix_ar": "اعرض عدد النتائج وقائمة قابلة للتصفح أو صفحات، مع حالة خالية مفهومة وخيار الوصول من الملاحظة مباشرة.",
+      "acceptance_ar": "عند وجود 12 نتيجة متطابقة جزئيًا، يمكن الوصول إلى النتيجة الأخيرة واختيارها دون تغيير محتواها أو معرفة عنوان فريد.",
+      "verification": "قطع النتائج ثابت في الكود؛ لم يُشغّل اختبار جديد.",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/AIWorkspace.tsx#L67-L68"
+      ],
+      "raw_kind": "bug/source-proven",
+      "raw_severity": "P2",
+      "area": "ai",
+      "area_ar": "الذكاء المحلي",
+      "original_file": "src/AIWorkspace.tsx",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/AIWorkspace.tsx#L67-L68",
+      "supporting_source_urls": [],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "fixed-verified",
+      "fix_status": {
+        "id": "A005",
+        "status": "fixed-verified",
+        "scope_ar": "صفحات للمصادر المحفوظة من خمس ملاحظات، مع بحث وعدّاد وحالة بلا نتائج؛ الوصول لما بعد أول خمس.",
+        "verification": "اختبار الوصول للملاحظة السادسة من 12 دون معرفة عنوانها، ضمن اختبارات المساعد.",
+        "evidence": "../flow-20261103/ai/verification.json",
+        "limits_ar": "لا ادعاء قياس سرعة بحث مكتبات كبيرة على جهاز.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      }
+    },
+    {
+      "id": "A006",
+      "title_ar": "قيود إضافية للمصدر لا تُكتشف إلا بعد تجهيز النموذج",
+      "kind": "source-bug",
+      "severity": "P2",
+      "file": "expo-preview/src/AIWorkspace.tsx",
+      "line_start": 29,
+      "line_end": 33,
+      "evidence": "start() يتحقق من 30–1600 حرف فقط. contracts.ts:80–85 يرفض جملة أطول من 1000 حرف أو أكثر من 24 جملة، ويُستدعى ذلك داخل generate في engine-entry.mjs:148–149. studyChunks.ts يستخدم حد 1600 وقد ينتج فقرة واحدة تتجاوز 1000.",
+      "scenario": "مقطع عربي من 1200 حرف بلا نهاية جملة يجتاز شاشة المصدر، فيختار الطالب النموذج وينتظر تحميله، ثم يُرفض التوليد.",
+      "impact_ar": "تُصرف خطوات وذاكرة في مسار معلوم مسبقًا أنه غير قابل للتوليد، ويُلزم الطالب بتقصير النص يدويًا.",
+      "fix_ar": "نفّذ التحقق نفسه عند اختيار المقطع وقبل فتح المحرك، وقدم تقسيمًا يحترم قيود الشاهد مع معاينة وحدود واضحة ودون حذف نص.",
+      "acceptance_ar": "فقرة 1001–1600 حرف و25 جملة قصيرة تعرض سببًا قابلًا للإصلاح قبل تشغيل WebView؛ كل مقطع مقترح يجتاز عقد المصدر أو يظهر سبب عدم صلاحيته.",
+      "verification": "مقارنة مباشرة بين تحققي الواجهة والمحرك؛ لم يُشغّل نموذج أو اختبار جديد.",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/AIWorkspace.tsx#L29-L33"
+      ],
+      "raw_kind": "bug/source-proven",
+      "raw_severity": "P2",
+      "area": "ai",
+      "area_ar": "الذكاء المحلي",
+      "original_file": "src/AIWorkspace.tsx",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/AIWorkspace.tsx#L29-L33",
+      "supporting_source_urls": [],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "fixed-verified",
+      "fix_status": {
+        "id": "A006",
+        "status": "fixed-verified",
+        "scope_ar": "تطبيق boundSource و studyResponseFormat نفسيهما قبل تركيب المحرك، ليظهر رفض حدود المصدر قبل تحميل النموذج.",
+        "verification": "رفض مصدر 1200 حرف بجملة واحدة ومصدر 25 جملة قبل فتح المحرك.",
+        "evidence": "../flow-20261103/ai/verification.json",
+        "limits_ar": "يبقى حد التوليد 1600 حرف؛ حفظ المصدر الطويل لا يعني توليده كاملًا.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      }
+    },
+    {
+      "id": "A007",
+      "title_ar": "فحص العربية يقبل نصًا إنجليزيًا يحتوي ترقيمًا عربيًا فقط",
+      "kind": "source-bug",
+      "severity": "P2",
+      "file": "expo-preview/src/ai/contracts.ts",
+      "line_start": 48,
+      "line_end": 53,
+      "evidence": "الشرط /[\\u0600-\\u06ff]/ يقبل أي محرف في الكتلة، ومنها ؟ و،. سؤال إنجليزي ينتهي بـ؟ وجواب إنجليزي يحتوي ، يمران بهذا الشرط مع شاهد حرفي صالح.",
+      "scenario": "يرجع نموذج ملف آخر نتيجة إنجليزية مع ترقيم عربي؛ تظهر كمسودة اجتازت فحص العربية.",
+      "impact_ar": "رسالة الفحص توحي بضمان لغوي أوسع مما يفحصه الكود. وجود شاهد صحيح لا يصلح لغة السؤال أو الإجابة.",
+      "fix_ar": "تحقق من وجود حروف عربية فعلية بدل كتلة Unicode كاملة، وأضف حالات للنص المختلط. أبقِ نتيجة الفحص محدودة ولا تصفها بتقييم جودة عربية.",
+      "acceptance_ar": "يرفض السؤال والجواب الإنجليزيان مع ؟ أو ، فقط، ويقبل عربية فعلية مع أسماء لاتينية عند السياسة المختارة؛ لا تدّعي هذه الاختبارات ضمان الدقة الدلالية.",
+      "verification": "مثبت بتغطية النطاق الحرفي في التعبير؛ لم يُشغّل اختبار جديد ضمن المهمة المقيدة بالمصدر.",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/ai/contracts.ts#L48-L53"
+      ],
+      "raw_kind": "bug/source-proven",
+      "raw_severity": "P2",
+      "area": "ai",
+      "area_ar": "الذكاء المحلي",
+      "original_file": "src/ai/contracts.ts",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/ai/contracts.ts#L48-L53",
+      "supporting_source_urls": [],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "fixed-verified",
+      "fix_status": {
+        "id": "A007",
+        "status": "fixed-verified",
+        "scope_ar": "فحص العربية يتطلب حرفًا عربيًا من فئة Letter بدل قبول مجرد علامة ترقيم أو رقم في كتلة Unicode.",
+        "verification": "اختبارات رفض الترقيم والأرقام والتشكيل وحدها وقبول العربية مع CPU ، وتجميع التعبير بـ Hermes محليًا.",
+        "evidence": "../flow-20261103/ai/verification.json",
+        "limits_ar": "ليس تقييمًا لجودة العربية أو صحة الجواب؛ تجميع Hermes ليس تشغيل iPhone.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      }
+    },
+    {
+      "id": "A009",
+      "title_ar": "بصمة النموذج المرجعي معروفة ولكن الملف المختار لا يُتحقق منها",
+      "kind": "requirement-gap",
+      "severity": "P2",
+      "file": "expo-preview/ai-lab/engine-entry.mjs",
+      "line_start": 99,
+      "line_end": 108,
+      "evidence": "الفحص الحالي هو الحجم وأربعة بايتات GGUF. OFFICIAL_MODEL.sha256 في contracts.ts لا يُستخدم للتحقق من ملف المستخدم. status/capabilities في السطرين136–137 يعلنان integrity=unverified-local-file بصدق.",
+      "scenario": "اختيار ملف مختلف أو ناقص يحمل الاسم نفسه أو اختيار تحويل غير موثق مع ترويسة صحيحة.",
+      "impact_ar": "الاسم الظاهر لا يربط التشغيل بالنموذج الذي اختبرناه أو برخصته؛ لا توجد حالة مرجعي متحقق يمكن بناء توصية عليها.",
+      "fix_ar": "تحقق تدريجي من الحجم والبصمة في تخزين أصلي دون نسخ 639 MB كاملًا إلى جسر JavaScript، وافصل مرجعي متحقق عن ملف مخصص غير متحقق.",
+      "acceptance_ar": "المرجع الصحيح فقط يحمل شارة تحقق؛ تغيير بايت أو ملف بالاسم نفسه يرفض المطابقة. قياس ذاكرة التحقق على الجهاز جزء من القبول.",
+      "verification": "غياب استخدام بصمة النموذج في مسار التحميل مثبت ببحث المصدر؛ لم ينزل أو يهاجم ملفًا في هذا التدقيق.",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/ai-lab/engine-entry.mjs#L99-L108",
+        "https://huggingface.co/Qwen/Qwen3-0.6B-GGUF/blob/23749fefcc72300e3a2ad315e1317431b06b590a/Qwen3-0.6B-Q8_0.gguf"
+      ],
+      "raw_kind": "missing-requirement",
+      "raw_severity": "P2",
+      "area": "ai",
+      "area_ar": "الذكاء المحلي",
+      "original_file": "ai-lab/engine-entry.mjs",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/ai-lab/engine-entry.mjs#L99-L108",
+      "supporting_source_urls": [
+        "https://huggingface.co/Qwen/Qwen3-0.6B-GGUF/blob/23749fefcc72300e3a2ad315e1317431b06b590a/Qwen3-0.6B-Q8_0.gguf"
+      ],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "open",
+      "fix_status": {
+        "status": "open"
+      }
+    },
+    {
+      "id": "A012",
+      "title_ar": "الانتظار الطويل لا يعرض تقدمًا فعليًا أو زمنًا جاريًا",
+      "kind": "design-risk",
+      "severity": "P2",
+      "file": "expo-preview/ai-lab/engine-entry.mjs",
+      "line_start": 114,
+      "line_end": 135,
+      "evidence": "تعرض بداية التحميل status ثابتة ثم تنتظر runtime.loadModel أو مهلة180000ms. generate في146–183 ينتظر إجابة كاملة. elapsedMs يرسل عند تغير الحالة، وAIWorkspace85 يتجاهله؛ لا رمز أول أو تقدم جارٍ ظاهر.",
+      "scenario": "يبقى المستخدم على جارٍ التحميل أو التوليد مدة طويلة ولا يعرف هل الحساب يتقدم أو تجمد.",
+      "impact_ar": "الانتظار يبدو عطلًا وقد يدفع لتكرار المحاولة أو إغلاق الشاشة وفقد الجلسة.",
+      "fix_ar": "اعرض المرحلة وزمن الانتظار الجاري، وتقدم التحميل أو الرموز فقط إذا قدم المحرك إشارة فعلية؛ زر الإيقاف ثابت وواضح، دون نسبة مئوية مصطنعة.",
+      "acceptance_ar": "توضح واجهة اختبار مؤقتة مرور الوقت وتغير المرحلة وتستجيب للإيقاف؛ لا تعرض100% أو جاهز قبل اكتمال المحرك.",
+      "verification": "فحص منطق تحديث الواجهة فقط؛ لا ادعاء سرعة أو تجمد جهاز فعلي.",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/ai-lab/engine-entry.mjs#L114-L135"
+      ],
+      "raw_kind": "design-risk",
+      "raw_severity": "P2",
+      "area": "ai",
+      "area_ar": "الذكاء المحلي",
+      "original_file": "ai-lab/engine-entry.mjs",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/ai-lab/engine-entry.mjs#L114-L135",
+      "supporting_source_urls": [],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "open",
+      "fix_status": {
+        "status": "open"
+      }
+    },
+    {
+      "id": "A013",
+      "title_ar": "المختبر منفصل بصريًا عن سمة التطبيق وتحتاج أدواته اختبار وصول مستقل",
+      "kind": "design-risk",
+      "severity": "P2",
+      "file": "expo-preview/ai-lab/build.mjs",
+      "line_start": 21,
+      "line_end": 26,
+      "evidence": "CSS يثبت خلفية#111 ونصًا فاتحًا وخط16px. LocalAILab.tsx:7 لا يقبلPalette أوfontScale و:59 يفرض minHeight620. App.tsx:623 يضعه داخل ScrollView، بينما WebView تضم منطقة تمرير أخرى وحقولًا وأزرارًا مستقلة.",
+      "scenario": "مستخدم السمة الفاتحة أو الخط الكبير أو VoiceOver ينتقل من واجهة React Native إلى مختبر داكن طويل داخل الصفحة.",
+      "impact_ar": "الاختلاف البصري مثبت؛ ترتيب التركيز والقراءة والتمرير مع حجم الخط الكبير لم يثبتا على الآيفون، فلا يكفي نجاح وصول المكونات الأصلية.",
+      "fix_ar": "مرر السمة وحجم الخط بمدخلات مقيدة أو قدم أدوات التحكم الأساسية أصلية، وحدد منطقة تمرير واحدة ما أمكن. اختبر تبديل التركيز والرجوع منه إلى التطبيق.",
+      "acceptance_ar": "السمة الفاتحة لا تنقلب إلى لوحة داكنة إجبارية؛ قياس خط كبير على شاشة ضيقة، وVoiceOver يصل لملف النموذج والحالة والإيقاف والنتيجة بالترتيب، دون مصيدة تركيز.",
+      "verification": "السمة والارتفاع ثابتان بالمصدر؛ مشكلات التركيز والتمرير احتمالات تصميم تحتاج جهازًا وليست أعطالًا مثبتة.",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/ai-lab/build.mjs#L21-L26",
+        "https://github.com/react-native-webview/react-native-webview/blob/master/docs/Reference.md"
+      ],
+      "raw_kind": "design-risk",
+      "raw_severity": "P2",
+      "area": "ai",
+      "area_ar": "الذكاء المحلي",
+      "original_file": "ai-lab/build.mjs",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/ai-lab/build.mjs#L21-L26",
+      "supporting_source_urls": [
+        "https://github.com/react-native-webview/react-native-webview/blob/master/docs/Reference.md"
+      ],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "open",
+      "fix_status": {
+        "status": "open"
+      }
+    },
+    {
+      "id": "R001",
+      "title_ar": "إلغاء محرر SwiftUI قد يتجاهل تعديلات غير محفوظة دون فرصة تراجع",
+      "kind": "design-risk",
+      "severity": "P2",
+      "file": "App/NotesView.swift",
+      "line_start": 194,
+      "line_end": 204,
+      "evidence": {
+        "source_sha": "93f5adb1c2ee43195e0ceda35d39a9992c11e320",
+        "code": "ToolbarItem(placement: .cancellationAction) { Button(\"إلغاء\") { dismiss() } }",
+        "related_lines": [
+          115,
+          116,
+          117,
+          125,
+          126,
+          128,
+          163,
+          198,
+          220
+        ],
+        "details_ar": "العنوان والنص والصورة حالات محلية في المحرر. الكتابة إلى LibraryStore لا تقع إلا عند حفظ. زر إلغاء يستدعي dismiss مباشرة، ولا يوجد تحقق dirty أو حماية إغلاق تفاعلي في الملف المفحوص."
+      },
+      "scenario": "افتح ملاحظة أو PDF، اكتب نصًا أو أضف صورة/تسجيلًا، ثم اضغط إلغاء بدل حفظ.",
+      "impact_ar": "زر إلغاء مقصود يتجاهل التعديلات المحلية قبل حفظها؛ الخطر هو غياب الحماية من إلغاء عرضي. لا يثبت هذا تلف البيانات المحفوظة أو انهيار التطبيق. حماية مسودة Expo لا تمتد إلى هذا المحرر الأصلي.",
+      "fix_ar": "أضف كشف تغييرات فعليًا وحوار متابعة/حفظ مسودة/تجاهل؛ احمِ الإغلاق التفاعلي عند وجود تغييرات. يجب ألا يحتاج المحرر الفارغ تأكيدًا.",
+      "acceptance_ar": "اختبار SwiftUI يحرر نصًا وصورة وصوتًا ثم يلغي؛ النص يبقى عند متابعة التحرير، ولا يختفي إلا بعد تجاهل صريح. اختبر السحب للإغلاق وفشل حفظ المسودة بصورة مستقلة.",
+      "verification": "SOURCE: confirmed explicit cancel path; no Swift runtime or device reproduction in this audit",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/93f5adb1c2ee43195e0ceda35d39a9992c11e320/App/NotesView.swift#L194-L204",
+        "https://github.com/scrv-1/rusukh-native-ios/blob/93f5adb1c2ee43195e0ceda35d39a9992c11e320/App/NotesView.swift"
+      ],
+      "raw_kind": "source_verified_defect",
+      "raw_severity": "high",
+      "area": "release-native",
+      "area_ar": "الإصدار وSwiftUI",
+      "original_file": "/workspace/scratch/97ad5d4fb9f4/native-source-review/App/NotesView.swift",
+      "reviewed_commit": "93f5adb1c2ee43195e0ceda35d39a9992c11e320",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/93f5adb1c2ee43195e0ceda35d39a9992c11e320/App/NotesView.swift#L194-L204",
+      "supporting_source_urls": [],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "open",
+      "fix_status": {
+        "status": "open"
+      },
+      "original_title_ar": "إلغاء محرر SwiftUI يتخلّص من التعديلات دون حماية",
+      "normalization_note_ar": "أعيد تصنيف السلوك خطر تصميم P2: الإلغاء المقصود ليس بذاته عطلًا أو تلف بيانات. لم يعاد إنتاجه على جهاز."
+    },
+    {
+      "id": "R002",
+      "title_ar": "نتيجة الذكاء الأصلية تبقى تحت سؤال أو ملاحظة جديدة بلا نسبة واضحة",
+      "kind": "source-bug",
+      "severity": "P2",
+      "file": "App/LocalAIView.swift",
+      "line_start": 40,
+      "line_end": 79,
+      "evidence": {
+        "source_sha": "93f5adb1c2ee43195e0ceda35d39a9992c11e320",
+        "code": "Picker(\"ملاحظة مرجعية\", selection: $selectedNoteID) ... TextField(... text: $prompt) ... if !appleModel.answer.isEmpty { Text(appleModel.answer) }",
+        "related_files": [
+          "App/ArabicModelView.swift:47-68",
+          "App/ArabicModelView.swift:103-104",
+          "App/ArabicModelView.swift:168-170"
+        ],
+        "details_ar": "السؤال والمرجع قابلان للتغيير بعد انتهاء busy. عرض إجابة Apple لا يحمل السؤال/المصدر الأصلي ولا يبطلها عند تغيرهما. Qwen يحتفظ answer داخل StateObject؛ تمسح عند بدء توليد جديد أو الحذف فقط، لا عند تغير prompt/context."
+      },
+      "scenario": "ولّد إجابة للملاحظة أ، ثم اختر الملاحظة ب أو حرر السؤال دون تشغيل توليد جديد.",
+      "impact_ar": "تبقى الإجابة السابقة بجانب سياق جديد، وقد يفهمها الطالب كإجابة للمصدر الحالي. لا يوجد حفظ تلقائي مثبت هنا؛ الخلل نسبة النتيجة في العرض.",
+      "fix_ar": "اربط النتيجة بلقطة السؤال ومعرف/نسخة المصدر واعرضهما، أو امسح/وسم النتيجة قديمة عند تغير المدخلات. حافظ على فصل محركي Apple وQwen.",
+      "acceptance_ar": "بعد توليد أ وتغيير السؤال أو المرجع إلى ب، لا تظهر النتيجة دون وسم واضح بأنها تخص أ؛ يمنع وصول نتيجة متأخرة إلى سياق أحدث.",
+      "verification": "SOURCE: state/render relationship confirmed; runtime reproduction pending",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/93f5adb1c2ee43195e0ceda35d39a9992c11e320/App/LocalAIView.swift#L40-L79",
+        "https://github.com/scrv-1/rusukh-native-ios/blob/93f5adb1c2ee43195e0ceda35d39a9992c11e320/App/LocalAIView.swift",
+        "https://github.com/scrv-1/rusukh-native-ios/blob/93f5adb1c2ee43195e0ceda35d39a9992c11e320/App/ArabicModelView.swift"
+      ],
+      "raw_kind": "source_verified_defect",
+      "raw_severity": "medium",
+      "area": "release-native",
+      "area_ar": "الإصدار وSwiftUI",
+      "original_file": "/workspace/scratch/97ad5d4fb9f4/native-source-review/App/LocalAIView.swift",
+      "reviewed_commit": "93f5adb1c2ee43195e0ceda35d39a9992c11e320",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/93f5adb1c2ee43195e0ceda35d39a9992c11e320/App/LocalAIView.swift#L40-L79",
+      "supporting_source_urls": [],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "open",
+      "fix_status": {
+        "status": "open"
+      }
+    },
+    {
+      "id": "R003",
+      "title_ar": "الرئيسية الأصلية تعرض الملاحظات دون فتح مباشر وتؤجل بداية العمل",
+      "kind": "requirement-gap",
+      "severity": "P2",
+      "file": "App/HomeView.swift",
+      "line_start": 38,
+      "line_end": 50,
+      "evidence": {
+        "source_sha": "93f5adb1c2ee43195e0ceda35d39a9992c11e320",
+        "code": "ForEach(library.snapshot.notes.prefix(4)) { note in VStack(...) }",
+        "details_ar": "بطاقات آخر الملاحظات VStack فقط دون Button أو NavigationLink. الحالة الفارغة تقول اضغط ملاحظاتي لإضافة أول ملاحظة بدل إجراء إنشاء مباشر."
+      },
+      "scenario": "المستخدم يضغط ملاحظة حديثة من الرئيسية، أو يبدأ بتطبيق فارغ ويريد إنشاء أول ملاحظة.",
+      "impact_ar": "الرئيسية الأصلية تتطلب انتقالًا إضافيًا وبحثًا جديدًا عن الملاحظة؛ تحسين Expo لا يصل إليها. ليست مشكلة تلف بيانات.",
+      "fix_ar": "اربط البطاقات بمحرر الملاحظة الموجود، وأضف إجراء إنشاء في الحالة الفارغة مع الحفاظ على المسار والسياق.",
+      "acceptance_ar": "من الرئيسية تُفتح الملاحظة المقصودة مباشرة؛ من الحالة الفارغة يبدأ محرر جديد بخطوة واحدة دون بيانات نموذجية إجبارية.",
+      "verification": "SOURCE: confirmed missing interaction in reviewed HomeView; user-flow acceptance pending",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/93f5adb1c2ee43195e0ceda35d39a9992c11e320/App/HomeView.swift#L38-L50",
+        "https://github.com/scrv-1/rusukh-native-ios/blob/93f5adb1c2ee43195e0ceda35d39a9992c11e320/App/HomeView.swift"
+      ],
+      "raw_kind": "spec_gap",
+      "raw_severity": "medium",
+      "area": "release-native",
+      "area_ar": "الإصدار وSwiftUI",
+      "original_file": "/workspace/scratch/97ad5d4fb9f4/native-source-review/App/HomeView.swift",
+      "reviewed_commit": "93f5adb1c2ee43195e0ceda35d39a9992c11e320",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/93f5adb1c2ee43195e0ceda35d39a9992c11e320/App/HomeView.swift#L38-L50",
+      "supporting_source_urls": [],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "open",
+      "fix_status": {
+        "status": "open"
+      }
+    },
+    {
+      "id": "R004",
+      "title_ar": "بوابة إصدار Expo لا تضمن تطابق مصدر محرك AI مع المورد المشحون",
+      "kind": "release-risk",
+      "severity": "P2",
+      "file": "expo-preview/scripts/verify-release.cjs",
+      "line_start": 22,
+      "line_end": 31,
+      "evidence": {
+        "code": "ai-contract-tests runs ai-lab/test.mjs and ai-lab/engine-runtime.test.mjs; no ai-lab/build.mjs rebuild/consistency check in checks",
+        "related_files": [
+          "expo-preview/ai-lab/engine-runtime.test.mjs:10-13",
+          "expo-preview/tests/ai-bridge.ui.test.jsx:8",
+          "expo-preview/ai-lab/build.mjs:14-36"
+        ],
+        "details_ar": "اختبارات الأحداث تقرأ engine-entry.mjs، واختبارات الجسر تستبدل engine.generated بنموذج اختبار. verify-release يسجل تجزئة المصدر والمورد لكنه لا يثبت أن المورد مولّد من هذا المصدر. كذلك لا تشمل قائمة تجزئات المصدر ai-lab/build.mjs أو ai-lab/package-lock.json. فحص مستقل في هذا التدقيق وجد تطابق HTML الحالي مع manifest؛ لا ندّعي عيبًا في المورد الحالي."
+      },
+      "scenario": "يصلح مطور engine-entry أو contracts ثم ينسى إعادة بناء engine.generated؛ اختبارات المنطق تمر وMetro يشحن المورد القديم.",
+      "impact_ar": "قد تُنسب حماية جديدة إلى إصدار لا يحتويها فعليًا، رغم نجاح اختبارات المصدر.",
+      "fix_ar": "أضف فحصًا حتميًا للمورد: بناء مؤقت من الاعتماديات المثبتة ومقارنة الناتج/manifest قبل التصدير، أو سلسلة بصمات مدخلات موثقة تتحقق منها بوابة الإصدار. ضم build.mjs وملف قفل AI إلى سجل المدخلات.",
+      "acceptance_ar": "تغيير متعمد في engine-entry دون إعادة البناء يفشل بوابة الاتساق؛ البناء الصحيح ينجح دون استدلال أو تحميل نموذج.",
+      "verification": "SOURCE: release-check coverage confirmed; read-only hash check current HTML=manifest 00f1de9bb4db7f0dcd20ab93b68c031937ec1ea267ce33eb605cdeb7718f288d; no stale-artifact failure injected",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/scripts/verify-release.cjs#L22-L31"
+      ],
+      "raw_kind": "release_risk",
+      "raw_severity": "medium",
+      "area": "release-native",
+      "area_ar": "الإصدار وSwiftUI",
+      "original_file": "expo-preview/scripts/verify-release.cjs",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/scripts/verify-release.cjs#L22-L31",
+      "supporting_source_urls": [],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "fixed-verified",
+      "fix_status": {
+        "id": "R004",
+        "status": "fixed-verified",
+        "scope_ar": "فحص اتساق مدخلات بناء AI و manifest و generated و HTML قبل اختبارات بوابة الإصدار؛ إعادة بناء المورد بعد التغيير.",
+        "verification": "5 اختبارات build-integrity ناجحة، مع مقارنة 7 مدخلات ورفض تغير المصدر/المولد/البيان الناقص.",
+        "evidence": "../flow-20261103/ai/build-integrity-after-rebuild.json",
+        "limits_ar": "لا توقيع ضد تعديل متعمد للمصدر وال manifest معًا، ولا تحقق ملف GGUF أو تشغيل WASM على الهاتف.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      }
+    },
+    {
+      "id": "R005",
+      "title_ar": "اختبارات التخزين تتجاوز فتح قاعدة جديدة وترحيلها",
+      "kind": "release-risk",
+      "severity": "P2",
+      "file": "expo-preview/tests/storage.test.cjs",
+      "line_start": 9,
+      "line_end": 25,
+      "evidence": {
+        "code": "expo-sqlite mocked to {}; imported storage functions omit openStorage; schema(raw) manually creates tables",
+        "related_files": [
+          "expo-preview/tests/safety.ui.test.jsx:14",
+          "expo-preview/tests/workspace.ui.test.jsx:14",
+          "expo-preview/src/storage.ts:30-78"
+        ],
+        "details_ar": "اختبارات SQLite تختبر عمليات فوق schema يصنعه الاختبار، واختبارات التطبيق تستبدل openStorage. لا تمر هذه الطبقات بمسار bootstrap الحقيقي؛ لذلك لا تثبت البداية الفارغة ولا عدم زرع بيانات بعد الترقية. عيب الزرع نفسه مُحال لوكيل البيانات ولم يُكرّر هنا."
+      },
+      "scenario": "تتغير تهيئة قاعدة البيانات أو قاعدة seed بينما تبقى اختبارات CRUD الحالية خضراء.",
+      "impact_ar": "قد يختلف أول تشغيل حقيقي عن مسارات الواجهة المختبرة، وتفوت تغييرات تهيئة أو ترحيل مؤثرة.",
+      "fix_ar": "اختبر openStorage الحقيقي عبر محول SQLite يطبق execAsync/openDatabaseAsync أيضًا؛ غطِّ قاعدة فارغة وقاعدة قديمة وإعادة الفتح دون زرع أو حذف.",
+      "acceptance_ar": "اختبار يبدأ دون ملفات فيثبت صفر ملاحظات وبطاقات؛ آخر يعيد فتح بيانات مستخدم قديم ويحفظها بايتًا/مضمونًا؛ إخفاق تهيئة لا يعلن تحميلًا ناجحًا.",
+      "verification": "SOURCE: test bypass confirmed; bootstrap runtime reproduction delegated to data reviewer",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/tests/storage.test.cjs#L9-L25"
+      ],
+      "raw_kind": "release_risk",
+      "raw_severity": "medium",
+      "area": "release-native",
+      "area_ar": "الإصدار وSwiftUI",
+      "original_file": "expo-preview/tests/storage.test.cjs",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/tests/storage.test.cjs#L9-L25",
+      "supporting_source_urls": [],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "open",
+      "fix_status": {
+        "id": "R005",
+        "status": "open",
+        "partial_progress_ar": "تجاوز openStorage لم يعد شاملًا: خمسة اختبارات bootstrap تشغل SQL الفعلي على Node SQLite ؛ قاعدة فارغة وإعادة فتح، وقاعدة سابقة مع seeded وبدونه، وفشل تهيئة SQL ثم إعادة المحاولة مع مطابقة البيانات. اختُبر سبب فشل التهيئة الأصلي؛ ليست هذه مجرد محاكاة للدالة.",
+        "remaining_ar": "أبقي خطر الترحيل التاريخي مفتوحًا: fixtures الحالية تنشئ مخططًا ممثلًا محليًا؛ لم تثبت ملفات قواعد لإصدارات تاريخية فعلية أو كل تحويل مخطط قديم. لا يحتسب كبند إصلاح إضافي مغلق، ولا نعيد الادعاء أن bootstrap لم يختبر.",
+        "verification": "خمس حالات bootstrap ضمن 31 اختبار بيانات مستهدف ناجحًا؛ ليس Expo SQLite على الجهاز.",
+        "evidence": "../flow-20261103/data/data-result.json",
+        "device_verified": false
+      }
+    },
+    {
+      "id": "R006",
+      "title_ar": "يمكن إنتاج IPA كملف CI رغم فشل الاختبارات اللاحقة",
+      "kind": "release-risk",
+      "severity": "P2",
+      "file": ".github/workflows/ios-unsigned.yml",
+      "line_start": 136,
+      "line_end": 143,
+      "evidence": {
+        "code": "if: always() && steps.device.outcome == 'success'",
+        "related_lines": [
+          66,
+          78,
+          109,
+          112,
+          128,
+          157,
+          165
+        ],
+        "details_ar": "رفع IPA يتوقف على نجاح خطوة بناء الجهاز وحدها. اختبارات UI وتشغيل Swift المحلي تقع بعدها؛ يمكن فشلها ثم يبقى IPA ضمن مخرجات التشغيل. هذا مفيد للتشخيص، لكنه ليس دليل إصدار معتمد."
+      },
+      "scenario": "ينجح xcodebuild للجهاز ثم يفشل UI test أو اختبار Swift؛ يجد المستخدم IPA في Artifacts ويحسب وجوده نجاحًا كاملاً.",
+      "impact_ar": "اختلاط مخرج بناء غير موقع بمخرج اجتاز اعتماد الإصدار، أو نسبة اختبارات Expo إلى حزمة Swift أخرى.",
+      "fix_ar": "احتفظ بمخرجات التشخيص مع وسم واضح؛ انشر سجل validation-status وSHA وحالة كل خطوة داخل الحزمة/ملخص التشغيل، أو افصل اسم المخرج المعتمد عن غير المعتمد.",
+      "acceptance_ar": "تشغيل ذو فشل UI يعرض IPA موسومًا بوضوح غير معتمد؛ لا يقال اختُبر أو ثُبت لمجرد وجود artifact. لا حاجة لتشغيل Mac CI لإصلاح توصيف الأدلة.",
+      "verification": "SOURCE: workflow conditions confirmed; no workflow dispatched",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/.github/workflows/ios-unsigned.yml#L136-L143"
+      ],
+      "raw_kind": "release_risk",
+      "raw_severity": "medium",
+      "area": "release-native",
+      "area_ar": "الإصدار وSwiftUI",
+      "original_file": ".github/workflows/ios-unsigned.yml",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/.github/workflows/ios-unsigned.yml#L136-L143",
+      "supporting_source_urls": [],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "open",
+      "fix_status": {
+        "status": "open"
+      }
+    },
+    {
+      "id": "X201",
+      "title_ar": "إعادة تشغيل تسجيل انتهى تعتمد على إشارة مؤقتة",
+      "kind": "reproduced-bug",
+      "severity": "P2",
+      "file": "expo-preview/src/media/MediaCapturePanel.tsx",
+      "line_start": 23,
+      "line_end": 28,
+      "evidence": "toggle يستدعي seekTo(0) فقط إذا كانت status.didJustFinish صحيحة. مصدر expo-audio المثبت 58.0.11، ios/AudioPlayer.swift:150–163، يعيد didJustFinish=false في currentStatus؛ updateStatus:185–194 يدمج تحديث النهاية المؤقت؛ إشعار النهاية:475–498 يرسل true؛ المراقب الدوري:503–517 يرسل currentTime دونها. play:119–130 لا يعيد المؤشر. اختبار واجهة مؤقت بحالة currentTime=3,duration=3,didJustFinish=false استدعى play مرة وseekTo صفر مرات وفشل توقع seekTo(0).",
+      "scenario": "ينتهي مقطع صوتي، تصل حالة لاحقة بلا إشارة didJustFinish، ثم يضغط المستخدم «تشغيل التسجيل» مرة أخرى.",
+      "impact_ar": "يمر الأمر إلى المشغّل وهو عند النهاية؛ لا يضمن الزر إعادة الاستماع ويحتاج المستخدم إلى إغلاق المشغّل وفتحه لتصفير الجلسة.",
+      "fix_ar": "تتبع انتهاء المقطع بحالة ثابتة أو افحص currentTime/duration عند الاستئناف، ثم انتظر seekTo(0) قبل play. لا تعِد التصفير عند استئناف مقطع أوقفه المستخدم في المنتصف.",
+      "acceptance_ar": "ينجح اختبار الحالة المنتهية حتى بعد didJustFinish=false، وينجح الاستئناف من منتصف المقطع دون seek. على iPhone أعد تشغيل المقطع بعد ثانيتين من نهايته وتحقق سمعيًا من بدايته.",
+      "verification": "مُعاد إنتاج فرع JavaScript باختبار Jest مع مشغّل وهمي، ومدعوم بقراءة مصدر iOS المثبت. لم يُسمع تشغيل فعلي على iPhone. إعادة الإنتاج في access-evidence/audio-ended.ui.test.jsx.",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/media/MediaCapturePanel.tsx#L23-L28",
+        "https://docs.expo.dev/versions/v58.0.0/sdk/audio/"
+      ],
+      "raw_kind": "code-verified bug",
+      "raw_severity": "P2",
+      "area": "access-sources",
+      "area_ar": "الوصول والصوت والمصادر",
+      "original_file": "src/media/MediaCapturePanel.tsx",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/media/MediaCapturePanel.tsx#L23-L28",
+      "supporting_source_urls": [
+        "https://docs.expo.dev/versions/v58.0.0/sdk/audio/"
+      ],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "fixed-verified",
+      "fix_status": {
+        "id": "X201",
+        "status": "fixed-verified",
+        "verification": "نجح التحقق على Codespaces/Linux Node 24.22.2: 111 اختبار نواة و 208 واجهة و 28 AI ؛ TypeScript والتوافق و Expo Doctor 20/20 وتصدير iOS 909 وحدات. السجلات والبصمات في evidence/v051. ليس اختبار iPhone.",
+        "evidence": "fix-evidence/x201-x202.json"
+      }
+    },
+    {
+      "id": "X202",
+      "title_ar": "رسالة تعطل المحرك ضعيفة التباين في الوضع الداكن",
+      "kind": "source-bug",
+      "severity": "P2",
+      "file": "expo-preview/src/ai/LocalAILab.tsx",
+      "line_start": 58,
+      "line_end": 58,
+      "evidence": "نص الخطأ بلون ثابت #b71c1c وحجم 17. AIWorkspace.tsx:82–85 يضعه داخل Panel؛ ui.tsx:16–18 يحدد سطح الوضع الداكن #181819، وPanel:55–57 يستخدمه خلفية. حساب luminance وفق معادلة WCAG يعطي 2.700673557429649:1، أقل حتى من حد النص الكبير 3:1.",
+      "scenario": "يفشل WebView أو ينهي iOS عملية المحرك أثناء استخدام الوضع الداكن.",
+      "impact_ar": "تضعف قراءة سبب الفشل وتعليمات الاستعادة في اللحظة التي يحتاج فيها المستخدم إلى معرفة ما حدث.",
+      "fix_ar": "مرر لوحة الألوان إلى حالة الخطأ واستخدم p.danger أو لونًا متحقق التباين مع خلفية صريحة؛ حافظ على الدور alert.",
+      "acceptance_ar": "اختبار لون النص الفعلي والخلفية في الثيمين يحقق 4.5:1 للنص العادي، وتبقى تعليمات الإغلاق وإعادة المحاولة مقروءة مع النص المكبر.",
+      "verification": "تحقق ثابت من شجرة المكونات والألوان وحساب عددي؛ ليس اختبار بصر أو VoiceOver على جهاز.",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/ai/LocalAILab.tsx#L58",
+        "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+      ],
+      "raw_kind": "code-verified bug",
+      "raw_severity": "P2",
+      "area": "access-sources",
+      "area_ar": "الوصول والصوت والمصادر",
+      "original_file": "src/ai/LocalAILab.tsx",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/ai/LocalAILab.tsx#L58",
+      "supporting_source_urls": [
+        "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+      ],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "fixed-verified",
+      "fix_status": {
+        "id": "X202",
+        "status": "fixed-verified",
+        "verification": "نجح التحقق على Codespaces/Linux Node 24.22.2: 111 اختبار نواة و 208 واجهة و 28 AI ؛ TypeScript والتوافق و Expo Doctor 20/20 وتصدير iOS 909 وحدات. السجلات والبصمات في evidence/v051. ليس اختبار iPhone.",
+        "evidence": "fix-evidence/x201-x202.json"
+      }
+    },
+    {
+      "id": "M001",
+      "title_ar": "بلاغان في اعتماديات أدوات البناء يحتاجان معالجة متوافقة بدل إصلاح npm القسري",
+      "kind": "release-risk",
+      "severity": "P2",
+      "file": "expo-preview/package-lock.json",
+      "line_start": 7379,
+      "line_end": 7393,
+      "evidence": "npm audit --omit=dev على Codespaces أعاد 12 عقدة حزم بدرجة moderate، تتبع بلاغَي glob وminimatch، وليس 12 عيبًا مستقلًا. السجل dependencies-audit.json يحدد الحزم والنطاقات. لا high أو critical في نتيجة الفحص. اقتراح fixAvailable يعود بـExpo 51.0.39؛ المشروع يستخدم Expo 58، ولذلك لا يصلح تطبيقه قسرًا كترقية. البلاغان مقروءان مباشرة من GitHub Advisory Database بتاريخ الفحص. لم نثبت مدخلًا يتحكم به طالب يمر إلى هذه الدوال داخل حزمة iPhone.",
+      "scenario": "تعتمد أدوات Expo والبناء على إصدارات يذكرها الفحص؛ تشغيل npm audit fix --force بلا فحص قد يرجع SDK إلى إصدار آخر ويفسد توافق Expo Go.",
+      "impact_ar": "مخاطرة صيانة وتوفر في سلسلة البناء وفق شروط البلاغين؛ ليست دليل اختراق بيانات الطالب أو ثغرة قابلة للاستغلال داخل واجهة التطبيق.",
+      "fix_ar": "تتبّع الاعتماديتين والإصدارات المصححة في تحديث متوافق مع Expo58، وافحص مسارات الاستدعاء ثم ثبّت تغييرًا محدودًا ينجح في typecheck/doctor/export. لا ترجع SDK أو توسع الصلاحيات لإسكات الفحص.",
+      "acceptance_ar": "يوثق قرار لكل بلاغ وإصداراته ومسار التعرض، ويُعاد npm audit بعد تحديث متوافق مع نجاح التصدير والاختبارات. إذا كان البلاغ خاصًا بأداة البناء، يُصرّح بالنطاق دون ادعاء سلامة شاملة أو العكس.",
+      "verification": "فحص اعتماديات فعلي ومصدر أولي؛ لا اختبار استغلال على التطبيق. أسماء node_modules/glob وnode_modules/minimatch مذكورة في السجل المرفق.",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/package-lock.json#L7379-L7393",
+        "https://github.com/advisories/GHSA-3g3m-2fjr-6pw4",
+        "https://github.com/advisories/GHSA-g3hv-75wg-m249"
+      ],
+      "raw_kind": "release-risk",
+      "raw_severity": "P2",
+      "area": "root",
+      "area_ar": "الاعتماديات",
+      "original_file": "package-lock.json",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/package-lock.json#L7379-L7393",
+      "supporting_source_urls": [
+        "https://github.com/advisories/GHSA-3g3m-2fjr-6pw4",
+        "https://github.com/advisories/GHSA-g3hv-75wg-m249"
+      ],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "open",
+      "fix_status": {
+        "status": "open"
+      }
+    },
+    {
+      "id": "D005",
+      "title_ar": "العودة للتطبيق تستبدل وقت التذكير الجاري تعديله بالقيمة القديمة",
+      "kind": "reproduced-bug",
+      "severity": "P3",
+      "file": "expo-preview/src/reminders/RemindersPanel.tsx",
+      "line_start": 23,
+      "line_end": 31,
+      "evidence": [
+        "refresh يكتب setTime(formatReminderTime(current)) دون التحقق من تعديل الحقل. يُستدعى عند كل AppState active.",
+        "docs/research/devils-audit-20261103/data-evidence/reminders-audit.ui.test.jsx: أدخل20:30 ثم active؛ الحقل رجع19:00 ولم تُرسل عملية schedule."
+      ],
+      "scenario": "تكتب وقتًا جديدًا ثم تنتقل لحظيًا إلى تطبيق آخر أو إعدادات الهاتف وتعود قبل الضغط على التفعيل/التحديث.",
+      "impact_ar": "يضيع الاختيار المحلي ويحتاج إعادة الكتابة؛ الضغط التالي قد يثبت الموعد القديم الذي عاد إلى الحقل. لا يتغير موعد النظام بمجرد العودة.",
+      "fix_ar": "افصل حالة النظام عن قيمة الحقل المحلية، واحفظ dirty/revision للحقل. حدّث وصف الحالة عند العودة مع إبقاء الوقت الجاري تعديله حتى حفظه أو إلغائه.",
+      "acceptance_ar": "أدخل20:30 ثم background/active؛ يبقى20:30 ويُحدث وصف إذن النظام. فحص الحالة لا يمحو تعديلًا محليًا دون فعل إعادة تعيين صريح.",
+      "verification": {
+        "status": "reproduced",
+        "method": "RemindersPanel الحقيقي مع service وAppState محاكيين.",
+        "command": "./node_modules/.bin/jest --config docs/research/devils-audit-20261103/data-evidence/jest.config.cjs --runInBand",
+        "artifacts": [
+          "docs/research/devils-audit-20261103/data-evidence/reminders-audit.ui.test.jsx",
+          "docs/research/devils-audit-20261103/data-evidence/ui-probes.log"
+        ]
+      },
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/reminders/RemindersPanel.tsx#L23-L31"
+      ],
+      "raw_kind": "bug",
+      "raw_severity": "P3",
+      "area": "data",
+      "area_ar": "البيانات والاسترجاع",
+      "original_file": "src/reminders/RemindersPanel.tsx",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/reminders/RemindersPanel.tsx#L23-L31",
+      "supporting_source_urls": [],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "fixed-verified",
+      "fix_status": {
+        "id": "D005",
+        "status": "fixed-verified",
+        "scope_ar": "حماية وقت التذكير الجاري تعديله من قراءة foreground قديمة، مع اعتماد القيمة بعد نجاح الحفظ فقط.",
+        "verification": "اختبارات dirty/revision وفشل الجدولة وحفظ قيمة أحدث ضمن 77 اختبارًا مستهدفًا.",
+        "evidence": "../flow-20261103/media/result.json",
+        "limits_ar": "تسليم الإشعار الحقيقي على الهاتف لم يُثبت.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      }
+    },
+    {
+      "id": "S005",
+      "title_ar": "يمكن حفظ عنوان ملاحظة لا يمكن تمثيله بصيغة الرابط التي يطلبها التطبيق",
+      "kind": "reproduced-bug",
+      "severity": "P3",
+      "file": "expo-preview/App.tsx",
+      "line_start": 253,
+      "line_end": 260,
+      "evidence": "التحقق من العنوان يفحص الفراغ والتكرار والطول فقط؛ يسمح بـ | أو ]. محلل الروابط يفصل الهدف عند | وينهيه عند ] (core.ts:43–58). S005: عنوان «الجزء | الأول» محفوظ الشكل، لكن [[الجزء | الأول]] يتحول إلى هدف «الجزء»، ولا ينشئ graphEdges علاقة.",
+      "scenario": "احفظ ملاحظة بعنوان يحتوي |، ثم انسخ عنوانها كما هو داخل [[...]] في ملاحظة ثانية طبقًا للإرشاد الظاهر. لا تظهر العلاقة، ولا يشرح التطبيق لماذا.",
+      "impact_ar": "يفشل الربط في مثال قابل للإدخال بالواجهة، ويصعب اكتشاف الخطأ لأن الملاحظة موجودة والعنوان يبدو مطابقًا. ليست مشكلة في جميع العناوين أو شبكة الروابط العامة.",
+      "fix_ar": "توحيد عقد العنوان وهدف الرابط: يفضل مُنتقي روابط يحفظ وجهة مستقرة أو صيغة هروب مدعومة؛ إن لم يتوفر ذلك امنع المحارف غير القابلة للتمثيل برسالة محددة قبل الحفظ. طبق التحقق على الإنشاء والتسمية الجديدة، لا عند وجود روابط قديمة فقط.",
+      "acceptance_ar": "كل عنوان يقبله المحرر قابل لإنشاء رابط إليه عبر المسار الذي تعرضه الواجهة. يغطي الاختبار | و] والاسم البديل، مع بقاء روابط العناوين العادية وإعادة التسمية الحالية سليمة.",
+      "verification": "S005 يثبت الناتج الفعلي للمحلل والرسم. قبول المحارف مثبت بتتبع commitNote وحقل العنوان؛ لم تُنفذ تجربة لوحة مفاتيح iPhone لأن الخلل مستقل عنها.",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/App.tsx#L253-L260",
+        "https://obsidian.md/help/links",
+        "https://obsidian.md/help/aliases"
+      ],
+      "raw_kind": "bug/source-proven",
+      "raw_severity": "low",
+      "area": "study",
+      "area_ar": "الدراسة والبطاقات",
+      "original_file": "App.tsx",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/App.tsx#L253-L260",
+      "supporting_source_urls": [
+        "https://obsidian.md/help/links",
+        "https://obsidian.md/help/aliases"
+      ],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "fixed-verified",
+      "fix_status": {
+        "id": "S005",
+        "status": "fixed-verified",
+        "scope_ar": "رفض عناوين جديدة لا يمكن تمثيلها بأمان في صيغة رابط wiki ، وربط التحقق بمحرر الملاحظة.",
+        "verification": "اختبارات wikiLinkTitleError ضمن المنطق وفحص TypeScript ؛ الدمج في App راجع بالمصدر.",
+        "evidence": "../flow-20261103/study/summary.json",
+        "limits_ar": "لا يعيد تسمية ملاحظات قديمة أو يغيّر محتوى النسخ المستوردة بصمت.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      }
+    },
+    {
+      "id": "R007",
+      "title_ar": "تخصيص أقسام Expo ليس موجودًا في الرئيسية الأصلية المفحوصة",
+      "kind": "requirement-gap",
+      "severity": "P3",
+      "file": "App/RusukhNativeApp.swift",
+      "line_start": 21,
+      "line_end": 31,
+      "evidence": {
+        "source_sha": "93f5adb1c2ee43195e0ceda35d39a9992c11e320",
+        "code": "TabView { HomeView(); NotesView(); ReviewView(); GraphView(); LocalAIView() }",
+        "related_files": [
+          "App/HomeView.swift:8-60",
+          "App/BackupSettingsView.swift:18-74",
+          "expo-preview/src/WorkspaceEditor.tsx",
+          "expo-preview/src/workspace.ts"
+        ],
+        "details_ar": "الرئيسية الأصلية ثابتة ولا تستقبل تفضيلات وحدات؛ الإعدادات المفحوصة لا تعرض محرر أقسام. Expo يملك workspace ومحرره. لا نعمم على ملفات أصلية غير مفحوصة."
+      },
+      "scenario": "يخصص الطالب Expo ثم ينتقل مستقبلًا إلى SwiftUI ويتوقع الأقسام والترتيب نفسه.",
+      "impact_ar": "فجوة تكافؤ في الهدف النهائي وتجربة الانتقال، لا خلل في تبويبات SwiftUI الثابتة بحد ذاتها.",
+      "fix_ar": "سجّلها كعمل Native مستقل: تفضيلات عرض محدودة قابلة للاسترجاع، وهجرة/تعيين مدروس من workspace عند الاستيراد؛ لا تنقل قاعدة البيانات أو تخفي التنقل الأساسي.",
+      "acceptance_ar": "في Native، الإخفاء والإظهار والترتيب والحفظ والفشل وإعادة التشغيل لا تمس المحتوى؛ تفضيلات Expo إما تُستورد بوضوح أو يُعلن عدم دعمها.",
+      "verification": "SOURCE: reviewed RootView/HomeView/SettingsView only; not implemented or device-tested by this audit",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/93f5adb1c2ee43195e0ceda35d39a9992c11e320/App/RusukhNativeApp.swift#L21-L31",
+        "https://github.com/scrv-1/rusukh-native-ios/blob/93f5adb1c2ee43195e0ceda35d39a9992c11e320/App/RusukhNativeApp.swift",
+        "https://github.com/scrv-1/rusukh-native-ios/blob/93f5adb1c2ee43195e0ceda35d39a9992c11e320/App/HomeView.swift",
+        "https://github.com/scrv-1/rusukh-native-ios/blob/93f5adb1c2ee43195e0ceda35d39a9992c11e320/App/BackupSettingsView.swift"
+      ],
+      "raw_kind": "spec_gap",
+      "raw_severity": "low",
+      "area": "release-native",
+      "area_ar": "الإصدار وSwiftUI",
+      "original_file": "/workspace/scratch/97ad5d4fb9f4/native-source-review/App/RusukhNativeApp.swift",
+      "reviewed_commit": "93f5adb1c2ee43195e0ceda35d39a9992c11e320",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/93f5adb1c2ee43195e0ceda35d39a9992c11e320/App/RusukhNativeApp.swift#L21-L31",
+      "supporting_source_urls": [],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "open",
+      "fix_status": {
+        "status": "open"
+      }
+    },
+    {
+      "id": "X205",
+      "title_ar": "أزرار الاستماع المتعددة لا تذكر التسجيل المقصود لقارئ الشاشة",
+      "kind": "design-risk",
+      "severity": "P3",
+      "file": "expo-preview/src/media/MediaCapturePanel.tsx",
+      "line_start": 173,
+      "line_end": 175,
+      "evidence": "كل تسجيل غير مفتوح يحمل زر title=استماع بلا accessibilityLabel مخصص. Button في ui.tsx:43 يعين الاسم المسموع إلى title. عنوان التسجيل sibling منفصل، بينما زر المشاركة في السطر175 يضم item.title صراحة.",
+      "scenario": "يضم المستخدم تسجيلين أو أكثر ويتنقل مباشرة بين الأزرار باستخدام VoiceOver بدل قراءة كل عناصر البطاقة بالتتابع.",
+      "impact_ar": "الأسماء المتكررة وحدها لا تميز وجهة الاستماع؛ قد يحتاج المستخدم الرجوع لقراءة السياق، وقد يفتح التسجيل الخطأ. لم نختبر نطق VoiceOver فعليًا.",
+      "fix_ar": "اجعل الاسم المسموع «استماع إلى {عنوان التسجيل}» و«إغلاق مشغّل {العنوان}»، مع إبقاء النص المرئي المختصر إذا لزم.",
+      "acceptance_ar": "تثبت شجرة الوصول أسماء مختلفة لثلاثة تسجيلات، ثم يختار مستخدم VoiceOver التسجيل المطلوب بالتنقل بين الأزرار دون التخمين أو فقد عنوان السياق.",
+      "verification": "تكرار أسماء عناصر الوصول مثبت من الكود؛ شدة أثره العملي استنتاج تصميمي يحتاج جلسة VoiceOver.",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/media/MediaCapturePanel.tsx#L173-L175",
+        "https://reactnative.dev/docs/accessibility"
+      ],
+      "raw_kind": "design risk",
+      "raw_severity": "P3",
+      "area": "access-sources",
+      "area_ar": "الوصول والصوت والمصادر",
+      "original_file": "src/media/MediaCapturePanel.tsx",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/media/MediaCapturePanel.tsx#L173-L175",
+      "supporting_source_urls": [
+        "https://reactnative.dev/docs/accessibility"
+      ],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "fixed-verified",
+      "fix_status": {
+        "id": "X205",
+        "status": "fixed-verified",
+        "scope_ar": "تسميات الاستماع والتشغيل والإيقاف وإغلاق المشغل تتضمن العنوان واسم الملف للتمييز بين التسجيلات.",
+        "verification": "اختبارات عناصر الوصول والأفعال المسموعة ضمن اختبارات الوسائط المستهدفة.",
+        "evidence": "../flow-20261103/media/result.json",
+        "limits_ar": "لم تُجر جلسة VoiceOver على iPhone ؛ تغيير التسميات مثبت في المكوّن فقط.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      }
+    },
+    {
+      "id": "X207",
+      "title_ar": "اتجاه حقل رابط الفيديو مضبوط كالنص العربي ويحتاج تحقق تحرير ثنائي الاتجاه",
+      "kind": "device-gap",
+      "severity": "P3",
+      "file": "expo-preview/src/ui.tsx",
+      "line_start": 60,
+      "line_end": 70,
+      "evidence": "Field يفرض textAlign=right وwritingDirection=rtl على جميع الحقول ولا يتيح ضبط نوع الإدخال أو direction؛ SourcesWorkbench.tsx:146 يستخدمه لرابط YouTube. لا أستنتج من ذلك أن الرابط المحفوظ معكوس؛ قيمة السلسلة يتحقق منها محلل URL منفصل.",
+      "scenario": "يحرر المستخدم رابطًا لاتينيًا طويلًا يتضمن ?v= و&t= بلوحة عربية، ويغير حرفًا داخل معرف الفيديو، ثم يلصق رابطًا بجوار عنوان عربي.",
+      "impact_ar": "احتمال صعوبة حركة المؤشر وترتيب عرض علامات الترقيم والمقاطع اللاتينية؛ هذا تحقق RTL وظيفي، وليس تفضيلًا لمحاذاة شكلية أو دليل فساد الرابط.",
+      "fix_ar": "اختبر التحرير واللصق أولًا. إن ظهر اللبس، اجعل اتجاه حقل URL ونوع لوحة مفاتيحه مناسبين للرابط مع بقاء عنوان الحقل عربيًا واتجاه باقي النصوص RTL.",
+      "acceptance_ar": "على إعدادَي النظام العربي والإنجليزي، يبقى رابط https://www.youtube.com/watch?v=dQw4w9WgXcQ&t=90 مطابقًا حرفيًا بعد تعديل جزء منه؛ يتحرك المؤشر بصورة مفهومة، ويفتح الرابط الصحيح، ويقرأ VoiceOver اسم الحقل وقيمته.",
+      "verification": "إعداد اتجاه الحقل ثابت؛ سلوك المؤشر والنطق على iOS غير مختبر، ولا يُعد فشلًا مثبتًا من الكود.",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/ui.tsx#L60-L70",
+        "https://reactnative.dev/docs/accessibility"
+      ],
+      "raw_kind": "device-validation gap",
+      "raw_severity": "P3",
+      "area": "access-sources",
+      "area_ar": "الوصول والصوت والمصادر",
+      "original_file": "src/ui.tsx",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/src/ui.tsx#L60-L70",
+      "supporting_source_urls": [
+        "https://reactnative.dev/docs/accessibility"
+      ],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "open",
+      "fix_status": {
+        "id": "X207",
+        "status": "open",
+        "partial_progress_ar": "Field يتيح direction ، وحقل رابط YouTube مضبوط LTR في المصدر الحالي.",
+        "remaining_ar": "سلوك المؤشر والتعديل واللصق والنطق بلوحة عربية/إنجليزية و VoiceOver على iOS لم يختبر؛ نوع لوحة URL لم يثبت تغييره هنا. تظل فجوة الجهاز مفتوحة.",
+        "verification": "قراءة src/ui.tsx و src/SourcesWorkbench.tsx ؛ لا جلسة جهاز مستقلة.",
+        "evidence": "../../../src/SourcesWorkbench.tsx",
+        "device_verified": false
+      }
+    }
+  ],
+  "validation_limitations": [
+    {
+      "id": "R008",
+      "title_ar": "اعتماد تجربة الآيفون ما زال منفصلًا عن نجاح 307 اختبارات",
+      "kind": "device-gap",
+      "severity": "P1",
+      "file": "expo-preview/RELEASE_0.5.0.md",
+      "line_start": 47,
+      "line_end": 52,
+      "evidence": {
+        "code": "منفذ ولم يُختبر على الآيفون: Files/iCloud، VoiceOver، الأذونات، المحرك المحلي والموارد",
+        "related_files": [
+          "expo-preview/evidence/v050/visual-check.json:2-5",
+          "expo-preview/tests/ai-bridge.ui.test.jsx:8-15",
+          "expo-preview/ai-lab/engine-runtime.test.mjs:10-11"
+        ],
+        "details_ar": "التقرير يصرح بالحدود بدقة. المعاينة المرئية Web harness، ومحرك AI بديل في Node، والجسر WebView محاكى. هذه أدلة مفيدة لكنها لا تثبت مسار Files الحقيقي أو الذاكرة أو استدلال iPhone."
+      },
+      "scenario": "التسليم يصف النسخة جاهزة بالكامل اعتمادًا على العدد أو HTTP200 أو صور المتصفح، قبل تجربة الهاتف.",
+      "impact_ar": "قد يتعطل هدف المستخدم المباشر رغم صحة اختبارات المنطق؛ لا يوجد في هذا التدقيق دليل وقوع تعطل جهاز بعينه.",
+      "fix_ar": "اعتمد نسخة تجربة بحدود صريحة، مع سجل مهام جهاز قصير: بدء فارغ، حفظ/إعادة تشغيل، تخصيص، ملف Files وiCloud، صوت وأذونات؛ افصل اختبار AI الكبير عن أول تجربة أساسية.",
+      "acceptance_ar": "سجل جهاز وإصدار iOS/Expo وSHA وتوقيت ونتيجة كل مهمة. لا تعتمد حرارة أو بطارية أو استدلال عربي من Mac/Chrome. ولا تُعلن تثبيت SwiftUI حتى يثبت فعليًا.",
+      "verification": "DOCUMENTED GAP: acknowledged by release; no device available to this reviewer",
+      "source_urls": [
+        "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/RELEASE_0.5.0.md#L47-L52"
+      ],
+      "raw_kind": "device_validation_gap",
+      "raw_severity": "high",
+      "area": "release-native",
+      "area_ar": "الإصدار وSwiftUI",
+      "original_file": "expo-preview/RELEASE_0.5.0.md",
+      "reviewed_commit": "2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0",
+      "code_url": "https://github.com/scrv-1/rusukh-native-ios/blob/2486ae13f2ecb7d2eddb7a29c36caf358d9dd3c0/expo-preview/RELEASE_0.5.0.md#L47-L52",
+      "supporting_source_urls": [],
+      "merged_ids": [],
+      "merged_findings": [],
+      "status": "open",
+      "fix_status": {
+        "status": "open"
+      }
+    }
+  ],
+  "target_experience": {
+    "file": "TARGET_EXPERIENCE.md",
+    "status": "target-design-not-complete",
+    "summary_ar": [
+      "أول فتح: مكتبة ومساحة بلا بيانات أو أقسام مفروضة، مع مدخل إنشاء واضح.",
+      "الفتح التالي: استعادة المحتوى والتخطيط والمسودة؛ لا مسح عند كل تشغيل.",
+      "أضف مادة ← افحص النص ← اختر ناتج الدراسة ← راجع النتيجة ← ابدأ ← استأنف.",
+      "إخفاء قسم يغيّر الواجهة فقط؛ استرجاعه لا يحذف المحتوى ولا يكرره.",
+      "النماذج تُعرض بقدراتها الفعلية؛ الإدارة التلقائية والتشغيل دون اتصال يحتاجان تنفيذًا ودليل جهاز.",
+      "الرحلة الموحدة تصميم مستهدف؛ الإصلاحات الجزئية لا تعني اكتمالها."
+    ],
+    "text_ar": "# رُسوخ: كيف يفترض أن يعمل\n\nهذا تصميم مستهدف وخطة قبول، وليس قائمة ميزات منفذة. يتبع طلب المستخدم: بداية فارغة، أدوات جاهزة، أقل إعداد يدوي، وإمكانية تركيب الواجهة وإزالة أقسامها دون المساس بالمحتوى.\n\n## الحكم على الاتجاه السابق\n\nالنسخة 0.5.0 تجمع أدوات مفيدة لكن الطالب ما زال ينسق بينها بنفسه: يضيف المصدر، يحوّله إلى مسودة، يسميه، يكتب س/ج أو يجهز نموذجًا، ثم يبحث عن البطاقات. تحسين أسماء الأزرار لا يصلح هذا الانقطاع. نجاح اختبارات الوحدات لا يثبت نجاح رحلة طالب جديد.\n\nالهدف القابل للاختبار هو نجاح الطالب العربي في إضافة مادة ثم بدء دراسة مفيدة واستئنافها، مع حماية عمله. «إرضاء الجميع» ليس معيار قبول قابلًا للقياس؛ نستوعب اختلاف الاستخدام باختيارات قابلة للعكس ووصول جيد، لا بإظهار كل ميزة لكل شخص.\n\n## أول فتح\n\n1. ينشئ التطبيق مخزنه المحلي في الخلفية دون حساب أو إذن غير لازم.\n2. لا يضيف ملاحظات أو بطاقات أو مراجعات نموذجية إلى مكتبة الطالب.\n3. لا يثبت أقسامًا أو إحصاءات أو أهدافًا في مساحته.\n4. يبقى مدخل إنشاء واضح وثابت؛ الفراغ لا يعني شاشة محيرة بلا طريق للبدء.\n5. يستطيع الطالب كتابة ملاحظة فورًا دون أن يصمم لوحة معلومات أولًا.\n6. يستطيع إضافة مادة أو أداة من المدخل نفسه بحسب المهمة، مع بحث في الأدوات عند كثرتها.\n7. الأمثلة اختيارية ومعزولة عن مكتبته، إن أضفناها لاحقًا.\n8. الأذونات تظهر عند استخدام الميكروفون أو الكاميرا، لا عند أول فتح.\n9. الخطأ في فتح التخزين يظهر كخطأ مع إعادة محاولة؛ لا يُعرض كأنه مكتبة فارغة جديدة.\n10. في الفتح التالي يعود المحتوى والتخطيط المحفوظان؛ البداية الفارغة ليست مسحًا عند كل تشغيل.\n11. بيانات المستخدم القديم وتخصيصه تبقى كما هي عند التحديث.\n\n## الرحلة الأساسية\n\n**أضف مادة ← افحص النص ← اختر ناتج الدراسة ← راجع النتيجة ← ابدأ ← استأنف.**\n\n| الخطوة | ما يفعله الطالب | ما ينفذه التطبيق | شرط الصدق |\n|---|---|---|---|\n| الإضافة | يختار ملفًا أو يلصق نصًا | يكتشف النوع والعنوان المبدئي والحجم | لا يفرض كتابة الصيغة يدويًا إن أمكن اكتشافها |\n| تجهيز النص | يصحح النص عند الحاجة | يعرض الأصل ومشكلات الاستخراج | PDF المصور يحتاج OCR فعليًا؛ لا نسمي الفراغ نجاحًا |\n| اختيار الناتج | ملاحظة، بطاقات، اختبار | يحتفظ بالمصدر ويجهز المعاينة | لا يوصف استخراج س/ج بأنه ذكاء اصطناعي |\n| التوليد | يطلبه إن أراده | يستعمل محركًا جاهزًا متحققًا منه | لا يبدأ توليد محلي بلا نموذج محمل فعليًا |\n| الاعتماد | يعدل أو يعتمد | يحفظ المحتوى والعلاقات وأصل كل سؤال | لا ينشر النتائج المولدة تلقائيًا داخل الدراسة |\n| الدراسة | يسترجع ويقيّم | يعرض المادة التالية والموعد التالي | «صعب» لا يؤجل أكثر من «جيد» لنفس الحالة |\n| الاستئناف | يعود للتطبيق | يستعيد المسودة والمصدر والموضع | التنقل والمقاطعة لا يمحوان العمل |\n\nهذه رحلة مستهدفة. لم يُنجز ربطها بالكامل في إصلاحات هذا التدقيق.\n\n## ما نزيله أو نستبدله\n\n| الحالي | القرار المقترح | الضروري بدلًا منه | الحالة |\n|---|---|---|---|\n| محتوى تجريبي يزرع عند فتح القاعدة | إيقاف الزرع | مكتبة جديدة فارغة | إصلاح هذه الدفعة |\n| قسمان افتراضيان وشعار وإحصاءات داخل مساحة فارغة | إلغاء الفرض في المساحة غير المخصصة | شريط إنشاء صغير | إصلاح هذه الدفعة |\n| إعادة تسمية «بسيط» على أنه بداية المستخدم | إبقاؤه قالبًا اختياريًا | بداية منفصلة بلا أقسام | إصلاح هذه الدفعة |\n| التصفح ثم الذهاب لمحرر آخر لإضافة الأداة | جمع الفتح والإضافة في صف الأداة | إضافة/إزالة مباشرة مع تراجع | مخطط، غير منفذ |\n| تحريك القسم عبر أدوات مخفية | ترتيب الأقسام المضافة فقط | تغيير مرئي في كل ضغطة | مخطط، غير منفذ |\n| حقول مصدر منفصلة تنتهي عند مغادرة الشاشة | مسودة مادة موحدة محفوظة | استئناف من آخر خطوة | مخطط، غير منفذ |\n| كتابة عنوان قبل إنجاز الالتقاط | عنوان تلقائي قابل للتعديل | التقاط سريع بلا تعطيل | جزئي في المصادر فقط |\n| جمع أجوبة البطاقات عشوائيًا كخيارات اختبار | اشتراط خيارات مراجعة أو استخدام استرجاع ذاتي | اختبار لا يعاقب جوابًا صحيحًا | مخطط، غير منفذ |\n| اسم المصدر كنص فقط في ناتج الذكاء | مصدر ثابت ومقطع مستخدم وتاريخ | العودة للمصدر وفهم قدم النتيجة | مخطط، غير منفذ |\n| شرح تقنية النموذج قبل إنجاز الدراسة | نقل التفاصيل المتقدمة إلى تفاصيل النموذج | جاهز/يحتاج تنزيل/غير مدعوم مع إجراء واضح | مخطط، غير منفذ |\n| اختيار ملف نموذج مجددًا لكل سياق | دورة حياة مستقلة للنموذج | تحميل مرة ثم تبديل المصدر | مخطط، غير منفذ |\n| عداد اختبارات كدليل جاهزية المنتج | معايير نجاح لكل رحلة | تسجيل تجربة كاملة على الآيفون | غير متحقق على الجهاز |\n\nلا نضيف متجر إضافات أو عشرات النماذج أو إعدادات لكل زر لمجرد تقليد منافس. الأداة التي لا تخدم إنشاء المادة أو فهمها أو دراستها أو حفظها تبقى اختيارية، ولا تُضاف إلى البداية.\n\n## تركيب الواجهة\n\n- «مساحتي» مساحة المستخدم؛ «مكتبتي» مصدر المحتوى، حتى إن أخفى جميع الأقسام.\n- كل أداة لها حالة «مضافة» أو «متاحة»، وفعل فتح مستقل عن فعل الإضافة.\n- إزالة القسم تغير العرض فقط. حذف المحتوى فعل آخر واضح وأثره محدد.\n- الترتيب يعمل على الأقسام الظاهرة؛ أزرار تقديم وتأخير بديل متاح للسحب.\n- إعادة الترتيب أو فشل حفظ التفضيلات لا يمس الملاحظات والبطاقات.\n- استعادة القسم لا تعيد إنشاء بيانات أو تضاعفها.\n- القوالب اختيارية وقابلة للإلغاء؛ لا جولة تخصيص إجبارية.\n- لا تُنشأ تفضيلات فارغة فوق تفضيلات سابقة عند فشل قراءتها.\n- لا نغير التنقل كله في إصلاح «البداية الفارغة»؛ إعادة تنظيمه تحتاج اختبار رحلة مستقلًا.\n\n## جاهزية الذكاء المحلي\n\nالنموذج ليس زرًا يُرسم في الواجهة. الجاهزية تعني تحققًا من الملف، وتحميل المحرك، ونجاح استدلال عربي فعلي، وحدودًا مقاسة على الجهاز. الاستخدام الأساسي للملاحظات والدراسة يجب أن يعمل أثناء غياب النموذج أو تنزيله.\n\n- قائمة صغيرة من نماذج تحققنا من ترخيصها وحجمها وتوافقها وجودتها.\n- وصف ما يصلح له كل نموذج بلغة الطالب.\n- تقدير مساحة التنزيل والتخزين قبل البدء.\n- تقدم وتنزيل قابل للاستئناف وإلغاء آمن، حيث تسمح البيئة.\n- تحقق بصمة الملف قبل تفعيل النموذج المرجعي.\n- تبديل النموذج دون فقد النص أو النتيجة غير المعتمدة.\n- اختيار أي مادة محفوظة، لا الاقتصار على أول خمس ملاحظات.\n- تغيير المصدر دون إعادة اختيار الملف وإعادة تحميله بلا حاجة.\n- احتفاظ بالمسودة عند التنقل أو المقاطعة.\n- تقييم عربي يختبر صحة السؤال والجواب ومنفعة التعلم، لا وجود حرف عربي فقط.\n- إعلان «غير جاهز على هذا الجهاز» عند الفشل بدل نجاح شكلي.\n\nهذه متطلبات غير مكتملة في Expo حاليًا. لا تنزيل تلقائي كبير ولا نموذج جديد ضمن هذه الدفعة.\n\n## ترتيب العمل وشروط الخروج\n\n| الدفعة | العمل | لا نعتمدها حتى |\n|---|---|---|\n| الآن | بداية فارغة، حماية المسودة قبل الاستعادة، اتساق الجدولة، إصلاحا الصوت والتباين | اختبارات إثبات قبل وبعد + عدم تغيير بيانات المستخدم القديم |\n| سلامة العمل | مسودات المصدر والذكاء والبطاقة، استرداد الصورة اليتيمة، سعة النسخ | إغلاق/استئناف وفشل مساحة دون فقد صامت |\n| رحلة واحدة للدراسة | إضافة مادة موحدة، معاينة بطاقات، تحريرها دون فقد تاريخها، مصدر ثابت | طالب جديد ينجزها دون كتابة صيغة تقنية أو تعليمات خارج التطبيق |\n| تبسيط التنظيم | إضافة القسم من دليله وترتيب المضاف فقط واستعادة السياق | إزالة/إعادة/إعادة تشغيل مع بقاء المحتوى والترتيب |\n| AI فعلي | تجهيز نموذج وتبديله وتقييم العربية على الهاتف | استدلال دون اتصال وقياس الذاكرة والحرارة والزمن على الجهاز |\n| الاعتماد | Files/iCloud، الصوت والأذونات، VoiceOver، أكبر خط | سجل جهاز فعلي مربوط بالالتزام الذي جُرّب |\n\nلا ندّعي إصلاح جميع نتائج التدقيق أو اكتمال التطبيق المستقل بإتمام الدفعة الأولى.\n\n## ما أخذه التصميم من المصادر\n\n- [Apple: Onboarding](https://developer.apple.com/design/human-interface-guidelines/onboarding): إعدادات معقولة ومساعدة اختيارية في سياق الفعل؛ نستنتج منها إبقاء أول إنشاء ممكنًا دون إعداد نموذج أو لوحة.\n- [NN/g: Empty states](https://www.nngroup.com/articles/empty-state-interface-design/): طريق مباشر لإنشاء المحتوى داخل الحالة الفارغة؛ نستنتج منها مدخل إضافة واضحًا مع احترام فراغ مساحة المستخدم.\n- [مجتمع Obsidian: الشعور بإرهاق كثرة الإضافات](https://forum.obsidian.md/t/there-are-8-255-plugins-as-of-2026-09-30-feeling-sad-and-overwhelmed/118891): شهادات مستخدمين محددين، ليست إجماعًا أو إحصاءً على جميع الطلاب؛ تدعم اختبار الأدوات الأساسية قبل توسيع الخيارات.\n- [مجتمع Joplin: شريط أدوات الهاتف](https://discourse.joplinapp.org/t/mobile-markdown-toolbar/26089): نقاش منفذين ومستخدمين عن ازدحام الأزرار ومساحة لوحة المفاتيح؛ نستفيد بتجميع الخيارات دون الاعتماد على ضغط مطول مخفي.\n\nلم نعتبر مجرد عنوان فيديو أو وصفه درسًا تقنيًا مقروءًا. هذا التقرير يعتمد الكود والسلوك المثبت والمصادر النصية؛ وعد استخراج شرح خمسين مقطعًا ما زال غير مكتمل.\n"
+  },
+  "screenshots": [
+    {
+      "file": "screenshots/01-current-home.jpg",
+      "caption_ar": "01 — الرئيسية قبل الإصلاح؛ WEB harness.",
+      "sha256": "04475f7dda5849d94380ae855958fd7e915d994077299a6b90d1eea17aa9ded0",
+      "environment": "web-harness",
+      "device_validation": false
+    },
+    {
+      "file": "screenshots/02-customize.jpg",
+      "caption_ar": "02 — نافذة التخصيص قبل الإصلاح؛ WEB harness وقد تمتد داخل المتصفح، لا قياس هاتف.",
+      "sha256": "53635c03ed41d4ed6632ba6ec348a89e8e28968558f8aff706aea9d1b49d4649",
+      "environment": "web-harness",
+      "device_validation": false
+    },
+    {
+      "file": "screenshots/03-all-hidden.jpg",
+      "caption_ar": "03 — إخفاء الأقسام قبل الإصلاح؛ WEB harness.",
+      "sha256": "d722bcacbc6736042967509060abaf5142f222420fead10110c8f9ecc3d15911",
+      "environment": "web-harness",
+      "device_validation": false
+    },
+    {
+      "file": "screenshots/04-empty-after.jpg",
+      "caption_ar": "04 — معاينة بعد الإصلاح؛ WEB harness، لا اختبار جهاز.",
+      "sha256": "4543e57c7645d51a46e050638c5332853e2ef41a27e334155f74067e629bc079",
+      "environment": "web-harness",
+      "device_validation": false
+    }
+  ],
+  "fix_status_document": {
+    "version": "0.5.2",
+    "findings": [
+      {
+        "id": "A002",
+        "status": "fixed-verified",
+        "scope_ar": "مصدر ونتيجة المساعد في جلسة فوق التبويبات، مع تخزين متحقق ومنع الكتابة فوق خانة فشلت قراءتها.",
+        "verification": "38 اختبار Jest للمساعد والجسر و 32 عقود/runtime محاكى وفق الدور؛ إزالة/تركيب الشاشة ثم استعادة الحاضن.",
+        "evidence": "../flow-20261103/ai/verification.json",
+        "limits_ar": "لا حفظ لملف النموذج أو worker ، ولا استدلال جهاز في هذه الأدلة.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      },
+      {
+        "id": "A003",
+        "status": "fixed-verified",
+        "scope_ar": "الخطأ والإلغاء وإيقاف المحرك لا تمحو نتيجة مكتملة وصلت إلى الحاضن؛ draft متحقق يرسل قبل الاعتماد في الدراسة.",
+        "verification": "اختبارات انتقالات الحالة والجسر والحدث التلقائي ضمن 38 Jest و 32 runtime/contracts.",
+        "evidence": "../flow-20261103/ai/verification.json",
+        "limits_ar": "نتيجة لم تصل للحاضن قبل إبطال الطلب لا يمكن الادعاء باسترجاعها.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      },
+      {
+        "id": "A004",
+        "status": "fixed-verified",
+        "scope_ar": "اختيار المصدر يبقى متاحًا مع نموذج جاهز في الشاشة؛ تحديث المصدر يستعمل instance نفسه ويمنع callbacks السابقة.",
+        "verification": "runtime StubWllama والتحقق من بقاء instance واحد، وتعطيل تغيير المصدر أثناء التحميل والتوليد.",
+        "evidence": "../flow-20261103/ai/verification.json",
+        "limits_ar": "إعادة استعمال داخل الشاشة فقط؛ مغادرتها أو تفريغ المحرك يتطلب اختيار الملف مجددًا، بلا إثبات أداء هاتف.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      },
+      {
+        "id": "A005",
+        "status": "fixed-verified",
+        "scope_ar": "صفحات للمصادر المحفوظة من خمس ملاحظات، مع بحث وعدّاد وحالة بلا نتائج؛ الوصول لما بعد أول خمس.",
+        "verification": "اختبار الوصول للملاحظة السادسة من 12 دون معرفة عنوانها، ضمن اختبارات المساعد.",
+        "evidence": "../flow-20261103/ai/verification.json",
+        "limits_ar": "لا ادعاء قياس سرعة بحث مكتبات كبيرة على جهاز.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      },
+      {
+        "id": "A006",
+        "status": "fixed-verified",
+        "scope_ar": "تطبيق boundSource و studyResponseFormat نفسيهما قبل تركيب المحرك، ليظهر رفض حدود المصدر قبل تحميل النموذج.",
+        "verification": "رفض مصدر 1200 حرف بجملة واحدة ومصدر 25 جملة قبل فتح المحرك.",
+        "evidence": "../flow-20261103/ai/verification.json",
+        "limits_ar": "يبقى حد التوليد 1600 حرف؛ حفظ المصدر الطويل لا يعني توليده كاملًا.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      },
+      {
+        "id": "A007",
+        "status": "fixed-verified",
+        "scope_ar": "فحص العربية يتطلب حرفًا عربيًا من فئة Letter بدل قبول مجرد علامة ترقيم أو رقم في كتلة Unicode.",
+        "verification": "اختبارات رفض الترقيم والأرقام والتشكيل وحدها وقبول العربية مع CPU ، وتجميع التعبير بـ Hermes محليًا.",
+        "evidence": "../flow-20261103/ai/verification.json",
+        "limits_ar": "ليس تقييمًا لجودة العربية أو صحة الجواب؛ تجميع Hermes ليس تشغيل iPhone.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      },
+      {
+        "id": "D001",
+        "status": "fixed-verified",
+        "verification": "نجح التحقق على Codespaces/Linux Node 24.22.2: 111 اختبار نواة و 208 واجهة و 28 AI ؛ TypeScript والتوافق و Expo Doctor 20/20 وتصدير iOS 909 وحدات. السجلات والبصمات في evidence/v051. ليس اختبار iPhone.",
+        "evidence": "fix-evidence/first-launch-green.log"
+      },
+      {
+        "id": "D002",
+        "status": "open",
+        "partial_progress_ar": "أضيف إنقاذ مستقل بصيغة SQLite حتى 512MiB يشمل الدراسة و meta والمسودات والتفضيلات ونقاط الرجوع، مع تحقق integrity/foreign keys وبقاء المصدر مفتوحًا. مثال المكتبة 9 ملاحظات أكبر من JSON أعطى نسخة SQLite قابلة للفحص.",
+        "remaining_ar": "حد JSON15MiB باقٍ، ولا استعادة SQLite داخل التطبيق، ولا وسائط داخل ملف الإنقاذ؛ لذلك لا دورة نسخ/استعادة داخل المنتج ولا إغلاق لـ D002.",
+        "verification": "31 اختبار بيانات مستهدفًا تشمل الإنقاذ؛ Node SQLite حقيقي وموائم Expo ، لا Files/iCloud على iPhone.",
+        "evidence": "../flow-20261103/data/data-result.json",
+        "device_verified": false
+      },
+      {
+        "id": "D003",
+        "status": "fixed-verified",
+        "verification": "نجح التحقق على Codespaces/Linux Node 24.22.2: 111 اختبار نواة و 208 واجهة و 28 AI ؛ TypeScript والتوافق و Expo Doctor 20/20 وتصدير iOS 909 وحدات. السجلات والبصمات في evidence/v051. ليس اختبار iPhone.",
+        "evidence": "fix-evidence/restore-draft-summary.json"
+      },
+      {
+        "id": "D004",
+        "status": "fixed-verified",
+        "scope_ar": "حفظ الوسائط عبر staging والتحقق من الحجم؛ استرجاع metadata معلقة صالحة وإظهار اليتيم القابل للاستعادة مع تحذير.",
+        "verification": "77 اختبار وسائط وتذكير مستهدفًا، وانحسار النسخ المحمول؛ includes أخطاء النسخ الجزئي والبيانات الوصفية.",
+        "evidence": "../flow-20261103/media/result.json",
+        "limits_ar": "موائم filesystem محاكى؛ لا ضمان تحمل كل انقطاع طاقة، والملف القديم بلا metadata لا يثبت اكتماله من الاسم وحده.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      },
+      {
+        "id": "D005",
+        "status": "fixed-verified",
+        "scope_ar": "حماية وقت التذكير الجاري تعديله من قراءة foreground قديمة، مع اعتماد القيمة بعد نجاح الحفظ فقط.",
+        "verification": "اختبارات dirty/revision وفشل الجدولة وحفظ قيمة أحدث ضمن 77 اختبارًا مستهدفًا.",
+        "evidence": "../flow-20261103/media/result.json",
+        "limits_ar": "تسليم الإشعار الحقيقي على الهاتف لم يُثبت.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      },
+      {
+        "id": "D007",
+        "status": "fixed-verified",
+        "scope_ar": "نقل وسيط محدد إلى محذوفات قابلة للاستعادة، وحذف نهائي بتأكيد مستقل؛ معالجة فشل payload/metadata وإيقاف الصوت المعلق.",
+        "verification": "اختبارات النقل والاستعادة والحذف والفشل الجزئي وإيقاف التشغيل ضمن 77 اختبارًا؛ انحسار النسخ المحمول مسجل.",
+        "evidence": "../flow-20261103/media/result.json",
+        "limits_ar": "ليس filesystem transaction ذريًا. الحذف النهائي لا يُعكس ولا يحذف نسخًا صدرها الطالب خارج التطبيق. يشمل الدليل المدمج X203.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      },
+      {
+        "id": "D008",
+        "status": "fixed-verified",
+        "scope_ar": "خانة دائمة لمسودة البطاقة مع هوية المصدر؛ استرجاع النص، وحماية التراجع إلى الأصل، والتجاهل المتسلسل، والتحقق من حفظ snapshot الحالي قبل الإغلاق.",
+        "verification": "15 حالة مراجعة مستقلة نهائية، ومنها App remount لمحارف التحكم، clear/background/unmount والتراجع أثناء حفظ معلق.",
+        "evidence": "../flow-20261103/independent-review.json",
+        "limits_ar": "تخزين و AppState محاكيان؛ لا اختبار قتل عملية iPhone أو نقص مساحة فعلية.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      },
+      {
+        "id": "N001",
+        "status": "fixed-verified",
+        "verification": "نجح التحقق على Codespaces/Linux Node 24.22.2: 111 اختبار نواة و 208 واجهة و 28 AI ؛ TypeScript والتوافق و Expo Doctor 20/20 وتصدير iOS 909 وحدات. السجلات والبصمات في evidence/v051. ليس اختبار iPhone.",
+        "evidence": "fix-evidence/n001-summary.json"
+      },
+      {
+        "id": "N002",
+        "status": "fixed-verified",
+        "scope_ar": "فتح الأداة وإضافة/إزالة قسمها في دليل الأدوات نفسه، مع تحديث العرض بعد نجاح حفظ التفضيلات فقط.",
+        "verification": "55 اختبار واجهة تنقل، تشمل التكامل، و 15 اختبار workspace/source ؛ الأعداد متداخلة ولا تُجمع إلى مجموع جديد.",
+        "evidence": "../flow-20261103/navigation/summary.json",
+        "limits_ar": "الإضافة إظهار قسم أداة مدمجة، وليست تنزيل إضافة أو نموذج.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      },
+      {
+        "id": "N003",
+        "status": "fixed-verified",
+        "scope_ar": "تحريك القسم الظاهر مع أقرب قسم ظاهر، دون أن تبتلع الأقسام المخفية خطوة التحريك.",
+        "verification": "اختبارات ترتيب workspace ومحرر الأقسام، ضمن نتائج التنقل المسجلة.",
+        "evidence": "../flow-20261103/navigation/summary.json",
+        "limits_ar": "لا ادعاء قياس حركة أو لمس على جهاز.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      },
+      {
+        "id": "N004",
+        "status": "fixed-verified",
+        "scope_ar": "فتح إدارة البطاقات عند عدم وجود بطاقات مستحقة؛ عند وجود مراجعة مستحقة تبقى الإدارة مطوية حتى لا تكشف الأجوبة.",
+        "verification": "اختبارا انحسار لمسار App ضمن all_navigation_UI=55 ؛ لا سجل أحمر منفصل لهذين الاختبارين.",
+        "evidence": "../flow-20261103/navigation/summary.json",
+        "limits_ar": "السلوك مصمم لفرع عرض البطاقات عندما تنتهي المستحقات، وليس كشف الإدارة في كل زيارة.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      },
+      {
+        "id": "N005",
+        "status": "fixed-verified",
+        "scope_ar": "رفع حالة شبكة المعرفة فوق مسار التبويب: البحث والصفحات والتكبير والقائمة والتحريك والملاحظة المختارة تعود عند التنقل.",
+        "verification": "15 اختبارًا للمكوّن ومسار App في graph-green وفق تقرير التنقل؛ يشمل unmount/remount وتغير التبويب.",
+        "evidence": "../flow-20261103/navigation/summary.json",
+        "limits_ar": "جلسة الشبكة في الذاكرة فقط؛ لا استمرار بعد إعادة تشغيل التطبيق، ولا قياس pan أصلي على iPhone.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      },
+      {
+        "id": "N006",
+        "status": "fixed-verified",
+        "scope_ar": "عند ترك عنوان ملاحظة جديدة فارغًا يُشتق من متنها، مع تمييز آلي للاسم المولد المتكرر؛ يبقى العنوان اليدوي كما كتبه الطالب.",
+        "verification": "اختبار الالتقاط بعنوان تلقائي في study-flow-integration.ui.test.jsx ؛ منطق التمييز وقواعد العنوان مراجع في App.",
+        "evidence": "../flow-20261103/REVIEW.md",
+        "limits_ar": "لا تغيير تلقائي مستمر لعنوان يدوي؛ عنوان الملف المسمى صراحة قد يظل يحتاج تعديلًا عند تعارضه.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      },
+      {
+        "id": "R004",
+        "status": "fixed-verified",
+        "scope_ar": "فحص اتساق مدخلات بناء AI و manifest و generated و HTML قبل اختبارات بوابة الإصدار؛ إعادة بناء المورد بعد التغيير.",
+        "verification": "5 اختبارات build-integrity ناجحة، مع مقارنة 7 مدخلات ورفض تغير المصدر/المولد/البيان الناقص.",
+        "evidence": "../flow-20261103/ai/build-integrity-after-rebuild.json",
+        "limits_ar": "لا توقيع ضد تعديل متعمد للمصدر وال manifest معًا، ولا تحقق ملف GGUF أو تشغيل WASM على الهاتف.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      },
+      {
+        "id": "R005",
+        "status": "open",
+        "partial_progress_ar": "تجاوز openStorage لم يعد شاملًا: خمسة اختبارات bootstrap تشغل SQL الفعلي على Node SQLite ؛ قاعدة فارغة وإعادة فتح، وقاعدة سابقة مع seeded وبدونه، وفشل تهيئة SQL ثم إعادة المحاولة مع مطابقة البيانات. اختُبر سبب فشل التهيئة الأصلي؛ ليست هذه مجرد محاكاة للدالة.",
+        "remaining_ar": "أبقي خطر الترحيل التاريخي مفتوحًا: fixtures الحالية تنشئ مخططًا ممثلًا محليًا؛ لم تثبت ملفات قواعد لإصدارات تاريخية فعلية أو كل تحويل مخطط قديم. لا يحتسب كبند إصلاح إضافي مغلق، ولا نعيد الادعاء أن bootstrap لم يختبر.",
+        "verification": "خمس حالات bootstrap ضمن 31 اختبار بيانات مستهدف ناجحًا؛ ليس Expo SQLite على الجهاز.",
+        "evidence": "../flow-20261103/data/data-result.json",
+        "device_verified": false
+      },
+      {
+        "id": "S001",
+        "status": "fixed-verified",
+        "scope_ar": "تعديل البطاقة بنفس id مع حفظ الجدولة والسجل؛ عند تغير جواب مستخرج يطلب اعتماد تحديث صريح بدل تجاهله.",
+        "verification": "31 اختبار Node SQLite للبيانات تشمل updateCard ، واختبار App لتحرير البطاقة دون إنشاء جديدة؛ مراجعة مستقلة لحماية المسودات.",
+        "evidence": "../flow-20261103/data/data-result.json",
+        "limits_ar": "لا تخمين لهوية سؤال تغير معناه، ولا إعادة جدولة تلقائية عند تحرير النص.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      },
+      {
+        "id": "S002",
+        "status": "fixed-verified",
+        "scope_ar": "استبدال الاختيار المتعدد من أجوبة عشوائية بتدريب استرجاع ثم كشف الإجابة وتقييم الطالب لنفسه.",
+        "verification": "74 اختبار منطق و YouTube و 7 اختبارات StudyQuiz ، وفق سجل الدور.",
+        "evidence": "../flow-20261103/study/summary.json",
+        "limits_ar": "ليس تصحيحًا دلاليًا أو درجة اختبار موضوعية؛ لا يغير جدولة المراجعة.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      },
+      {
+        "id": "S003",
+        "status": "fixed-verified",
+        "verification": "نجح التحقق على Codespaces/Linux Node 24.22.2: 111 اختبار نواة و 208 واجهة و 28 AI ؛ TypeScript والتوافق و Expo Doctor 20/20 وتصدير iOS 909 وحدات. السجلات والبصمات في evidence/v051. ليس اختبار iPhone.",
+        "evidence": "fix-evidence/S003-summary.json"
+      },
+      {
+        "id": "S004",
+        "status": "fixed-verified",
+        "scope_ar": "محلل مشترك يحتفظ بالإجابة متعددة الأسطر ونطاق المصدر؛ تفريغ YouTube يحتفظ بالمقاطع والتوقيتات المساهمة.",
+        "verification": "حالات multiline والاقتباسات والفواصل ومقاطع YouTube ضمن 74 اختبار منطق.",
+        "evidence": "../flow-20261103/study/summary.json",
+        "limits_ar": "المثال داخل code fence مستبعد عمدًا؛ جودة نص PDF أو التفريغ تبقى بحاجة مراجعة.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      },
+      {
+        "id": "S005",
+        "status": "fixed-verified",
+        "scope_ar": "رفض عناوين جديدة لا يمكن تمثيلها بأمان في صيغة رابط wiki ، وربط التحقق بمحرر الملاحظة.",
+        "verification": "اختبارات wikiLinkTitleError ضمن المنطق وفحص TypeScript ؛ الدمج في App راجع بالمصدر.",
+        "evidence": "../flow-20261103/study/summary.json",
+        "limits_ar": "لا يعيد تسمية ملاحظات قديمة أو يغيّر محتوى النسخ المستوردة بصمت.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      },
+      {
+        "id": "S006",
+        "status": "open",
+        "partial_progress_ar": "مرجع المصدر ومعرّفا زمن الإنشاء/التعديل محفوظة في NoteDraft. استخراج البطاقات عند اعتماد مسودة AI لأول مرة يربط الأصل المطابق؛ المصدر المعدل/المستبدل/المحذوف يمنع الاستخراج ويتيح حفظ النص فقط. يشمل التقدم A008 المدمج.",
+        "remaining_ar": "فتح ملاحظة الأسئلة بعد حفظها كنص عادي لا يستعيد مرجع المصدر البنيوي؛ مخطط البطاقة لا يحمل إصدار المصدر/النموذج والشاهد كاملًا لكل بطاقة. لا اكتمال منشأ دائم أو هجرة نسخ احتياطي لهذا المخطط.",
+        "verification": "أربع حالات App مستقلة للربط والمنع ضمن 15 اختبار مراجعة ناجحًا؛ تخزين محاكى.",
+        "evidence": "../flow-20261103/independent-review.json",
+        "device_verified": false
+      },
+      {
+        "id": "S007",
+        "status": "fixed-verified",
+        "scope_ar": "التدريب الفارغ يعرض مسارات إضافة مادة أو كتابة ملاحظة داخل الأداة؛ بطاقة واحدة تكفي لبدء الاسترجاع الذاتي.",
+        "verification": "7 اختبارات StudyQuiz تشمل empty state والأفعال، مع حالات المنطق.",
+        "evidence": "../flow-20261103/study/summary.json",
+        "limits_ar": "لا إنشاء محتوى أو بطاقة تلقائيًا عند فتح الأداة.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      },
+      {
+        "id": "S008",
+        "status": "fixed-verified",
+        "scope_ar": "ملخص جلسة يحفظ الإجابات والتقييم الذاتي، وفلتر ما لم يتذكره الطالب، وفتح المصدر الحالي دون بدء جلسة جديدة.",
+        "verification": "اختبارات ملخص الجلسة والرجوع للمصدر وعدم إعادة ضبطها مع إعادة عرض الأب.",
+        "evidence": "../flow-20261103/study/summary.json",
+        "limits_ar": "نتيجة الجلسة باقية أثناء بقاء المكوّن فقط؛ لا سجل دائم للنتائج بعد الإغلاق.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      },
+      {
+        "id": "X201",
+        "status": "fixed-verified",
+        "verification": "نجح التحقق على Codespaces/Linux Node 24.22.2: 111 اختبار نواة و 208 واجهة و 28 AI ؛ TypeScript والتوافق و Expo Doctor 20/20 وتصدير iOS 909 وحدات. السجلات والبصمات في evidence/v051. ليس اختبار iPhone.",
+        "evidence": "fix-evidence/x201-x202.json"
+      },
+      {
+        "id": "X202",
+        "status": "fixed-verified",
+        "verification": "نجح التحقق على Codespaces/Linux Node 24.22.2: 111 اختبار نواة و 208 واجهة و 28 AI ؛ TypeScript والتوافق و Expo Doctor 20/20 وتصدير iOS 909 وحدات. السجلات والبصمات في evidence/v051. ليس اختبار iPhone.",
+        "evidence": "fix-evidence/x201-x202.json"
+      },
+      {
+        "id": "X205",
+        "status": "fixed-verified",
+        "scope_ar": "تسميات الاستماع والتشغيل والإيقاف وإغلاق المشغل تتضمن العنوان واسم الملف للتمييز بين التسجيلات.",
+        "verification": "اختبارات عناصر الوصول والأفعال المسموعة ضمن اختبارات الوسائط المستهدفة.",
+        "evidence": "../flow-20261103/media/result.json",
+        "limits_ar": "لم تُجر جلسة VoiceOver على iPhone ؛ تغيير التسميات مثبت في المكوّن فقط.",
+        "release_gate_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone.",
+        "device_verified": false,
+        "release_verification_ar": "تحقق الإصدار0.5.2 على Codespaces/Linux Node24.22.2:137 نواة و332 واجهة و32 عقدAI =501 ناجحة؛ TypeScript وتوافقExpo وDoctor20/20 وتصدير915 وحدة.116 بصمة تطابق ملفات العمل. أدلة evidence/v052؛ ليس اختبارiPhone."
+      },
+      {
+        "id": "X207",
+        "status": "open",
+        "partial_progress_ar": "Field يتيح direction ، وحقل رابط YouTube مضبوط LTR في المصدر الحالي.",
+        "remaining_ar": "سلوك المؤشر والتعديل واللصق والنطق بلوحة عربية/إنجليزية و VoiceOver على iOS لم يختبر؛ نوع لوحة URL لم يثبت تغييره هنا. تظل فجوة الجهاز مفتوحة.",
+        "verification": "قراءة src/ui.tsx و src/SourcesWorkbench.tsx ؛ لا جلسة جهاز مستقلة.",
+        "evidence": "../../../src/SourcesWorkbench.tsx",
+        "device_verified": false
+      }
+    ],
+    "updated_at_utc": "2026-11-03T00:07:23.345481+00:00",
+    "previous_verified_version": "0.5.1",
+    "previous_verified_upstream": "54230d457269e0d1a8f7bb109ebc5962f9a9378b",
+    "status_policy_ar": "الستة الموسومة fixed-verified تخص تحقق 0.5.1 السابق. إصلاحات هذه الجولة تبقى implemented-pending-verification إلى أن يتحقق مسؤول الإصدار من البوابة البعيدة؛ الاختبار المستهدف لا يساوي اعتماد الهاتف أو اكتمال الميزة."
+  },
+  "input_sha256": {
+    "data.json": "26870462e467893a9d10dcfd2600345456c7bc6468cdf87d718059db36cb7cd5",
+    "navigation.json": "73d99de200b54561346ab627cdf4f2278bd3017757288f104a702eb65f59da44",
+    "study.json": "15299975236f496d6013dbad8cfcd490716f82303de67abe9bdd13963ca422d4",
+    "ai.json": "a60b57e1ccba59ec8ca97a2fa25023cfcb007a728d0c524957151d2fc6a68a67",
+    "release-native.json": "a585dd4a95a721b81bf1895d62dee5f653bec84719c34b8f035cdf5b34e55884",
+    "access-sources.json": "4caf976e792dce687b9629afa749732a67ec3826aed59c927a4f8e13cfeddbd7",
+    "root.json": "0b7b9c53977a7cb1ae37f5a15e12cd874145e18207b0a925b7bf150a8574bfbf",
+    "review-snapshot.json": "8f8f698667532585728577197d16aaf66fcad92f6cb124505401dc32aa49effc",
+    "TARGET_EXPERIENCE.md": "eabed7994c7f0fe4aac75a97684659ade38e533ca975fac329b89adbc5a06896",
+    "fix-status.json": "d992d5877afd29df99dcd2266801f80dc7df08b3d49dbccb1e8a750d4bbaf946"
+  },
+  "normalization_ar": [
+    "احتفظت كل حالة بالدليل والتعديل ومعيار القبول. الأدلة المدمجة كاملة داخل merged_findings.",
+    "المنفذ ينتظر التحقق يبقى منفصلًا عن الأصلح واختبر. حالة الجهاز لا تستنتج من أي منهما.",
+    "R001 خطر إلغاء عرضي لتعديلات غير محفوظة P2؛ لا دليل تلف بيانات أو عطل من قصد الإلغاء نفسه.",
+    "الدليل المحسوب أو المبني على المصدر لا يصنف معاد الإنتاج إلا مع اختبار سلوك محدد في أدلة المراجع."
+  ]
+}

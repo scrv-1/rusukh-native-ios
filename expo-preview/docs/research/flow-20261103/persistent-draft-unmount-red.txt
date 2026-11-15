@@ -1,0 +1,43 @@
+FAIL iOS tests/persistent-draft.ui.test.jsx
+  ● an accepted card draft with JSON-escaped characters can be recovered after restart
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "saved"
+    Received: "error"
+
+       95 |   const recovered=await renderHook(()=>usePersistentDraft(db,CARD_DRAFT_KEY,validCardDraft));
+       96 |   await waitFor(()=>expect(recovered.result.current.loading).toBe(false));
+    >  97 |   expect(recovered.result.current.status).toBe('saved');
+          |                                           ^
+       98 |   expect(recovered.result.current.value).toEqual(input);
+       99 | });
+      100 |
+
+      at Object.toBe (tests/persistent-draft.ui.test.jsx:97:43)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● unmount cleanup cannot resurrect a draft while explicit discard is pending
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "null"
+    Received: "{\"text\":\"discard before unmount\"}"
+
+      107 |  await hook.unmount();
+      108 |  await act(async()=>{gate.resolve();await discard;await Promise.resolve();await Promise.resolve();});
+    > 109 |  expect(mockSettings.get(KEY)).toBe('null');
+          |                                ^
+      110 | });
+      111 |
+
+      at Object.toBe (tests/persistent-draft.ui.test.jsx:109:32)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 1 failed, 1 total
+Tests:       2 failed, 5 passed, 7 total
+Snapshots:   0 total
+Time:        0.809 s, estimated 1 s
+Ran all test suites matching tests/persistent-draft.ui.test.jsx.

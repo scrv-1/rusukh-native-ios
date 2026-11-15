@@ -1,0 +1,41 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> test
+> node --test test.mjs engine-runtime.test.mjs
+
+✔ worker failure during generation unloads immediately and rejects a late completion (10.240096ms)
+✔ worker failure while loading reports an error without waiting for the watchdog (1.979646ms)
+✔ late worker events from a disposed runtime cannot stop a new generation (1.765424ms)
+✔ delayed failed-runtime cleanup preserves a new generation and its WASM URL (2.466378ms)
+✔ a newer model selection supersedes a selection waiting for old-runtime cleanup (2.06226ms)
+✔ a rejected load does not publish a stale error after newer-runtime startup (1.797422ms)
+✔ superseded header reads cannot publish invalid-header or read errors over a newer generation (2.652618ms)
+✔ an invalid replacement keeps the loaded model available (2.567029ms)
+✔ an oversized replacement does not dispose a working model (1.491417ms)
+✔ a failed replacement header read preserves a working model (1.224691ms)
+✔ unload cancels a replacement still reading its header (2.266307ms)
+✔ a rejected replacement header cannot mark a newer generation ready or disable cancellation (2.895142ms)
+✔ a valid replacement header cannot cancel a generation started after its selection (1.234366ms)
+✔ the file change handler retains an unaccepted draft after preflight rejection (2.930896ms)
+✔ a replacement that passes preflight but fails runtime loading reports failure without promising rollback (1.414927ms)
+✔ accepts actual-model draft format with verbatim source evidence (1.77592ms)
+✔ rejects evidence fabricated by a model (0.419621ms)
+✔ rejects an incomplete or prose-wrapped model answer (0.202474ms)
+✔ source exceeding context budget is rejected, never silently truncated (0.154583ms)
+✔ source substitution on bridge is rejected (0.232119ms)
+✔ bridge revalidates model fields instead of trusting a JS result (0.169355ms)
+✔ English-only output is not accepted as Arabic study support (0.15252ms)
+✔ source instructions are encoded as data, not a system prompt (0.306391ms)
+✔ no empty output is mislabeled a useful generation (0.271779ms)
+✔ regression: real Qwen output copying the old evidence placeholder is rejected (0.357187ms)
+✔ constrained decoding permits only exact source sentences as evidence (0.398098ms)
+✔ oversized individual evidence is refused, not silently shortened (0.142804ms)
+✔ newline-delimited evidence does not silently lose the first sentence (0.59903ms)
+ℹ tests 28
+ℹ suites 0
+ℹ pass 28
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 138.413121

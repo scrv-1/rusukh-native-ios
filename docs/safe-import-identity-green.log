@@ -1,0 +1,23 @@
+Building for debugging...
+[Computing dependencies]
+[2 / 4] RusukhCoreTests-product
+[6 / 8] RusukhCoreTests-product
+[10 / 10] RusukhCoreTests-product
+[15 / 15] RusukhCoreTests-test-runner
+[16 / 18] RusukhCoreTests-test-runner
+[20 / 20] RusukhCoreTests-test-runner
+Build complete! (2.19 secs)
+Test Suite 'Selected tests' started at 2026-11-01 14:37:28.084
+Test Suite 'BackupSafetyTests' started at 2026-11-01 14:37:28.085
+Test Case 'BackupSafetyTests.testLegacyEditedContentKeepsOriginalIdentity' started at 2026-11-01 14:37:28.085
+Test Case 'BackupSafetyTests.testLegacyEditedContentKeepsOriginalIdentity' passed (0.002 seconds)
+Test Case 'BackupSafetyTests.testLegacyGenericIDsAtDifferentCreationTimesDoNotCollide' started at 2026-11-01 14:37:28.087
+Test Case 'BackupSafetyTests.testLegacyGenericIDsAtDifferentCreationTimesDoNotCollide' passed (0.002 seconds)
+Test Case 'BackupSafetyTests.testLegacyImportIdentityIsStableAcrossRepeatedReads' started at 2026-11-01 14:37:28.089
+Test Case 'BackupSafetyTests.testLegacyImportIdentityIsStableAcrossRepeatedReads' passed (0.0 seconds)
+Test Case 'BackupSafetyTests.testLegacyRepeatedMergeDoesNotDuplicateTheLibrary' started at 2026-11-01 14:37:28.089
+Test Case 'BackupSafetyTests.testLegacyRepeatedMergeDoesNotDuplicateTheLibrary' passed (0.0 seconds)
+Test Suite 'BackupSafetyTests' passed at 2026-11-01 14:37:28.090
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.005 (0.005) seconds
+Test Suite 'Selected tests' passed at 2026-11-01 14:37:28.090
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.005 (0.005) seconds

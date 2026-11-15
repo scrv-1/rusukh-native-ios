@@ -1,0 +1,88 @@
+✔ recognizes official watch, short, live, embed and no-cookie video URLs (1.856228ms)
+✔ rejects deceptive hosts, credentials, unsupported protocol, ports and paths (0.201132ms)
+✔ rejects missing, invalid, ambiguous and malformed video identifiers (0.207361ms)
+✔ normalizes valid timestamps while discarding tracking parameters (0.395023ms)
+✔ rejects invalid and excessive timestamps rather than guessing (0.348654ms)
+✔ parses SRT milliseconds, original text, cue labels and line provenance (0.705309ms)
+✔ parses VTT identifiers, settings, BOM, short timestamps and markup without exposing markup as questions (0.443836ms)
+✔ malformed or missing timings fail instead of silently dropping transcript evidence (0.407772ms)
+✔ preserves original cue order and overlaps without manufacturing chronology (1.367845ms)
+✔ plain pasted transcript has no fabricated video timestamps (0.27957ms)
+✔ extracts only explicit written Q/A across cues with both source references (0.556035ms)
+✔ ordinary narration never becomes an invented question or answer (1.173393ms)
+✔ ignores incomplete pairs and captures Arabic or English explicit markers (3.463443ms)
+✔ rejects empty, corrupted, excessive or unsupported transcript input (10.435605ms)
+✖ saved VTT note exposes only validated visible questions to the card parser (2.021466ms)
+✖ quoted original transcript remains exactly recoverable without duplicate card extraction (0.216665ms)
+✖ out-of-order question and answer cues use a valid time envelope while retaining evidence order (0.446621ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 14
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 122.67414
+
+✖ failing tests:
+
+test at tests/youtube.test.cjs:122:1
+✖ saved VTT note exposes only validated visible questions to the card parser (2.021466ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+      {
+  +     answer: 'جواب لا ينبغي حفظه',
+  +     question: 'سؤال من البيانات الوصفية'
+  -     answer: 'معرفة & فهم',
+  -     question: 'ما العلم؟'
+      }
+    ]
+  
+      at TestContext.<anonymous> (/workspace/scratch/4555e7a855cf/rusukh-customize/expo-preview/tests/youtube.test.cjs:126:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ { question: 'سؤال من البيانات الوصفية', answer: 'جواب لا ينبغي حفظه' } ],
+    expected: [ { question: 'ما العلم؟', answer: 'معرفة & فهم' } ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/youtube.test.cjs:129:1
+✖ quoted original transcript remains exactly recoverable without duplicate card extraction (0.216665ms)
+  TypeError [Error]: Cannot read properties of undefined (reading 'split')
+      at TestContext.<anonymous> (/workspace/scratch/4555e7a855cf/rusukh-customize/expo-preview/tests/youtube.test.cjs:134:23)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at tests/youtube.test.cjs:137:1
+✖ out-of-order question and answer cues use a valid time envelope while retaining evidence order (0.446621ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  10000 !== 1000
+  
+      at TestContext.<anonymous> (/workspace/scratch/4555e7a855cf/rusukh-customize/expo-preview/tests/youtube.test.cjs:141:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 10000,
+    expected: 1000,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

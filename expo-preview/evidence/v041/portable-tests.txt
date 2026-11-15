@@ -1,0 +1,10 @@
+Command: npx jest --runInBand tests/portable-backup.ui.test.jsx tests/portable-panel.ui.test.jsx
+Recorded result: exit code 0
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+Test Suites: 2 passed, 2 total
+Tests:       25 passed, 25 total
+Snapshots:   0 total
+Time:        1.162 s, estimated 2 s
+Ran all test suites matching tests/portable-backup.ui.test.jsx|tests/portable-panel.ui.test.jsx.

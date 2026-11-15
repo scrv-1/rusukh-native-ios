@@ -1,0 +1,58 @@
+✔ worker failure during generation unloads immediately and rejects a late completion (6.994577ms)
+✔ worker failure while loading reports an error without waiting for the watchdog (1.66454ms)
+✔ late worker events from a disposed runtime cannot stop a new generation (1.595808ms)
+✔ delayed failed-runtime cleanup preserves a new generation and its WASM URL (2.113525ms)
+✖ a newer model selection supersedes a selection waiting for old-runtime cleanup (2.125283ms)
+✖ a rejected load does not publish a stale error after newer-runtime startup (2.6957ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 4
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 96.651397
+
+✖ failing tests:
+
+test at ai-lab/engine-runtime.test.mjs:133:1
+✖ a newer model selection supersedes a selection waiting for old-runtime cleanup (2.125283ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  3 !== 2
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/ai-lab/engine-runtime.test.mjs:144:10)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 3,
+    expected: 2,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ai-lab/engine-runtime.test.mjs:150:1
+✖ a rejected load does not publish a stale error after newer-runtime startup (2.6957ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + Error: stale load failure
+  +     at TestContext.<anonymous> (file:///workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/ai-lab/engine-runtime.test.mjs:158:19)
+  +     at async Test.run (node:internal/test_runner/test:1409:7)
+  +     at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  - undefined
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/ai-lab/engine-runtime.test.mjs:165:10)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: Error: stale load failure
+        at TestContext.<anonymous> (file:///workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/ai-lab/engine-runtime.test.mjs:158:19)
+        at async Test.run (node:internal/test_runner/test:1409:7)
+        at async Test.processPendingSubtests (node:internal/test_runner/test:974:7),
+    expected: undefined,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

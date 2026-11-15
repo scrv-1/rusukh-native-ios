@@ -66,6 +66,7 @@ targets:
         product: Tokenizers
     sources:
       - path: App
+        excludes: [Info.plist]
       - path: Sources/RusukhCore
     settings:
       base:
@@ -81,6 +82,35 @@ targets:
         CODE_SIGN_STYLE: Manual
         CODE_SIGNING_ALLOWED: NO
         SWIFT_EMIT_LOC_STRINGS: YES
+      configs:
+        Debug:
+          RUSUKH_TEST_FILE_SHARING: YES
+          INFOPLIST_FILE: "$(DERIVED_FILE_DIR)/RusukhInfo.plist"
+        Release:
+          RUSUKH_TEST_FILE_SHARING: NO
+          INFOPLIST_FILE: "$(DERIVED_FILE_DIR)/RusukhInfo.plist"
+    preBuildScripts:
+      - name: Prepare typed document-sharing settings
+        inputFiles: ["$(SRCROOT)/App/Info.plist"]
+        outputFiles: ["$(DERIVED_FILE_DIR)/RusukhInfo.plist"]
+        script: |
+          /usr/bin/python3 - <<'PY'
+          import os
+          import plistlib
+          from pathlib import Path
+          source = Path(os.environ['SCRIPT_INPUT_FILE_0'])
+          output = Path(os.environ['SCRIPT_OUTPUT_FILE_0'])
+          properties = plistlib.loads(source.read_bytes())
+          # Preserve Boolean types; expanding a build variable in a string
+          # would leave a string such as "NO" in the final plist.
+          sharing = (os.environ['CONFIGURATION'] == 'Debug'
+                     and os.environ.get('RUSUKH_TEST_FILE_SHARING') == 'YES')
+          properties['UIFileSharingEnabled'] = sharing
+          properties['LSSupportsOpeningDocumentsInPlace'] = sharing
+          output.parent.mkdir(parents=True, exist_ok=True)
+          output.write_bytes(plistlib.dumps(properties))
+          print('DOCUMENT_SHARING', os.environ['CONFIGURATION'], sharing)
+          PY
     info:
       path: App/Info.plist
       properties:
@@ -88,6 +118,7 @@ targets:
         CFBundleLocalizations: [ar, en]
         UIApplicationSupportsDocumentBrowser: false
         UIFileSharingEnabled: false
+        LSSupportsOpeningDocumentsInPlace: false
         CFBundleDisplayName: "رُسوخ"
         NSMicrophoneUsageDescription: "تسجيل صوت وإرفاقه بملاحظاتك محليًا داخل رُسوخ."
         NSCameraUsageDescription: "التقاط صورة وإرفاقها بملاحظة داخل رُسوخ."

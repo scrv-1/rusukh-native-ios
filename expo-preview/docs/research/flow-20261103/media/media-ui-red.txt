@@ -1,0 +1,373 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+FAIL iOS tests/media-panel.ui.test.jsx
+  ● X205 audio actions distinguish identical titles by their filenames
+
+    Unable to find an element with role: button, name: استماع إلى محاضرة عربية، audio-1.m4a
+
+    [36m<View>[39m
+      [36m<Text[39m
+        [33maccessibilityRole[39m=[32m"header"[39m
+      [36m>[39m
+        [0mالكاميرا والتسجيل[0m
+      [36m</Text>[39m
+      [36m<Text>[39m
+        [0mصور وتسجيلات محلية. لا تُرفع إلى خادم، ولا يُستخرج منها نص تلقائيًا في هذه النسخة.[0m
+      [36m</Text>[39m
+      [36m<View>[39m
+        [36m<Text>[39m
+          [0mعنوان الوسيط — اختياري[0m
+        [36m</Text>[39m
+        [36m<TextInput[39m
+          [33maccessibilityLabel[39m=[32m"عنوان الوسيط — اختياري"[39m
+          [33meditable[39m=[32m{true}[39m
+          [33mplaceholder[39m=[32m"مثل: محاضرة الأحياء"[39m
+          [33mvalue[39m=[32m""[39m
+        [36m/>[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"التقاط صورة"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mالتقاط صورة[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"اختيار صورة"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mاختيار صورة[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"بدء التسجيل"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mبدء التسجيل[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<Text>[39m
+        [0mيتوقف التسجيل عند مغادرة التطبيق أو هذه الشاشة. الحد: ٣٠ دقيقة. قد توقف المكالمات أو فصل السماعة التسجيل.[0m
+      [36m</Text>[39m
+      [36m<View>[39m
+        [36m<Text>[39m
+          [0mمكتبة الوسائط · [0m
+          [0m2[0m
+        [36m</Text>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"تحديث المكتبة"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mتحديث المكتبة[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<Text>[39m
+          [0mمحاضرة عربية[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mتسجيل صوتي[0m
+          [0m · [0m
+          [0m31‏/12‏/1969[0m
+          [0m · [0m
+          [0m0.00[0m
+          [0m MB[0m
+        [36m</Text>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"استماع"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mاستماع[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"مشاركة محاضرة عربية أو حفظه في الملفات"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mمشاركة / حفظ في الملفات[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<Text>[39m
+          [0mمحاضرة عربية[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mتسجيل صوتي[0m
+          [0m · [0m
+          [0m31‏/12‏/1969[0m
+          [0m · [0m
+          [0m0.00[0m
+          [0m MB[0m
+        [36m</Text>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"استماع"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mاستماع[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"مشاركة محاضرة عربية أو حفظه في الملفات"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mمشاركة / حفظ في الملفات[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<Text>[39m
+        [0mالوسائط محفوظة داخل بيانات التطبيق، وتُصدّر منفردة من زر المشاركة. النسخة الاحتياطية النصية لا تتضمن ملفات الصور والصوت. حذف التطبيق قد يحذف هذه الملفات؛ صدّر المهم منها إلى «الملفات».[0m
+      [36m</Text>[39m
+    [36m</View>[39m
+
+      171 |   ], warnings: [] });
+      172 |   const ui = await ready();
+    > 173 |   expect(ui.getByRole('button', { name: 'استماع إلى محاضرة عربية، audio-1.m4a' })).toBeTruthy();
+          |             ^
+      174 |   await fireEvent.press(ui.getByRole('button', { name: 'استماع إلى محاضرة عربية، audio-2.m4a' }));
+      175 |   expect(ui.getByRole('button', { name: 'تشغيل التسجيل محاضرة عربية، audio-2.m4a' })).toBeTruthy();
+      176 |   expect(ui.getByRole('button', { name: 'إغلاق مشغّل محاضرة عربية، audio-2.m4a' })).toBeTruthy();
+
+      at Object.getByRole (tests/media-panel.ui.test.jsx:173:13)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● D007 removal asks confirmation and stops the player before moving its file
+
+    Unable to find an element with role: button, name: نقل محاضرة عربية، audio-1.m4a إلى المحذوفات
+
+    [36m<View>[39m
+      [36m<Text[39m
+        [33maccessibilityRole[39m=[32m"header"[39m
+      [36m>[39m
+        [0mالكاميرا والتسجيل[0m
+      [36m</Text>[39m
+      [36m<Text>[39m
+        [0mصور وتسجيلات محلية. لا تُرفع إلى خادم، ولا يُستخرج منها نص تلقائيًا في هذه النسخة.[0m
+      [36m</Text>[39m
+      [36m<View>[39m
+        [36m<Text>[39m
+          [0mعنوان الوسيط — اختياري[0m
+        [36m</Text>[39m
+        [36m<TextInput[39m
+          [33maccessibilityLabel[39m=[32m"عنوان الوسيط — اختياري"[39m
+          [33meditable[39m=[32m{true}[39m
+          [33mplaceholder[39m=[32m"مثل: محاضرة الأحياء"[39m
+          [33mvalue[39m=[32m""[39m
+        [36m/>[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"التقاط صورة"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mالتقاط صورة[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"اختيار صورة"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mاختيار صورة[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"بدء التسجيل"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mبدء التسجيل[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<Text>[39m
+        [0mيتوقف التسجيل عند مغادرة التطبيق أو هذه الشاشة. الحد: ٣٠ دقيقة. قد توقف المكالمات أو فصل السماعة التسجيل.[0m
+      [36m</Text>[39m
+      [36m<View>[39m
+        [36m<Text>[39m
+          [0mمكتبة الوسائط · [0m
+          [0m1[0m
+        [36m</Text>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"تحديث المكتبة"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mتحديث المكتبة[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<Text>[39m
+          [0mمحاضرة عربية[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mتسجيل صوتي[0m
+          [0m · [0m
+          [0m31‏/12‏/1969[0m
+          [0m · [0m
+          [0m0.00[0m
+          [0m MB[0m
+        [36m</Text>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"إيقاف التشغيل مؤقتًا"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mإيقاف التشغيل مؤقتًا[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<Text>[39m
+            [0m0:00[0m
+            [0m / [0m
+            [0m0:03[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"إغلاق المشغّل"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mإغلاق المشغّل[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"مشاركة محاضرة عربية أو حفظه في الملفات"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mمشاركة / حفظ في الملفات[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<Text>[39m
+        [0mالوسائط محفوظة داخل بيانات التطبيق، وتُصدّر منفردة من زر المشاركة. النسخة الاحتياطية النصية لا تتضمن ملفات الصور والصوت. حذف التطبيق قد يحذف هذه الملفات؛ صدّر المهم منها إلى «الملفات».[0m
+      [36m</Text>[39m
+    [36m</View>[39m
+
+      181 |   try {
+      182 |     const ui = await openAudio({ playing: true });
+    > 183 |     await fireEvent.press(ui.getByRole('button', { name: 'نقل محاضرة عربية، audio-1.m4a إلى المحذوفات' }));
+          |                              ^
+      184 |     expect(library.trashMediaItem).not.toHaveBeenCalled();
+      185 |     const actions = alert.mock.calls.at(-1)[2];
+      186 |     expect(actions.find(action => action.style === 'cancel')).toBeTruthy();
+
+      at Object.getByRole (tests/media-panel.ui.test.jsx:183:30)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 1 failed, 1 total
+Tests:       2 failed, 14 skipped, 16 total
+Snapshots:   0 total
+Time:        0.885 s, estimated 1 s
+Ran all test suites within paths "tests/media-panel.ui.test.jsx".

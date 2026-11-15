@@ -1,0 +1,24 @@
+{
+  "version": "0.5.1",
+  "observedAtUTC": "2026-11-02T23:17:30.589436+00:00",
+  "environment": "React Native Web component harness, 390px canvas; in-memory fixture data, not iOS or SQLite",
+  "checks": [
+    {
+      "action": "fresh reload",
+      "observed": "No sections, stats, date, slogan, or sample content in canvas; three capture/customize actions remain"
+    },
+    {
+      "action": "Add tool > show notes > save",
+      "observed": "Notes section visible with existing three fixture notes"
+    },
+    {
+      "action": "Customize > hide all > save",
+      "observed": "Empty canvas restored; creation actions remain"
+    }
+  ],
+  "screenshot": "../../docs/research/devils-audit-20261103/screenshots/04-empty-after.jpg",
+  "limits": [
+    "No iPhone, VoiceOver, real Files/iCloud, native keyboard, or AI inference verified",
+    "Web harness state is in memory; persistence verified separately by automated storage/component tests"
+  ]
+}

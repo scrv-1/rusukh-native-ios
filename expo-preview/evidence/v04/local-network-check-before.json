@@ -1,0 +1,30 @@
+{
+  "observedAt": "2026-11-02T16:23:20.973Z",
+  "node": "v24.22.1",
+  "checks": [
+    {
+      "name": "core-tests",
+      "exitCode": 0,
+      "signal": null,
+      "milliseconds": 1935
+    },
+    {
+      "name": "ui-tests",
+      "exitCode": 0,
+      "signal": null,
+      "milliseconds": 7628
+    },
+    {
+      "name": "typecheck",
+      "exitCode": 0,
+      "signal": null,
+      "milliseconds": 2096
+    },
+    {
+      "name": "expo-compatibility",
+      "exitCode": 1,
+      "signal": null,
+      "milliseconds": 5494
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "package": "pdfjs-dist",
+  "version": "6.5.438",
+  "license": "Apache-2.0",
+  "source": "https://github.com/mozilla/pdf.js",
+  "registry": "https://registry.npmjs.org/pdfjs-dist/-/pdfjs-dist-6.5.438.tgz",
+  "npmIntegrity": "sha512-vg8Pw1x+AFKy4AMDvhuWl5cOYV8d698UoEANoFFhc79hqXDnZQqnOXoxw3HG907WHOg1JYOvLhP756boddFxpA==",
+  "engineSha256": "b972c9555e178069ffa112a3e32e2d475e2bcf37221cb35b59382a524b4f11be",
+  "engineBytes": 1768463,
+  "bundler": "esbuild@0.25.12",
+  "externalAssets": false,
+  "wasm": false,
+  "networkInputs": false
+}

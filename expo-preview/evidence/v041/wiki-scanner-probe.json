@@ -1,0 +1,346 @@
+{
+  "observedAt": "2026-11-02T20:36:50.243Z",
+  "environment": {
+    "node": "v24.22.1",
+    "platform": "linux",
+    "architecture": "x64"
+  },
+  "limits": "Node/Linux synthetic-input measurements, not iPhone or Hermes performance. Legacy read/rewrite are exact previous regex implementations reproduced above, measured only up to 40k characters. Correctness of SQLite rename is checked separately against real Node SQLite.",
+  "sourceSha256": "7daef77e9cde1be65b4f4acba643688054d8f41ffe4c6ad5d2f3affab12e0152",
+  "storageSha256": "ca85c2b6a9a7a2b783a45e79ab730dd76fcf437c11fa04d613a3e4023f86c4fc",
+  "compiledSha256": "b9d8bf1959dc2574799b15d8659f80ede4add5b7312ee301eca228d8e8fa5e52",
+  "rows": [
+    {
+      "kind": "open-brackets",
+      "characters": 5000,
+      "legacyRead": {
+        "milliseconds": [
+          20.11,
+          20.833,
+          22.394
+        ],
+        "medianMs": 20.833
+      },
+      "scannerRead": {
+        "milliseconds": [
+          0.277,
+          0.167,
+          0.144
+        ],
+        "medianMs": 0.167
+      },
+      "legacyRewrite": {
+        "milliseconds": [
+          20.789,
+          20.309,
+          22.667
+        ],
+        "medianMs": 20.789
+      },
+      "scannerRewrite": {
+        "milliseconds": [
+          0.036,
+          0.03,
+          0.07
+        ],
+        "medianMs": 0.036
+      }
+    },
+    {
+      "kind": "open-brackets",
+      "characters": 10000,
+      "legacyRead": {
+        "milliseconds": [
+          93.954,
+          88.748,
+          84.989
+        ],
+        "medianMs": 88.748
+      },
+      "scannerRead": {
+        "milliseconds": [
+          0.468,
+          0.027,
+          0.088
+        ],
+        "medianMs": 0.088
+      },
+      "legacyRewrite": {
+        "milliseconds": [
+          86.882,
+          88.504,
+          83.858
+        ],
+        "medianMs": 86.882
+      },
+      "scannerRewrite": {
+        "milliseconds": [
+          0.034,
+          0.03,
+          0.132
+        ],
+        "medianMs": 0.034
+      }
+    },
+    {
+      "kind": "open-brackets",
+      "characters": 20000,
+      "legacyRead": {
+        "milliseconds": [
+          322.362,
+          322.338,
+          323.145
+        ],
+        "medianMs": 322.362
+      },
+      "scannerRead": {
+        "milliseconds": [
+          0.071,
+          0.069,
+          0.064
+        ],
+        "medianMs": 0.069
+      },
+      "legacyRewrite": {
+        "milliseconds": [
+          354.014,
+          367.683,
+          323.448
+        ],
+        "medianMs": 354.014
+      },
+      "scannerRewrite": {
+        "milliseconds": [
+          0.064,
+          0.097,
+          0.062
+        ],
+        "medianMs": 0.064
+      }
+    },
+    {
+      "kind": "open-brackets",
+      "characters": 40000,
+      "legacyRead": {
+        "milliseconds": [
+          1316.694,
+          1309.038,
+          1248.064
+        ],
+        "medianMs": 1309.038
+      },
+      "scannerRead": {
+        "milliseconds": [
+          0.128,
+          0.162,
+          0.12
+        ],
+        "medianMs": 0.128
+      },
+      "legacyRewrite": {
+        "milliseconds": [
+          1242.525,
+          1229.572,
+          1313.497
+        ],
+        "medianMs": 1242.525
+      },
+      "scannerRewrite": {
+        "milliseconds": [
+          0.128,
+          0.1,
+          0.098
+        ],
+        "medianMs": 0.1
+      }
+    },
+    {
+      "kind": "open-brackets",
+      "characters": 1000000,
+      "legacyRead": null,
+      "scannerRead": {
+        "milliseconds": [
+          3.793,
+          3.28,
+          3.691
+        ],
+        "medianMs": 3.691
+      },
+      "legacyRewrite": null,
+      "scannerRewrite": {
+        "milliseconds": [
+          3.145,
+          2.927,
+          3.252
+        ],
+        "medianMs": 3.145
+      }
+    },
+    {
+      "kind": "unclosed-aliases",
+      "characters": 5000,
+      "legacyRead": {
+        "milliseconds": [
+          5.514,
+          5.547,
+          5.454
+        ],
+        "medianMs": 5.514
+      },
+      "scannerRead": {
+        "milliseconds": [
+          0.353,
+          0.182,
+          0.15
+        ],
+        "medianMs": 0.182
+      },
+      "legacyRewrite": {
+        "milliseconds": [
+          8.998,
+          9.329,
+          8.754
+        ],
+        "medianMs": 8.998
+      },
+      "scannerRewrite": {
+        "milliseconds": [
+          0.02,
+          0.016,
+          0.022
+        ],
+        "medianMs": 0.02
+      }
+    },
+    {
+      "kind": "unclosed-aliases",
+      "characters": 10000,
+      "legacyRead": {
+        "milliseconds": [
+          22.924,
+          25.116,
+          21.653
+        ],
+        "medianMs": 22.924
+      },
+      "scannerRead": {
+        "milliseconds": [
+          0.106,
+          0.04,
+          0.032
+        ],
+        "medianMs": 0.04
+      },
+      "legacyRewrite": {
+        "milliseconds": [
+          37.384,
+          33.715,
+          39.431
+        ],
+        "medianMs": 37.384
+      },
+      "scannerRewrite": {
+        "milliseconds": [
+          0.035,
+          0.03,
+          0.03
+        ],
+        "medianMs": 0.03
+      }
+    },
+    {
+      "kind": "unclosed-aliases",
+      "characters": 20000,
+      "legacyRead": {
+        "milliseconds": [
+          92.824,
+          90.755,
+          87.148
+        ],
+        "medianMs": 90.755
+      },
+      "scannerRead": {
+        "milliseconds": [
+          0.065,
+          0.06,
+          0.06
+        ],
+        "medianMs": 0.06
+      },
+      "legacyRewrite": {
+        "milliseconds": [
+          139.603,
+          141.841,
+          142.61
+        ],
+        "medianMs": 141.841
+      },
+      "scannerRewrite": {
+        "milliseconds": [
+          0.065,
+          0.06,
+          0.06
+        ],
+        "medianMs": 0.06
+      }
+    },
+    {
+      "kind": "unclosed-aliases",
+      "characters": 40000,
+      "legacyRead": {
+        "milliseconds": [
+          348.53,
+          412.95,
+          410.321
+        ],
+        "medianMs": 410.321
+      },
+      "scannerRead": {
+        "milliseconds": [
+          0.14,
+          0.12,
+          0.136
+        ],
+        "medianMs": 0.136
+      },
+      "legacyRewrite": {
+        "milliseconds": [
+          613.216,
+          585.219,
+          586.984
+        ],
+        "medianMs": 586.984
+      },
+      "scannerRewrite": {
+        "milliseconds": [
+          0.206,
+          0.128,
+          0.12
+        ],
+        "medianMs": 0.128
+      }
+    },
+    {
+      "kind": "unclosed-aliases",
+      "characters": 1000000,
+      "legacyRead": null,
+      "scannerRead": {
+        "milliseconds": [
+          4.225,
+          3.514,
+          3.62
+        ],
+        "medianMs": 3.62
+      },
+      "legacyRewrite": null,
+      "scannerRewrite": {
+        "milliseconds": [
+          3.686,
+          2.826,
+          2.72
+        ],
+        "medianMs": 2.826
+      }
+    }
+  ]
+}

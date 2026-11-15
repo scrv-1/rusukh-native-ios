@@ -1,0 +1,40 @@
+✔ a completed draft is sent to host recovery without adopting it into study data (7.136821ms)
+✔ switching sources while ready reuses the loaded runtime and clears the old draft (1.182113ms)
+✔ worker failure during generation unloads immediately and rejects a late completion (8.777506ms)
+✔ worker failure while loading reports an error without waiting for the watchdog (3.600914ms)
+✔ late worker events from a disposed runtime cannot stop a new generation (4.307426ms)
+✔ delayed failed-runtime cleanup preserves a new generation and its WASM URL (2.788857ms)
+✔ a newer model selection supersedes a selection waiting for old-runtime cleanup (2.228262ms)
+✔ a rejected load does not publish a stale error after newer-runtime startup (2.506784ms)
+✔ superseded header reads cannot publish invalid-header or read errors over a newer generation (3.255124ms)
+✔ an invalid replacement keeps the loaded model available (2.005146ms)
+✔ an oversized replacement does not dispose a working model (1.262653ms)
+✔ a failed replacement header read preserves a working model (1.246593ms)
+✔ unload cancels a replacement still reading its header (4.144514ms)
+✔ a rejected replacement header cannot mark a newer generation ready or disable cancellation (3.455339ms)
+✔ a valid replacement header cannot cancel a generation started after its selection (1.652051ms)
+✔ the file change handler retains an unaccepted draft after preflight rejection (2.10336ms)
+✔ a replacement that passes preflight but fails runtime loading reports failure without promising rollback (2.144467ms)
+✔ accepts actual-model draft format with verbatim source evidence (4.124426ms)
+✔ rejects evidence fabricated by a model (0.69739ms)
+✔ rejects an incomplete or prose-wrapped model answer (0.303225ms)
+✔ source exceeding context budget is rejected, never silently truncated (0.258051ms)
+✔ source substitution on bridge is rejected (0.510401ms)
+✔ bridge revalidates model fields instead of trusting a JS result (0.300209ms)
+✔ English-only output is not accepted as Arabic study support (0.643218ms)
+✔ Arabic punctuation, digits and vowel marks alone cannot qualify English output as Arabic (0.632459ms)
+✔ Arabic letters with an English technical term remain valid without claiming language quality (0.851627ms)
+✔ source instructions are encoded as data, not a system prompt (1.43845ms)
+✔ no empty output is mislabeled a useful generation (0.521161ms)
+✔ regression: real Qwen output copying the old evidence placeholder is rejected (0.350313ms)
+✔ constrained decoding permits only exact source sentences as evidence (0.841789ms)
+✔ oversized individual evidence is refused, not silently shortened (0.239957ms)
+✔ newline-delimited evidence does not silently lose the first sentence (2.374876ms)
+ℹ tests 32
+ℹ suites 0
+ℹ pass 32
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 407.567218

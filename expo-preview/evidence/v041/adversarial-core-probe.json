@@ -1,0 +1,33 @@
+{
+  "runtime": "v24.22.1",
+  "platform": "linux",
+  "parityCases": 980800,
+  "rewriteComparisons": 1961600,
+  "parity": "pass",
+  "timings": [
+    {
+      "kind": "unclosed-40k",
+      "characters": 40000,
+      "links": 0,
+      "ms": 0.142
+    },
+    {
+      "kind": "unclosed-1m",
+      "characters": 1000000,
+      "links": 0,
+      "ms": 3.455
+    },
+    {
+      "kind": "unclosed-alias-1m",
+      "characters": 1000000,
+      "links": 0,
+      "ms": 3.227
+    },
+    {
+      "kind": "valid-5000",
+      "characters": 103889,
+      "links": 5000,
+      "ms": 3.187
+    }
+  ]
+}

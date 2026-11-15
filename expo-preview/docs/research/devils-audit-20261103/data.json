@@ -1,0 +1,235 @@
+{
+  "scope_ar": "تدقيق مستقل لسلامة البيانات وSQLite والنسخ والاستيراد والمسودات والوسائط والإشعارات. لا يشمل الحكم على التصميم البصري أو أداء/صحة جهاز لم يُختبر.",
+  "findings": [
+    {
+      "id": "D001",
+      "title_ar": "قاعدة جديدة تُملأ بملاحظات وبطاقات تجريبية رغم طلب بداية فارغة",
+      "kind": "missing-requirement",
+      "severity": "P1",
+      "file": "src/storage.ts",
+      "line_start": 53,
+      "line_end": 75,
+      "evidence": [
+        "غياب meta.seeded يشغّل INSERT لملاحظتين وبطاقتين في معاملة؛ لا يوجد اختيار اختياري للمستخدم.",
+        "docs/research/devils-audit-20261103/data-evidence/storage-probes.log: openStorage() الحقيقي أعاد notes=2,cards=2,reviews=0؛ العنوانان التعلّم النشط والمراجعة المتباعدة."
+      ],
+      "scenario": "شغّل التطبيق على تثبيت جديد بقاعدة SQLite فارغة.",
+      "impact_ar": "تظهر بيانات لم ينشئها المستخدم وتدخل العدادات والمراجعة والبحث؛ هذا يخالف المطلوب الصريح: مساحة فارغة مع أدوات جاهزة. ليست مشكلة تلف SQLite.",
+      "fix_ar": "افصل إنشاء الجداول عن أمثلة المحتوى. أبقِ المكتبة الجديدة فارغة، واجعل تجربة الأمثلة إجراءً اختياريًا صريحًا قابلًا للإزالة دون مساس ببيانات قديمة.",
+      "acceptance_ar": "openStorage على قاعدة جديدة ثم إعادة الفتح يعيدان صفر ملاحظات وبطاقات ومراجعات. التثبيت الذي يحتوي بيانات مسبقة لا تُحذف بياناته. أدوات الإضافة والاستيراد تبقى متاحة.",
+      "verification": {
+        "status": "reproduced",
+        "method": "تشغيل مصدر TypeScript الحقيقي بعد تحويله في الذاكرة فوق Node SQLite؛ ليس iPhone.",
+        "command": "node docs/research/devils-audit-20261103/data-evidence/storage-probes.cjs",
+        "artifacts": [
+          "docs/research/devils-audit-20261103/data-evidence/storage-probes.cjs",
+          "docs/research/devils-audit-20261103/data-evidence/storage-probes.log"
+        ]
+      },
+      "source_urls": []
+    },
+    {
+      "id": "D002",
+      "title_ar": "حفظ محتوى مسموح قد يجعل المكتبة أكبر من كل مسارات النسخ والاستعادة",
+      "kind": "bug",
+      "severity": "P2",
+      "file": "src/core.ts",
+      "line_start": 18,
+      "line_end": 23,
+      "evidence": [
+        "App.tsx:259–260 يقبل حتى مليون حرف لكل ملاحظة، وsaveNoteAndCards لا يفرض حدًا إجماليًا للمكتبة. serializeBackup يرفض ما فوق 15 MiB، وexportPortableFolder يستعمله أيضًا (src/backup/portable.ts:119).",
+        "src/storage.ts:163–170 يستعمل serializeBackup لنقطة الرجوع، ولذلك استعادة نسخة صغيرة تتعطل عندما تكون المكتبة الحالية أكبر من الحد.",
+        "docs/research/devils-audit-20261103/data-evidence/storage-probes.log: حُفظت 9 ملاحظات × 999990 حرف عربي؛ JSON UTF-8 حجمه 18001085 بايت أمام حد15728640. فشل التصدير والاستبدال، وبقيت الملاحظات التسع."
+      ],
+      "scenario": "أضف عدة ملاحظات طويلة مسموحة كل على حدة، ثم حاول تصدير JSON أو مجلد شامل أو استعادة نسخة أصغر.",
+      "impact_ar": "يستطيع المستخدم الوصول إلى مكتبة سليمة محفوظة لكن لا يملك التطبيق طريقًا كاملًا لنقلها أو نسخها احتياطيًا أو استبدالها. تصدير Markdown منفرد لا ينقل البطاقات وسجل المراجعة. لم يثبت الاختبار حذفًا أو مشكلة ذاكرة iPhone.",
+      "fix_ar": "اجعل صيغة النسخ ونقاط الرجوع قادرة على تمثيل البيانات التي يسمح المنتج بحفظها، مثل تقسيم البيانات أو تدفقها، مع فحص قبل الكتابة. إذا بقي حد إجمالي فليكن ظاهرًا وقابلًا للإدارة قبل تجاوزه مع طريق إخراج لا يتطلب حذف محتوى.",
+      "acceptance_ar": "مكتبة السيناريو ذات18001085 بايت تُصدر وتُستعاد كاملة مع أعداد وحقول مطابقة، أو يسبق تجاوز الحد تحذير قابل للتصرف وإخراج كامل. فشل أي عملية لا يغير بيانات المصدر.",
+      "verification": {
+        "status": "reproduced",
+        "method": "حفظ ومعاينة واستعادة فوق Node SQLite الحقيقي؛ قياس UTF-8 للملف لا ذاكرة الجهاز.",
+        "command": "node docs/research/devils-audit-20261103/data-evidence/storage-probes.cjs",
+        "artifacts": [
+          "docs/research/devils-audit-20261103/data-evidence/storage-probes.cjs",
+          "docs/research/devils-audit-20261103/data-evidence/storage-probes.log"
+        ]
+      },
+      "source_urls": []
+    },
+    {
+      "id": "D003",
+      "title_ar": "استعادة النسخة تمحو المسودة المحفوظة دون ذكرها في التأكيد أو تضمينها في نقطة الرجوع",
+      "kind": "bug",
+      "severity": "P1",
+      "file": "App.tsx",
+      "line_start": 365,
+      "line_end": 371,
+      "evidence": [
+        "finishStudyRestore يستدعي draft.clear بعد استعادة SQL؛ يُستخدم في استيراد JSON والمجلد ونقاط الرجوع.",
+        "تنبيه App.tsx:408–411 يذكر استبدال عدد الملاحظات ونقطة الرجوع فقط؛ تنبيه نقطة الرجوع :386–390 لا يذكر حذف المسودة أيضًا.",
+        "src/storage.ts:165–168 يجمع notes/cards/reviews فقط؛ noteDraft.v1 ليست داخل النقطة. PortableBackupPanel.tsx:98 يستبعد المسودة من التصدير.",
+        "docs/research/devils-audit-20261103/data-evidence/draft-audit.ui.test.jsx أثبت أن مسودة جديدة unpublished محفوظة في meta تصبح null بعد التأكيد، وأن نص التأكيد لا يحتوي «مسود»."
+      ],
+      "scenario": "احفظ مسودة غير منشورة وأغلق المحرر، ثم من الإعدادات استورد نسخة دراسة ووافق على استبدال الملاحظات المعروضة.",
+      "impact_ar": "تختفي كتابة المستخدم التي ليست ضمن أي ملاحظة منشورة. العودة إلى نقطة الرجوع تعيد الدراسة فقط ولا تستعيد تلك الكتابة. موافقة استبدال الدراسة لا تكشف هذه الخسارة المنفصلة.",
+      "fix_ar": "احفظ المسودة السابقة في خانة استرجاع مستقلة قبل الاستعادة، أو امنع الاستعادة حتى يختار المستخدم حفظها/تصديرها/تجاهلها صراحة. عند الاحتفاظ بها بعد تبدل المكتبة لا تربطها تلقائيًا بمعرّف قد يشير إلى ملاحظة مختلفة.",
+      "acceptance_ar": "مع مسودة محفوظة ثم استيراد JSON أو مجلد أو نقطة رجوع: تظهر المسودة بعد العملية كمسودة قابلة للاستعادة أو يسبق حذفها قرار صريح يذكرها. إلغاء التأكيد لا يغيرها، وفشل SQL يبقيها كما هي.",
+      "verification": {
+        "status": "reproduced",
+        "method": "واجهة App/useNoteDraft الحقيقية مع موائم تخزين وهمي؛ تحقق مصدر مستقل من استبعاد المسودة من نقطة SQL.",
+        "command": "./node_modules/.bin/jest --config docs/research/devils-audit-20261103/data-evidence/jest.config.cjs --runInBand",
+        "artifacts": [
+          "docs/research/devils-audit-20261103/data-evidence/draft-audit.ui.test.jsx",
+          "docs/research/devils-audit-20261103/data-evidence/ui-probes.log"
+        ]
+      },
+      "source_urls": []
+    },
+    {
+      "id": "D004",
+      "title_ar": "فشل بيانات الصورة الوصفية يترك صورة غير قابلة للاستعادة من المكتبة بعد فقد نسخة cache",
+      "kind": "bug",
+      "severity": "P2",
+      "file": "src/media/library.ts",
+      "line_start": 54,
+      "line_end": 71,
+      "evidence": [
+        "يُنسخ payload إلى documents قبل نشر ملف JSON. إعادة المحاولة تشترط وجود source أولًا (:54–55) حتى إن كان target المكتمل موجودًا.",
+        "loadMediaLibrary(true) يستعيد تسجيلات Audio/ExpoAudio فقط (:83–95) ويكتشف المكتبة عبر *.json فقط (:98–105). لا يُظهر payload الصورة اليتيم ولا تحذيرًا بشأنه.",
+        "pendingPhoto موجود في useState فقط (MediaCapturePanel.tsx:53,119–121)، فيفقد عند إعادة تركيب الشاشة.",
+        "docs/research/devils-audit-20261103/data-evidence/media-audit.ui.test.jsx: فشل كتابة metadata، بقي photo-1.jpg؛ بعد فقد source cache عاد recovery items=[] وwarnings=[]، وفشلت retry رغم بقاء payload."
+      ],
+      "scenario": "تلتقط صورة؛ ينجح نسخ الصورة ثم تفشل كتابة metadata بسبب امتلاء التخزين أو انقطاع. تُعاد الشاشة/التطبيق وتختفي نسخة cache الأصلية.",
+      "impact_ar": "بايتات الصورة باقية داخل التطبيق لكنها غير متاحة من المكتبة أو المشاركة أو النسخة الشاملة، ولا يوجد تحذير يوجه المستخدم لاستعادتها. ليس ادعاءً بأن save أعلن نجاحًا؛ الخطأ الأول يظهر، لكن طريق إعادة المحاولة لا يستمر بعد إعادة الفتح.",
+      "fix_ar": "اكتب سجل نية متينًا قبل النسخ أو أصلح metadata من payload متحقق منه عند الفتح. احتفظ بمعلومات الصورة المعلقة خارج React، واجعل retry تستخدم النسخة الداخلية المكتملة عند غياب cache. أبلغ عن الملفات اليتيمة بدل تجاهلها.",
+      "acceptance_ar": "احقن فشلًا بعد نسخ jpg وقبل نشر JSON، أزل مصدر cache وأعد الفتح؛ تظهر الصورة مرة واحدة أو عملية استعادة واضحة تعيدها مع إمكانية المشاركة. لا يحذف فشل الإصلاح payload الأصلي.",
+      "verification": {
+        "status": "reproduced",
+        "method": "دوال library الحقيقية مع filesystem adapter في الذاكرة؛ ليس إثبات أعطال تخزين iOS.",
+        "command": "./node_modules/.bin/jest --config docs/research/devils-audit-20261103/data-evidence/jest.config.cjs --runInBand",
+        "artifacts": [
+          "docs/research/devils-audit-20261103/data-evidence/media-audit.ui.test.jsx",
+          "docs/research/devils-audit-20261103/data-evidence/ui-probes.log"
+        ]
+      },
+      "source_urls": []
+    },
+    {
+      "id": "D005",
+      "title_ar": "العودة للتطبيق تستبدل وقت التذكير الجاري تعديله بالقيمة القديمة",
+      "kind": "bug",
+      "severity": "P3",
+      "file": "src/reminders/RemindersPanel.tsx",
+      "line_start": 23,
+      "line_end": 31,
+      "evidence": [
+        "refresh يكتب setTime(formatReminderTime(current)) دون التحقق من تعديل الحقل. يُستدعى عند كل AppState active.",
+        "docs/research/devils-audit-20261103/data-evidence/reminders-audit.ui.test.jsx: أدخل20:30 ثم active؛ الحقل رجع19:00 ولم تُرسل عملية schedule."
+      ],
+      "scenario": "تكتب وقتًا جديدًا ثم تنتقل لحظيًا إلى تطبيق آخر أو إعدادات الهاتف وتعود قبل الضغط على التفعيل/التحديث.",
+      "impact_ar": "يضيع الاختيار المحلي ويحتاج إعادة الكتابة؛ الضغط التالي قد يثبت الموعد القديم الذي عاد إلى الحقل. لا يتغير موعد النظام بمجرد العودة.",
+      "fix_ar": "افصل حالة النظام عن قيمة الحقل المحلية، واحفظ dirty/revision للحقل. حدّث وصف الحالة عند العودة مع إبقاء الوقت الجاري تعديله حتى حفظه أو إلغائه.",
+      "acceptance_ar": "أدخل20:30 ثم background/active؛ يبقى20:30 ويُحدث وصف إذن النظام. فحص الحالة لا يمحو تعديلًا محليًا دون فعل إعادة تعيين صريح.",
+      "verification": {
+        "status": "reproduced",
+        "method": "RemindersPanel الحقيقي مع service وAppState محاكيين.",
+        "command": "./node_modules/.bin/jest --config docs/research/devils-audit-20261103/data-evidence/jest.config.cjs --runInBand",
+        "artifacts": [
+          "docs/research/devils-audit-20261103/data-evidence/reminders-audit.ui.test.jsx",
+          "docs/research/devils-audit-20261103/data-evidence/ui-probes.log"
+        ]
+      },
+      "source_urls": []
+    },
+    {
+      "id": "D006",
+      "title_ar": "سلامة المسارات الأصلية للملفات والتسجيل وتسليم الإشعار لم تُثبت على iPhone في الأدلة المفحوصة",
+      "kind": "device-validation-gap",
+      "severity": "P2",
+      "file": "src/backup/PORTABLE_BACKUP.md",
+      "line_start": 39,
+      "line_end": 43,
+      "evidence": [
+        "PORTABLE_BACKUP.md:41–43 يصرح بأن الملفات وSHA-256 اختُبرت بموائم memory filesystem وأن Files/iCloud ونفاد المساحة على الجهاز لم تُختبر.",
+        "src/reminders/README.md:20,24–32 يميز native mocks عن تسليم الإشعار ويترك اختبار الهاتف مطلوبًا.",
+        "tests/media-native.ui.test.jsx:1–15 يستبدل AudioModule وRecorder وfilesystem بمزيّفات؛ اختبارات الجلسة تتحقق من الترتيب لا من صلاحية الملف الصوتي بعد مكالمة أو تعليق النظام."
+      ],
+      "scenario": "تصدير مجلد إلى Files/iCloud ثم إعادة فتحه، أو خروج/مكالمة أثناء تسجيل، أو انتظار تذكير والهاتف مقفل.",
+      "impact_ar": "لا يمكن تحويل نجاح اختبارات المنطق إلى ضمان بأن الملفات قابلة للاستعادة أو التسجيل صالح أو الإشعار وصل في بيئة الهاتف. هذه فجوة دليل، وليست عطلًا أصليًا مثبتًا.",
+      "fix_ar": "نفذ مصفوفة قبول على iPhone وسجل نسخة iOS وExpo Go/البناء والجهاز ومزود الملفات، مع hashes قبل/بعد وملف تسجيل قابل للتشغيل وصور الإشعارات. أبقِ الصياغة التجريبية حتى ذلك.",
+      "acceptance_ar": "تصدير ثم إغلاق/إعادة فتح واستعادة على تثبيت فارغ من On My iPhone ومن iCloud مع تطابق المحتوى والوسائط؛ تسجيل ثم background/مكالمة واستعادة وتشغيل؛ تفعيل/تعديل/إلغاء تذكير وفحص وصوله وعدم وصول القديم. احتفظ بالمصدر أثناء التجربة.",
+      "verification": {
+        "status": "source-proven-gap",
+        "method": "قراءة حدود الاختبارات والتوثيق المحلي؛ لم يتوفر اختبار جهاز في هذا التدقيق.",
+        "artifacts": [
+          "docs/research/devils-audit-20261103/data-evidence/source-hashes.json"
+        ]
+      },
+      "source_urls": []
+    },
+    {
+      "id": "D007",
+      "title_ar": "مكتبة الوسائط لا توفر حذف ملف محفوظ لتصحيح الإدخال أو تحرير المساحة",
+      "kind": "missing-requirement",
+      "severity": "P2",
+      "file": "src/media/MediaCapturePanel.tsx",
+      "line_start": 168,
+      "line_end": 179,
+      "evidence": [
+        "أفعال الوسيط المنشور محصورة بالاستماع وإغلاق المشغل والمشاركة؛ لا يوجد فعل حذف.",
+        "src/media/library.ts يصدّر save/load/mediaUri/validation وتتبع التسجيل فقط؛ الحذف الوحيد في :73–74 ينظف مصدر تسجيل مكرر، ولا يحذف عنصرًا من المكتبة.",
+        "النسخ الشامل محدود512 MiB و1000 عنصر (src/backup/portable.ts:8–9)، بينما يمكن إضافة وسائط لاحقة بلا إدارة إزالة داخل التطبيق."
+      ],
+      "scenario": "يحفظ المستخدم صورة خاطئة أو تسجيلًا غير مرغوب أو يريد إزالة ملفات كبيرة بعد تصديرها.",
+      "impact_ar": "لا يستطيع تصحيح المكتبة أو تحرير مساحة عنصر بعينه من المنتج؛ مشاركة الملف لا تزيله من التطبيق. قد تتراكم وسائط لا يريدها وتتجاوز حدود النسخة الشاملة. هذا نقص في إدارة محتوى المستخدم، لا حذف تلقائي مثبت.",
+      "fix_ar": "أضف حذفًا محددًا لعنصر مع تأكيد واضح وفصل أخطاء حذف payload وmetadata وإمكانية التراجع إن كانت متاحة. أبقِ العناصر الأخرى والنسخ الخارجية دون تغيير.",
+      "acceptance_ar": "حذف صورة وتسجيل محددين يزيلهما من العرض وإعادة الفتح فقط بعد نجاح العملية؛ الإلغاء أو فشلfilesystem لا يعلن حذفًا ناجحًا ولا يؤثر في عناصر أخرى، والحذف أثناء التشغيل يعالج المشغل بأمان.",
+      "verification": {
+        "status": "source-proven",
+        "method": "قراءة أفعال كل عنصر ومجموع exports في مكتبة الوسائط؛ لم يُغيّر المنتج.",
+        "artifacts": [
+          "docs/research/devils-audit-20261103/data-evidence/source-hashes.json"
+        ]
+      },
+      "source_urls": []
+    },
+    {
+      "id": "D008",
+      "title_ar": "مسودة البطاقة اليدوية لا تملك استرجاعًا مماثلًا لمسودة الملاحظة",
+      "kind": "risk",
+      "severity": "P2",
+      "file": "App.tsx",
+      "line_start": 57,
+      "line_end": 59,
+      "evidence": [
+        "cardEditorNoteId/question/answer محفوظة في useState فقط.",
+        "الحفظ المؤجل وعند AppState غيرactive في App.tsx:121–135 مقصور على editorOpen وdraftTitle/draftBody، ولا يتناول حقول البطاقة.",
+        "closeCard:304–307 يسأل عند الإغلاق الصريح، لكن لا توجد كتابة durable لحقول السؤال والإجابة قبل commitCard:309–321."
+      ],
+      "scenario": "يكتب المستخدم بطاقة يدوية طويلة، يترك التطبيق دون نشرها ثم ينهي النظام العملية أو يُعاد فتح التطبيق.",
+      "impact_ar": "الحقول غير المنشورة غير قابلة للاسترجاع من التخزين الحالي ويضطر المستخدم لإعادتها. هذا خطر ناتج عن عدم الاستمرار؛ لم يُختبر قتل عملية iPhone ولم يدّع المنتج هنا حفظ البطاقة قبل النشر.",
+      "fix_ar": "مدد آلية المسودة لتشمل نوع البطاقة ومعرّف الملاحظة والسؤال والإجابة، أو قدم حفظ مسودة صريحًا. تحقق عند الاستعادة من بقاء الملاحظة الأصلية ولا تنشر بطاقة تلقائيًا.",
+      "acceptance_ar": "اكتب السؤال والإجابة، احفظ/اترك المسودة وأعد تركيب التطبيق؛ استرجع النصين دون إنشاء بطاقة منشورة. حذف الملاحظة الأصلية يعرض معالجة واضحة، وفشل حفظ المسودة يبقي الحقول قابلة للتصدير أو المحاولة.",
+      "verification": {
+        "status": "source-proven-risk",
+        "method": "تتبع حالة حقول البطاقة ومواضع persist؛ لا ادعاء اختبار إنهاء العملية على هاتف.",
+        "artifacts": [
+          "docs/research/devils-audit-20261103/data-evidence/source-hashes.json"
+        ]
+      },
+      "source_urls": []
+    }
+  ],
+  "self_review_ar": [
+    "لم أعد سباق استيراد المصدر المتأخر الذي أُصلح؛ الشجرة الحالية تتحقق من sourceImportOwner قبل فتح المحرر.",
+    "الاختبارات المضافة ترصد السلوك المعيب الحالي وتنجح عند إثباته؛ نجاحها لا يعني أن العيوب أُصلحت.",
+    "لم أعدل المنتج، ولم أشغل اختبار جهاز، ولم أستخدم مصادر ويب غير متحققة.",
+    "رفض الاستعادة في D002 يحفظ البيانات القديمة؛ لم أصفه كحذف. D004 فشل حفظ مُعلن أولًا، والمشكلة بقاء نسخة داخلية غير قابلة للاسترجاع بعد فقد cache.",
+    "D003 عملية استعادة مقصودة، لكن حذف المسودة غير مذكور في التأكيد ولا محمي بنقطة الرجوع.",
+    "استُبعد مرشح عدم وجود تصدير للمسودة: الزر موجود في App.tsx:647 ويصدّر draftTitle/draftBody عبر exportMarkdown:178–184."
+  ],
+  "evidence_commands": [
+    "node docs/research/devils-audit-20261103/data-evidence/storage-probes.cjs",
+    "./node_modules/.bin/jest --config docs/research/devils-audit-20261103/data-evidence/jest.config.cjs --runInBand"
+  ]
+}

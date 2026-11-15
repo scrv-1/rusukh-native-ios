@@ -1,0 +1,8 @@
+{
+  "buildInputs": 7,
+  "generatedModuleBytes": 21861949,
+  "generatedModuleSHA256": "4cd2956d8af7ef0e6e4796a706935efc9b0516457cebb0014022310383a5c4bf",
+  "nativeHTMLBytes": 21853882,
+  "nativeHTMLSHA256": "686eac377c70588ae1ec136468d484e8b6fef2b7890cb4516b5903b594656ab6",
+  "manifestSHA256": "14e1e1ce818509d1b4fd7f0af248adc056c05a71b82dd67d46b3f82c4e54a5ba"
+}

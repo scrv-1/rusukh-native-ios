@@ -1,0 +1,73 @@
+✖ recovery point captures the previous library and survives a WAL database reopen (26.302442ms)
+✖ import failure rolls back both replacement and newly created recovery point (0.790567ms)
+✖ failure to persist recovery refuses import and preserves all existing data (0.807953ms)
+✖ only the newest three successful recovery points remain; target selected before rotation (1.469217ms)
+✖ corrupt, incompatible and nonexistent recovery points never replace the current library (0.908835ms)
+✖ invalid input creates no snapshot and cannot overwrite the existing library (4.47378ms)
+✖ an oversized safety snapshot blocks replacement instead of importing without protection (32.074748ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 0
+ℹ fail 7
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 209.216493
+
+✖ failing tests:
+
+test at tests/backup-recovery.test.cjs:43:1
+✖ recovery point captures the previous library and survives a WAL database reopen (26.302442ms)
+  TypeError [Error]: storage.listRecoveryPoints is not a function
+      at TestContext.<anonymous> (/workspace/scratch/4555e7a855cf/rusukh-customize/expo-preview/tests/backup-recovery.test.cjs:56:34)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+
+test at tests/backup-recovery.test.cjs:73:1
+✖ import failure rolls back both replacement and newly created recovery point (0.790567ms)
+  TypeError [Error]: storage.listRecoveryPoints is not a function
+      at TestContext.<anonymous> (/workspace/scratch/4555e7a855cf/rusukh-customize/expo-preview/tests/backup-recovery.test.cjs:77:19)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at tests/backup-recovery.test.cjs:85:1
+✖ failure to persist recovery refuses import and preserves all existing data (0.807953ms)
+  TypeError [Error]: storage.listRecoveryPoints is not a function
+      at TestContext.<anonymous> (/workspace/scratch/4555e7a855cf/rusukh-customize/expo-preview/tests/backup-recovery.test.cjs:89:19)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at tests/backup-recovery.test.cjs:96:1
+✖ only the newest three successful recovery points remain; target selected before rotation (1.469217ms)
+  TypeError [Error]: storage.listRecoveryPoints is not a function
+      at TestContext.<anonymous> (/workspace/scratch/4555e7a855cf/rusukh-customize/expo-preview/tests/backup-recovery.test.cjs:101:34)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at tests/backup-recovery.test.cjs:113:1
+✖ corrupt, incompatible and nonexistent recovery points never replace the current library (0.908835ms)
+  TypeError [Error]: storage.listRecoveryPoints is not a function
+      at TestContext.<anonymous> (/workspace/scratch/4555e7a855cf/rusukh-customize/expo-preview/tests/backup-recovery.test.cjs:117:34)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at tests/backup-recovery.test.cjs:131:1
+✖ invalid input creates no snapshot and cannot overwrite the existing library (4.47378ms)
+  TypeError [Error]: storage.listRecoveryPoints is not a function
+      at TestContext.<anonymous> (/workspace/scratch/4555e7a855cf/rusukh-customize/expo-preview/tests/backup-recovery.test.cjs:137:36)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at tests/backup-recovery.test.cjs:141:1
+✖ an oversized safety snapshot blocks replacement instead of importing without protection (32.074748ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (/workspace/scratch/4555e7a855cf/rusukh-customize/expo-preview/tests/backup-recovery.test.cjs:147:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /نقطة رجوع/,
+    operator: 'rejects',
+    diff: 'simple'
+  }

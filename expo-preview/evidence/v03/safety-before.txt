@@ -1,0 +1,391 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> rusukh-ios@0.2.0 test:ui
+> jest --runInBand --runTestsByPath tests/safety.ui.test.jsx
+
+FAIL iOS tests/safety.ui.test.jsx
+  ● database startup failure offers retry and recovers
+
+    Unable to find an element with role: button, name: إعادة المحاولة
+
+    [36m<RNCSafeAreaView>[39m
+      [36m<View>[39m
+        [36m<Text>[39m
+          [0mتعذّر تشغيل رُسوخ[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mراجع رسالة الخطأ ثم أعد تشغيل التطبيق[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+    [36m</RNCSafeAreaView>[39m
+
+      44 |   await render(<App />);
+      45 |   await screen.findByText('تعذّر تشغيل رُسوخ');
+    > 46 |   await fireEvent.press(screen.getByRole('button',{name:'إعادة المحاولة'}));
+         |                                ^
+      47 |   await screen.findByText('مساحتي');
+      48 | });
+      49 |
+
+      at Object.getByRole (tests/safety.ui.test.jsx:46:32)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● successful write followed by failed refresh does not allow duplicate save
+
+    Unable to find an element with text: حُفظ التغيير؛ تعذّر تحديث العرض
+
+    [36m<RNCSafeAreaView>[39m
+      [36m<View>[39m
+        [36m<View>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mر[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<Text>[39m
+            [0mرُسوخ[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"كل الأدوات"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m/>[39m
+      [36m</View>[39m
+      [36m<RCTScrollView>[39m
+        [36m<View>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mمساحتي[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0mتعلّم يبقى. وأدوات تختارها أنت.[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"تخصيص مساحتي"[39m
+                [33maccessibilityRole[39m=[32m"button"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "disabled": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mتخصيص مساحتي[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"كل الأدوات"[39m
+                [33maccessibilityRole[39m=[32m"button"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "disabled": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mكل الأدوات[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<Text>[39m
+              [0m1[0m
+              [0m ملاحظة · [0m
+              [0m1[0m
+              [0m بطاقة · [0m
+              [0m0[0m
+              [0m مراجعة اليوم[0m
+            [36m</Text>[39m
+            [36m<View>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<Text>[39m
+                    [0mمراجعة اليوم[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+              [36m<Text>[39m
+                [0m1 بطاقة مستحقة الآن[0m
+              [36m</Text>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"ابدأ المراجعة"[39m
+                [33maccessibilityRole[39m=[32m"button"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "disabled": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mابدأ المراجعة[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<Text>[39m
+                    [0mملاحظاتي[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+              [36m<Text>[39m
+                [0mأفكارك وروابطك وملاحظاتك الأخيرة[0m
+              [36m</Text>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"فتح التعلُّم النشط"[39m
+                [33maccessibilityRole[39m=[32m"button"[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mالتعلُّم النشط[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"فتح ملاحظاتي"[39m
+                [33maccessibilityRole[39m=[32m"button"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "disabled": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mفتح ملاحظاتي[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"ملاحظة جديدة"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0mملاحظة جديدة[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</RCTScrollView>[39m
+      [36m<View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"الرئيسية"[39m
+          [33maccessibilityRole[39m=[32m"tab"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "selected": true,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mالرئيسية[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"مراجعة اليوم"[39m
+          [33maccessibilityRole[39m=[32m"tab"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "selected": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mمراجعة اليوم[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"ملاحظاتي"[39m
+          [33maccessibilityRole[39m=[32m"tab"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "selected": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mملاحظاتي[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"الإعدادات"[39m
+          [33maccessibilityRole[39m=[32m"tab"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "selected": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mالإعدادات[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<Modal>[39m
+        [36m<RNCSafeAreaView>[39m
+          [36m<View>[39m
+            [36m<RCTScrollView>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<Text>[39m
+                    [0mملاحظة جديدة[0m
+                  [36m</Text>[39m
+                  [36m<View[39m
+                    [33maccessibilityLabel[39m=[32m"إغلاق"[39m
+                    [33maccessibilityRole[39m=[32m"button"[39m
+                    [33maccessibilityState[39m=[32m{
+                      {
+                        "disabled": false,
+                      }
+                    }[39m
+                    [33maccessible[39m=[32m{true}[39m
+                  [36m>[39m
+                    [36m<Text>[39m
+                      [0mإغلاق[0m
+                    [36m</Text>[39m
+                  [36m</View>[39m
+                [36m</View>[39m
+                [36m<View>[39m
+                  [36m<Text>[39m
+                    [0mالعنوان[0m
+                  [36m</Text>[39m
+                  [36m<TextInput[39m
+                    [33maccessibilityLabel[39m=[32m"العنوان"[39m
+                    [33mplaceholder[39m=[32m"عنوان الملاحظة"[39m
+                    [33mvalue[39m=[32m"ملاحظة محفوظة مرة"[39m
+                  [36m/>[39m
+                [36m</View>[39m
+                [36m<View>[39m
+                  [36m<Text>[39m
+                    [0mالمحتوى[0m
+                  [36m</Text>[39m
+                  [36m<TextInput[39m
+                    [33maccessibilityLabel[39m=[32m"المحتوى"[39m
+                    [33mplaceholder[39m=[32m"اكتب هنا… للربط استخدم [[عنوان ملاحظة]]"[39m
+                    [33mvalue[39m=[32m""[39m
+                  [36m/>[39m
+                [36m</View>[39m
+                [36m<Text>[39m
+                  [0mتوليد بطاقات من نصك: اكتب سؤالًا في س: والإجابة في ج: على سطر منفصل.[0m
+                [36m</Text>[39m
+                [36m<View[39m
+                  [33maccessibilityLabel[39m=[32m"تصدير النص إلى الملفات (Markdown)"[39m
+                  [33maccessibilityRole[39m=[32m"button"[39m
+                  [33maccessibilityState[39m=[32m{
+                    {
+                      "disabled": false,
+                    }
+                  }[39m
+                  [33maccessible[39m=[32m{true}[39m
+                [36m>[39m
+                  [36m<Text>[39m
+                    [0mتصدير النص إلى الملفات (Markdown)[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+                [36m<View[39m
+                  [33maccessibilityLabel[39m=[32m"حفظ الملاحظة"[39m
+                  [33maccessibilityRole[39m=[32m"button"[39m
+                  [33maccessibilityState[39m=[32m{
+                    {
+                      "disabled": false,
+                    }
+                  }[39m
+                  [33maccessible[39m=[32m{true}[39m
+                [36m>[39m
+                  [36m<Text>[39m
+                    [0mحفظ الملاحظة[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+                [36m<View[39m
+                  [33maccessibilityLabel[39m=[32m"حفظ واستخراج بطاقات س/ج"[39m
+                  [33maccessibilityRole[39m=[32m"button"[39m
+                  [33maccessibilityState[39m=[32m{
+                    {
+                      "disabled": false,
+                    }
+                  }[39m
+                  [33maccessible[39m=[32m{true}[39m
+                [36m>[39m
+                  [36m<Text>[39m
+                    [0mحفظ واستخراج بطاقات س/ج[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+            [36m</RCTScrollView>[39m
+          [36m</View>[39m
+        [36m</RNCSafeAreaView>[39m
+      [36m</Modal>[39m
+    [36m</RNCSafeAreaView>[39m
+
+      54 |   storage.readAll.mockRejectedValueOnce(new Error('read failed after committed write'));
+      55 |   await fireEvent.press(screen.getByRole('button',{name:'حفظ الملاحظة'}));
+    > 56 |   await screen.findByText('حُفظ التغيير؛ تعذّر تحديث العرض');
+         |                ^
+      57 |   expect(storage.saveNoteAndCards).toHaveBeenCalledTimes(1);
+      58 |   expect(screen.queryByRole('button',{name:'حفظ الملاحظة'})).toBeNull();
+      59 |   await fireEvent.press(screen.getByRole('button',{name:'إعادة تحميل البيانات'}));
+
+      at Object.findByText (tests/safety.ui.test.jsx:56:16)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● review answer stays hidden before reveal instead of leaking in card list
+
+    expect(received).toBeNull()
+
+    Received: <Text allowFontScaling={true} style={[{"color": "#61646B", "fontSize": 13, "fontWeight": "400", "lineHeight": 20, "textAlign": "right", "writingDirection": "rtl"}, undefined]}>جواب</Text>
+
+      64 | test('review answer stays hidden before reveal instead of leaking in card list', async()=>{
+      65 |   await openApp(); await fireEvent.press(screen.getByRole('button',{name:'ابدأ المراجعة'}));
+    > 66 |   expect(screen.queryByText('جواب')).toBeNull();
+         |                                      ^
+      67 |   await fireEvent.press(screen.getByRole('button',{name:'إظهار الإجابة'}));
+      68 |   expect(screen.getByText('جواب')).toBeTruthy();
+      69 | });
+
+      at Object.toBeNull (tests/safety.ui.test.jsx:66:38)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● closing a changed note asks before discarding
+
+    expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+    Expected: "لديك مسودة غير منشورة", Any<String>, Any<Array>
+
+    Number of calls: 0
+
+      73 |   await fireEvent.changeText(screen.getByLabelText('المحتوى'),'تعديل يجب ألا يضيع');
+      74 |   await fireEvent.press(screen.getByRole('button',{name:'إغلاق'}));
+    > 75 |   expect(Alert.alert).toHaveBeenCalledWith('لديك مسودة غير منشورة',expect.any(String),expect.any(Array));
+         |                       ^
+      76 |   expect(screen.getByLabelText('المحتوى').props.value).toBe('تعديل يجب ألا يضيع');
+      77 | });
+      78 |
+
+      at Object.toHaveBeenCalledWith (tests/safety.ui.test.jsx:75:23)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 1 failed, 1 total
+Tests:       4 failed, 4 total
+Snapshots:   0 total
+Time:        2.322 s
+Ran all test suites within paths "tests/safety.ui.test.jsx".

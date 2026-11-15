@@ -1,0 +1,29 @@
+{
+  "observedAtUTC": "2026-11-03T00:17:22.604646+00:00",
+  "url": "https://turbo-space-acorn-9q96jj49w97cx7w5-8082.app.github.dev/",
+  "version": "0.5.2",
+  "sourceSHA256": "8575f110052e1c79205ac7672790d81c2278af5cd9cf2a469a35cf42da7f7304",
+  "checks": [
+    "fresh empty state:0 notes,0 cards,no automatic examples",
+    "search tools then add notes section:still0 notes0cards",
+    "paste Arabic source:2 explicit questions, multiline answer preserved",
+    "save:exactly1material2cards",
+    "recall answer hidden then revealed",
+    "self report1remembered1missed,filtermissedworks",
+    "open source and return:summaryandfilterretained",
+    "remove notessection:1material2cardsretained,sectionhidden",
+    "re-add notessection:originalmaterialvisible",
+    "dark theme320pxframe:buttons wrap,contentvisible"
+  ],
+  "screenshots": [
+    "01-empty-home.jpg",
+    "02-recall-summary.jpg",
+    "03-restored-section-dark320.jpg"
+  ],
+  "limits": [
+    "React Native Web component harness, not full App",
+    "temporary in-memory data, no SQLite or native Files",
+    "320px frame only; browser viewport and Dynamic Type not emulated",
+    "No iPhone,VoiceOver,nativekeyboard,AIruntimeorperformanceclaim"
+  ]
+}

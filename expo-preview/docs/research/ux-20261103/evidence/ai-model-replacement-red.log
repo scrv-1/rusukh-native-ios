@@ -1,0 +1,72 @@
+✔ worker failure during generation unloads immediately and rejects a late completion (9.580711ms)
+✔ worker failure while loading reports an error without waiting for the watchdog (2.691458ms)
+✔ late worker events from a disposed runtime cannot stop a new generation (2.690146ms)
+✔ delayed failed-runtime cleanup preserves a new generation and its WASM URL (3.660971ms)
+✔ a newer model selection supersedes a selection waiting for old-runtime cleanup (2.731043ms)
+✔ a rejected load does not publish a stale error after newer-runtime startup (2.109042ms)
+✔ superseded header reads cannot publish invalid-header or read errors over a newer generation (4.663815ms)
+✖ an invalid replacement keeps the loaded model and its pending draft available (2.667922ms)
+✖ an oversized replacement does not dispose a working model (1.3894ms)
+✖ a failed replacement header read preserves a working model (1.288027ms)
+✔ unload cancels a replacement still reading its header (4.64714ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 8
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 180.720023
+
+✖ failing tests:
+
+test at ai-lab/engine-runtime.test.mjs:194:1
+✖ an invalid replacement keeps the loaded model and its pending draft available (2.667922ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/ai-lab/engine-runtime.test.mjs:199:10)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ai-lab/engine-runtime.test.mjs:205:1
+✖ an oversized replacement does not dispose a working model (1.3894ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/ai-lab/engine-runtime.test.mjs:210:10)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ai-lab/engine-runtime.test.mjs:215:1
+✖ a failed replacement header read preserves a working model (1.288027ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/97ad5d4fb9f4/rusukh-native-ios/expo-preview/ai-lab/engine-runtime.test.mjs:222:10)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
