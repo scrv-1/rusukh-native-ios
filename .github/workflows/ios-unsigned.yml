@@ -1,5 +1,8 @@
 name: iOS - SwiftUI build and simulator preview
 on:
+  push:
+    branches:
+      - cursor/sidestore-ipa-and-fixes-74f5
   workflow_dispatch:
     inputs:
       evaluate_local_ai:
