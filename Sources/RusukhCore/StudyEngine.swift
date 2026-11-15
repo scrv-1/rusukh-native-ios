@@ -2,16 +2,25 @@ import Foundation
 
 public enum StudyEngine {
     public static func matches(_ note: StudyNote, query: String) -> Bool {
-        func searchText(_ text: String) -> String {
-            let withoutMarks = String(String.UnicodeScalarView(text.unicodeScalars.filter {
-                $0.properties.generalCategory != .nonspacingMark
-            }))
-            return normalized(withoutMarks.folding(options: [.diacriticInsensitive, .caseInsensitive], locale: Locale(identifier: "ar"))
-                .replacingOccurrences(of: "ـ", with: ""))
-        }
-        let terms = searchText(query).split(separator: " ")
-        let text = searchText(note.title + "\n" + note.body)
+        let terms = searchKey(query).split(separator: " ")
+        let text = searchKey(note.title + "\n" + note.body)
         return terms.allSatisfy { text.contains($0) }
+    }
+
+    /// Search copy only. Stored titles and wiki-link identity keep `normalized` unchanged.
+    public static func searchKey(_ text: String) -> String {
+        let withoutMarks = String(String.UnicodeScalarView(text.unicodeScalars.filter {
+            $0.properties.generalCategory != .nonspacingMark
+        }))
+        let folded = normalized(withoutMarks.folding(options: [.diacriticInsensitive, .caseInsensitive], locale: Locale(identifier: "ar"))
+            .replacingOccurrences(of: "ـ", with: ""))
+        return folded
+            .replacingOccurrences(of: "أ", with: "ا")
+            .replacingOccurrences(of: "إ", with: "ا")
+            .replacingOccurrences(of: "آ", with: "ا")
+            .replacingOccurrences(of: "ٱ", with: "ا")
+            .replacingOccurrences(of: "ة", with: "ه")
+            .replacingOccurrences(of: "ى", with: "ي")
     }
 
     public static func normalized(_ title: String) -> String {
@@ -157,18 +166,58 @@ public enum StudyEngine {
     }
 
     public static func quiz(from cards: [StudyCard], limit: Int = 8) -> [QuizQuestion] {
+        var generator = SystemRandomNumberGenerator()
+        return quiz(from: cards, limit: limit, using: &generator)
+    }
+
+    public static func quiz<Generator: RandomNumberGenerator>(from cards: [StudyCard], limit: Int = 8, using generator: inout Generator) -> [QuizQuestion] {
         var unique: [StudyCard] = []
         var seen = Set<String>()
         for card in cards {
             if seen.insert(normalized(card.answer)).inserted { unique.append(card) }
         }
         guard unique.count >= 2 else { return [] }
-        return unique.prefix(max(0, limit)).enumerated().map { index, card in
+        return unique.prefix(max(0, limit)).map { card in
             let distractors = unique.filter { $0.id != card.id }.prefix(3).map(\.answer)
-            let options = [card.answer] + distractors
-            let rotate = index % options.count
-            return QuizQuestion(cardID: card.id, question: card.question, answer: card.answer,
-                                options: Array(options[rotate...]) + Array(options[..<rotate]))
+            var options = [card.answer] + distractors
+            options.shuffle(using: &generator)
+            return QuizQuestion(cardID: card.id, question: card.question, answer: card.answer, options: options)
         }
+    }
+
+    /// Updates question and answer text for one note. Card ids, FSRS memory, and review history stay attached to the same card.
+    /// Pairs that no longer match a question update the remaining cards in order. Extra cards are kept. Missing pairs become new FSRS cards.
+    public static func syncedCards(existing: [StudyCard], noteID: UUID, pairs: [(question: String, answer: String)], now: Date = .now) -> [StudyCard] {
+        let others = existing.filter { $0.noteID != noteID }
+        var mine = existing.filter { $0.noteID == noteID }
+        var used = Set<UUID>()
+        var synced: [StudyCard] = []
+        var unmatched: [(question: String, answer: String)] = []
+        for pair in pairs {
+            if let index = mine.firstIndex(where: { !used.contains($0.id) && $0.question == pair.question }) {
+                var card = mine[index]
+                used.insert(card.id)
+                if card.answer != pair.answer {
+                    card.answer = pair.answer
+                    card.updatedAt = now
+                }
+                synced.append(card)
+            } else {
+                unmatched.append(pair)
+            }
+        }
+        var leftover = mine.filter { !used.contains($0.id) }
+        for pair in unmatched {
+            if leftover.isEmpty {
+                synced.append(ReviewScheduler.newCard(noteID: noteID, question: pair.question, answer: pair.answer, now: now))
+            } else {
+                var card = leftover.removeFirst()
+                card.question = pair.question
+                card.answer = pair.answer
+                card.updatedAt = now
+                synced.append(card)
+            }
+        }
+        return others + synced + leftover
     }
 }

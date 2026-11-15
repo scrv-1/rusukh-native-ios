@@ -2,6 +2,18 @@ import Foundation
 import XCTest
 @testable import RusukhCore
 
+private struct SplitMix64: RandomNumberGenerator {
+    var state: UInt64
+    init(seed: UInt64) { state = seed }
+    mutating func next() -> UInt64 {
+        state &+= 0x9E3779B97F4A7C15
+        var z = state
+        z = (z ^ (z >> 30)) &* 0xBF58476D1CE4E5B9
+        z = (z ^ (z >> 27)) &* 0x94D049BB133111EB
+        return z ^ (z >> 31)
+    }
+}
+
 final class StudyEngineTests: XCTestCase {
     func testNormalizeArabicTitle() {
         XCTAssertEqual(StudyEngine.normalized("  تعلم   نشط  "), "تعلم نشط")
@@ -93,6 +105,52 @@ final class StudyEngineTests: XCTestCase {
     func testQuizWithSingleCardUnavailable() {
         let c = StudyCard(noteID: UUID(), question: "?", answer: "A")
         XCTAssertTrue(StudyEngine.quiz(from: [c]).isEmpty)
+    }
+    func testSearchFoldsAlefAndTaAndYaaWithoutChangingLinkIdentity() {
+        let note = StudyNote(title: "إبراهيم", body: "صلاة على")
+        XCTAssertTrue(StudyEngine.matches(note, query: "ابراهيم"))
+        XCTAssertTrue(StudyEngine.matches(note, query: "صلاه"))
+        XCTAssertTrue(StudyEngine.matches(note, query: "علي"))
+        XCTAssertNotEqual(StudyEngine.normalized("إبراهيم"), StudyEngine.normalized("ابراهيم"))
+        XCTAssertNotEqual(StudyEngine.normalized("صلاة"), StudyEngine.normalized("صلاه"))
+        XCTAssertNotEqual(StudyEngine.searchKey("صلاة"), StudyEngine.normalized("صلاة"))
+    }
+    func testQuizShuffleIsStableForASeedAndKeepsTheAnswer() {
+        let id = UUID()
+        let cards = [
+            StudyCard(noteID: id, question: "1", answer: "واحد"),
+            StudyCard(noteID: id, question: "2", answer: "اثنان"),
+            StudyCard(noteID: id, question: "3", answer: "ثلاثة"),
+            StudyCard(noteID: id, question: "4", answer: "أربعة")
+        ]
+        var first = SplitMix64(seed: 11)
+        var second = SplitMix64(seed: 11)
+        var other = SplitMix64(seed: 99)
+        let left = StudyEngine.quiz(from: cards, using: &first)
+        let right = StudyEngine.quiz(from: cards, using: &second)
+        let shuffled = StudyEngine.quiz(from: cards, using: &other)
+        XCTAssertEqual(left, right)
+        XCTAssertNotEqual(left.map(\.options), shuffled.map(\.options))
+        for question in left {
+            XCTAssertTrue(question.options.contains(question.answer))
+            XCTAssertEqual(Set(question.options).count, question.options.count)
+        }
+    }
+    func testEditingACardKeepsFSRSIdentity() throws {
+        let noteID = UUID()
+        let now = Date(timeIntervalSince1970: 1_700_000_000)
+        var card = ReviewScheduler.newCard(noteID: noteID, question: "ما الرسوخ؟", answer: "ثبات", now: now)
+        card = try ReviewScheduler.scheduled(card, grade: .good, now: now)
+        let memory = try XCTUnwrap(card.fsrs)
+        let edited = StudyEngine.syncedCards(existing: [card], noteID: noteID, pairs: [("ما الرسوخ؟", "ثبات المعرفة")], now: now.addingTimeInterval(10))
+        XCTAssertEqual(edited.count, 1)
+        XCTAssertEqual(edited[0].id, card.id)
+        XCTAssertEqual(edited[0].answer, "ثبات المعرفة")
+        XCTAssertEqual(edited[0].fsrs, memory)
+        let reworded = StudyEngine.syncedCards(existing: edited, noteID: noteID, pairs: [("ما هو الرسوخ؟", "ثبات المعرفة")], now: now.addingTimeInterval(20))
+        XCTAssertEqual(reworded[0].id, card.id)
+        XCTAssertEqual(reworded[0].question, "ما هو الرسوخ؟")
+        XCTAssertEqual(reworded[0].fsrs, memory)
     }
     func testQuizDistinctChoices() {
         let id = UUID()
