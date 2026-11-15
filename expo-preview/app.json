@@ -1,7 +1,8 @@
 {
   "expo": {
     "name": "رُسوخ",
-    "slug": "rusukh-ios",
+    "slug": "rusukh",
+    "owner": "svrvs-team",
     "scheme": "rusukh",
     "version": "0.5.2",
     "orientation": "portrait",
@@ -41,10 +42,23 @@
           "enableRemoteNotifications": false
         }
       ],
-      "expo-asset"
+      "expo-asset",
+      "expo-updates"
     ],
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "enabled": true,
+      "url": "https://u.expo.dev/4bea04fa-479a-49cd-894b-c7e8a88d7a16",
+      "fallbackToCacheTimeout": 0,
+      "checkAutomatically": "ON_LOAD"
+    },
     "extra": {
-      "appVersion": "0.5.2"
+      "appVersion": "0.5.2",
+      "eas": {
+        "projectId": "4bea04fa-479a-49cd-894b-c7e8a88d7a16"
+      }
     }
   }
 }
