@@ -79,6 +79,7 @@ struct SettingsView: View {
     @State private var shareURL: URL?
     @State private var importing = false
     @State private var confirmImport = false
+    @State private var importMode: StudyImportMode = .replace
 
     var body: some View {
         NavigationStack {
@@ -89,7 +90,16 @@ struct SettingsView: View {
                     if let shareURL {
                         ShareLink(item: shareURL) { Label("حفظ النسخة في الملفات", systemImage: "square.and.arrow.up") }
                     }
-                    Button("استيراد نسخة — يستبدل كل البيانات") { confirmImport = true }
+                    Button("استيراد ودمج مع البيانات الحالية") {
+                        importMode = .merge
+                        confirmImport = true
+                    }
+                    .accessibilityIdentifier("backup.import-merge")
+                    Button("استيراد نسخة — يستبدل كل البيانات") {
+                        importMode = .replace
+                        confirmImport = true
+                    }
+                    .accessibilityIdentifier("backup.import-replace")
                     Text("الصور والتسجيلات المحفوظة داخل الملاحظات موجودة في النسخة. النسخة غير مشفّرة؛ احفظها بمكان آمن.")
                         .font(.footnote).foregroundStyle(.secondary)
                 }
@@ -102,12 +112,17 @@ struct SettingsView: View {
             }
             .navigationTitle("الإعدادات")
             .toolbar { ToolbarItem(placement: .confirmationAction) { Button("إغلاق") { dismiss() } } }
-            .confirmationDialog("سيُستبدل كل المحتوى. صدّر نسخة احتياطية أولًا.", isPresented: $confirmImport) {
-                Button("اختيار ملف الاستيراد", role: .destructive) { importing = true }
+            .confirmationDialog(
+                importMode == .replace
+                    ? "سيُستبدل كل المحتوى. تُحفظ نسخة الاستعادة على الجهاز قبل ذلك."
+                    : "تُضاف البيانات الجديدة. النسخة الأحدث للملاحظة نفسها تُحفظ، وتُحفظ نسخة الاستعادة قبل ذلك.",
+                isPresented: $confirmImport
+            ) {
+                Button("اختيار ملف الاستيراد", role: importMode == .replace ? .destructive : nil) { importing = true }
             }
             .fileImporter(isPresented: $importing, allowedContentTypes: [.json]) { result in
                 switch result {
-                case .success(let url): library.importFromFile(url)
+                case .success(let url): library.importFromFile(url, mode: importMode)
                 case .failure(let error): library.message = error.localizedDescription
                 }
             }

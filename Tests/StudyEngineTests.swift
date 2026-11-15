@@ -25,6 +25,39 @@ final class StudyEngineTests: XCTestCase {
         XCTAssertTrue(StudyEngine.backlinks(to: selfLink, in: [selfLink]).isEmpty)
         XCTAssertTrue(StudyEngine.backlinks(to: duplicateA, in: [duplicateA, duplicateB, linker]).isEmpty)
     }
+    func testRenameRewritesUniqueLinkAndKeepsAlias() {
+        let target = StudyNote(title: "اسم قديم", body: "")
+        let other = StudyNote(title: "مصدر", body: "راجع [[اسم قديم|هنا]] و[[ثابت]]")
+        let now = Date(timeIntervalSince1970: 1_700_000_000)
+        let renamed = StudyEngine.renamedNotes([target, other], id: target.id, to: "اسم جديد", now: now)
+        XCTAssertEqual(renamed?[0].title, "اسم جديد")
+        XCTAssertEqual(renamed?[1].body, "راجع [[اسم جديد|هنا]] و[[ثابت]]")
+    }
+    func testRenameDoesNotRetargetWhenTitlesCollide() {
+        let target = StudyNote(title: "مشترك", body: "")
+        let twin = StudyNote(title: "مشترك", body: "")
+        let other = StudyNote(title: "مصدر", body: "[[مشترك]]")
+        let renamed = StudyEngine.renamedNotes([target, twin, other], id: target.id, to: "اسم جديد", now: Date(timeIntervalSince1970: 10))
+        XCTAssertEqual(renamed?.first { $0.id == target.id }?.title, "اسم جديد")
+        XCTAssertEqual(renamed?.first { $0.id == other.id }?.body, "[[مشترك]]")
+    }
+    func testImportMergeKeepsCurrentAndNewerDuplicate() throws {
+        let older = Date(timeIntervalSince1970: 10)
+        let newer = Date(timeIntervalSince1970: 20)
+        let kept = StudyNote(title: "حالي", body: "", updatedAt: newer)
+        let stale = StudyNote(id: kept.id, title: "قديم", body: "لا", updatedAt: older)
+        let added = StudyNote(title: "وارد", body: "")
+        let current = StudySnapshot(notes: [kept])
+        let incoming = StudySnapshot(notes: [stale, added])
+        let merged = try StudyLibrary.applying(current, incoming: incoming, mode: .merge)
+        XCTAssertEqual(merged.notes.map(\.id), [kept.id, added.id])
+        XCTAssertEqual(merged.notes[0].title, "حالي")
+        let replaced = try StudyLibrary.applying(current, incoming: incoming, mode: .replace)
+        XCTAssertEqual(replaced.notes.map(\.id), [stale.id, added.id])
+        var invalid = StudySnapshot()
+        invalid.version = 9
+        XCTAssertThrowsError(try StudyLibrary.applying(invalid, incoming: .empty, mode: .replace))
+    }
     func testQuestionAnswerArabicEnglish() {
         let entries = StudyEngine.questionAnswers(from: "س: ما العلم؟\nج: المعرفة\nQ: Define recall\nA: Retrieval")
         XCTAssertEqual(entries.count, 2)

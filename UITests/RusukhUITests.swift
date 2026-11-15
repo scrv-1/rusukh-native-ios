@@ -156,7 +156,7 @@ final class RusukhUITests: XCTestCase {
         section.tap()
         let unavailable = app.staticTexts["arabic-model-simulator-unavailable"]
         XCTAssertTrue(unavailable.waitForExistence(timeout: 15), app.debugDescription)
-        XCTAssertTrue(app.staticTexts["arabic-model-ready"].exists)
+        XCTAssertTrue(app.staticTexts["arabic-model-ready"].waitForExistence(timeout: 15))
         XCTAssertFalse(app.buttons["arabic-model-generate"].exists)
         capture("11-simulator-model-unavailable")
         XCUIDevice.shared.press(.home)

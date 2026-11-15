@@ -56,13 +56,18 @@ final class LibraryStore: ObservableObject {
         var draft = snapshot
         let now = Date()
         let saved: StudyNote
-        if let id, let index = draft.notes.firstIndex(where: { $0.id == id }) {
-            draft.notes[index].title = cleaned
-            draft.notes[index].body = body
-            draft.notes[index].imageJPEG = imageJPEG
-            draft.notes[index].audioM4A = audioM4A
-            draft.notes[index].updatedAt = now
-            saved = draft.notes[index]
+        if let id, draft.notes.contains(where: { $0.id == id }) {
+            guard var renamed = StudyEngine.renamedNotes(draft.notes, id: id, to: cleaned, now: now),
+                  let index = renamed.firstIndex(where: { $0.id == id }) else {
+                message = "تعذّر إعادة التسمية."
+                return nil
+            }
+            renamed[index].body = body
+            renamed[index].imageJPEG = imageJPEG
+            renamed[index].audioM4A = audioM4A
+            renamed[index].updatedAt = now
+            draft.notes = renamed
+            saved = renamed[index]
         } else {
             saved = StudyNote(title: cleaned, body: body, createdAt: now, updatedAt: now, imageJPEG: imageJPEG, audioM4A: audioM4A)
             draft.notes.insert(saved, at: 0)
@@ -128,13 +133,19 @@ final class LibraryStore: ObservableObject {
         }
     }
 
-    func importFromFile(_ url: URL) {
+    func importFromFile(_ url: URL, mode: StudyImportMode = .replace) {
         guard !storageLocked else { message = "الملف الحالي محمي؛ لا يمكن الاستيراد قبل معالجة خطأ القراءة."; return }
         let access = url.startAccessingSecurityScopedResource()
         defer { if access { url.stopAccessingSecurityScopedResource() } }
         do {
-            let imported = try StudyRepository.read(from: url)
-            _ = commit(imported)
+            let incoming = try StudyRepository.read(from: url)
+            let result = try StudyLibrary.applying(snapshot, incoming: incoming, mode: mode)
+            let recoveryURL = repository.fileURL.deletingLastPathComponent().appendingPathComponent("study.recovery.json")
+            try StudyRepository(fileURL: recoveryURL).save(snapshot)
+            guard commit(result) else { return }
+            message = mode == .replace
+                ? "استُبدلت البيانات. نسخة الاستعادة محفوظة على الجهاز."
+                : "دُمجت البيانات مع الحالي. نسخة الاستعادة محفوظة على الجهاز."
         } catch {
             message = "لم يتم تغيير بياناتك؛ فشل الاستيراد: \(error.localizedDescription)"
         }

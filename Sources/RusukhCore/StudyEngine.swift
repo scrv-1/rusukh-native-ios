@@ -56,6 +56,47 @@ public enum StudyEngine {
         }
     }
 
+    /// Renames one note. Wiki links are rewritten only when the old title is unique and the new title is free.
+    /// A colliding new title still renames the note, but leaves existing links untouched so they cannot point at the wrong note.
+    public static func renamedNotes(_ notes: [StudyNote], id: UUID, to rawTitle: String, now: Date = .now) -> [StudyNote]? {
+        let newTitle = rawTitle.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !newTitle.isEmpty, newTitle.count <= 500,
+              !newTitle.contains(where: { $0 == "[" || $0 == "]" || $0 == "|" || $0.isNewline }),
+              let current = notes.first(where: { $0.id == id }) else { return nil }
+        let oldKey = normalized(current.title)
+        let newKey = normalized(newTitle)
+        let oldIsUnique = notes.filter { normalized($0.title) == oldKey }.count == 1
+        let newIsFree = !notes.contains { $0.id != id && normalized($0.title) == newKey }
+        let rewrite = oldIsUnique && newIsFree && oldKey != newKey
+        return notes.map { note in
+            var copy = note
+            if copy.id == id {
+                copy.title = newTitle
+                copy.updatedAt = now
+            } else if rewrite {
+                let updated = replacingWikiTarget(in: copy.body, from: oldKey, to: newTitle)
+                if updated != copy.body {
+                    copy.body = updated
+                    copy.updatedAt = now
+                }
+            }
+            return copy
+        }
+    }
+
+    static func replacingWikiTarget(in text: String, from oldKey: String, to newTitle: String) -> String {
+        guard let expression = try? NSRegularExpression(pattern: #"\[\[([^\]|\n]+)(\|[^\]\n]*)?\]\]"#) else { return text }
+        let mutable = NSMutableString(string: text)
+        let whole = NSRange(location: 0, length: (text as NSString).length)
+        for match in expression.matches(in: text, range: whole).reversed() {
+            guard let titleRange = Range(match.range(at: 1), in: text) else { continue }
+            guard normalized(String(text[titleRange])) == oldKey else { continue }
+            let alias = match.range(at: 2).location == NSNotFound ? "" : mutable.substring(with: match.range(at: 2))
+            mutable.replaceCharacters(in: match.range, with: "[[\(newTitle)\(alias)]]")
+        }
+        return mutable as String
+    }
+
     // Explicit human-written Q: / A: lines; not an AI generator.
     public static func questionAnswers(from text: String) -> [(question: String, answer: String)] {
         var question: String?

@@ -63,3 +63,40 @@ public struct StudyRepository {
         return try LegacyExpoMigration.converted(from: data)
     }
 }
+
+public enum StudyImportMode: String, Codable, Sendable {
+    case merge
+    case replace
+}
+
+public enum StudyLibrary {
+    public static func applying(_ current: StudySnapshot, incoming: StudySnapshot, mode: StudyImportMode) throws -> StudySnapshot {
+        guard current.isValid(), incoming.isValid() else { throw StudyStorageError.invalidBackup }
+        switch mode {
+        case .replace:
+            return incoming
+        case .merge:
+            let notes = union(current.notes, incoming.notes) { $0.updatedAt >= $1.updatedAt }
+            let cards = union(current.cards, incoming.cards) { $0.updatedAt >= $1.updatedAt }
+            let reviews = union(current.reviews, incoming.reviews) { $0.at >= $1.at }
+            let result = StudySnapshot(notes: notes, cards: cards, reviews: reviews)
+            guard result.isValid() else { throw StudyStorageError.invalidBackup }
+            return result
+        }
+    }
+
+    private static func union<T: Identifiable>(_ current: [T], _ incoming: [T], preferIncoming: (T, T) -> Bool) -> [T] {
+        var result = current
+        var index: [T.ID: Int] = [:]
+        for (offset, item) in result.enumerated() { index[item.id] = offset }
+        for item in incoming {
+            if let existing = index[item.id] {
+                if preferIncoming(item, result[existing]) { result[existing] = item }
+            } else {
+                index[item.id] = result.count
+                result.append(item)
+            }
+        }
+        return result
+    }
+}
