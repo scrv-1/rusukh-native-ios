@@ -63,10 +63,20 @@ struct NotesView: View {
                     .accessibilityLabel("استيراد نص PDF").accessibilityIdentifier("notes.import-pdf")
                     .disabled(importingPDF)
                 if importingPDF { ProgressView("استخراج النص") }
-                // Keep add outside searchable's collapsing toolbar so it stays reachable while searching.
-                ToolbarItem(placement: .bottomBar) {
-                    Button { editing = EditingNote(note: nil) } label: { Label("ملاحظة جديدة", systemImage: "plus") }
-                        .accessibilityIdentifier("notes.add")
+            }
+            // Outside searchable's collapsing toolbar so add stays reachable while searching.
+            .safeAreaInset(edge: .bottom, spacing: 0) {
+                HStack {
+                    Spacer(minLength: 0)
+                    Button { editing = EditingNote(note: nil) } label: {
+                        Label("ملاحظة جديدة", systemImage: "plus.circle.fill")
+                            .labelStyle(.iconOnly)
+                            .font(.largeTitle)
+                    }
+                    .accessibilityLabel("ملاحظة جديدة")
+                    .accessibilityIdentifier("notes.add")
+                    .padding(.trailing, 18)
+                    .padding(.bottom, 6)
                 }
             }
             .sheet(item: $editing) { route in NoteEditorView(note: route.note) }
