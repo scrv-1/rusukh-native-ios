@@ -115,9 +115,8 @@ final class RusukhTourTests: XCTestCase {
         let reimport = app.buttons["tour.import-prepared"]
         reveal(reimport, in: app)
         reimport.tap()
-        dismissAlert(app)
-        let replace = app.buttons["استبدال البيانات"]
-        XCTAssertTrue(replace.waitForExistence(timeout: 5))
+        let replace = app.buttons["backup.confirm-replace"].firstMatch
+        XCTAssertTrue(replace.waitForExistence(timeout: 8), app.debugDescription)
         capture("tour-21-import-confirm")
         replace.tap()
         dismissAlert(app)

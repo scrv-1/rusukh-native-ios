@@ -150,8 +150,9 @@ final class LibraryStore: ObservableObject {
             }
             let incoming = try StudyRepository.read(from: jsonURL)
             if mode == .replace {
+                // Only the confirmation dialog — also setting `message` presents a root alert
+                // at the same time and SwiftUI drops one or both sheets.
                 pendingImport = PendingImport(incoming: incoming, noteCount: incoming.notes.count, cardCount: incoming.cards.count)
-                message = "الملف صالح: \(ArabicPlurals.notes(incoming.notes.count)) و\(ArabicPlurals.cards(incoming.cards.count)). أكّد الاستبدال قبل أن يحل محل بياناتك."
                 return
             }
             let result = try StudyLibrary.applying(snapshot, incoming: incoming, mode: .merge)
