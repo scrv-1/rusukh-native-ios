@@ -169,7 +169,10 @@ final class LibraryStore: ObservableObject {
             let result = try repository.replace(snapshot, with: pending.incoming, confirmed: true)
             pendingImport = nil
             guard commit(result) else { return }
-            message = "استُبدلت البيانات. النسخة السابقة محفوظة على الجهاز."
+            // Defer so we do not publish an alert while the confirmation dialog is tearing down.
+            DispatchQueue.main.async { [weak self] in
+                self?.message = "استُبدلت البيانات. النسخة السابقة محفوظة على الجهاز."
+            }
         } catch {
             message = "لم يتم تغيير بياناتك؛ فشل الاستيراد: \(error.localizedDescription)"
         }

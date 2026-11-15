@@ -120,7 +120,8 @@ final class RusukhTourTests: XCTestCase {
         capture("tour-21-import-confirm")
         replace.tap()
         dismissAlert(app)
-        app.buttons["إغلاق"].tap()
+        // Root success alert can dismiss the settings sheet; only close it if still open.
+        closeSettingsIfPresent(app)
         app.buttons["ملاحظاتي"].tap()
         XCTAssertTrue(app.staticTexts["مراجعة"].waitForExistence(timeout: 5))
         XCTAssertFalse(app.staticTexts["إبراهيم"].exists)
@@ -136,7 +137,7 @@ final class RusukhTourTests: XCTestCase {
         XCTAssertTrue(recovered.waitForExistence(timeout: 5), app.debugDescription)
         capture("tour-23-recovered")
         dismissAlert(app)
-        app.buttons["إغلاق"].tap()
+        closeSettingsIfPresent(app)
         XCTAssertTrue(app.staticTexts["مراجعة"].waitForExistence(timeout: 5))
 
         XCUIDevice.shared.appearance = .dark
@@ -290,7 +291,13 @@ final class RusukhTourTests: XCTestCase {
     @MainActor
     private func dismissAlert(_ app: XCUIApplication) {
         let ok = app.buttons["حسنًا"]
-        if ok.waitForExistence(timeout: 3) { ok.tap() }
+        if ok.waitForExistence(timeout: 5) { ok.tap() }
+    }
+
+    @MainActor
+    private func closeSettingsIfPresent(_ app: XCUIApplication) {
+        let close = app.navigationBars["الإعدادات"].buttons["إغلاق"]
+        if close.waitForExistence(timeout: 2) { close.tap() }
     }
 
     @MainActor
