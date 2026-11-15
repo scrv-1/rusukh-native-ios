@@ -132,7 +132,11 @@ final class LibraryStore: ObservableObject {
         do {
             let data = try StudyRepository.encode(snapshot)
             let location = FileManager.default.temporaryDirectory.appendingPathComponent("rusukh-native-backup-\(UUID().uuidString).json")
+            #if os(iOS)
+            try data.write(to: location, options: [.atomic, .completeFileProtectionUntilFirstUserAuthentication])
+            #else
             try data.write(to: location, options: .atomic)
+            #endif
             return location
         } catch {
             message = "تعذّر التصدير: \(error.localizedDescription)"

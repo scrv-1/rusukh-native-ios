@@ -47,7 +47,7 @@ final class VoiceAttachment: NSObject, ObservableObject, AVAudioRecorderDelegate
     @Published var error: String?
     var busy: Bool { requestingPermission || preparing }
     private static let sharedSession = AudioSessionCoordinator(driver: NativeAudioSessionDriver()) { error in
-        Logger(subsystem: "com.scrv1.rusukhnative", category: "audio").error("Audio session cleanup failed: \(error.localizedDescription, privacy: .public)")
+        Logger(subsystem: "com.scrv1.rusukhnative", category: "audio").error("Audio session cleanup failed: \(error.localizedDescription, privacy: .private)")
     }
     private let session: AudioSessionCoordinator
     private let requestPermission: () async -> Bool

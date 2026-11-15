@@ -18,6 +18,7 @@ extension EnvironmentValues {
 
 @main
 struct RusukhNativeApp: App {
+    @UIApplicationDelegateAdaptor(SwitcherCover.self) private var switcherCover
     @StateObject private var library = LibraryStore()
 
     init() {
@@ -64,5 +65,34 @@ struct RootView: View {
             set: { if !$0 { library.message = nil } }
         )) { Button("حسنًا") { library.message = nil } }
         message: { Text(library.message ?? "") }
+    }
+}
+
+/// QA1838: the task-switcher snapshot is taken shortly after
+/// applicationDidEnterBackground returns, so the cover has to be in the
+/// hierarchy before that method returns. This does not block screenshots.
+final class SwitcherCover: NSObject, UIApplicationDelegate {
+    private weak var cover: UIView?
+
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        guard let window = application.connectedScenes
+            .compactMap({ $0 as? UIWindowScene })
+            .flatMap(\.windows)
+            .first(where: \.isKeyWindow) else { return }
+        cover?.removeFromSuperview()
+        let view = UIView(frame: window.bounds)
+        view.backgroundColor = .black
+        view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.isAccessibilityElement = false
+        window.addSubview(view)
+        cover = view
+    }
+
+    func applicationWillEnterForeground(_ application: UIApplication) { removeCover() }
+    func applicationDidBecomeActive(_ application: UIApplication) { removeCover() }
+
+    private func removeCover() {
+        cover?.removeFromSuperview()
+        cover = nil
     }
 }

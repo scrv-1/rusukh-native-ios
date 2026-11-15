@@ -158,24 +158,35 @@ struct ArabicModelView: View {
                     } else if model.ready {
                         #if !targetEnvironment(simulator)
                         Button("توليد إجابة عربية على الجهاز") { model.generate(prompt: prompt, context: context, gate: gate) }
+                            .buttonStyle(.borderedProminent)
+                            .frame(minHeight: 44)
                             .accessibilityIdentifier("arabic-model-generate")
                             .disabled(model.busy || gate.busy || prompt.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                         #endif
                         Text("ملفات النموذج جاهزة.").font(.caption).accessibilityIdentifier("arabic-model-ready")
                         Button("حذف أوزان النموذج", role: .destructive) { confirmDelete = true }
+                            .buttonStyle(.bordered)
+                            .frame(minHeight: 44)
                             .disabled(model.busy || gate.busy)
                     } else {
                         Text(wifi.cellularOnly ? "التنزيل متوقف لأن الاتصال بيانات خلوية فقط." : "التنزيل عبر Wi-Fi فقط. البيانات الخلوية لا تُستخدم.")
                             .font(.caption).foregroundStyle(.secondary)
                         Button("تنزيل النموذج — 2.28GB") { model.download(gate: gate) }
+                            .buttonStyle(.borderedProminent)
+                            .frame(minHeight: 44)
                             .accessibilityIdentifier("arabic-model-download")
                             .disabled(model.busy || gate.busy || wifi.cellularOnly)
                         Button("حذف ملفات التنزيل الجزئي", role: .destructive) { confirmDelete = true }
+                            .buttonStyle(.bordered)
+                            .frame(minHeight: 44)
                             .disabled(model.busy || gate.busy)
                     }
                     if model.busy {
                         ProgressView()
-                        Button("إلغاء") { model.stop() }.accessibilityIdentifier("arabic-model-cancel")
+                        Button("إلغاء") { model.stop() }
+                            .buttonStyle(.bordered)
+                            .frame(minHeight: 44)
+                            .accessibilityIdentifier("arabic-model-cancel")
                     }
                     if !model.status.isEmpty { Text(model.status).font(.footnote).accessibilityIdentifier("arabic-model-status") }
                     if !model.answer.isEmpty {

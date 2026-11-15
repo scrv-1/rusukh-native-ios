@@ -78,7 +78,7 @@ struct ReviewView: View {
             showAnswer = false
         }
         .buttonStyle(.bordered)
-        .frame(maxWidth: .infinity)
+        .frame(maxWidth: .infinity, minHeight: 44)
     }
 }
 
@@ -147,7 +147,7 @@ struct QuizView: View {
                             if option == question.answer { score += 1 }
                         } }
                         .buttonStyle(.bordered)
-                        .frame(maxWidth: .infinity)
+                        .frame(maxWidth: .infinity, minHeight: 44)
                         .disabled(selectedAnswer != nil)
                     }
                     if let selectedAnswer {

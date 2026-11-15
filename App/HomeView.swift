@@ -35,6 +35,8 @@ struct HomeView: View {
                                 .font(.title2.bold())
                             Text("أنشئ بطاقات من ملاحظاتك باستخدام الأسطر س: وج:، أو أضفها يدويًا.")
                                 .font(.subheadline)
+                            Label("فتح المراجعة", systemImage: "chevron.forward")
+                                .font(.footnote.weight(.semibold))
                         }
                         .padding(20)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -113,7 +115,10 @@ struct SettingsView: View {
             Form {
                 ReviewReminderView()
                 Section("النسخ الاحتياطي") {
-                    Button("تجهيز نسخة JSON شاملة مع المرفقات") { shareURL = library.exportToTemporaryFile() }
+                    Button("تجهيز نسخة JSON شاملة مع المرفقات") {
+                        if let shareURL { try? FileManager.default.removeItem(at: shareURL) }
+                        shareURL = library.exportToTemporaryFile()
+                    }
                     if shareURL == nil {
                         Text("التجهيز لا يحفظ الملف وحده. بعد نجاحه يظهر زر الحفظ.")
                             .font(.footnote).foregroundStyle(.secondary)
