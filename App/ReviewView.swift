@@ -11,7 +11,7 @@ struct ReviewView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
                     HStack {
-                        Text("\(library.due.count) بطاقات مستحقة").font(.headline)
+                        Text("\(BidirectionalText.count(library.due.count)) بطاقات مستحقة").font(.headline)
                         Spacer()
                         Button { creatingCard = true } label: { Label("بطاقة", systemImage: "plus") }
                     }
@@ -82,7 +82,9 @@ struct CardComposerView: View {
                     }
                 }
                 TextField("السؤال", text: $question, axis: .vertical)
+                    .multilineTextAlignment(.leading)
                 TextField("الإجابة", text: $answer, axis: .vertical)
+                    .multilineTextAlignment(.leading)
             }
             .navigationTitle("بطاقة جديدة")
             .toolbar {
@@ -111,7 +113,7 @@ struct QuizView: View {
             VStack(alignment: .leading, spacing: 20) {
                 if index < questions.count {
                     let question = questions[index]
-                    Text("سؤال \(index+1) من \(questions.count)").foregroundStyle(.secondary)
+                    Text("سؤال \(BidirectionalText.count(index + 1)) من \(BidirectionalText.count(questions.count))").foregroundStyle(.secondary)
                     Text(question.question).font(.title2.bold())
                     ForEach(question.options, id: \.self) { option in
                         Button(option) { if selectedAnswer == nil {
@@ -128,7 +130,7 @@ struct QuizView: View {
                             .buttonStyle(.borderedProminent).tint(.primary)
                     }
                 } else {
-                    Text("النتيجة: \(score) / \(questions.count)").font(.largeTitle.bold())
+                    Text("النتيجة: \(BidirectionalText.fraction(done: score, total: questions.count))").font(.largeTitle.bold())
                     Button("إغلاق") { dismiss() }
                 }
                 Spacer()

@@ -25,10 +25,14 @@ struct NativeAIEngine {
         let model = SystemLanguageModel.default
         guard model.isAvailable else { throw AIError.unavailable }
         guard model.supportsLocale(locale) else { throw AIError.unsupportedLanguage }
+        // 3_000 characters is not a token budget. TN3193's 4096-token window is not
+        // measured here because tokenCount(for:) is a later SDK than the iOS 26.0 target.
         let safePrompt = String(prompt.prefix(3_000))
+        let answerLanguage = locale.identifier.lowercased().hasPrefix("ar") ? "Answer in Arabic." : "Answer in the person's language."
         let session = LanguageModelSession(instructions: """
             You are an on-device study coach. Explain the provided study topic accurately,
             clearly, and briefly. Avoid inventing citations. If uncertain, say so.
+            \(answerLanguage)
             The person's locale is \(locale.identifier).
             """)
         let response = try await session.respond(to: safePrompt)
@@ -41,7 +45,7 @@ enum AIError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .unavailable: return "نموذج Apple المحلي غير متاح على هذا الجهاز أو لم يكتمل تنزيله."
-        case .unsupportedLanguage: return "النموذج لا يدعم هذه اللغة. لتوليد نص عربي محليًا نحتاج لاحقًا محرك MLX مع نموذج متعدد اللغات."
+        case .unsupportedLanguage: return "نموذج Apple لا يدعم هذه اللغة على هذا النظام. قسم Qwen أسفل الشاشة اختياري ولا يُحمَّل تلقائيًا."
         }
     }
 }

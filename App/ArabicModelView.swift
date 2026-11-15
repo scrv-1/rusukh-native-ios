@@ -1,5 +1,6 @@
 import SwiftUI
 import UIKit
+import os
 
 @MainActor
 final class LocalInferenceGate: ObservableObject {
@@ -46,6 +47,10 @@ final class ArabicModelController: ObservableObject {
 
     func generate(prompt: String, context: String?, gate: LocalInferenceGate) {
         guard !busy, ready, sufficientMemory, permitsWork else { return }
+        guard Self.loadHeadroomAllows() else {
+            status = "المتبقي لهذه العملية لا يتجاوز قمة الذاكرة المسجّلة على Mac. لن يُحمَّل النموذج. هذا ليس قياس آيفون."
+            return
+        }
         let input: String
         do { input = try LocalModelRequest.make(prompt: prompt, context: context) }
         catch { status = error.localizedDescription; return }
@@ -86,7 +91,7 @@ final class ArabicModelController: ObservableObject {
         else { Task { await runtime.unload() } }
     }
     private func setDownloadStatus(index: Int, count: Int) {
-        status = "تنزيل وفحص الملف \(index) من \(count). ملف الأوزان كبير وقد يستغرق وقتًا."
+        status = "تنزيل وفحص الملف \(BidirectionalText.count(index)) من \(BidirectionalText.count(count)). ملف الأوزان كبير وقد يستغرق وقتًا."
     }
     private var permitsWork: Bool {
         let thermal = ProcessInfo.processInfo.thermalState
@@ -95,6 +100,18 @@ final class ArabicModelController: ObservableObject {
             return false
         }
         return true
+    }
+
+    /// Download stays allowed in Simulator so file checks can run. Loading does not.
+    private static func loadHeadroomAllows() -> Bool {
+        #if targetEnvironment(simulator)
+        return false
+        #else
+        return LocalModelBudget.mlxLoadAllowed(
+            availableBytes: UInt64(os_proc_available_memory()),
+            physicalBytes: ProcessInfo.processInfo.physicalMemory,
+            isSimulator: false)
+        #endif
     }
 }
 #endif

@@ -1,14 +1,21 @@
 import SwiftUI
+import UIKit
 
 @main
 struct RusukhNativeApp: App {
     @StateObject private var library = LibraryStore()
+
+    init() {
+        // SwiftUI's layoutDirection does not reach UIKit pickers (camera, files).
+        UIView.appearance().semanticContentAttribute = .forceRightToLeft
+    }
 
     var body: some Scene {
         WindowGroup {
             RootView()
                 .environmentObject(library)
                 .environment(\.layoutDirection, .rightToLeft)
+                .environment(\.locale, Locale(identifier: "ar_SA@numbers=latn"))
                 .tint(.primary)
         }
     }

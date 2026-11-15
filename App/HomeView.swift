@@ -19,15 +19,15 @@ struct HomeView: View {
                     Text("تعلّم يبقى.").font(.title2.weight(.semibold))
                     Text("ملاحظاتك ومراجعاتك على جهازك، دون خادم خارجي.")
                         .foregroundStyle(.secondary)
-                    HStack(spacing: 10) {
-                        metric(title: "الملاحظات", value: library.snapshot.notes.count)
-                        metric(title: "البطاقات", value: library.snapshot.cards.count)
-                        metric(title: "تستحق مراجعة", value: library.due.count)
+                        .accessibilityIdentifier("app.direction")
+                    ViewThatFits(in: .horizontal) {
+                        metricsRow
+                        HorizontalRail { metricsRow }
                     }
                     VStack(alignment: .leading, spacing: 12) {
                         Label("جلسة اليوم", systemImage: "clock.arrow.circlepath")
                             .font(.headline)
-                        Text(library.due.isEmpty ? "ليس لديك مراجعات مستحقة" : "لديك \(library.due.count) بطاقات تنتظرك")
+                        Text(library.due.isEmpty ? "ليس لديك مراجعات مستحقة" : "لديك \(BidirectionalText.count(library.due.count)) بطاقات تنتظرك")
                             .font(.title2.bold())
                         Text("أنشئ بطاقات من ملاحظاتك باستخدام الأسطر س: وج:، أو أضفها يدويًا.")
                             .font(.subheadline)
@@ -62,9 +62,17 @@ struct HomeView: View {
         }
     }
 
+    private var metricsRow: some View {
+        HStack(spacing: 10) {
+            metric(title: "الملاحظات", value: library.snapshot.notes.count)
+            metric(title: "البطاقات", value: library.snapshot.cards.count)
+            metric(title: "تستحق مراجعة", value: library.due.count)
+        }
+    }
+
     private func metric(title: String, value: Int) -> some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text("\(value)").font(.title.bold()).monospacedDigit()
+            Text(BidirectionalText.count(value)).font(.title.bold()).monospacedDigit()
             Text(title).font(.caption).foregroundStyle(.secondary)
         }
         .frame(maxWidth: .infinity, alignment: .leading)

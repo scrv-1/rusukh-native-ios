@@ -37,7 +37,7 @@ struct NotesView: View {
                                 Text(note.body).font(.caption).foregroundStyle(.secondary).lineLimit(2)
                             }
                             Spacer(minLength: 4)
-                            Image(systemName: "chevron.left").font(.caption).foregroundStyle(.tertiary)
+                            Image(systemName: "chevron.forward").font(.caption).foregroundStyle(.tertiary)
                         }
                     }
                     .swipeActions {
@@ -114,10 +114,14 @@ struct NoteEditorView: View {
         NavigationStack {
             Form {
                 Section("العنوان") {
-                    TextField("مثال: التعلّم النشط", text: $title).accessibilityIdentifier("note.title")
+                    TextField("مثال: التعلّم النشط", text: $title)
+                        .multilineTextAlignment(.leading)
+                        .accessibilityIdentifier("note.title")
                 }
                 Section("المحتوى") {
-                    TextEditor(text: $noteBody).accessibilityLabel("محتوى الملاحظة").accessibilityIdentifier("note.body")
+                    TextEditor(text: $noteBody)
+                        .multilineTextAlignment(.leading)
+                        .accessibilityLabel("محتوى الملاحظة").accessibilityIdentifier("note.body")
                         .frame(minHeight: 220)
                         .autocorrectionDisabled(false)
                     Text("اربط ملاحظة: [[عنوان آخر]]  ·  بطاقة: س: السؤال ثم ج: الإجابة")

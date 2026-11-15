@@ -39,6 +39,8 @@ struct GraphView: View {
                                     Text(note.title)
                                         .font(.caption2.bold())
                                         .lineLimit(2)
+                                        .multilineTextAlignment(.center)
+                                        .environment(\.layoutDirection, .rightToLeft)
                                         .frame(width: 94)
                                 }
                             }
@@ -49,6 +51,7 @@ struct GraphView: View {
                     }
                     .scaleEffect(zoom)
                     .offset(pan)
+                    .environment(\.layoutDirection, .leftToRight)
                     .contentShape(Rectangle())
                     .simultaneousGesture(DragGesture()
                         .onChanged { value in pan = CGSize(width: panStart.width + value.translation.width,
@@ -62,9 +65,9 @@ struct GraphView: View {
                 .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 16))
                 .padding(.horizontal)
                 HStack {
-                    Label("\(library.snapshot.notes.count) عقدة", systemImage: "circle.fill")
+                    Label("\(BidirectionalText.count(library.snapshot.notes.count)) عقدة", systemImage: "circle.fill")
                     Spacer()
-                    Text("\(StudyEngine.graphEdges(library.snapshot.notes).count) علاقة").accessibilityIdentifier("graph.edge-count")
+                    Text("\(BidirectionalText.count(StudyEngine.graphEdges(library.snapshot.notes).count)) علاقة").accessibilityIdentifier("graph.edge-count")
                     Spacer()
                     Button("توسيط") { zoom = 1; zoomStart = 1; pan = .zero; panStart = .zero }
                 }
