@@ -27,6 +27,49 @@ actor ArabicModelAssets {
     static let downloadBytes = files.reduce(Int64(0)) { $0 + $1.bytes }
     private var busy = false
 
+    static var catalogRevision: String {
+        #if DEBUG
+        if ProcessInfo.processInfo.arguments.contains("-model-fixture") { return "fixture-v1" }
+        #endif
+        return revision
+    }
+
+    static var catalogFiles: [File] {
+        #if DEBUG
+        if ProcessInfo.processInfo.arguments.contains("-model-fixture") { return fixtureFiles }
+        #endif
+        return files
+    }
+
+    #if DEBUG
+    static var fixtureFiles: [File] {
+        let base = fixtureBase()
+        return [
+            File(name: "fixture-a.txt", bytes: 3, sha256: "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad", source: base.appendingPathComponent("fixture-a.txt").absoluteString),
+            File(name: "fixture-b.txt", bytes: 4, sha256: "88d4266fd4e6338d13b845fcf289579d209c897823b9217da3e161936f031589", source: base.appendingPathComponent("fixture-b.txt").absoluteString)
+        ]
+    }
+    static func fixtureBase() -> URL {
+        let arguments = ProcessInfo.processInfo.arguments
+        if let index = arguments.firstIndex(of: "-model-fixture-base"), index + 1 < arguments.count,
+           let url = URL(string: arguments[index + 1]) {
+            return url
+        }
+        return URL(string: "http://127.0.0.1:8765")!
+    }
+    func seedFixture() throws {
+        guard ProcessInfo.processInfo.arguments.contains("-seed-model-fixture") else { return }
+        let folder = try Self.directory()
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        let payloads = ["fixture-a.txt": Data("abc".utf8), "fixture-b.txt": Data("abcd".utf8)]
+        for file in Self.fixtureFiles {
+            guard let data = payloads[file.name] else { continue }
+            try data.write(to: folder.appendingPathComponent(file.name), options: .atomic)
+        }
+        try Self.catalogRevision.write(to: folder.appendingPathComponent("verified.txt"), atomically: true, encoding: .utf8)
+    }
+    #endif
+
     enum Failure: LocalizedError {
         case busy, insufficientSpace, invalidFile(String), response
         var errorDescription: String? {
@@ -41,18 +84,20 @@ actor ArabicModelAssets {
 
     static func directory() throws -> URL {
         var root = "RusukhModels"
+        var folder = "Qwen3-Instruct-2507"
         #if DEBUG
         if ProcessInfo.processInfo.arguments.contains("-ui-testing") { root = "RusukhTestModels" }
+        if ProcessInfo.processInfo.arguments.contains("-model-fixture") { folder = "Qwen3-Fixture" }
         #endif
         return try FileManager.default.url(for: .applicationSupportDirectory, in: .userDomainMask,
                                     appropriateFor: nil, create: true)
-            .appendingPathComponent(root + "/Qwen3-Instruct-2507", isDirectory: true)
+            .appendingPathComponent(root + "/" + folder, isDirectory: true)
     }
 
     func ready() -> Bool {
         guard let folder = try? Self.directory(),
-              (try? String(contentsOf: folder.appendingPathComponent("verified.txt"), encoding: .utf8)) == Self.revision else { return false }
-        return Self.files.allSatisfy { file in
+              (try? String(contentsOf: folder.appendingPathComponent("verified.txt"), encoding: .utf8)) == Self.catalogRevision else { return false }
+        return Self.catalogFiles.allSatisfy { file in
             let size = (try? FileManager.default.attributesOfItem(atPath: folder.appendingPathComponent(file.name).path)[.size]) as? NSNumber
             return size?.int64Value == file.bytes
         }
@@ -80,28 +125,28 @@ actor ArabicModelAssets {
         configuration.urlCache = nil
         let session = URLSession(configuration: configuration)
         defer { session.invalidateAndCancel() }
-        for (index, file) in Self.files.enumerated() {
+        let files = Self.catalogFiles
+        for (index, file) in files.enumerated() {
             try Task.checkCancellation()
-            await progress(index + 1, Self.files.count)
-            let destination = folder.appendingPathComponent(file.name)
-            if FileManager.default.fileExists(atPath: destination.path) {
-                do { try Self.verify(file, at: destination); continue }
-                catch is CancellationError { throw CancellationError() }
-                catch { try FileManager.default.removeItem(at: destination) }
+            await progress(index + 1, files.count)
+            guard let source = URL(string: file.source) else { throw Failure.response }
+            let spec = ModelDownload.File(name: file.name, bytes: file.bytes, sha256: file.sha256, source: source)
+            do {
+                try await ModelDownload.transfer(spec, to: folder, session: session)
+            } catch is CancellationError {
+                throw CancellationError()
+            } catch let failure as ModelDownload.Failure {
+                switch failure {
+                case .response: throw Failure.response
+                case .invalidFile: throw Failure.invalidFile(file.name)
+                }
             }
-            let request = URLRequest(url: URL(string: file.source)!)
-            let (temporary, response) = try await session.download(for: request, delegate: DownloadLimit(bytes: file.bytes))
-            defer { try? FileManager.default.removeItem(at: temporary) }
-            try Task.checkCancellation()
-            guard (response as? HTTPURLResponse)?.statusCode == 200 else { throw Failure.response }
-            try Self.verify(file, at: temporary)
-            try FileManager.default.moveItem(at: temporary, to: destination)
             #if os(iOS)
-            try FileManager.default.setAttributes([.protectionKey: FileProtectionType.completeUntilFirstUserAuthentication], ofItemAtPath: destination.path)
+            try FileManager.default.setAttributes([.protectionKey: FileProtectionType.completeUntilFirstUserAuthentication], ofItemAtPath: folder.appendingPathComponent(file.name).path)
             #endif
         }
         try Task.checkCancellation()
-        try Self.revision.write(to: folder.appendingPathComponent("verified.txt"), atomically: true, encoding: .utf8)
+        try Self.catalogRevision.write(to: folder.appendingPathComponent("verified.txt"), atomically: true, encoding: .utf8)
     }
 
     func remove() throws {
@@ -127,12 +172,3 @@ actor ArabicModelAssets {
     }
 }
 
-private final class DownloadLimit: NSObject, URLSessionDownloadDelegate, @unchecked Sendable {
-    let bytes: Int64
-    init(bytes: Int64) { self.bytes = bytes }
-    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {}
-    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64,
-                    totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
-        if totalBytesWritten > bytes || totalBytesExpectedToWrite > bytes { downloadTask.cancel() }
-    }
-}

@@ -5,8 +5,14 @@ if ! xcrun simctl list devices booted -j | python3 -c 'import json,sys; target=s
   xcrun simctl boot "$SIMULATOR_ID"
 fi
 xcrun simctl bootstatus "$SIMULATOR_ID" -b
-trap 'xcrun simctl shutdown "$SIMULATOR_ID" || true' EXIT
 xcrun simctl privacy "$SIMULATOR_ID" grant microphone com.scrv1.rusukhnative
+FIXTURE_DIR="$RUNNER_TEMP/model-fixture"
+mkdir -p "$FIXTURE_DIR"
+printf 'abc' > "$FIXTURE_DIR/fixture-a.txt"
+printf 'abcd' > "$FIXTURE_DIR/fixture-b.txt"
+python3 scripts/fixture-model-server.py --directory "$FIXTURE_DIR" --port 8765 --delay 12 > evidence/fixture-model-server.log 2>&1 &
+FIXTURE_SERVER_PID=$!
+trap 'kill "$FIXTURE_SERVER_PID" >/dev/null 2>&1 || true; xcrun simctl shutdown "$SIMULATOR_ID" || true' EXIT
 set +e
 xcodebuild -project RusukhNative.xcodeproj -scheme RusukhNative \
   -configuration Debug -destination "platform=iOS Simulator,id=$SIMULATOR_ID" \
@@ -41,10 +47,10 @@ PYLOG
 # current container after the final download test, while Simulator is booted.
 if [[ "$TEST_RESULT" == 0 ]]; then
   APP_DATA=$(xcrun simctl get_app_container "$SIMULATOR_ID" com.scrv1.rusukhnative data)
-  MODEL_DIRECTORY="$APP_DATA/Library/Application Support/RusukhTestModels/Qwen3-Instruct-2507"
-  test -s "$MODEL_DIRECTORY/config.json"
-  test -s "$MODEL_DIRECTORY/model.safetensors"
-  printf '%s\n' "$MODEL_DIRECTORY" > evidence/ai-simulator-model-directory.txt
-  echo 'POST_UI_MODEL_DIRECTORY_VERIFIED'
+  FIXTURE_DIRECTORY="$APP_DATA/Library/Application Support/RusukhTestModels/Qwen3-Fixture"
+  test -s "$FIXTURE_DIRECTORY/fixture-a.txt"
+  test -s "$FIXTURE_DIRECTORY/fixture-b.txt"
+  test -s "$FIXTURE_DIRECTORY/verified.txt"
+  echo 'POST_UI_FIXTURE_VERIFIED'
 fi
 exit "$TEST_RESULT"

@@ -28,7 +28,14 @@ final class ArabicModelController: ObservableObject {
         sufficientMemory || ProcessInfo.processInfo.arguments.contains("-ui-testing")
     }
 
-    func refresh() async { ready = await assets.ready() }
+    func refresh() async {
+        #if DEBUG
+        if ProcessInfo.processInfo.arguments.contains("-seed-model-fixture") {
+            try? await assets.seedFixture()
+        }
+        #endif
+        ready = await assets.ready()
+    }
 
     func download(gate: LocalInferenceGate) {
         guard !busy, allowsFileOperations, permitsWork, gate.acquire() else { return }

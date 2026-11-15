@@ -80,6 +80,11 @@ targets:
         SUPPORTS_MACCATALYST: NO
         CODE_SIGN_STYLE: Manual
         CODE_SIGNING_ALLOWED: NO
+        # Free Apple ID default. A paid account can set RUSUKH_ENTITLEMENTS_FILE to signing/RusukhPaid.entitlements.
+        # That file adds increased-memory-limit only. Push, iCloud, and App Groups are not included.
+        # Without the paid entitlement, iOS may jetsam the optional Qwen model under memory pressure.
+        RUSUKH_ENTITLEMENTS_FILE: App/RusukhFree.entitlements
+        CODE_SIGN_ENTITLEMENTS: $(RUSUKH_ENTITLEMENTS_FILE)
         SWIFT_EMIT_LOC_STRINGS: YES
     info:
       path: App/Info.plist
@@ -91,6 +96,8 @@ targets:
         CFBundleDisplayName: "رُسوخ"
         NSMicrophoneUsageDescription: "تسجيل صوت وإرفاقه بملاحظاتك محليًا داخل رُسوخ."
         NSCameraUsageDescription: "التقاط صورة وإرفاقها بملاحظة داخل رُسوخ."
+        NSAppTransportSecurity:
+          NSAllowsLocalNetworking: true
         UIRequiredDeviceCapabilities: [arm64]
         UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
 

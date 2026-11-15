@@ -16,7 +16,7 @@ on:
           - '4B'
           - '4B-Instruct-2507'
 permissions:
-  contents: read
+  contents: write
 concurrency:
   group: rusukh-native-build
   cancel-in-progress: false
@@ -25,7 +25,7 @@ jobs:
     if: ${{ !inputs.evaluate_local_ai }}
     name: Test, build and launch SwiftUI
     runs-on: xcode-27
-    timeout-minutes: 30
+    timeout-minutes: 50
     env:
       HOMEBREW_NO_AUTO_UPDATE: '1'
     steps:
@@ -71,8 +71,9 @@ jobs:
           mkdir -p "$RUNNER_TEMP/package/Payload"
           cp -R "$RUNNER_TEMP/device-build/Build/Products/Release-iphoneos/RusukhNative.app" "$RUNNER_TEMP/package/Payload/"
           (cd "$RUNNER_TEMP/package" && zip -qyr "$GITHUB_WORKSPACE/RusukhNative-unsigned.ipa" Payload)
+          python3 scripts/verify-free-ipa.py RusukhNative-unsigned.ipa | tee evidence/free-ipa-verification.txt
       - name: Launch simulator and capture preview
-        timeout-minutes: 7
+        timeout-minutes: 12
         run: bash scripts/simulator-preview.sh
       - name: Build xtool 1.24.0 unsigned IPA
         id: xtool
@@ -98,12 +99,12 @@ jobs:
           xcrun simctl boot "$SIMULATOR_ID"
           xcrun simctl bootstatus "$SIMULATOR_ID" -b
           python3 scripts/prepare-simulator-model.py | tee evidence/ai-simulator-provision.log
-          swiftc App/ArabicModelAssets.swift scripts/VerifyModelAssets.swift -o "$RUNNER_TEMP/verify-model-assets"
+          swiftc App/ArabicModelAssets.swift Sources/RusukhCore/ModelDownload.swift scripts/VerifyModelAssets.swift -o "$RUNNER_TEMP/verify-model-assets"
           SIMULATOR_ID=$(cat evidence/simulator-id.txt)
           APP_DATA=$(xcrun simctl get_app_container "$SIMULATOR_ID" com.scrv1.rusukhnative data)
           "$RUNNER_TEMP/verify-model-assets" "$APP_DATA/Library/Application Support/RusukhTestModels/Qwen3-Instruct-2507" | tee evidence/ai-swift-integrity.log
       - name: Test Arabic UI and persistence
-        timeout-minutes: 10
+        timeout-minutes: 15
         run: bash scripts/ui-tests.sh
       - name: Verify current Swift runtime offline on Mac (not Simulator)
         timeout-minutes: 10
@@ -114,13 +115,18 @@ jobs:
           test -s "$MODEL_DIRECTORY/model.safetensors"
           xcodegen generate --spec ai-probe.yml
           xcodebuild -project RusukhAIProbe.xcodeproj -scheme RusukhAIProbe -configuration Release -destination 'platform=macOS,arch=arm64' -derivedDataPath "$RUNNER_TEMP/ai-swift-build" CODE_SIGNING_ALLOWED=NO build > evidence/ai-swift-build.log 2>&1 || { tail -n 100 evidence/ai-swift-build.log; exit 1; }
-          sandbox-exec -p '(version 1)(allow default)(deny network*)' "$RUNNER_TEMP/ai-swift-build/Build/Products/Release/RusukhAIProbe" "$MODEL_DIRECTORY" docs/arabic-eval-cases.json | tee evidence/ai-swift-inference.log
+          MEM_BYTES=$(sysctl -n hw.memsize)
+          if [ "$MEM_BYTES" -lt 8000000000 ]; then
+            echo "GENERATION_SKIPPED physical_memory=$MEM_BYTES is under the app's 8GB gate. Run 43706460123 showed this runner hiding model controls for that reason. File hashes were already checked. Generation was not run and is not claimed." | tee evidence/ai-swift-inference.log
+          else
+            sandbox-exec -p '(version 1)(allow default)(deny network*)' "$RUNNER_TEMP/ai-swift-build/Build/Products/Release/RusukhAIProbe" "$MODEL_DIRECTORY" docs/arabic-eval-cases.json | tee evidence/ai-swift-inference.log
+          fi
       - name: Record artifact checksums
         run: |
           shasum -a 256 RusukhNative-simulator.zip RusukhNative-unsigned.ipa RusukhNative-xtool-unsigned.ipa evidence/simulator-home.png | tee evidence/SHA256SUMS.txt
           plutil -lint "$RUNNER_TEMP/device-build/Build/Products/Release-iphoneos/RusukhNative.app/PrivacyInfo.xcprivacy" | tee evidence/privacy-manifest-validation.txt
           cp "$RUNNER_TEMP/device-build/Build/Products/Release-iphoneos/RusukhNative.app/PrivacyInfo.xcprivacy" evidence/PrivacyInfo.xcprivacy
-          { echo '## Verified build outputs'; echo "Source commit: $GITHUB_SHA"; echo '- Core and Arabic UI/download tests passed'; echo '- MLX inference is unavailable in iOS Simulator; Swift inference verified separately on Mac with network denied'; echo '- xtool unsigned IPA build passed'; echo '- Simulator and unsigned device builds passed'; echo '- App launched on a cloud iOS simulator'; echo '- Screenshot, logs and checksums are in the evidence artifact'; echo '- Neither artifact installs itself on an iPhone'; } >> "$GITHUB_STEP_SUMMARY"
+          { echo '## Verified build outputs'; echo "Source commit: $GITHUB_SHA"; echo '- Core and Arabic UI tests passed'; echo '- Model UI tests use a small local fixture. The pinned Qwen files are hash-checked separately.'; echo '- Generation runs on this Mac only when physical memory is at least 8GB, the same gate the app uses. Below that, generation is not claimed.'; echo '- xtool unsigned IPA build passed'; echo '- Simulator and unsigned device builds passed'; echo '- The device IPA is arm64 and has no free-account-incompatible entitlements'; echo '- App launched on a cloud iOS simulator'; echo '- Screenshot, logs and checksums are in the evidence artifact'; echo '- Neither artifact installs itself on an iPhone'; } >> "$GITHUB_STEP_SUMMARY"
       - name: Upload simulator app
         if: always() && steps.simulator.outcome == 'success'
         uses: actions/upload-artifact@v4
@@ -166,6 +172,25 @@ jobs:
           path: evidence/
           if-no-files-found: error
           retention-days: 7
+      - name: Publish unsigned SideStore prerelease
+        if: success()
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          SHORT="${GITHUB_SHA::7}"
+          TAG="rusukh-sidestore-$(date -u +%Y%m%d)-${SHORT}"
+          NOTES="Unsigned arm64 iPhone IPA for SideStore/iloader to re-sign with a free Apple ID. Not an install by itself. No Apple ID, password, or signing secret is in this release."
+          gh release create "$TAG" RusukhNative-unsigned.ipa \
+            --repo "$GITHUB_REPOSITORY" \
+            --target "$GITHUB_SHA" \
+            --title "رُسوخ SideStore $TAG" \
+            --notes "$NOTES" \
+            --prerelease
+          URL="https://github.com/${GITHUB_REPOSITORY}/releases/download/${TAG}/RusukhNative-unsigned.ipa"
+          printf '%s\n' "$URL" > evidence/sidestore-ipa-url.txt
+          echo "SIDESTORE_IPA_URL $URL"
 
   local-ai-evaluation:
     if: ${{ inputs.evaluate_local_ai }}
