@@ -63,6 +63,23 @@ final class LibraryStoreTests: XCTestCase {
         XCTAssertEqual(try Data(contentsOf: repository.fileURL), originalBytes)
     }
 
+    func testReplaceImportWaitsForConfirmationAndKeepsThePreviousCopy() throws {
+        let repository = try temporaryRepository()
+        let library = LibraryStore(repository: repository)
+        XCTAssertNotNil(library.saveNote(title: "أصلي", body: "يبقى حتى التأكيد", imageJPEG: nil))
+        let incoming = StudySnapshot(notes: [StudyNote(title: "وارد", body: "")])
+        let url = repository.fileURL.deletingLastPathComponent().appendingPathComponent("incoming.json")
+        try StudyRepository.encode(incoming).write(to: url)
+        library.importFromFile(url, mode: .replace)
+        XCTAssertEqual(library.snapshot.notes.map(\.title), ["أصلي"])
+        XCTAssertEqual(library.pendingImport?.noteCount, 1)
+        library.confirmPendingImport()
+        XCTAssertEqual(library.snapshot.notes.map(\.title), ["وارد"])
+        XCTAssertNil(library.pendingImport)
+        let backup = try StudyRepository.read(from: repository.backupURL)
+        XCTAssertEqual(backup.notes.map(\.title), ["أصلي"])
+    }
+
     func testFailedSaveDoesNotPublishUnsavedNote() throws {
         let repository = try temporaryRepository()
         let library = LibraryStore(repository: repository)

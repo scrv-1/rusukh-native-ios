@@ -14,6 +14,7 @@ struct NotesView: View {
     @State private var search = ""
     @State private var choosingPDF = false
     @State private var importingPDF = false
+    @State private var pendingDelete: StudyNote?
 
     private var results: [StudyNote] {
         let query = search.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -41,7 +42,8 @@ struct NotesView: View {
                         }
                     }
                     .swipeActions {
-                        Button("حذف", role: .destructive) { library.delete(note) }
+                        Button("حذف", role: .destructive) { pendingDelete = note }
+                            .accessibilityIdentifier("note.delete")
                     }
                 }
             }
@@ -61,6 +63,18 @@ struct NotesView: View {
                     .accessibilityLabel("ملاحظة جديدة").accessibilityIdentifier("notes.add")
             }
             .sheet(item: $editing) { route in NoteEditorView(note: route.note) }
+            .confirmationDialog(
+                "حذف هذه الملاحظة وبطاقاتها من هذا الجهاز؟",
+                isPresented: Binding(get: { pendingDelete != nil }, set: { if !$0 { pendingDelete = nil } }),
+                titleVisibility: .visible
+            ) {
+                Button("حذف الملاحظة", role: .destructive) {
+                    if let note = pendingDelete { library.delete(note) }
+                    pendingDelete = nil
+                }
+                .accessibilityIdentifier("note.confirm-delete")
+                Button("إلغاء", role: .cancel) { pendingDelete = nil }
+            }
             .fileImporter(isPresented: $choosingPDF, allowedContentTypes: [.pdf]) { result in
                 switch result {
                 case .success(let url): importPDF(url)
@@ -101,6 +115,7 @@ struct NoteEditorView: View {
     @State private var imageJPEG: Data?
     @State private var cameraOpen = false
     @State private var photoError = false
+    @State private var confirmDiscard = false
 
     init(note: StudyNote?) {
         self.note = note
@@ -165,7 +180,11 @@ struct NoteEditorView: View {
             }
             .navigationTitle(note == nil ? "ملاحظة جديدة" : "تحرير الملاحظة")
             .toolbar {
-                ToolbarItem(placement: .cancellationAction) { Button("إلغاء") { dismiss() } }
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("إلغاء") {
+                        if hasUnsavedChanges { confirmDiscard = true } else { dismiss() }
+                    }
+                }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("حفظ") {
                         guard voice.finish() else { return }
@@ -183,6 +202,10 @@ struct NoteEditorView: View {
                     imageJPEG = image.rusukhScaledJPEG()
                 }
             }
+            .confirmationDialog("تجاهل التغييرات غير المحفوظة؟", isPresented: $confirmDiscard, titleVisibility: .visible) {
+                Button("تجاهل التغييرات", role: .destructive) { dismiss() }
+                Button("متابعة التحرير", role: .cancel) { }
+            }
             .alert("الكاميرا غير متاحة", isPresented: $photoError) {
                 Button("حسنًا", role: .cancel) { }
             } message: { Text("استخدم آيفون حقيقيًا يدعم التصوير.") }
@@ -193,6 +216,10 @@ struct NoteEditorView: View {
             .onAppear { voice.open() }
             .onDisappear { voice.close() }
         }
+    }
+
+    private var hasUnsavedChanges: Bool {
+        title != (note?.title ?? "") || noteBody != (note?.body ?? "") || imageJPEG != note?.imageJPEG || voice.data != note?.audioM4A
     }
 }
 

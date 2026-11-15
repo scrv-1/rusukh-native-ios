@@ -24,13 +24,17 @@ final class LibraryStore: ObservableObject {
         #endif
         repository = StudyRepository(fileURL: directory.appendingPathComponent(relativePath))
         }
-        do {
-            snapshot = try repository.load()
-        } catch {
-            storageLocked = true
-            message = "تعذّر قراءة ملف البيانات: \(error.localizedDescription). لن يتم استبداله تلقائيًا."
-        }
+        let restored = repository.restoringLoad()
+        snapshot = restored.snapshot
+        message = restored.notice
     }
+
+    struct PendingImport {
+        var incoming: StudySnapshot
+        var noteCount: Int
+        var cardCount: Int
+    }
+    @Published var pendingImport: PendingImport?
 
     var due: [StudyCard] { StudyEngine.dueCards(snapshot.cards) }
 
@@ -97,15 +101,12 @@ final class LibraryStore: ObservableObject {
         guard let note = snapshot.notes.first(where: { $0.id == noteID }) else { return 0 }
         let pairs = StudyEngine.questionAnswers(from: note.body)
         var draft = snapshot
-        var added = 0
-        for pair in pairs {
-            if !draft.cards.contains(where: { $0.noteID == noteID && $0.question == pair.question && $0.answer == pair.answer }) {
-                draft.cards.append(ReviewScheduler.newCard(noteID: noteID, question: pair.question, answer: pair.answer))
-                added += 1
-            }
-        }
-        if added > 0 && !commit(draft) { return 0 }
-        return added
+        let before = draft.cards.filter { $0.noteID == noteID }.count
+        let synced = StudyEngine.syncedCards(existing: draft.cards, noteID: noteID, pairs: pairs)
+        let changed = synced != draft.cards
+        draft.cards = synced
+        if changed && !commit(draft) { return 0 }
+        return max(0, synced.filter { $0.noteID == noteID }.count - before)
     }
 
     func review(card: StudyCard, grade: ReviewGrade) {
@@ -139,15 +140,32 @@ final class LibraryStore: ObservableObject {
         defer { if access { url.stopAccessingSecurityScopedResource() } }
         do {
             let incoming = try StudyRepository.read(from: url)
-            let result = try StudyLibrary.applying(snapshot, incoming: incoming, mode: mode)
-            let recoveryURL = repository.fileURL.deletingLastPathComponent().appendingPathComponent("study.recovery.json")
-            try StudyRepository(fileURL: recoveryURL).save(snapshot)
+            if mode == .replace {
+                pendingImport = PendingImport(incoming: incoming, noteCount: incoming.notes.count, cardCount: incoming.cards.count)
+                message = "الملف صالح: \(incoming.notes.count) ملاحظة و\(incoming.cards.count) بطاقة. أكّد الاستبدال قبل أن يحل محل بياناتك."
+                return
+            }
+            let result = try StudyLibrary.applying(snapshot, incoming: incoming, mode: .merge)
             guard commit(result) else { return }
-            message = mode == .replace
-                ? "استُبدلت البيانات. نسخة الاستعادة محفوظة على الجهاز."
-                : "دُمجت البيانات مع الحالي. نسخة الاستعادة محفوظة على الجهاز."
+            message = "دُمجت البيانات مع الحالي. نُسخت النسخة السابقة تلقائيًا قبل الحفظ."
         } catch {
             message = "لم يتم تغيير بياناتك؛ فشل الاستيراد: \(error.localizedDescription)"
         }
+    }
+
+    func confirmPendingImport() {
+        guard let pending = pendingImport else { return }
+        do {
+            let result = try repository.replace(snapshot, with: pending.incoming, confirmed: true)
+            pendingImport = nil
+            guard commit(result) else { return }
+            message = "استُبدلت البيانات. النسخة السابقة محفوظة على الجهاز."
+        } catch {
+            message = "لم يتم تغيير بياناتك؛ فشل الاستيراد: \(error.localizedDescription)"
+        }
+    }
+
+    func cancelPendingImport() {
+        pendingImport = nil
     }
 }

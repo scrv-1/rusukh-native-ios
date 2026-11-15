@@ -126,6 +126,15 @@ struct SettingsView: View {
                 case .failure(let error): library.message = error.localizedDescription
                 }
             }
+            .confirmationDialog(
+                "استبدال كل البيانات بهذا الملف (\(library.pendingImport?.noteCount ?? 0) ملاحظة و\(library.pendingImport?.cardCount ?? 0) بطاقة)؟ تُحفظ النسخة الحالية تلقائيًا قبل ذلك.",
+                isPresented: Binding(get: { library.pendingImport != nil }, set: { if !$0 { library.cancelPendingImport() } }),
+                titleVisibility: .visible
+            ) {
+                Button("استبدال البيانات", role: .destructive) { library.confirmPendingImport() }
+                    .accessibilityIdentifier("backup.confirm-replace")
+                Button("إلغاء", role: .cancel) { library.cancelPendingImport() }
+            }
         }
     }
 }
