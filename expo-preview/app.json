@@ -50,14 +50,14 @@
     },
     "updates": {
       "enabled": true,
-      "url": "https://u.expo.dev/REPLACE_WITH_EAS_PROJECT_ID",
+      "url": "https://u.expo.dev/4bea04fa-479a-49cd-894b-c7e8a88d7a16",
       "fallbackToCacheTimeout": 0,
       "checkAutomatically": "ON_LOAD"
     },
     "extra": {
       "appVersion": "0.5.2",
       "eas": {
-        "projectId": "REPLACE_WITH_EAS_PROJECT_ID"
+        "projectId": "4bea04fa-479a-49cd-894b-c7e8a88d7a16"
       }
     }
   }
