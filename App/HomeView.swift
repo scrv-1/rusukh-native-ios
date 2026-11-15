@@ -103,9 +103,12 @@ struct SettingsView: View {
                     .accessibilityIdentifier("backup.import-replace")
                     Text("الصور والتسجيلات تُضمَّن في ملف JSON إن سمح الحجم، وإلا تُصدَّر حزمة study.json مع مجلد attachments. النسخة غير مشفّرة؛ احفظها بمكان آمن.")
                         .font(.footnote).foregroundStyle(.secondary)
-                    if TourHooks.enabled, let shareURL {
-                        Button("استيراد النسخة المجهزة") { library.importFromFile(shareURL, mode: .replace) }
-                            .accessibilityIdentifier("tour.import-prepared")
+                    if TourHooks.enabled {
+                        // Corrupt must stay available after Settings is reopened; shareURL resets with @State.
+                        if let shareURL {
+                            Button("استيراد النسخة المجهزة") { library.importFromFile(shareURL, mode: .replace) }
+                                .accessibilityIdentifier("tour.import-prepared")
+                        }
                         Button("محاكاة تلف ملف البيانات") { library.corruptStoreForTour() }
                             .accessibilityIdentifier("tour.corrupt")
                     }
