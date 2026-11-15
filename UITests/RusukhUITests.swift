@@ -76,9 +76,8 @@ final class RusukhUITests: XCTestCase {
         XCTAssertTrue(app.buttons["ملاحظاتي"].waitForExistence(timeout: 10))
         app.buttons["ملاحظاتي"].tap()
         app.buttons["notes.add"].tap()
-        let title = app.textFields["note.title"]
-        XCTAssertTrue(title.waitForExistence(timeout: 5))
-        title.tap(); title.typeText("تسجيل تجريبي")
+        XCTAssertTrue(app.navigationBars["ملاحظة جديدة"].waitForExistence(timeout: 5))
+        typeInto(app.textFields["note.title"], "تسجيل تجريبي", in: app)
         reveal(app.buttons["voice.record"], in: app)
         app.buttons["voice.record"].tap()
         XCTAssertTrue(app.buttons["voice.stop"].waitForExistence(timeout: 10))
