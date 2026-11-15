@@ -3,6 +3,10 @@ import type { Note, StudyCard, Grade, Backup } from './types';
 export const MS_DAY = 24 * 60 * 60 * 1000;
 // Import and export must use the same UTF-8 wire-size limit.
 export const MAX_BACKUP_BYTES = 15 * 1024 * 1024;
+// The scheduler and the backup validator share these limits. A card that the
+// importer accepts must stay exportable after the next review.
+export const MAX_INTERVAL_DAYS = 365000;
+export const MAX_REPETITIONS = 100000;
 
 export function utf8ByteLength(text: string): number {
   let bytes = 0;
@@ -205,6 +209,8 @@ export function scheduleReview(card: StudyCard, grade: Grade, now: number): Stud
     repetitions += 1;
     intervalDays = Math.max(goodDays, card.repetitions === 0 ? 4 : Math.max(4, Math.ceil(card.intervalDays * ease * 1.3)));
   }
+  intervalDays = Math.min(MAX_INTERVAL_DAYS, intervalDays);
+  repetitions = Math.min(MAX_REPETITIONS, repetitions);
   return {
     ...card,
     ease,
@@ -294,9 +300,9 @@ export function validateBackup(value: unknown): value is Backup {
   for (const item of data.cards) {
     if (!item || !id(item.id) || !id(item.noteId) || !noteIds.has(item.noteId) ||
         !str(item.question) || !str(item.answer) || !time(item.dueAt) || !time(item.updatedAt) ||
-        !Number.isFinite(item.intervalDays) || item.intervalDays < 0 || item.intervalDays > 365000 ||
+        !Number.isFinite(item.intervalDays) || item.intervalDays < 0 || item.intervalDays > MAX_INTERVAL_DAYS ||
         !Number.isFinite(item.ease) || item.ease < 1 || item.ease > 5 ||
-        !Number.isInteger(item.repetitions) || item.repetitions < 0 || item.repetitions > 100000 || cardIds.has(item.id)) return false;
+        !Number.isInteger(item.repetitions) || item.repetitions < 0 || item.repetitions > MAX_REPETITIONS || cardIds.has(item.id)) return false;
     cardIds.add(item.id);
   }
   const reviewIds = new Set<string>();
