@@ -182,18 +182,20 @@ final class RusukhTourTests: XCTestCase {
     @MainActor
     private func typeInto(_ element: XCUIElement, _ text: String, in app: XCUIApplication) {
         XCTAssertTrue(element.waitForExistence(timeout: 5))
+        // XCTest on this SDK does not expose hasKeyboardFocus to Swift; use KVC + keyboard.
         for _ in 0..<5 {
-            if element.hasKeyboardFocus { break }
+            if keyboardReady(element, in: app) { break }
             element.tap()
-            if element.hasKeyboardFocus { break }
-            // Sheet/keyboard animations can steal focus briefly after the first tap.
             _ = app.keyboards.firstMatch.waitForExistence(timeout: 1)
         }
-        XCTAssertTrue(
-            element.hasKeyboardFocus || app.keyboards.firstMatch.exists,
-            "Expected keyboard focus before typing into \(element)"
-        )
+        XCTAssertTrue(keyboardReady(element, in: app), "Expected keyboard focus before typing into \(element)")
         element.typeText(text)
+    }
+
+    @MainActor
+    private func keyboardReady(_ element: XCUIElement, in app: XCUIApplication) -> Bool {
+        if (element.value(forKey: "hasKeyboardFocus") as? Bool) == true { return true }
+        return app.keyboards.firstMatch.exists
     }
 
     @MainActor
@@ -207,7 +209,7 @@ final class RusukhTourTests: XCTestCase {
     private func clearSearch(_ app: XCUIApplication) {
         let search = app.searchFields.firstMatch
         XCTAssertTrue(search.waitForExistence(timeout: 5))
-        if !search.hasKeyboardFocus { search.tap() }
+        if !keyboardReady(search, in: app) { search.tap() }
         let current = (search.value as? String) ?? ""
         if !current.isEmpty {
             search.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: current.count + 2))
