@@ -101,7 +101,7 @@ struct SettingsView: View {
                         confirmImport = true
                     }
                     .accessibilityIdentifier("backup.import-replace")
-                    Text("الصور والتسجيلات المحفوظة داخل الملاحظات موجودة في النسخة. النسخة غير مشفّرة؛ احفظها بمكان آمن.")
+                    Text("الصور والتسجيلات تُضمَّن في ملف JSON إن سمح الحجم، وإلا تُصدَّر حزمة study.json مع مجلد attachments. النسخة غير مشفّرة؛ احفظها بمكان آمن.")
                         .font(.footnote).foregroundStyle(.secondary)
                     if TourHooks.enabled, let shareURL {
                         Button("استيراد النسخة المجهزة") { library.importFromFile(shareURL, mode: .replace) }
@@ -127,7 +127,7 @@ struct SettingsView: View {
             ) {
                 Button("اختيار ملف الاستيراد", role: importMode == .replace ? .destructive : nil) { importing = true }
             }
-            .fileImporter(isPresented: $importing, allowedContentTypes: [.json]) { result in
+            .fileImporter(isPresented: $importing, allowedContentTypes: [.json, .folder]) { result in
                 switch result {
                 case .success(let url): library.importFromFile(url, mode: importMode)
                 case .failure(let error): library.message = error.localizedDescription

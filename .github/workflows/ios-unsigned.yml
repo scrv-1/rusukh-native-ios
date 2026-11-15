@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - cursor/sidestore-ipa-and-fixes-74f5
+      - cursor/delivery-gate-install-tour-74f5
   workflow_dispatch:
     inputs:
       evaluate_local_ai:
