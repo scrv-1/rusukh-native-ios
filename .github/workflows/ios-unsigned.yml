@@ -29,7 +29,8 @@ jobs:
     if: ${{ !inputs.evaluate_local_ai }}
     name: Test, build and launch SwiftUI
     runs-on: xcode-27
-    timeout-minutes: 60
+    # Cold mlx-swift compile for the Mac probe often needs >10m after a full UI tour.
+    timeout-minutes: 90
     env:
       HOMEBREW_NO_AUTO_UPDATE: '1'
     steps:
@@ -111,7 +112,8 @@ jobs:
         timeout-minutes: 25
         run: bash scripts/ui-tests.sh
       - name: Verify current Swift runtime offline on Mac (not Simulator)
-        timeout-minutes: 10
+        # Run 43776109672 hit the 10m step limit while still compiling Cmlx on a cold runner.
+        timeout-minutes: 25
         run: |
           set -o pipefail
           MODEL_DIRECTORY=$(cat evidence/ai-simulator-model-directory.txt)
