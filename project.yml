@@ -71,7 +71,7 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.scrv1.rusukhnative
         PRODUCT_NAME: RusukhNative
-        INFOPLIST_KEY_CFBundleDisplayName: "رُسوخ"
+        INFOPLIST_KEY_CFBundleDisplayName: "Rusukh"
         INFOPLIST_KEY_NSCameraUsageDescription: "التقاط صور وربطها بالملاحظات التعليمية داخل رُسوخ."
         INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
@@ -88,7 +88,7 @@ targets:
         CFBundleLocalizations: [ar, en]
         UIApplicationSupportsDocumentBrowser: false
         UIFileSharingEnabled: false
-        CFBundleDisplayName: "رُسوخ"
+        CFBundleDisplayName: "Rusukh"
         NSMicrophoneUsageDescription: "تسجيل صوت وإرفاقه بملاحظاتك محليًا داخل رُسوخ."
         NSCameraUsageDescription: "التقاط صورة وإرفاقها بملاحظة داخل رُسوخ."
         UIRequiredDeviceCapabilities: [arm64]
