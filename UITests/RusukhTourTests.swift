@@ -1,4 +1,5 @@
 import XCTest
+import UIKit
 
 final class RusukhTourTests: XCTestCase {
     @MainActor
@@ -6,7 +7,7 @@ final class RusukhTourTests: XCTestCase {
         continueAfterFailure = false
         let app = XCUIApplication()
         app.launchArguments = ["-ui-tour", "-ui-testing", "-reset-test-data", "-AppleLanguages", "(ar)", "-AppleLocale", "ar_SA"]
-        app.launch()
+        launchReady(app)
         XCTAssertTrue(app.buttons["ملاحظاتي"].waitForExistence(timeout: 10))
         capture("tour-01-home")
         let gear = app.buttons["الإعدادات"]
@@ -26,13 +27,21 @@ final class RusukhTourTests: XCTestCase {
         capture("tour-08-search-hamza")
         clearSearch(app)
 
+        dismissSearch(app)
         app.staticTexts["إبراهيم"].tap()
-        let editor = app.textViews["note.body"]
+        let editor = noteBodyField(in: app)
         XCTAssertTrue(editor.waitForExistence(timeout: 5))
-        editor.tap()
-        editor.typeText("\nس: سؤال معدّل؟\nج: إجابة معدّلة")
+        // Replace with the full body so the fifth Q/A is definitely imported (append can
+        // wipe a selected TextField and syncedCards would only rewrite leftover cards).
+        replaceText(
+            editor,
+            "صلاة\nس: ما الرسوخ؟\nج: ثبات المعرفة\nس: ما الاسترجاع؟\nج: تذكر المعلومة\nس: ما السهل؟\nج: إجابة سهلة\nس: ما الصعب؟\nج: إجابة صعبة\nس: سؤال معدّل؟\nج: إجابة معدّلة",
+            in: app
+        )
         app.buttons["note.save"].tap()
-        XCTAssertTrue(app.buttons["notes.add"].waitForExistence(timeout: 5))
+        // Search UI hides the notes toolbar; dismiss it before asserting the add control.
+        dismissSearch(app)
+        XCTAssertTrue(app.buttons["notes.add"].waitForExistence(timeout: 8))
         capture("tour-09-note-edited")
 
         app.buttons["المراجعة"].tap()
@@ -64,24 +73,30 @@ final class RusukhTourTests: XCTestCase {
 
         app.buttons["ملاحظاتي"].tap()
         app.buttons["notes.add"].tap()
+        XCTAssertTrue(app.navigationBars["ملاحظة جديدة"].waitForExistence(timeout: 5))
         let secondTitle = app.textFields["note.title"]
-        XCTAssertTrue(secondTitle.waitForExistence(timeout: 5))
-        secondTitle.tap()
-        secondTitle.typeText("مراجعة")
-        app.textViews["note.body"].tap()
-        app.textViews["note.body"].typeText("س: ما الثاني؟\nج: ثاني")
+        typeInto(secondTitle, "مراجعة", in: app)
+        typeInto(noteBodyField(in: app), "س: ما الثاني؟\nج: ثاني", in: app)
         app.buttons["note.save"].tap()
         XCTAssertTrue(app.buttons["notes.add"].waitForExistence(timeout: 5))
 
         app.buttons["ملاحظاتي"].tap()
         let row = app.staticTexts["إبراهيم"]
         XCTAssertTrue(row.waitForExistence(timeout: 5))
-        row.swipeRight()
-        if !app.buttons["حذف"].waitForExistence(timeout: 2) { row.swipeLeft() }
-        XCTAssertTrue(app.buttons["حذف"].waitForExistence(timeout: 5))
+        // Prefer the list cell swipe target; StaticText-only swipes often miss swipeActions.
+        let cell = app.cells.containing(.staticText, identifier: "إبراهيم").element
+        let swipeTarget = cell.exists ? cell : row
+        for direction in [0, 1, 0] {
+            if app.buttons["حذف"].exists { break }
+            if direction == 0 { swipeTarget.swipeLeft() } else { swipeTarget.swipeRight() }
+            if app.buttons["حذف"].waitForExistence(timeout: 2) { break }
+        }
+        let deleteAction = app.buttons["حذف"].firstMatch
+        XCTAssertTrue(deleteAction.waitForExistence(timeout: 5), app.debugDescription)
         capture("tour-17-delete-swipe")
-        app.buttons["حذف"].tap()
-        let confirmDelete = app.buttons["حذف الملاحظة"]
+        deleteAction.tap()
+        // confirmationDialog exposes nested duplicate buttons; target the identifier once.
+        let confirmDelete = app.buttons["note.confirm-delete"].firstMatch
         XCTAssertTrue(confirmDelete.waitForExistence(timeout: 5))
         capture("tour-18-delete-confirm")
         confirmDelete.tap()
@@ -100,13 +115,13 @@ final class RusukhTourTests: XCTestCase {
         let reimport = app.buttons["tour.import-prepared"]
         reveal(reimport, in: app)
         reimport.tap()
-        dismissAlert(app)
-        let replace = app.buttons["استبدال البيانات"]
-        XCTAssertTrue(replace.waitForExistence(timeout: 5))
+        let replace = app.buttons["backup.confirm-replace"].firstMatch
+        XCTAssertTrue(replace.waitForExistence(timeout: 8), app.debugDescription)
         capture("tour-21-import-confirm")
         replace.tap()
         dismissAlert(app)
-        app.buttons["إغلاق"].tap()
+        // Root success alert can dismiss the settings sheet; only close it if still open.
+        closeSettingsIfPresent(app)
         app.buttons["ملاحظاتي"].tap()
         XCTAssertTrue(app.staticTexts["مراجعة"].waitForExistence(timeout: 5))
         XCTAssertFalse(app.staticTexts["إبراهيم"].exists)
@@ -122,7 +137,7 @@ final class RusukhTourTests: XCTestCase {
         XCTAssertTrue(recovered.waitForExistence(timeout: 5), app.debugDescription)
         capture("tour-23-recovered")
         dismissAlert(app)
-        app.buttons["إغلاق"].tap()
+        closeSettingsIfPresent(app)
         XCTAssertTrue(app.staticTexts["مراجعة"].waitForExistence(timeout: 5))
 
         XCUIDevice.shared.appearance = .dark
@@ -135,7 +150,7 @@ final class RusukhTourTests: XCTestCase {
         app.terminate()
         app.launchArguments = ["-ui-tour", "-ui-testing", "-AppleLanguages", "(ar)", "-AppleLocale", "ar_SA",
                                "-UIPreferredContentSizeCategoryName", "UICTContentSizeCategoryAccessibilityXXXL"]
-        app.launch()
+        launchReady(app)
         XCTAssertTrue(app.buttons["ملاحظاتي"].waitForExistence(timeout: 10))
         capture("tour-26-dynamic-type")
 
@@ -151,13 +166,11 @@ final class RusukhTourTests: XCTestCase {
     @MainActor
     private func addStudyNote(_ app: XCUIApplication) {
         app.buttons["notes.add"].tap()
+        XCTAssertTrue(app.navigationBars["ملاحظة جديدة"].waitForExistence(timeout: 5))
         let title = app.textFields["note.title"]
         XCTAssertTrue(title.waitForExistence(timeout: 5))
-        title.tap()
-        title.typeText("إبراهيم")
-        let editor = app.textViews["note.body"]
-        editor.tap()
-        editor.typeText("صلاة\nس: ما الرسوخ؟\nج: ثبات المعرفة\nس: ما الاسترجاع؟\nج: تذكر المعلومة\nس: ما السهل؟\nج: إجابة سهلة\nس: ما الصعب؟\nج: إجابة صعبة")
+        typeInto(title, "إبراهيم", in: app)
+        typeInto(noteBodyField(in: app), "صلاة\nس: ما الرسوخ؟\nج: ثبات المعرفة\nس: ما الاسترجاع؟\nج: تذكر المعلومة\nس: ما السهل؟\nج: إجابة سهلة\nس: ما الصعب؟\nج: إجابة صعبة", in: app)
         capture("tour-03-editor")
         reveal(app.buttons["voice.record"], in: app)
         app.buttons["voice.record"].tap()
@@ -175,27 +188,116 @@ final class RusukhTourTests: XCTestCase {
     }
 
     @MainActor
+    private func typeInto(_ element: XCUIElement, _ text: String, in app: XCUIApplication) {
+        focus(element)
+        element.typeText(text)
+    }
+
+    @MainActor
+    private func replaceText(_ element: XCUIElement, _ text: String, in app: XCUIApplication) {
+        focus(element)
+        let current = (element.value as? String) ?? ""
+        let placeholder = (element.placeholderValue as? String) ?? ""
+        let content = current == placeholder ? "" : current
+        if !content.isEmpty {
+            element.coordinate(withNormalizedOffset: CGVector(dx: 0.95, dy: 0.95)).tap()
+            element.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: content.count + 8))
+        }
+        // Paste is faster and more reliable for multi-line Arabic bodies than typeText.
+        UIPasteboard.general.string = text
+        element.press(forDuration: 1.0)
+        let paste = app.menuItems.matching(
+            NSPredicate(format: "label CONTAINS[c] %@ OR label CONTAINS %@", "Paste", "لصق")
+        ).firstMatch
+        if paste.waitForExistence(timeout: 2) {
+            paste.tap()
+        } else {
+            element.typeText(text)
+        }
+    }
+
+    @MainActor
+    private func launchReady(_ app: XCUIApplication) {
+        // CI simulators occasionally time out on the first Xcode-mediated launch.
+        let previous = continueAfterFailure
+        continueAfterFailure = true
+        defer { continueAfterFailure = previous }
+        for attempt in 1...3 {
+            app.terminate()
+            app.launch()
+            if app.buttons["ملاحظاتي"].waitForExistence(timeout: 25) { return }
+            RunLoop.current.run(until: Date().addingTimeInterval(2))
+            if attempt == 3 {
+                continueAfterFailure = false
+                XCTFail("App failed to launch after \(attempt) attempts")
+            }
+        }
+    }
+
+    @MainActor
+    private func focus(_ element: XCUIElement) {
+        XCTAssertTrue(element.waitForExistence(timeout: 5))
+        for _ in 0..<8 {
+            if elementIsFocused(element) { return }
+            element.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.2)).tap()
+            RunLoop.current.run(until: Date().addingTimeInterval(0.3))
+        }
+        XCTAssertTrue(elementIsFocused(element), "Expected keyboard focus on \(element)")
+    }
+
+    @MainActor
+    private func elementIsFocused(_ element: XCUIElement) -> Bool {
+        (element.value(forKey: "hasKeyboardFocus") as? Bool) == true
+    }
+
+    @MainActor
+    private func noteBodyField(in app: XCUIApplication) -> XCUIElement {
+        // Vertical TextField may surface as TextField or TextView depending on iOS.
+        app.descendants(matching: .any)["note.body"]
+    }
+
+    @MainActor
     private func search(_ app: XCUIApplication, _ query: String) {
         let search = app.searchFields.firstMatch
         XCTAssertTrue(search.waitForExistence(timeout: 5))
-        search.tap()
-        search.typeText(query)
+        typeInto(search, query, in: app)
     }
 
     @MainActor
     private func clearSearch(_ app: XCUIApplication) {
         let search = app.searchFields.firstMatch
-        search.tap()
+        XCTAssertTrue(search.waitForExistence(timeout: 5))
+        if !elementIsFocused(search) { search.tap() }
         let current = (search.value as? String) ?? ""
         if !current.isEmpty {
-            search.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: current.count + 2))
+            if elementIsFocused(search) {
+                search.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: current.count + 2))
+            } else {
+                typeInto(search, "", in: app)
+                search.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: current.count + 2))
+            }
+        }
+        dismissSearch(app)
+    }
+
+    @MainActor
+    private func dismissSearch(_ app: XCUIApplication) {
+        let close = app.navigationBars.buttons["إغلاق"]
+        if close.waitForExistence(timeout: 2), close.isHittable {
+            close.tap()
         }
     }
 
     @MainActor
     private func dismissAlert(_ app: XCUIApplication) {
         let ok = app.buttons["حسنًا"]
-        if ok.waitForExistence(timeout: 3) { ok.tap() }
+        if ok.waitForExistence(timeout: 5) { ok.tap() }
+    }
+
+    @MainActor
+    private func closeSettingsIfPresent(_ app: XCUIApplication) {
+        let close = app.navigationBars["الإعدادات"].buttons["إغلاق"]
+        if close.waitForExistence(timeout: 2) { close.tap() }
     }
 
     @MainActor

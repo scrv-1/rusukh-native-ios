@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - cursor/sidestore-ipa-and-fixes-74f5
+      - cursor/delivery-gate-install-tour-74f5
   workflow_dispatch:
     inputs:
       evaluate_local_ai:
@@ -28,7 +29,8 @@ jobs:
     if: ${{ !inputs.evaluate_local_ai }}
     name: Test, build and launch SwiftUI
     runs-on: xcode-27
-    timeout-minutes: 60
+    # Cold mlx-swift compile for the Mac probe often needs >10m after a full UI tour.
+    timeout-minutes: 90
     env:
       HOMEBREW_NO_AUTO_UPDATE: '1'
     steps:
@@ -95,22 +97,23 @@ jobs:
           set -o pipefail
           python3 scripts/verify-fsrs-license.py | tee evidence/fsrs-license-verification.txt
       - name: Provision verified local model for simulator test
-        timeout-minutes: 5
+        # Cold runners need >5m for the ~2.2GB model hash + swiftc of the verifier.
+        # Files live under RUNNER_TEMP so XCTest app reinstalls cannot orphan the path.
+        timeout-minutes: 15
         run: |
           set -o pipefail
-          SIMULATOR_ID=$(cat evidence/simulator-id.txt)
-          xcrun simctl boot "$SIMULATOR_ID"
-          xcrun simctl bootstatus "$SIMULATOR_ID" -b
           python3 scripts/prepare-simulator-model.py | tee evidence/ai-simulator-provision.log
           swiftc App/ArabicModelAssets.swift Sources/RusukhCore/ModelDownload.swift scripts/VerifyModelAssets.swift -o "$RUNNER_TEMP/verify-model-assets"
-          SIMULATOR_ID=$(cat evidence/simulator-id.txt)
-          APP_DATA=$(xcrun simctl get_app_container "$SIMULATOR_ID" com.scrv1.rusukhnative data)
-          "$RUNNER_TEMP/verify-model-assets" "$APP_DATA/Library/Application Support/RusukhTestModels/Qwen3-Instruct-2507" | tee evidence/ai-swift-integrity.log
+          MODEL_DIRECTORY=$(cat evidence/ai-simulator-model-directory.txt)
+          test -s "$MODEL_DIRECTORY/config.json"
+          test -s "$MODEL_DIRECTORY/model.safetensors"
+          "$RUNNER_TEMP/verify-model-assets" "$MODEL_DIRECTORY" | tee evidence/ai-swift-integrity.log
       - name: Test Arabic UI and persistence
         timeout-minutes: 25
         run: bash scripts/ui-tests.sh
       - name: Verify current Swift runtime offline on Mac (not Simulator)
-        timeout-minutes: 10
+        # Run 43776109672 hit the 10m step limit while still compiling Cmlx on a cold runner.
+        timeout-minutes: 25
         run: |
           set -o pipefail
           MODEL_DIRECTORY=$(cat evidence/ai-simulator-model-directory.txt)

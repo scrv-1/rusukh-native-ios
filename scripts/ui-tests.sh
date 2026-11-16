@@ -5,7 +5,17 @@ if ! xcrun simctl list devices booted -j | python3 -c 'import json,sys; target=s
   xcrun simctl boot "$SIMULATOR_ID"
 fi
 xcrun simctl bootstatus "$SIMULATOR_ID" -b
+# Prefer the software keyboard so XCTest typeText can obtain first-responder focus.
+defaults write com.apple.iphonesimulator ConnectHardwareKeyboard -bool false || true
 xcrun simctl privacy "$SIMULATOR_ID" grant microphone com.scrv1.rusukhnative
+# Warm the simulator before XCTest's first launch to reduce Xcode launch timeouts.
+APP_PRODUCT="$RUNNER_TEMP/simulator-build/Build/Products/Debug-iphonesimulator/RusukhNative.app"
+if [[ -d "$APP_PRODUCT" ]]; then
+  xcrun simctl install "$SIMULATOR_ID" "$APP_PRODUCT" || true
+  xcrun simctl launch "$SIMULATOR_ID" com.scrv1.rusukhnative || true
+  sleep 2
+  xcrun simctl terminate "$SIMULATOR_ID" com.scrv1.rusukhnative || true
+fi
 FIXTURE_DIR="$RUNNER_TEMP/model-fixture"
 mkdir -p "$FIXTURE_DIR"
 printf 'abc' > "$FIXTURE_DIR/fixture-a.txt"
@@ -74,5 +84,11 @@ if [[ "$TEST_RESULT" == 0 ]]; then
   test -s "$FIXTURE_DIRECTORY/fixture-b.txt"
   test -s "$FIXTURE_DIRECTORY/verified.txt"
   echo 'POST_UI_FIXTURE_VERIFIED'
+  # Qwen files stay on the host path written before UI tests; confirm they still exist
+  # for the offline Mac probe after Simulator reinstalls.
+  MODEL_DIRECTORY=$(cat evidence/ai-simulator-model-directory.txt)
+  test -s "$MODEL_DIRECTORY/config.json"
+  test -s "$MODEL_DIRECTORY/model.safetensors"
+  echo 'POST_UI_MODEL_DIRECTORY_VERIFIED'
 fi
 exit "$TEST_RESULT"

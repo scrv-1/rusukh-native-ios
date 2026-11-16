@@ -58,13 +58,38 @@ public struct StudyRepository {
         return RestoreOutcome(snapshot: .empty, notice: "تعذّرت قراءة ملف البيانات. عُزل الملف التالف ولم تُقفل الملاحظات.")
     }
 
-    public static func read(from url: URL) throws -> StudySnapshot {
+    public static func read(from url: URL, hydrateSiblingAttachments: Bool = true) throws -> StudySnapshot {
         let size = try url.resourceValues(forKeys: [.fileSizeKey]).fileSize ?? 0
         guard size < maximumFileBytes else { throw StudyStorageError.invalidBackup }
         let handle = try FileHandle(forReadingFrom: url)
         defer { try? handle.close() }
         let bytes = try handle.read(upToCount: maximumFileBytes) ?? Data()
-        return try decode(bytes)
+        let decoded = try decode(bytes)
+        // Portable backups may keep media next to the JSON as attachments/<note>/<file>.
+        // Internal .bak scans must skip hydrate so relative file names stay available for GC.
+        guard hydrateSiblingAttachments else { return decoded }
+        let sibling = url.deletingLastPathComponent().appendingPathComponent("attachments", isDirectory: true)
+        if FileManager.default.fileExists(atPath: sibling.path) {
+            return hydrate(decoded, attachmentsDirectory: sibling)
+        }
+        return decoded
+    }
+
+    /// Single JSON when media fits; otherwise a folder with externalized JSON + attachment files.
+    public static func writeExport(snapshot: StudySnapshot, into temporaryDirectory: URL) throws -> URL {
+        guard snapshot.isValid() else { throw StudyStorageError.invalidBackup }
+        if let bytes = try? encode(snapshot) {
+            let file = temporaryDirectory.appendingPathComponent("rusukh-native-backup-\(UUID().uuidString).json")
+            try bytes.write(to: file, options: .atomic)
+            return file
+        }
+        let package = temporaryDirectory.appendingPathComponent("rusukh-native-backup-\(UUID().uuidString)", isDirectory: true)
+        try FileManager.default.createDirectory(at: package, withIntermediateDirectories: true)
+        let repository = StudyRepository(fileURL: package.appendingPathComponent("study.json"))
+        try repository.save(snapshot)
+        // Export packages are self-contained; drop the local .bak so sharing stays one folder.
+        try? FileManager.default.removeItem(at: repository.backupURL)
+        return package
     }
 
     public func save(_ snapshot: StudySnapshot) throws {
@@ -150,12 +175,18 @@ public struct StudyRepository {
     }
 
     private func hydrate(_ snapshot: StudySnapshot) -> StudySnapshot {
+        Self.hydrate(snapshot, attachmentsDirectory: attachmentDirectory)
+    }
+
+    private static func hydrate(_ snapshot: StudySnapshot, attachmentsDirectory: URL) -> StudySnapshot {
         let notes = snapshot.notes.map { note -> StudyNote in
             var copy = note
-            if copy.imageJPEG == nil, let name = copy.imageFile, let url = try? safeURL(name) {
+            if copy.imageJPEG == nil, let name = copy.imageFile,
+               let url = try? resolvedAttachmentURL(name, under: attachmentsDirectory) {
                 copy.imageJPEG = try? Data(contentsOf: url)
             }
-            if copy.audioM4A == nil, let name = copy.audioFile, let url = try? safeURL(name) {
+            if copy.audioM4A == nil, let name = copy.audioFile,
+               let url = try? resolvedAttachmentURL(name, under: attachmentsDirectory) {
                 copy.audioM4A = try? Data(contentsOf: url)
             }
             // Memory matches notes built by the app. The file name stays only in the JSON.
@@ -166,9 +197,17 @@ public struct StudyRepository {
         return StudySnapshot(notes: notes, cards: snapshot.cards, reviews: snapshot.reviews)
     }
 
+    private static func resolvedAttachmentURL(_ relative: String, under attachmentsDirectory: URL) throws -> URL {
+        let parts = relative.split(separator: "/", omittingEmptySubsequences: false).map(String.init)
+        guard parts.count == 2, parts.allSatisfy({ !$0.isEmpty && $0 != "." && $0 != ".." && !$0.contains("\\") }) else {
+            throw StudyStorageError.invalidBackup
+        }
+        return attachmentsDirectory.appendingPathComponent(parts[0]).appendingPathComponent(parts[1])
+    }
+
     private func referencedFiles(in snapshot: StudySnapshot, and backup: URL) -> Set<String> {
         var names = Set(snapshot.notes.compactMap(\.imageFile) + snapshot.notes.compactMap(\.audioFile))
-        if let previous = try? Self.read(from: backup) {
+        if let previous = try? Self.read(from: backup, hydrateSiblingAttachments: false) {
             names.formUnion(previous.notes.compactMap(\.imageFile))
             names.formUnion(previous.notes.compactMap(\.audioFile))
         }
@@ -195,11 +234,7 @@ public struct StudyRepository {
     }
 
     private func safeURL(_ relative: String) throws -> URL {
-        let parts = relative.split(separator: "/", omittingEmptySubsequences: false).map(String.init)
-        guard parts.count == 2, parts.allSatisfy({ !$0.isEmpty && $0 != "." && $0 != ".." && !$0.contains("\\") }) else {
-            throw StudyStorageError.invalidBackup
-        }
-        return attachmentDirectory.appendingPathComponent(parts[0]).appendingPathComponent(parts[1])
+        try Self.resolvedAttachmentURL(relative, under: attachmentDirectory)
     }
 
     private func quarantineCurrentFile() -> URL? {

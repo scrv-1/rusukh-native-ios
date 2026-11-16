@@ -4,8 +4,12 @@ import UniformTypeIdentifiers
 import AVFoundation
 
 private struct EditingNote: Identifiable {
-    let id = UUID()
+    let id: UUID
     let note: StudyNote?
+    init(note: StudyNote?) {
+        self.note = note
+        self.id = note?.id ?? UUID()
+    }
 }
 
 struct NotesView: View {
@@ -27,24 +31,34 @@ struct NotesView: View {
         NavigationStack {
             List {
                 ForEach(results) { note in
-                    Button { editing = EditingNote(note: note) } label: {
-                        HStack(spacing: 12) {
-                            if let bytes = note.imageJPEG, let image = UIImage(data: bytes) {
-                                Image(uiImage: image).resizable().scaledToFill()
-                                    .frame(width: 48, height: 48).clipShape(RoundedRectangle(cornerRadius: 9))
-                            }
-                            VStack(alignment: .leading, spacing: 5) {
-                                Text(note.title).foregroundStyle(.primary).font(.headline)
-                                Text(note.body).font(.caption).foregroundStyle(.secondary).lineLimit(2)
-                            }
-                            Spacer(minLength: 4)
-                            Image(systemName: "chevron.left").font(.caption).foregroundStyle(.tertiary)
+                    HStack(spacing: 12) {
+                        if let bytes = note.imageJPEG, let image = UIImage(data: bytes) {
+                            Image(uiImage: image).resizable().scaledToFill()
+                                .frame(width: 48, height: 48).clipShape(RoundedRectangle(cornerRadius: 9))
                         }
+                        VStack(alignment: .leading, spacing: 5) {
+                            Text(note.title).foregroundStyle(.primary).font(.headline)
+                            Text(note.body).font(.caption).foregroundStyle(.secondary).lineLimit(2)
+                        }
+                        Spacer(minLength: 4)
+                        Image(systemName: "chevron.left").font(.caption).foregroundStyle(.tertiary)
                     }
-                    .swipeActions {
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .contentShape(Rectangle())
+                    .onTapGesture { editing = EditingNote(note: note) }
+                    // Both edges so RTL and XCUITest swipes can reveal delete.
+                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                         Button("حذف", role: .destructive) { pendingDelete = note }
                             .accessibilityIdentifier("note.delete")
                     }
+                    .swipeActions(edge: .leading, allowsFullSwipe: false) {
+                        Button("حذف", role: .destructive) { pendingDelete = note }
+                            .accessibilityIdentifier("note.delete")
+                    }
+                    .accessibilityElement(children: .combine)
+                    .accessibilityAddTraits(.isButton)
+                    .accessibilityLabel(note.title)
+                    .accessibilityIdentifier("note.row.\(note.id.uuidString)")
                 }
             }
             .overlay {
@@ -59,8 +73,21 @@ struct NotesView: View {
                     .accessibilityLabel("استيراد نص PDF").accessibilityIdentifier("notes.import-pdf")
                     .disabled(importingPDF)
                 if importingPDF { ProgressView("استخراج النص") }
-                Button { editing = EditingNote(note: nil) } label: { Image(systemName: "plus") }
-                    .accessibilityLabel("ملاحظة جديدة").accessibilityIdentifier("notes.add")
+            }
+            // Outside searchable's collapsing toolbar so add stays reachable while searching.
+            .safeAreaInset(edge: .bottom, spacing: 0) {
+                HStack {
+                    Spacer(minLength: 0)
+                    Button { editing = EditingNote(note: nil) } label: {
+                        Label("ملاحظة جديدة", systemImage: "plus.circle.fill")
+                            .labelStyle(.iconOnly)
+                            .font(.largeTitle)
+                    }
+                    .accessibilityLabel("ملاحظة جديدة")
+                    .accessibilityIdentifier("notes.add")
+                    .padding(.trailing, 18)
+                    .padding(.bottom, 6)
+                }
             }
             .sheet(item: $editing) { route in NoteEditorView(note: route.note) }
             .confirmationDialog(
@@ -116,6 +143,9 @@ struct NoteEditorView: View {
     @State private var cameraOpen = false
     @State private var photoError = false
     @State private var confirmDiscard = false
+    @FocusState private var focusedField: EditorField?
+
+    private enum EditorField: Hashable { case title, body }
 
     init(note: StudyNote?) {
         self.note = note
@@ -129,12 +159,21 @@ struct NoteEditorView: View {
         NavigationStack {
             Form {
                 Section("العنوان") {
-                    TextField("مثال: التعلّم النشط", text: $title).accessibilityIdentifier("note.title")
+                    TextField("مثال: التعلّم النشط", text: $title)
+                        .focused($focusedField, equals: .title)
+                        .submitLabel(.next)
+                        .onSubmit { focusedField = .body }
+                        .accessibilityIdentifier("note.title")
                 }
                 Section("المحتوى") {
-                    TextEditor(text: $noteBody).accessibilityLabel("محتوى الملاحظة").accessibilityIdentifier("note.body")
-                        .frame(minHeight: 220)
+                    // Vertical TextField focuses more reliably under XCUITest than TextEditor in a Form.
+                    TextField("محتوى الملاحظة", text: $noteBody, axis: .vertical)
+                        .focused($focusedField, equals: .body)
+                        .lineLimit(8...24)
+                        .frame(minHeight: 220, alignment: .topLeading)
                         .autocorrectionDisabled(false)
+                        .accessibilityLabel("محتوى الملاحظة")
+                        .accessibilityIdentifier("note.body")
                     Text("اربط ملاحظة: [[عنوان آخر]]  ·  بطاقة: س: السؤال ثم ج: الإجابة")
                         .font(.caption).foregroundStyle(.secondary)
                 }
@@ -191,7 +230,12 @@ struct NoteEditorView: View {
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("حفظ") {
-                        guard voice.finish() else { return }
+                        // Only block save when an in-progress take fails; keep prior audio otherwise.
+                        if voice.recording {
+                            guard voice.finish() else { return }
+                        } else {
+                            _ = voice.finish()
+                        }
                         if let saved = library.saveNote(id: note?.id, title: title, body: noteBody, imageJPEG: imageJPEG, audioM4A: voice.data) {
                             _ = library.importQACards(for: saved.id)
                             dismiss()
@@ -217,7 +261,13 @@ struct NoteEditorView: View {
                 if phase == .background { voice.pauseForBackground() }
             }
             .onReceive(NotificationCenter.default.publisher(for: AVAudioSession.interruptionNotification)) { _ in voice.pauseForBackground() }
-            .onAppear { voice.open() }
+            .onAppear {
+                voice.open()
+                // New notes start in the title field so typing works without a flaky focus race.
+                if note == nil {
+                    DispatchQueue.main.async { focusedField = .title }
+                }
+            }
             .onDisappear { voice.close() }
         }
     }

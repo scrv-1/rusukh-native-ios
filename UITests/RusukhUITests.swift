@@ -1,4 +1,5 @@
 import XCTest
+import UIKit
 
 final class RusukhUITests: XCTestCase {
     @MainActor
@@ -60,7 +61,7 @@ final class RusukhUITests: XCTestCase {
         // A screenshot of this screen does not verify model inference.
         app.buttons["ملاحظاتي"].tap()
         app.staticTexts["رُسُوخ"].tap()
-        let editor = app.textViews["note.body"]
+        let editor = noteBodyField(in: app)
         XCTAssertTrue(editor.waitForExistence(timeout: 5))
         XCTAssertTrue((editor.value as? String ?? "").contains("[[التعلم]]"))
         reveal(app.buttons["التقاط صورة"], in: app)
@@ -76,9 +77,8 @@ final class RusukhUITests: XCTestCase {
         XCTAssertTrue(app.buttons["ملاحظاتي"].waitForExistence(timeout: 10))
         app.buttons["ملاحظاتي"].tap()
         app.buttons["notes.add"].tap()
-        let title = app.textFields["note.title"]
-        XCTAssertTrue(title.waitForExistence(timeout: 5))
-        title.tap(); title.typeText("تسجيل تجريبي")
+        XCTAssertTrue(app.navigationBars["ملاحظة جديدة"].waitForExistence(timeout: 5))
+        typeInto(app.textFields["note.title"], "تسجيل تجريبي", in: app)
         reveal(app.buttons["voice.record"], in: app)
         app.buttons["voice.record"].tap()
         XCTAssertTrue(app.buttons["voice.stop"].waitForExistence(timeout: 10))
@@ -215,13 +215,34 @@ final class RusukhUITests: XCTestCase {
     }
     @MainActor private func addNote(_ app: XCUIApplication, title: String, body: String) {
         app.buttons["notes.add"].tap()
+        XCTAssertTrue(app.navigationBars["ملاحظة جديدة"].waitForExistence(timeout: 5))
         let field = app.textFields["note.title"]
         XCTAssertTrue(field.waitForExistence(timeout: 5))
-        field.tap(); field.typeText(title)
-        let editor = app.textViews["note.body"]
-        editor.tap(); editor.typeText(body)
+        typeInto(field, title, in: app)
+        typeInto(noteBodyField(in: app), body, in: app)
         app.buttons["note.save"].tap()
         XCTAssertTrue(app.buttons["notes.add"].waitForExistence(timeout: 5))
+    }
+    @MainActor private func noteBodyField(in app: XCUIApplication) -> XCUIElement {
+        app.descendants(matching: .any)["note.body"]
+    }
+    @MainActor private func typeInto(_ element: XCUIElement, _ text: String, in app: XCUIApplication) {
+        XCTAssertTrue(element.waitForExistence(timeout: 5))
+        for _ in 0..<8 {
+            if (element.value(forKey: "hasKeyboardFocus") as? Bool) == true {
+                element.typeText(text)
+                return
+            }
+            element.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.2)).tap()
+            RunLoop.current.run(until: Date().addingTimeInterval(0.3))
+        }
+        UIPasteboard.general.string = text
+        element.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.2)).press(forDuration: 1.1)
+        let paste = app.menuItems.matching(
+            NSPredicate(format: "label CONTAINS[c] %@ OR label CONTAINS %@", "Paste", "لصق")
+        ).firstMatch
+        XCTAssertTrue(paste.waitForExistence(timeout: 3), "No Paste menu for \(element)\n\(app.debugDescription)")
+        paste.tap()
     }
     @MainActor private func capture(_ name: String) {
         let attachment = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
