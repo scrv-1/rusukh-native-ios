@@ -22,9 +22,12 @@ PY
 )
 printf "%s\n" "$SIMULATOR_ID" > evidence/simulator-id.txt
 APP_PATH="$RUNNER_TEMP/simulator-build/Build/Products/Debug-iphonesimulator/RusukhNative.app"
-xcrun simctl boot "$SIMULATOR_ID"
+echo "simulator boot start $(date -u +%H:%M:%S)"
+xcrun simctl boot "$SIMULATOR_ID" || true
+echo "simulator bootstatus start $(date -u +%H:%M:%S)"
 xcrun simctl bootstatus "$SIMULATOR_ID" -b
-xcrun simctl status_bar "$SIMULATOR_ID" override --time '9:41' --batteryState charged --batteryLevel 100
+echo "simulator install start $(date -u +%H:%M:%S)"
+xcrun simctl status_bar "$SIMULATOR_ID" override --time '9:41' --batteryState charged --batteryLevel 100 || echo "status bar override skipped"
 xcrun simctl install "$SIMULATOR_ID" "$APP_PATH"
 xcrun simctl launch "$SIMULATOR_ID" com.scrv1.rusukhnative | tee evidence/simulator-launch.txt
 sleep 5
