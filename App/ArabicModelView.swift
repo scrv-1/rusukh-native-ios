@@ -23,11 +23,18 @@ final class ArabicModelController: ObservableObject {
     private let runtime = ArabicModelRuntime()
     private var work: Task<Void, Never>?
     var sufficientMemory: Bool { ProcessInfo.processInfo.physicalMemory >= 8_000_000_000 }
+    /// File download/integrity UI still runs on low-RAM CI hosts; generation stays gated.
+    var allowsFileManagement: Bool {
+        #if DEBUG
+        if ProcessInfo.processInfo.arguments.contains("-ui-testing") { return true }
+        #endif
+        return sufficientMemory
+    }
 
     func refresh() async { ready = await assets.ready() }
 
     func download(gate: LocalInferenceGate) {
-        guard !busy, sufficientMemory, permitsWork, gate.acquire() else { return }
+        guard !busy, allowsFileManagement, permitsWork, gate.acquire() else { return }
         busy = true
         work = Task {
             defer { gate.release() }
@@ -136,16 +143,19 @@ struct ArabicModelView: View {
                     #endif
                     if !model.sufficientMemory {
                         Text("ذاكرة هذا الجهاز أقل من الحد المسموح لهذه التجربة.").font(.footnote)
-                    } else if model.ready {
+                    }
+                    if model.allowsFileManagement && model.ready {
                         #if !targetEnvironment(simulator)
-                        Button("توليد إجابة عربية على الجهاز") { model.generate(prompt: prompt, context: context, gate: gate) }
-                            .accessibilityIdentifier("arabic-model-generate")
-                            .disabled(model.busy || gate.busy || prompt.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                        if model.sufficientMemory {
+                            Button("توليد إجابة عربية على الجهاز") { model.generate(prompt: prompt, context: context, gate: gate) }
+                                .accessibilityIdentifier("arabic-model-generate")
+                                .disabled(model.busy || gate.busy || prompt.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                        }
                         #endif
                         Text("ملفات النموذج جاهزة.").font(.caption).accessibilityIdentifier("arabic-model-ready")
                         Button("حذف أوزان النموذج", role: .destructive) { confirmDelete = true }
                             .disabled(model.busy || gate.busy)
-                    } else {
+                    } else if model.allowsFileManagement {
                         Button("تنزيل النموذج — 2.28GB") { model.download(gate: gate) }
                             .accessibilityIdentifier("arabic-model-download")
                             .disabled(model.busy || gate.busy)
