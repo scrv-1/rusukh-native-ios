@@ -1,5 +1,8 @@
 name: iOS - SwiftUI build and simulator preview
 on:
+  push:
+    branches:
+      - fix/sidestore-compat
   workflow_dispatch:
     inputs:
       evaluate_local_ai:
@@ -25,7 +28,8 @@ jobs:
     if: ${{ !inputs.evaluate_local_ai }}
     name: Test, build and launch SwiftUI
     runs-on: xcode-27
-    timeout-minutes: 30
+    # Same limits that went green on PR #21; cold mlx-swift needs headroom after UI.
+    timeout-minutes: 90
     env:
       HOMEBREW_NO_AUTO_UPDATE: '1'
     steps:
@@ -71,8 +75,10 @@ jobs:
           mkdir -p "$RUNNER_TEMP/package/Payload"
           cp -R "$RUNNER_TEMP/device-build/Build/Products/Release-iphoneos/RusukhNative.app" "$RUNNER_TEMP/package/Payload/"
           (cd "$RUNNER_TEMP/package" && zip -qyr "$GITHUB_WORKSPACE/RusukhNative-unsigned.ipa" Payload)
+          python3 scripts/verify-free-ipa.py RusukhNative-unsigned.ipa | tee evidence/free-ipa-verification.txt
+          python3 scripts/verify-sidestore-name.py RusukhNative-unsigned.ipa | tee evidence/sidestore-name-verification.txt
       - name: Launch simulator and capture preview
-        timeout-minutes: 7
+        timeout-minutes: 12
         run: bash scripts/simulator-preview.sh
       - name: Build xtool 1.24.0 unsigned IPA
         id: xtool
@@ -91,7 +97,9 @@ jobs:
           set -o pipefail
           python3 scripts/verify-fsrs-license.py | tee evidence/fsrs-license-verification.txt
       - name: Provision verified local model for simulator test
-        timeout-minutes: 5
+        # Cold runners need >5m for the ~2.2GB model hash + swiftc of the verifier.
+        # Host path under RUNNER_TEMP survives XCTest app reinstalls; script also mirrors into Simulator.
+        timeout-minutes: 15
         run: |
           set -o pipefail
           SIMULATOR_ID=$(cat evidence/simulator-id.txt)
@@ -99,14 +107,16 @@ jobs:
           xcrun simctl bootstatus "$SIMULATOR_ID" -b
           python3 scripts/prepare-simulator-model.py | tee evidence/ai-simulator-provision.log
           swiftc App/ArabicModelAssets.swift scripts/VerifyModelAssets.swift -o "$RUNNER_TEMP/verify-model-assets"
-          SIMULATOR_ID=$(cat evidence/simulator-id.txt)
-          APP_DATA=$(xcrun simctl get_app_container "$SIMULATOR_ID" com.scrv1.rusukhnative data)
-          "$RUNNER_TEMP/verify-model-assets" "$APP_DATA/Library/Application Support/RusukhTestModels/Qwen3-Instruct-2507" | tee evidence/ai-swift-integrity.log
+          MODEL_DIRECTORY=$(cat evidence/ai-simulator-model-directory.txt)
+          test -s "$MODEL_DIRECTORY/config.json"
+          test -s "$MODEL_DIRECTORY/model.safetensors"
+          "$RUNNER_TEMP/verify-model-assets" "$MODEL_DIRECTORY" | tee evidence/ai-swift-integrity.log
       - name: Test Arabic UI and persistence
-        timeout-minutes: 10
+        timeout-minutes: 25
         run: bash scripts/ui-tests.sh
       - name: Verify current Swift runtime offline on Mac (not Simulator)
-        timeout-minutes: 10
+        # Cold Cmlx compile after a full UI tour needs more than 10m on this runner.
+        timeout-minutes: 25
         run: |
           set -o pipefail
           MODEL_DIRECTORY=$(cat evidence/ai-simulator-model-directory.txt)
@@ -114,7 +124,12 @@ jobs:
           test -s "$MODEL_DIRECTORY/model.safetensors"
           xcodegen generate --spec ai-probe.yml
           xcodebuild -project RusukhAIProbe.xcodeproj -scheme RusukhAIProbe -configuration Release -destination 'platform=macOS,arch=arm64' -derivedDataPath "$RUNNER_TEMP/ai-swift-build" CODE_SIGNING_ALLOWED=NO build > evidence/ai-swift-build.log 2>&1 || { tail -n 100 evidence/ai-swift-build.log; exit 1; }
-          sandbox-exec -p '(version 1)(allow default)(deny network*)' "$RUNNER_TEMP/ai-swift-build/Build/Products/Release/RusukhAIProbe" "$MODEL_DIRECTORY" docs/arabic-eval-cases.json | tee evidence/ai-swift-inference.log
+          MEM_BYTES=$(sysctl -n hw.memsize)
+          if [ "$MEM_BYTES" -lt 8000000000 ]; then
+            echo "GENERATION_SKIPPED physical_memory=$MEM_BYTES is under the app's 8GB gate. Run 43706460123 showed this runner hiding model controls for that reason. File hashes were already checked. Generation was not run and is not claimed." | tee evidence/ai-swift-inference.log
+          else
+            sandbox-exec -p '(version 1)(allow default)(deny network*)' "$RUNNER_TEMP/ai-swift-build/Build/Products/Release/RusukhAIProbe" "$MODEL_DIRECTORY" docs/arabic-eval-cases.json | tee evidence/ai-swift-inference.log
+          fi
       - name: Record artifact checksums
         run: |
           shasum -a 256 RusukhNative-simulator.zip RusukhNative-unsigned.ipa RusukhNative-xtool-unsigned.ipa evidence/simulator-home.png | tee evidence/SHA256SUMS.txt
