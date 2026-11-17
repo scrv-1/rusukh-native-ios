@@ -14,6 +14,7 @@ struct NotesView: View {
     @State private var search = ""
     @State private var choosingPDF = false
     @State private var importingPDF = false
+    @State private var pendingDelete: StudyNote?
 
     private var results: [StudyNote] {
         let query = search.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -40,8 +41,11 @@ struct NotesView: View {
                             Image(systemName: "chevron.left").font(.caption).foregroundStyle(.tertiary)
                         }
                     }
-                    .swipeActions {
-                        Button("حذف", role: .destructive) { library.delete(note) }
+                    // Deleting removes the note's cards and review history too, so ask first.
+                    // No destructive role: SwiftUI would animate the row away before confirmation.
+                    .swipeActions(allowsFullSwipe: false) {
+                        Button("حذف") { pendingDelete = note }.tint(.red)
+                            .accessibilityIdentifier("notes.delete")
                     }
                 }
             }
@@ -61,6 +65,18 @@ struct NotesView: View {
                     .accessibilityLabel("ملاحظة جديدة").accessibilityIdentifier("notes.add")
             }
             .sheet(item: $editing) { route in NoteEditorView(note: route.note) }
+            .confirmationDialog("حذف الملاحظة؟", isPresented: Binding(
+                get: { pendingDelete != nil },
+                set: { if !$0 { pendingDelete = nil } }
+            ), titleVisibility: .visible, presenting: pendingDelete) { note in
+                Button("حذف الملاحظة وبطاقاتها", role: .destructive) {
+                    library.delete(note)
+                    pendingDelete = nil
+                }
+                .accessibilityIdentifier("notes.delete.confirm")
+            } message: { note in
+                Text("ستُحذف «\(note.title)» مع بطاقاتها وسجل مراجعاتها، ولا يمكن التراجع.")
+            }
             .fileImporter(isPresented: $choosingPDF, allowedContentTypes: [.pdf]) { result in
                 switch result {
                 case .success(let url): importPDF(url)

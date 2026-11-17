@@ -69,6 +69,29 @@ final class RusukhUITests: XCTestCase {
         capture("08-simulator-camera-unavailable")
     }
     @MainActor
+    func testDeletingNoteAsksForConfirmation() throws {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchArguments = ["-ui-testing", "-reset-test-data", "-AppleLanguages", "(ar)", "-AppleLocale", "ar_SA"]
+        app.launch()
+        XCTAssertTrue(app.buttons["ملاحظاتي"].waitForExistence(timeout: 10))
+        app.buttons["ملاحظاتي"].tap()
+        addNote(app, title: "للحذف", body: "س: سؤال؟\nج: جواب")
+        let row = app.staticTexts["للحذف"]
+        XCTAssertTrue(row.waitForExistence(timeout: 5))
+        // The trailing edge is on the left in right-to-left layouts; try both directions.
+        row.swipeLeft()
+        if !app.buttons["notes.delete"].waitForExistence(timeout: 2) { row.swipeRight() }
+        XCTAssertTrue(app.buttons["notes.delete"].waitForExistence(timeout: 5))
+        app.buttons["notes.delete"].tap()
+        let confirm = app.buttons["notes.delete.confirm"]
+        XCTAssertTrue(confirm.waitForExistence(timeout: 5))
+        XCTAssertTrue(row.exists, "The note must survive until deletion is confirmed")
+        capture("09-delete-confirmation")
+        confirm.tap()
+        XCTAssertTrue(row.waitForNonExistence(timeout: 5))
+    }
+    @MainActor
     func testSimulatorAudioAttachmentSurvivesRelaunch() throws {
         let app = XCUIApplication()
         app.launchArguments = ["-ui-testing", "-reset-test-data", "-AppleLanguages", "(ar)", "-AppleLocale", "ar_SA"]
