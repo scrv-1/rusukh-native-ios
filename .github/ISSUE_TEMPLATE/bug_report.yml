@@ -1,0 +1,42 @@
+name: Bug report · بلاغ خطأ
+description: Something in Rusukh does not work as expected.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please do not paste personal notes, backups, Apple IDs or tokens. For security issues, follow SECURITY.md instead.
+        لا تلصق ملاحظاتك الشخصية أو نسخك الاحتياطية أو أي بيانات دخول.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened? · ماذا حدث؟
+      description: Steps to reproduce, what you expected and what you saw.
+    validations:
+      required: true
+  - type: dropdown
+    id: where
+    attributes:
+      label: Where did you run it? · أين جرّبت؟
+      options:
+        - iPhone (SideStore / iloader / other sideload)
+        - iPhone (Xcode)
+        - iOS Simulator
+        - CI only
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Commit or build · رقم الالتزام أو البناء
+      description: Commit SHA, Actions run link, or IPA release tag.
+  - type: input
+    id: device
+    attributes:
+      label: Device and iOS version · الجهاز وإصدار iOS
+      placeholder: e.g. iPhone 16 Pro, iOS 26.1
+  - type: textarea
+    id: logs
+    attributes:
+      label: Screenshots or logs · صور أو سجلات
+      description: Remove any personal content first.
