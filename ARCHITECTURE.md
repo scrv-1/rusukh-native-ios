@@ -34,7 +34,7 @@ Trade-off: rewriting one JSON file keeps backup, restore and migration simple an
 
 ## Notes, search and graph
 
-- Search (`StudyEngine.matches`) strips Arabic diacritics and tatweel, folds case, and requires every query term to appear.
+- Search (`StudyEngine.matches`) strips Arabic diacritics and tatweel, folds case and common letter variants (أ إ آ ٱ → ا, ى → ي, ة → ه), and requires every query term to appear. Title matching for links does not fold letters.
 - `[[Title]]` and `[[Title|alias]]` links resolve by normalized title. Ambiguous titles do not link (`graphEdges`).
 - `GraphView` lays the nodes out on a circle and draws the edges with `Canvas`.
 - Cards can be extracted from explicit `س:`/`ج:` (or `Q:`/`A:`) lines (`questionAnswers`). This is not AI generation.

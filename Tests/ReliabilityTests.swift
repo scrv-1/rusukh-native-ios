@@ -23,6 +23,16 @@ final class ReliabilityTests: XCTestCase {
         XCTAssertTrue(StudyEngine.matches(note, query: " رسوخ  تعلم "))
         XCTAssertFalse(StudyEngine.matches(note, query: "غير موجود"))
     }
+    func testArabicSearchFoldsCommonLetterVariants() {
+        // Users often type a bare alef, final yeh or heh instead of the exact form.
+        let note = StudyNote(title: "أحمد وإسلام وآمال", body: "المستشفى في المدرسة")
+        XCTAssertTrue(StudyEngine.matches(note, query: "احمد اسلام امال"))
+        XCTAssertTrue(StudyEngine.matches(note, query: "المستشفي"))
+        XCTAssertTrue(StudyEngine.matches(note, query: "المدرسه"))
+        XCTAssertTrue(StudyEngine.matches(StudyNote(title: "احمد", body: ""), query: "أحمد"))
+        XCTAssertTrue(StudyEngine.matches(StudyNote(title: "\u{0627}\u{0654}حمد", body: ""), query: "أحمد"))
+        XCTAssertFalse(StudyEngine.matches(note, query: "محمود"))
+    }
     func testOversizedSavePreservesReadableData() throws {
         let folder = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         defer { try? FileManager.default.removeItem(at: folder) }
