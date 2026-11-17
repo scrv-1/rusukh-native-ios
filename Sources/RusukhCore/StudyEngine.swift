@@ -3,8 +3,8 @@ import Foundation
 public enum StudyEngine {
     public static func matches(_ note: StudyNote, query: String) -> Bool {
         func searchText(_ text: String) -> String {
-            let withoutMarks = String(String.UnicodeScalarView(text.unicodeScalars.filter {
-                $0.properties.generalCategory != .nonspacingMark
+            let withoutMarks = String(String.UnicodeScalarView(text.unicodeScalars.compactMap {
+                $0.properties.generalCategory == .nonspacingMark ? nil : searchFolded($0)
             }))
             return normalized(withoutMarks.folding(options: [.diacriticInsensitive, .caseInsensitive], locale: Locale(identifier: "ar"))
                 .replacingOccurrences(of: "ـ", with: ""))
@@ -12,6 +12,18 @@ public enum StudyEngine {
         let terms = searchText(query).split(separator: " ")
         let text = searchText(note.title + "\n" + note.body)
         return terms.allSatisfy { text.contains($0) }
+    }
+
+    /// Light Arabic letter folding for search only (not for link titles):
+    /// alef forms -> bare alef, alef maksura -> yeh, teh marbuta -> heh.
+    /// Users commonly type these interchangeably; stored text is unchanged.
+    static func searchFolded(_ scalar: Unicode.Scalar) -> Unicode.Scalar {
+        switch scalar.value {
+        case 0x0622, 0x0623, 0x0625, 0x0671: return "\u{0627}"
+        case 0x0649: return "\u{064A}"
+        case 0x0629: return "\u{0647}"
+        default: return scalar
+        }
     }
 
     public static func normalized(_ title: String) -> String {

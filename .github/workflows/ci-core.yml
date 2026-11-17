@@ -1,0 +1,41 @@
+# Linux CI for the portable RusukhCore library (Sources/RusukhCore + Tests).
+# Cheap, fast and runs on every push/PR to main. The iOS app build, UI tests and
+# simulator preview stay in ios-unsigned.yml (manual, macOS runner).
+# No secrets, no deployment, read-only token.
+name: Core tests (Linux)
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: core-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  swift-core:
+    name: swift build + swift test (Linux)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    container:
+      # swift:6.4.2-noble, pinned by digest (Docker Hub, 2026-11-12)
+      image: swift:6.4.2-noble@sha256:23d9b28ad97fb1cf1999edc3a0cb265ee915ed42299a9344e7173d5a6d2b05f4
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Toolchain
+        run: swift --version
+      - name: Resolve pinned dependencies
+        run: swift package resolve
+      - name: Build (including tests)
+        run: swift build --build-tests
+      - name: Test
+        run: swift test --skip-build
