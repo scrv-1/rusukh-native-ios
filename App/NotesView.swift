@@ -24,30 +24,53 @@ struct NotesView: View {
 
     var body: some View {
         NavigationStack {
-            List {
-                ForEach(results) { note in
-                    Button { editing = EditingNote(note: note) } label: {
-                        HStack(spacing: 12) {
-                            if let bytes = note.imageJPEG, let image = UIImage(data: bytes) {
-                                Image(uiImage: image).resizable().scaledToFill()
-                                    .frame(width: 48, height: 48).clipShape(RoundedRectangle(cornerRadius: 9))
+            ZStack {
+                List {
+                    ForEach(results) { note in
+                        Button { editing = EditingNote(note: note) } label: {
+                            HStack(spacing: 12) {
+                                if let bytes = note.imageJPEG, let image = UIImage(data: bytes) {
+                                    Image(uiImage: image).resizable().scaledToFill()
+                                        .frame(width: 48, height: 48).clipShape(RoundedRectangle(cornerRadius: 9))
+                                }
+                                VStack(alignment: .leading, spacing: 5) {
+                                    Text(note.title).foregroundStyle(.primary).font(.headline)
+                                    Text(note.body).font(.caption).foregroundStyle(.secondary).lineLimit(2)
+                                }
+                                Spacer(minLength: 4)
+                                Image(systemName: "chevron.left").font(.caption).foregroundStyle(.tertiary)
                             }
-                            VStack(alignment: .leading, spacing: 5) {
-                                Text(note.title).foregroundStyle(.primary).font(.headline)
-                                Text(note.body).font(.caption).foregroundStyle(.secondary).lineLimit(2)
-                            }
-                            Spacer(minLength: 4)
-                            Image(systemName: "chevron.left").font(.caption).foregroundStyle(.tertiary)
+                        }
+                        .swipeActions {
+                            Button("حذف", role: .destructive) { library.delete(note) }
                         }
                     }
-                    .swipeActions {
-                        Button("حذف", role: .destructive) { library.delete(note) }
+                }
+                .overlay {
+                    if results.isEmpty {
+                        ContentUnavailableView(search.isEmpty ? "لا توجد ملاحظات" : "لا توجد نتائج", systemImage: "note.text")
                     }
                 }
-            }
-            .overlay {
-                if results.isEmpty {
-                    ContentUnavailableView(search.isEmpty ? "لا توجد ملاحظات" : "لا توجد نتائج", systemImage: "note.text")
+
+                // Floating action button for faster note creation
+                VStack {
+                    Spacer()
+                    HStack {
+                        Spacer()
+                        Button {
+                            editing = EditingNote(note: nil)
+                        } label: {
+                            Image(systemName: "plus")
+                                .font(.title2.bold())
+                                .foregroundStyle(.white)
+                                .frame(width: 56, height: 56)
+                                .background(Color.black, in: Circle())
+                                .shadow(radius: 4)
+                        }
+                        .padding(.trailing, 20)
+                        .padding(.bottom, 20)
+                        .accessibilityLabel("ملاحظة جديدة")
+                    }
                 }
             }
             .searchable(text: $search, prompt: "ابحث في ملاحظاتك")
