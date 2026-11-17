@@ -24,10 +24,10 @@ struct ReviewView: View {
                                 Text("الإجابة").font(.caption).foregroundStyle(.secondary)
                                 Text(card.answer).font(.title3)
                                 LazyVGrid(columns: [.init(.flexible()), .init(.flexible())], spacing: 10) {
-                                    grade("مجدّدًا", grade: .again)
-                                    grade("صعب", grade: .hard)
-                                    grade("جيد", grade: .good)
-                                    grade("سهل", grade: .easy)
+                                    grade("مجدّدًا", grade: .again, card: card)
+                                    grade("صعب", grade: .hard, card: card)
+                                    grade("جيد", grade: .good, card: card)
+                                    grade("سهل", grade: .easy, card: card)
                                 }
                             } else {
                                 Button("إظهار الإجابة") { showAnswer = true }
@@ -55,9 +55,10 @@ struct ReviewView: View {
         }
     }
 
-    private func grade(_ title: String, grade: ReviewGrade) -> some View {
+    // Grade the card that is on screen, not whatever is first in the due list at tap time.
+    private func grade(_ title: String, grade: ReviewGrade, card: StudyCard) -> some View {
         Button(title) {
-            if let card = library.due.first { library.review(card: card, grade: grade) }
+            library.review(card: card, grade: grade)
             showAnswer = false
         }
         .buttonStyle(.bordered)
