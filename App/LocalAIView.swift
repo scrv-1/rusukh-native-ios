@@ -29,7 +29,9 @@ struct LocalAIView: View {
                             Text("English").tag("en-US")
                         }
                         .pickerStyle(.segmented)
-                        Text("قد لا تدعم Apple العربية في نموذج Foundation Models. يختبر رُسوخ ذلك على الجهاز نفسه بدل الادعاء بوجود دعم.")
+                        Text("مقطع English يغيّر لغة هذا المحرك فقط، ولا يغيّر لغة الآيفون. إذا كانت لغة الجهاز غير مدعومة يبقى الزر معطّلًا.")
+                            .font(.caption).foregroundStyle(.secondary)
+                        Text("إذا لم يدعم نموذج Apple اللغة المختارة، لا يُحمَّل Qwen تلقائيًا. افتح القسم التجريبي أسفل الحقل. المحاكي لا يشغّل MLX.")
                             .font(.caption).foregroundStyle(.secondary)
                     }
                     .padding(16)
@@ -44,6 +46,7 @@ struct LocalAIView: View {
                     }
                     TextField("اكتب سؤالك هنا...", text: $prompt, axis: .vertical)
                         .accessibilityIdentifier("ai.prompt")
+                        .multilineTextAlignment(.leading)
                         .lineLimit(3...6)
                         .textFieldStyle(.roundedBorder)
                     ArabicModelView(prompt: prompt, context: selectedNote?.body, gate: inferenceGate)
@@ -58,7 +61,7 @@ struct LocalAIView: View {
                         .frame(maxWidth: .infinity)
                     }
                     .buttonStyle(.borderedProminent).tint(.primary)
-                    .disabled(busy || inferenceGate.busy || prompt.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                    .disabled(busy || inferenceGate.busy || !engine.canGenerate(for: selectedLocale) || prompt.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                     if let errorText {
                         Text(errorText).foregroundStyle(.red).font(.footnote)
                     }

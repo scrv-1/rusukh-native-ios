@@ -5,7 +5,7 @@
 | المتطلب | الدليل الموجود | البيئة | الفجوة الباقية |
 |---|---|---|---|
 | حفظ الملاحظات وإعادة فتحها | `testAtomicSaveAndLoad` و`testArabicStudyJourneyAndPersistence` | XCTest Mac وXCUITest Simulator | قتل العملية أثناء الكتابة، امتلاء قرص الهاتف، ملفات أكبر واقعية |
-| روابط وشبكة | wikilinks/aliases/self/ambiguous tests؛ رحلة UI تعرض العلاقات | Mac/Simulator | آلاف العقد ولمس/تكبير وVoiceOver على الهاتف |
+| روابط وشبكة | wikilinks/aliases/self؛ العنوان المكرر يربط كل المطابقات؛ رحلة UI تعرض العلاقات | Mac/Simulator | آلاف العقد ولمس/تكبير وVoiceOver على الهاتف |
 | بحث عربي | تشكيل/تطويل ونص ألف ملاحظة؛ بحث فعلي في UI | Mac/Simulator | جودة لغوية أوسع، زمن Release على الهاتف |
 | بطاقات واختبارات ومراجعة متباعدة | due/again/good/easy/ease/quiz tests؛ رحلة UI | Mac/Simulator | FSRS-6 للبطاقات الجديدة: مرجع 13 مراجعة ورفض الحالات الناقصة/متعارضة العدادات وتراجع الساعة. اختبار ضغط Linux مستقل: 1000 بطاقة و32000 مراجعة و32 دورة نسخ؛ لم يُرحّل جدول البطاقات القديمة |
 | سلامة البيانات وترحيل Expo | roundtrip/atomic/corrupt/oversized/legacy/dangling-reference tests | XCTest Mac | منتقي Files وShare Sheet على الهاتف، توافق نسخ مستخدم فعلية دون تعريضها |

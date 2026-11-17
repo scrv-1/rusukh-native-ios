@@ -79,6 +79,13 @@ final class LibraryStore: ObservableObject {
         _ = commit(draft)
     }
 
+    func deleteCard(_ card: StudyCard) {
+        var draft = snapshot
+        draft.cards.removeAll { $0.id == card.id }
+        draft.reviews.removeAll { $0.cardID == card.id }
+        _ = commit(draft)
+    }
+
     func addCard(noteID: UUID, question: String, answer: String) -> Bool {
         let q = question.trimmingCharacters(in: .whitespacesAndNewlines)
         let a = answer.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -94,12 +101,17 @@ final class LibraryStore: ObservableObject {
         var draft = snapshot
         var added = 0
         for pair in pairs {
-            if !draft.cards.contains(where: { $0.noteID == noteID && $0.question == pair.question && $0.answer == pair.answer }) {
+            if let index = draft.cards.firstIndex(where: { $0.noteID == noteID && $0.question == pair.question }) {
+                if draft.cards[index].answer != pair.answer {
+                    draft.cards[index].answer = pair.answer
+                    draft.cards[index].updatedAt = Date()
+                }
+            } else {
                 draft.cards.append(ReviewScheduler.newCard(noteID: noteID, question: pair.question, answer: pair.answer))
                 added += 1
             }
         }
-        if added > 0 && !commit(draft) { return 0 }
+        if (added > 0 || draft != snapshot) && !commit(draft) { return 0 }
         return added
     }
 
@@ -120,7 +132,11 @@ final class LibraryStore: ObservableObject {
         do {
             let data = try StudyRepository.encode(snapshot)
             let location = FileManager.default.temporaryDirectory.appendingPathComponent("rusukh-native-backup-\(UUID().uuidString).json")
+            #if os(iOS)
+            try data.write(to: location, options: [.atomic, .completeFileProtectionUntilFirstUserAuthentication])
+            #else
             try data.write(to: location, options: .atomic)
+            #endif
             return location
         } catch {
             message = "تعذّر التصدير: \(error.localizedDescription)"
@@ -134,9 +150,18 @@ final class LibraryStore: ObservableObject {
         defer { if access { url.stopAccessingSecurityScopedResource() } }
         do {
             let imported = try StudyRepository.read(from: url)
-            _ = commit(imported)
+            if commit(imported) {
+                message = "تم استبدال البيانات بالنسخة المستوردة."
+            }
         } catch {
             message = "لم يتم تغيير بياناتك؛ فشل الاستيراد: \(error.localizedDescription)"
         }
+    }
+
+    func eraseAll() -> Bool {
+        guard !storageLocked else { message = "البيانات مقفلة؛ لا يمكن مسحها قبل معالجة خطأ القراءة."; return false }
+        guard commit(StudySnapshot()) else { return false }
+        message = "مُسحت الملاحظات والبطاقات من هذا الجهاز."
+        return true
     }
 }

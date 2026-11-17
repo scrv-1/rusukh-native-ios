@@ -3,6 +3,9 @@
 *.xcodeproj/
 DerivedData/
 *.ipa
+xcuserdata/
+*.xcuserstate
+*.moved-aside
 Package.resolved
 xtool/
 evidence/

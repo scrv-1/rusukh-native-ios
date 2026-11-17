@@ -8,6 +8,9 @@ final class RusukhUITests: XCTestCase {
         app.launchArguments = ["-ui-testing", "-reset-test-data", "-AppleLanguages", "(ar)", "-AppleLocale", "ar_SA"]
         app.launch()
         XCTAssertTrue(app.buttons["ملاحظاتي"].waitForExistence(timeout: 10))
+        let direction = app.staticTexts["app.direction"]
+        XCTAssertTrue(direction.waitForExistence(timeout: 5))
+        XCTAssertTrue(direction.label.contains("ملاحظاتك"))
         capture("01-home")
         app.buttons["ملاحظاتي"].tap()
         addNote(app, title: "رُسُوخ", body: "[[التعلم]]\nس: ما الرسوخ؟\nج: ثبات المعرفة")
@@ -131,6 +134,7 @@ final class RusukhUITests: XCTestCase {
         XCTAssertFalse(app.buttons["إيقاف التشغيل"].exists)
         // Closing an editor must release the singleton session for the next one.
         app.buttons["إلغاء"].tap()
+        app.buttons["تجاهل"].tap()
         XCTAssertTrue(app.buttons["notes.add"].waitForExistence(timeout: 5))
         app.buttons["notes.add"].tap()
         reveal(app.buttons["voice.record"], in: app)
@@ -227,6 +231,7 @@ final class RusukhUITests: XCTestCase {
         add(attachment)
     }
     private func digits(_ text: String) -> String {
-        String(text.map { char in char.wholeNumberValue.map { Character(String($0)) } ?? char })
+        let visible = String(text.unicodeScalars.filter { !$0.properties.isDefaultIgnorableCodePoint })
+        return String(visible.map { char in char.wholeNumberValue.map { Character(String($0)) } ?? char })
     }
 }

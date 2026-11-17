@@ -45,7 +45,8 @@ actor ArabicModelRuntime {
         try Task.checkCancellation()
         let start = Date()
         memoryInitialized = true
-        MLX.Memory.cacheLimit = 64 * 1_024 * 1_024
+        // mlx-swift "Running on iOS": 20MB buffer cache. Model weights are separate.
+        MLX.Memory.cacheLimit = 20 * 1024 * 1024
         if loadedDirectory != directory.standardizedFileURL { container = nil }
         if container == nil {
             container = try await LLMModelFactory.shared.loadContainer(

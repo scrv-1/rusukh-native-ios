@@ -14,6 +14,7 @@ struct NotesView: View {
     @State private var search = ""
     @State private var choosingPDF = false
     @State private var importingPDF = false
+    @State private var pendingDelete: StudyNote?
 
     private var results: [StudyNote] {
         let query = search.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -31,17 +32,18 @@ struct NotesView: View {
                             if let bytes = note.imageJPEG, let image = UIImage(data: bytes) {
                                 Image(uiImage: image).resizable().scaledToFill()
                                     .frame(width: 48, height: 48).clipShape(RoundedRectangle(cornerRadius: 9))
+                                    .accessibilityHidden(true)
                             }
                             VStack(alignment: .leading, spacing: 5) {
                                 Text(note.title).foregroundStyle(.primary).font(.headline)
-                                Text(note.body).font(.caption).foregroundStyle(.secondary).lineLimit(2)
+                                Text(note.body.isEmpty ? "ملاحظة فارغة" : note.body).font(.caption).foregroundStyle(.secondary).lineLimit(2)
                             }
                             Spacer(minLength: 4)
-                            Image(systemName: "chevron.left").font(.caption).foregroundStyle(.tertiary)
+                            Image(systemName: "chevron.forward").font(.caption).foregroundStyle(.tertiary)
                         }
                     }
                     .swipeActions {
-                        Button("حذف", role: .destructive) { library.delete(note) }
+                        Button("حذف", role: .destructive) { pendingDelete = note }
                     }
                 }
             }
@@ -61,6 +63,15 @@ struct NotesView: View {
                     .accessibilityLabel("ملاحظة جديدة").accessibilityIdentifier("notes.add")
             }
             .sheet(item: $editing) { route in NoteEditorView(note: route.note) }
+            .confirmationDialog("حذف هذه الملاحظة وبطاقاتها؟", isPresented: Binding(
+                get: { pendingDelete != nil },
+                set: { if !$0 { pendingDelete = nil } }
+            ), titleVisibility: .visible) {
+                Button("حذف الملاحظة", role: .destructive) {
+                    if let pendingDelete { library.delete(pendingDelete) }
+                    self.pendingDelete = nil
+                }
+            }
             .fileImporter(isPresented: $choosingPDF, allowedContentTypes: [.pdf]) { result in
                 switch result {
                 case .success(let url): importPDF(url)
@@ -84,6 +95,9 @@ struct NotesView: View {
                 let text = try await Task.detached(priority: .userInitiated) { try PDFTextImport.read(from: url) }.value
                 if let note = library.saveNote(title: name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? "ملف PDF" : name, body: text, imageJPEG: nil) {
                     _ = library.importQACards(for: note.id)
+                    if StudyEngine.questionAnswers(from: text).isEmpty, StudyEngine.looksLikeCardPrompt(text) {
+                        library.message = "استُورد النص دون بطاقات. يلزم س: ثم السؤال، وبعده ج: ثم الإجابة."
+                    }
                 }
             } catch { library.message = error.localizedDescription }
         }
@@ -101,6 +115,9 @@ struct NoteEditorView: View {
     @State private var imageJPEG: Data?
     @State private var cameraOpen = false
     @State private var photoError = false
+    @State private var confirmDiscard = false
+    @State private var linkedNote: StudyNote?
+    @State private var linkChoices: [StudyNote] = []
 
     init(note: StudyNote?) {
         self.note = note
@@ -114,14 +131,31 @@ struct NoteEditorView: View {
         NavigationStack {
             Form {
                 Section("العنوان") {
-                    TextField("مثال: التعلّم النشط", text: $title).accessibilityIdentifier("note.title")
+                    TextField("مثال: التعلّم النشط", text: $title)
+                        .multilineTextAlignment(.leading)
+                        .accessibilityIdentifier("note.title")
+                    if title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                        Text("أدخل عنوانًا لتفعيل الحفظ.")
+                            .font(.caption).foregroundStyle(.secondary)
+                    } else if voice.busy {
+                        Text("انتظر انتهاء تجهيز الصوت ثم احفظ.")
+                            .font(.caption).foregroundStyle(.secondary)
+                    }
                 }
                 Section("المحتوى") {
-                    TextEditor(text: $noteBody).accessibilityLabel("محتوى الملاحظة").accessibilityIdentifier("note.body")
+                    TextEditor(text: $noteBody)
+                        .multilineTextAlignment(.leading)
+                        .accessibilityLabel("محتوى الملاحظة").accessibilityIdentifier("note.body")
                         .frame(minHeight: 220)
                         .autocorrectionDisabled(false)
                     Text("اربط ملاحظة: [[عنوان آخر]]  ·  بطاقة: س: السؤال ثم ج: الإجابة")
                         .font(.caption).foregroundStyle(.secondary)
+                    let links = StudyEngine.wikiLinks(in: noteBody)
+                    if !links.isEmpty {
+                        ForEach(links, id: \.self) { link in
+                            Button("فتح: \(link)") { openLink(link) }
+                        }
+                    }
                 }
                 Section("مرفق صوتي") {
                     Text("تسجيل محلي حتى 3 دقائق. يتوقف عند مغادرة التطبيق؛ اضغط حفظ للاحتفاظ به.")
@@ -141,6 +175,9 @@ struct NoteEditorView: View {
                     }
                     if voice.preparing { ProgressView("تهيئة الصوت") }
                     if let error = voice.error { Text(error).foregroundStyle(.secondary).accessibilityIdentifier("voice.error") }
+                    if voice.microphoneDenied {
+                        Button("فتح إعدادات الآيفون") { Self.openSystemSettings() }
+                    }
                 }
                 Section("الكاميرا الأصلية") {
                     if let bytes = imageJPEG, let image = UIImage(data: bytes) {
@@ -155,12 +192,20 @@ struct NoteEditorView: View {
             }
             .navigationTitle(note == nil ? "ملاحظة جديدة" : "تحرير الملاحظة")
             .toolbar {
-                ToolbarItem(placement: .cancellationAction) { Button("إلغاء") { dismiss() } }
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("إلغاء") {
+                        if isDirty { confirmDiscard = true } else { dismiss() }
+                    }
+                }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("حفظ") {
                         guard voice.finish() else { return }
                         if let saved = library.saveNote(id: note?.id, title: title, body: noteBody, imageJPEG: imageJPEG, audioM4A: voice.data) {
+                            let pairs = StudyEngine.questionAnswers(from: noteBody)
                             _ = library.importQACards(for: saved.id)
+                            if pairs.isEmpty, StudyEngine.looksLikeCardPrompt(noteBody) {
+                                library.message = "حُفظت الملاحظة دون بطاقات. اكتب س: ثم السؤال، وفي سطر لاحق ج: ثم الإجابة. الأسطر التي تليهما تُحسب مع البطاقة حتى سطر فارغ."
+                            }
                             dismiss()
                         }
                     }
@@ -176,6 +221,20 @@ struct NoteEditorView: View {
             .alert("الكاميرا غير متاحة", isPresented: $photoError) {
                 Button("حسنًا", role: .cancel) { }
             } message: { Text("استخدم آيفون حقيقيًا يدعم التصوير.") }
+            .confirmationDialog("تجاهل التغييرات غير المحفوظة؟", isPresented: $confirmDiscard, titleVisibility: .visible) {
+                Button("تجاهل", role: .destructive) { dismiss() }
+                Button("متابعة التحرير", role: .cancel) { }
+            }
+            .sheet(item: $linkedNote) { linked in NoteEditorView(note: linked) }
+            .sheet(isPresented: Binding(get: { !linkChoices.isEmpty }, set: { if !$0 { linkChoices = [] } })) {
+                NavigationStack {
+                    List(linkChoices) { match in
+                        Button(match.title) { linkedNote = match; linkChoices = [] }
+                    }
+                    .navigationTitle("اختر الملاحظة")
+                    .toolbar { ToolbarItem(placement: .cancellationAction) { Button("إغلاق") { linkChoices = [] } } }
+                }
+            }
             .onChange(of: scenePhase) { _, phase in
                 if phase == .background { voice.pauseForBackground() }
             }
@@ -183,6 +242,28 @@ struct NoteEditorView: View {
             .onAppear { voice.open() }
             .onDisappear { voice.close() }
         }
+    }
+
+    private var isDirty: Bool {
+        let originalTitle = note?.title ?? ""
+        let originalBody = note?.body ?? ""
+        return title != originalTitle || noteBody != originalBody || imageJPEG != note?.imageJPEG || voice.data != note?.audioM4A || voice.recording
+    }
+
+    private func openLink(_ title: String) {
+        let matches = StudyEngine.notes(matching: title, in: library.snapshot.notes, excluding: note?.id)
+        if matches.isEmpty {
+            library.message = "لا توجد ملاحظة بعنوان «\(title)»."
+        } else if matches.count == 1 {
+            linkedNote = matches[0]
+        } else {
+            linkChoices = matches
+        }
+    }
+
+    private static func openSystemSettings() {
+        guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+        UIApplication.shared.open(url)
     }
 }
 

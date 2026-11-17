@@ -80,6 +80,7 @@ targets:
         SUPPORTS_MACCATALYST: NO
         CODE_SIGN_STYLE: Manual
         CODE_SIGNING_ALLOWED: NO
+        CODE_SIGN_ENTITLEMENTS: App/RusukhNative.entitlements
         SWIFT_EMIT_LOC_STRINGS: YES
     info:
       path: App/Info.plist

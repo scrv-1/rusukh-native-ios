@@ -1,5 +1,7 @@
 import SwiftUI
 import UIKit
+import os
+import Network
 
 @MainActor
 final class LocalInferenceGate: ObservableObject {
@@ -46,6 +48,10 @@ final class ArabicModelController: ObservableObject {
 
     func generate(prompt: String, context: String?, gate: LocalInferenceGate) {
         guard !busy, ready, sufficientMemory, permitsWork else { return }
+        guard Self.loadHeadroomAllows() else {
+            status = "المتبقي لهذه العملية لا يتجاوز قمة الذاكرة المسجّلة على Mac. لن يُحمَّل النموذج. هذا ليس قياس آيفون."
+            return
+        }
         let input: String
         do { input = try LocalModelRequest.make(prompt: prompt, context: context) }
         catch { status = error.localizedDescription; return }
@@ -86,7 +92,7 @@ final class ArabicModelController: ObservableObject {
         else { Task { await runtime.unload() } }
     }
     private func setDownloadStatus(index: Int, count: Int) {
-        status = "تنزيل وفحص الملف \(index) من \(count). ملف الأوزان كبير وقد يستغرق وقتًا."
+        status = "تنزيل وفحص الملف \(BidirectionalText.count(index)) من \(BidirectionalText.count(count)). ملف الأوزان كبير وقد يستغرق وقتًا."
     }
     private var permitsWork: Bool {
         let thermal = ProcessInfo.processInfo.thermalState
@@ -96,6 +102,18 @@ final class ArabicModelController: ObservableObject {
         }
         return true
     }
+
+    /// Download stays allowed in Simulator so file checks can run. Loading does not.
+    private static func loadHeadroomAllows() -> Bool {
+        #if targetEnvironment(simulator)
+        return false
+        #else
+        return LocalModelBudget.mlxLoadAllowed(
+            availableBytes: UInt64(os_proc_available_memory()),
+            physicalBytes: ProcessInfo.processInfo.physicalMemory,
+            isSimulator: false)
+        #endif
+    }
 }
 #endif
 
@@ -103,6 +121,7 @@ struct ArabicModelView: View {
     let prompt: String
     let context: String?
     @ObservedObject var gate: LocalInferenceGate
+    @StateObject private var wifi = WiFiPathMonitor()
     @State private var isExpanded = false
     #if canImport(MLXLLM)
     @StateObject private var model = ArabicModelController()
@@ -139,22 +158,35 @@ struct ArabicModelView: View {
                     } else if model.ready {
                         #if !targetEnvironment(simulator)
                         Button("توليد إجابة عربية على الجهاز") { model.generate(prompt: prompt, context: context, gate: gate) }
+                            .buttonStyle(.borderedProminent)
+                            .frame(minHeight: 44)
                             .accessibilityIdentifier("arabic-model-generate")
                             .disabled(model.busy || gate.busy || prompt.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                         #endif
                         Text("ملفات النموذج جاهزة.").font(.caption).accessibilityIdentifier("arabic-model-ready")
                         Button("حذف أوزان النموذج", role: .destructive) { confirmDelete = true }
+                            .buttonStyle(.bordered)
+                            .frame(minHeight: 44)
                             .disabled(model.busy || gate.busy)
                     } else {
+                        Text(wifi.cellularOnly ? "التنزيل متوقف لأن الاتصال بيانات خلوية فقط." : "التنزيل عبر Wi-Fi فقط. البيانات الخلوية لا تُستخدم.")
+                            .font(.caption).foregroundStyle(.secondary)
                         Button("تنزيل النموذج — 2.28GB") { model.download(gate: gate) }
+                            .buttonStyle(.borderedProminent)
+                            .frame(minHeight: 44)
                             .accessibilityIdentifier("arabic-model-download")
-                            .disabled(model.busy || gate.busy)
+                            .disabled(model.busy || gate.busy || wifi.cellularOnly)
                         Button("حذف ملفات التنزيل الجزئي", role: .destructive) { confirmDelete = true }
+                            .buttonStyle(.bordered)
+                            .frame(minHeight: 44)
                             .disabled(model.busy || gate.busy)
                     }
                     if model.busy {
                         ProgressView()
-                        Button("إلغاء") { model.stop() }.accessibilityIdentifier("arabic-model-cancel")
+                        Button("إلغاء") { model.stop() }
+                            .buttonStyle(.bordered)
+                            .frame(minHeight: 44)
+                            .accessibilityIdentifier("arabic-model-cancel")
                     }
                     if !model.status.isEmpty { Text(model.status).font(.footnote).accessibilityIdentifier("arabic-model-status") }
                     if !model.answer.isEmpty {
@@ -182,4 +214,22 @@ struct ArabicModelView: View {
         }
         #endif
     }
+}
+
+@MainActor
+final class WiFiPathMonitor: ObservableObject {
+    /// True only when the path is up, cellular is in use, and neither Wi-Fi nor Ethernet is.
+    @Published private(set) var cellularOnly = false
+    private let monitor = NWPathMonitor()
+
+    init() {
+        monitor.pathUpdateHandler = { path in
+            let lan = path.usesInterfaceType(.wifi) || path.usesInterfaceType(.wiredEthernet)
+            let blocked = path.status == .satisfied && path.usesInterfaceType(.cellular) && !lan
+            Task { @MainActor [weak self] in self?.cellularOnly = blocked }
+        }
+        monitor.start(queue: DispatchQueue(label: "rusukh.wifi"))
+    }
+
+    deinit { monitor.cancel() }
 }
