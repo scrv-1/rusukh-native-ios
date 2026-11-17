@@ -5,6 +5,7 @@ All notable changes, reconstructed from the git history, pull requests and GitHu
 ## [Unreleased] — branch `oss/readiness-20261117`
 
 ### Added
+- `LICENSE`: MIT, Copyright (c) 2026 scrv-1 (owner decision, 2026-11-17).
 - English `README.md`; Arabic README moved to `README.ar.md`.
 - `CONTRIBUTING.md` (incl. AI-assisted contribution disclosure), `CODE_OF_CONDUCT.md` (Contributor Covenant 2.1), `SECURITY.md`, issue forms and PR template.
 - `ROADMAP.md`, `docs/ARCHITECTURE.md`, `THIRD_PARTY_NOTICES.md`, this changelog.
@@ -12,6 +13,9 @@ All notable changes, reconstructed from the git history, pull requests and GitHu
 - 27 edge-case tests for storage, backup import/export, legacy migration and the study engine (53 → 80 core tests on Linux).
 
 ### Fixed
+- Search folds Arabic alef variants (أ إ آ ٱ → ا), alef maksura (ى → ي) and teh marbuta (ة → ه), so `احمد` finds `أحمد` (ported from PR #24).
+- Deleting a note now asks for confirmation; full-swipe delete is disabled (ported from PR #24).
+- Review grade buttons grade the card shown on screen, not whatever is first in the due list at tap time (ported from PR #24).
 - `Package.resolved` was committed but also ignored by `.gitignore`; it is now tracked consistently.
 - README no longer claims the repository is private and no longer links to expired CI artifacts.
 

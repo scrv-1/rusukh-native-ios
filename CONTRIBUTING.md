@@ -2,7 +2,7 @@
 
 Thanks for your interest! Rusukh is a small, early-stage project with a single maintainer ([@scrv-1](https://github.com/scrv-1)), so please be patient with review times. Contributions in Arabic or English are welcome.
 
-> **License note:** the project does not have a `LICENSE` file yet (pending owner decision). Please wait for a license before submitting substantial code, so your contribution can be accepted under clear terms.
+> **License:** Rusukh is licensed under the [MIT License](LICENSE). By submitting a contribution you agree that it is licensed under the same terms (inbound = outbound).
 
 ## Ways to help
 
@@ -53,7 +53,7 @@ See [README.md](README.md) and [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for 
 
 ## AI-assisted contributions
 
-Transparency note: a significant part of this repository was produced with AI coding agents working under the maintainer's direction. In the git history, 34 commits (as of 2026-11-17) are authored by `Cursor Agent <cursoragent@cursor.com>`, and many others carry `Co-authored-by` trailers from agent sessions. The maintainer decides what is merged and is responsible for the result.
+Transparency note: the maintainer created this project essentially alone, using AI coding tools — AI coding agents produced a significant part of the code under the maintainer's direction and review, and the maintainer holds the copyright released under the MIT License. In the git history, 34 commits (as of 2026-11-17) are authored by `Cursor Agent <cursoragent@cursor.com>`, and many others carry `Co-authored-by` trailers from agent sessions. The maintainer decides what is merged and is responsible for the result.
 
 If you use AI tools:
 

@@ -1,8 +1,8 @@
 # Rusukh (رُسوخ) — Arabic-first, offline study app for iOS
 
-> **Project status: early / new.** Public since 2026-10-31, one maintainer, no tagged stable release yet (only unsigned pre-release IPAs). Not yet installed or verified on a physical iPhone.
+> **Project status: early / new.** Public since 2026-10-31, MIT-licensed since 2026-11-17, one maintainer, no tagged stable release yet (only unsigned pre-release IPAs). Not yet installed or verified on a physical iPhone.
 >
-> **License: TODO — pending owner decision.** This repository does **not** contain a `LICENSE` file yet. Until one is added, all rights are reserved by the owner and the code is *not* open source in the OSI sense. See [Licensing](#licensing).
+> **License:** [MIT](LICENSE). See [Licensing](#licensing).
 >
 > العربية: [README.ar.md](README.ar.md)
 
@@ -58,7 +58,7 @@ Requires Swift 6.2+ (tools-version 6.2). Verified on 2026-11-17 with Swift 6.4.2
 
 ```bash
 swift build --build-tests
-swift test            # 80 tests, 0 failures on Linux (PDFKit tests are skipped on Linux)
+swift test            # 81 tests, 0 failures on Linux (PDFKit tests are skipped on Linux)
 ```
 
 The same commands run in CI on every push and pull request to `main` ([`.github/workflows/ci-core.yml`](.github/workflows/ci-core.yml)).
@@ -95,7 +95,7 @@ Parts of this codebase were written with AI coding agents under the maintainer's
 
 ## Licensing
 
-**TODO (owner decision required):** choose and add a `LICENSE` file (for example MIT or Apache-2.0; both are compatible with the current dependencies). Until then the default is "all rights reserved".
+Rusukh is released under the [MIT License](LICENSE) (SPDX: `MIT`), Copyright (c) 2026 scrv-1.
 
 Third-party components keep their own licenses — see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). The swift-fsrs MIT license is bundled with the app at `App/Resources/FSRS-LICENSE.txt`.
 

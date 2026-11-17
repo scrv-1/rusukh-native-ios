@@ -4,7 +4,6 @@ Planned work, not promises. Items come from the open entries in [docs/IMPLEMENTA
 
 ## Project health (next)
 
-- Choose and add a `LICENSE` (owner decision).
 - Enable private vulnerability reporting, Dependabot alerts and secret scanning (repository settings).
 - Triage the open stacked pull requests (#5–#23): merge, rebase or close each with a written reason.
 - First tagged, non-pre-release version with release notes.

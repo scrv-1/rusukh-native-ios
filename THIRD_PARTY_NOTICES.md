@@ -1,6 +1,6 @@
 # Third-party notices
 
-Rusukh's own license is **not yet chosen** (see README). The components below are owned by their authors and remain under their own licenses. License identifiers were checked against each upstream repository via the GitHub API on 2026-11-17.
+Rusukh itself is licensed under the [MIT License](LICENSE). The components below are owned by their authors and remain under their own licenses. License identifiers were checked against each upstream repository via the GitHub API on 2026-11-17.
 
 ## Bundled in the app on `main`
 
