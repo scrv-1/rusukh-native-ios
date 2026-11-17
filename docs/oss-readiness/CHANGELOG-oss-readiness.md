@@ -1,6 +1,6 @@
 # OSS-readiness change log (branch `oss/readiness-20261117`)
 
-Started 2026-11-17 19:35 (UTC+3) from `main` @ `96df46c`. Author identity for all commits: `scrv-1 <scrv-1@users.noreply.github.com>`.
+Started 2026-11-17 19:35 (UTC+3) from `main` @ `96df46c`. Author identity for commits made from the box: `scrv-1 <scrv-1@users.noreply.github.com>`. Exception: `c653aff` (the workflow file) was created through the GitHub connector because the CLI token lacks the `workflow` scope; GitHub recorded it with the account's primary email.
 Rules followed: no destructive git, no force push, no merge to `main`, no release, no settings/visibility/license change, no PR/issue closed. A full backup of all refs was taken before starting (git bundle, kept outside the repository).
 
 Overlap check: `engineering/audit-phase1` (last commit 2026-11-17 11:56 UTC+3) and `feature/mcp-tools-v1` (14:58 UTC+3) had not moved since. They touch `engineering/*`, `App/HomeView.swift`, `App/NotesView.swift`, `Sources/RusukhCore/MCPTools.swift`, `Tests/MCPToolsTests.swift`. This branch touches none of those files. The only conceptual overlap is architecture docs: this branch adds `docs/ARCHITECTURE.md` (current state), theirs `engineering/ARCHITECTURE.md` (proposal); the new file links to theirs.
@@ -17,13 +17,13 @@ Overlap check: `engineering/audit-phase1` (last commit 2026-11-17 11:56 UTC+3) a
 
 | # | Problem | Evidence | Fix | Test run | Result | Commit | Phase |
 |---|---|---|---|---|---|---|---|
-| 1 | `Package.resolved` tracked but ignored | `.gitignore` line 6; file committed; docs/FSRS_INTEGRATION.md says the pin lives in Package.resolved | Removed the ignore rule (apps should commit resolved deps) | `swift test` | 53/53 | `0845b7d` | 5.1/5.6 |
-| 2 | No tests for corrupted store, invalid-save overwrite, legacy-migration rejects, search/link/quiz edges | Test inventory of `Tests/` | 27 new XCTest cases in `Tests/StorageAndMigrationEdgeCaseTests.swift`, `Tests/StudyEngineEdgeCaseTests.swift`; no production code changed | `swift test` | 80/80 | `5804490` | 5.4 |
-| 3 | No CI on push/PR to `main` | `ios-unsigned.yml` is `workflow_dispatch` only | `ci-core.yml` (contents: read, SHA-pinned checkout, digest-pinned swift image, no secrets) + `dependabot.yml` (actions, swift) | actionlint; same commands locally | lint clean; 80/80 | `6f55c69` | 5.5 |
-| 4 | Arabic-only README, wrong "private repo" claim, 5 dead artifact links, no license statement | API: repo public since 2026-10-31; run 41301469379 artifacts `total_count: 0` | English `README.md`; `README.ar.md` keeps the Arabic text minus those errors; license TODO | link/claim review | — | `f7061bf` | 5.2 |
-| 5 | Community profile 28%: no CONTRIBUTING/CoC/SECURITY/templates | `GET /community/profile` | Added files; AI-assistance disclosure; PVR TODO (PVR currently disabled per API) | YAML parse of issue forms | ok | `9ab3b1c` | 5.6 |
-| 6 | No architecture overview, roadmap, changelog or third-party notices | repo tree | Added `docs/ARCHITECTURE.md`, `ROADMAP.md`, `CHANGELOG.md`, `THIRD_PARTY_NOTICES.md` | SPDX via GitHub/HF API | — | `ed77aa1` | 5.1/5.6 |
-| 7 | This log | — | — | — | — | (this commit) | 10 |
+| 1 | `Package.resolved` tracked but ignored | `.gitignore` line 6; file committed; docs/FSRS_INTEGRATION.md says the pin lives in Package.resolved | Removed the ignore rule (apps should commit resolved deps) | `swift test` | 53/53 | `5d3d1d4` | 5.1/5.6 |
+| 2 | No tests for corrupted store, invalid-save overwrite, legacy-migration rejects, search/link/quiz edges | Test inventory of `Tests/` | 27 new XCTest cases in `Tests/StorageAndMigrationEdgeCaseTests.swift`, `Tests/StudyEngineEdgeCaseTests.swift`; no production code changed | `swift test` | 80/80 | `482fa9c` | 5.4 |
+| 3 | No CI on push/PR to `main` | `ios-unsigned.yml` is `workflow_dispatch` only | `ci-core.yml` (contents: read, SHA-pinned checkout, digest-pinned swift image, no secrets) + `dependabot.yml` (actions, swift) | actionlint; same commands locally | lint clean; 80/80 | `9e3e638` (dependabot) + `c653aff` (workflow) | 5.5 |
+| 4 | Arabic-only README, wrong "private repo" claim, 5 dead artifact links, no license statement | API: repo public since 2026-10-31; run 41301469379 artifacts `total_count: 0` | English `README.md`; `README.ar.md` keeps the Arabic text minus those errors; license TODO | link/claim review | — | `4b61b43` | 5.2 |
+| 5 | Community profile 28%: no CONTRIBUTING/CoC/SECURITY/templates | `GET /community/profile` | Added files; AI-assistance disclosure; PVR TODO (PVR currently disabled per API) | YAML parse of issue forms | ok | `a0403a6` | 5.6 |
+| 6 | No architecture overview, roadmap, changelog or third-party notices | repo tree | Added `docs/ARCHITECTURE.md`, `ROADMAP.md`, `CHANGELOG.md`, `THIRD_PARTY_NOTICES.md` | SPDX via GitHub/HF API | — | `b22193a` | 5.1/5.6 |
+| 7 | This log | — | — | — | — | `fc42d86` | 10 |
 
 Final local run after all changes (clean `.build`): `swift build --build-tests && swift test` → **80 tests, 0 failures**. gitleaks on the new commits: no leaks.
 
