@@ -1,45 +1,60 @@
-# رُسوخ — تطبيق iOS أصلي
+# رُسوخ (Rusukh)
 
-تطبيق Swift وSwiftUI عربي، يستمر في المستودع الخاص الموجود. **لم يُثبت على آيفون المستخدم؛ معيار النجاح النهائي غير مكتمل.** آخر كود تطبيق مختبر هو `07784236eb9d13fc77092fc8713f4ca31727f666` في [Run 18](https://github.com/scrv-1/rusukh-native-ios/actions/runs/41301469379)، ونجح خلال 20m02s: 57 اختبار محرك و11 تطبيق و5 واجهة، بناء Xcode وxtool وتشغيل المحاكي، وصفر تحذيرات runtime في xcresult. ولّد Swift/MLX ثماني إجابات على Mac مع حظر الشبكة؛ ما زالت جودة بعض الأجوبة تحتاج تحسينًا. [تقرير هذه الدفعة](docs/DELIVERY_AUDIO_FSRS_2026-11-01.md) و[التاريخ الكامل](docs/EXECUTION_2026-11-01.md).
+تطبيق iOS أصلي بـSwift وSwiftUI للتعلّم بالعربية: ملاحظات محلية، روابط بين الأفكار، وبطاقات مراجعة متباعدة بخوارزمية FSRS-6، دون خادم أو حساب.
 
-## الوظائف الحالية
+> **الحالة:** مشروع تجريبي يصونه شخص واحد ([@scrv-1](https://github.com/scrv-1)). لم يُثبت تشغيله على آيفون حقيقي بعد؛ كل الاختبارات الحالية على Mac وiOS Simulator في GitHub Actions. لا يوجد إصدار على App Store.
+>
+> **الترخيص:** لا يوجد ملف `LICENSE` بعد، لذلك لا يمنح المستودع حاليًا أي ترخيص استخدام أو تعديل. اختيار الترخيص قرار المالك ([التفاصيل](CONTRIBUTING.md#الترخيص)).
 
-- عربية وRTL، ملاحظات محلية، بحث يتجاهل التشكيل والتطويل، وروابط `[[عنوان الملاحظة]]` وشبكة تفاعلية.
-- بطاقات واختبارات ومراجعة FSRS-6 للبطاقات الجديدة؛ البطاقات السابقة تحتفظ بالمجدول والمواعيد القديمة. استيراد/تصدير v2 يحفظ حالة FSRS ويرفض الحالة الناقصة.
-- حفظ JSON ذري محدود الحجم، واستيراد وتصدير وترحيل نسخ Expo القديمة.
-- كاميرا أصلية، ومرفق صوت AAC حتى 180 ثانية و2MB، واستخراج PDF نصي حتى 20MB و100 صفحة؛ OCR غير مضاف.
-- تذكير محلي اختياري بإذن المستخدم؛ لا تشغيل مستمر في الخلفية.
-- Apple Foundation Models عند توفر الجهاز والنموذج واللغة؛ لا استدلال عربي ناجح مثبت له هنا. استخراج الكلمات بـNaturalLanguage غير توليدي.
-- Qwen3-4B-Instruct-2507-4bit اختياري عبر Swift/MLX في بناء Xcode، بتحميل ملفات مثبتة وSHA-256 وإلغاء وحذف. لا API سحابي أو مفتاح API.
+[English summary below](#english).
 
-## الذكاء المحلي وحدود التحقق
+## ماذا يفعل
 
-أوزان Qwen نحو 2.28GB، خارج IPA ونسخة الملاحظات الاحتياطية. التنزيل باختيار المستخدم عبر Wi-Fi، مع شرط مساحة 5GB وRAM لا تقل عن 8GB للتجربة؛ هذا ليس ضمان ملاءمة ذاكرة iOS. المحرك محدود الرموز ويوقف العمل عند الخلفية/التحذير الحراري/الذاكرة. راجع [المحرك العربي](docs/MLX_ARABIC_NEXT.md) ومصادر الترخيص والبصمات في [manifest](docs/qwen-model-manifest.json).
+| الوظيفة | الحالة | المصدر |
+|---|---|---|
+| ملاحظات عربية RTL مع بحث يتجاهل التشكيل والتطويل | يعمل في المحاكي | `Sources/RusukhCore/StudyEngine.swift` |
+| روابط `[[عنوان الملاحظة]]` وشبكة أفكار تفاعلية | يعمل في المحاكي | `StudyEngine.graphEdges`، `App/GraphView.swift` |
+| بطاقات من أسطر `س:` و`ج:` أو يدويًا، ومراجعة FSRS-6 | البطاقات الجديدة فقط؛ القديمة تبقى على المجدول السابق | `Sources/RusukhCore/ReviewScheduler.swift` |
+| اختبار اختيار من متعدد من البطاقات | يعمل في المحاكي | `StudyEngine.quiz` |
+| حفظ JSON ذري محلي، تصدير واستيراد، وترحيل نسخ Expo القديمة | مختبر بوحدات XCTest | `StudyRepository.swift`، `LegacyExpoMigration.swift` |
+| صورة من الكاميرا، تسجيل صوتي حتى 180 ثانية، استخراج نص PDF | الكاميرا والميكروفون لم يُختبرا على هاتف | `App/NotesView.swift`، `App/VoiceAttachment.swift`، `PDFTextImport.swift` |
+| تذكير مراجعة يومي محلي | الإشعار الفعلي لم يُختبر على هاتف | `App/ReviewReminderView.swift` |
+| ذكاء محلي اختياري: Apple Foundation Models، وQwen3-4B عبر MLX | الاستدلال مثبت على Mac فقط؛ MLX لا يعمل في المحاكي | `App/ArabicModel*.swift`، [docs/MLX_ARABIC_NEXT.md](docs/MLX_ARABIC_NEXT.md) |
 
-**MLX لا يدعم استدلال iOS Simulator.** هناك تختبر الواجهة والتنزيل والتحقق وحالة عدم الدعم فقط. الاستدلال الحقيقي يُختبر منفصلًا على Mac مع حظر الشبكة، ولا يثبت تشغيله على الآيفون أو Neural Engine أو استهلاك بطارية الهاتف. الأجوبة التجريبية تحتاج مراجعة بشرية ولا تنشئ بطاقات تلقائيًا.
+ما **لا** يفعله: لا مزامنة سحابية، لا حسابات، لا تحليلات أو تتبّع (`App/PrivacyInfo.xcprivacy`)، ولا OCR للصفحات المصوّرة.
 
-[مصفوفة التغطية](docs/TEST_COVERAGE.md) تفصل الوحدة والمحاكي والهاتف. لم تختبر كاميرا/ميكروفون هاتف حقيقي، تسليم الإشعارات، VoiceOver كاملًا، أو أداء وطاقة الجهاز. [مراجعة الأداء](docs/PERFORMANCE_REVIEW.md) تسجل معالجة تحذير الصوت في Run 18 والفرضيات المفتوحة؛ لا قياس أداء على هاتف بعد.
+## البناء والاختبار
 
-## البناء والتنزيل
+المتطلبات: Mac مع Xcode يدعم iOS 26 SDK، و[XcodeGen](https://github.com/yonaskolb/XcodeGen).
 
-الحد الأدنى الحالي iOS 26. لا تنشئ مشروعًا جديدًا أو تحول SwiftUI إلى Expo Go. على Mac مناسب: `swift test` ثم `xcodegen generate --spec project.yml`، وافتح RusukhNative.xcodeproj. اختيار Xcode الفعلي وSDK مسجل في الأدلة.
+```bash
+swift test                          # اختبارات المنطق الأساسي (RusukhCore)
+xcodegen generate --spec project.yml
+open RusukhNative.xcodeproj         # المخطط RusukhNative: التطبيق واختبارات التطبيق والواجهة
+```
 
-Actions يدوي: **iOS - SwiftUI build and simulator preview** → Run workflow → اختر الفرع. اترك خيار تقييم النموذج معطّلًا للبناء الكامل. افحص الحصة المجانية أولًا؛ لا تفعّل الإنفاق الإضافي. لا تُرفع الأوزان إلى Artifacts. الاحتفاظ بالملفات 7 أيام، وروابط المستودع الخاص تحتاج حسابًا مخولًا.
+اختبارات `RusukhCore` تعمل أيضًا على Linux: على Swift 6.4.2 نجح 53 اختبارًا من أصل 58، والخمسة الباقية (4 لـPDFKit و1 خاص بـmacOS) لا تُبنى خارج أنظمة Apple. بدون Mac يمكنك بناء كل شيء عبر GitHub Actions: workflow **iOS - SwiftUI build and simulator preview** يشغّل الاختبارات ويبني تطبيق المحاكي وIPA غير موقّع ويحفظ الأدلة كـArtifacts لمدة 7 أيام.
 
-مخرجات Run 18 الناجح:
+## التثبيت على آيفون بحساب Apple مجاني
 
-- [الأدلة و13 صورة UI + صورة الإطلاق وxcresult والسجلات، 9.74MB](https://github.com/scrv-1/rusukh-native-ios/actions/runs/41301469379/artifacts/13081833878)
-- [تطبيق المحاكي، 15.8MB](https://github.com/scrv-1/rusukh-native-ios/actions/runs/41301469379/artifacts/13081764139)
-- [IPA Xcode غير موقع، 8.86MB](https://github.com/scrv-1/rusukh-native-ios/actions/runs/41301469379/artifacts/13082212240)
-- [مشروع xtool، 288KB](https://github.com/scrv-1/rusukh-native-ios/actions/runs/41301469379/artifacts/13081938670)
-- [IPA xtool غير موقع، 550KB](https://github.com/scrv-1/rusukh-native-ios/actions/runs/41301469379/artifacts/13082227152)
+الـIPA غير موقّع ويحتاج توقيعًا شخصيًا عبر SideStore أو iloader، وصلاحيته 7 أيام ثم يُجدَّد. اسم الحزمة `CFBundleDisplayName` نصّه ASCII `Rusukh` لأن SideStore يرفض الاسم العربي عند إنشاء App ID، والاسم العربي «رُسوخ» يظهر على الشاشة الرئيسية عبر `App/ar.lproj/InfoPlist.strings`. الخطوات والمقارنة في [docs/INSTALL_ON_IPHONE.md](docs/INSTALL_ON_IPHONE.md).
 
-بصمات SHA-256 للحاويات والملفات الداخلية في تقرير التنفيذ. صور المحاكي داخل حزمة الأدلة؛ لا معاينة تفاعلية من iPhone.
+## الوثائق
 
-[مشروع xtool](docs/XTOOL.md) يبني المصادر المشتركة والوظائف الأصلية ومحرك Apple؛ اعتماديات MLX مضافة لبناء Xcode فقط حاليًا. لا SDK أو شهادات توقيع أو بيانات Apple مرفقة بالمشروع.
+- [ARCHITECTURE.md](ARCHITECTURE.md): الوحدات وتدفق البيانات والقرارات.
+- [CONTRIBUTING.md](CONTRIBUTING.md): كيف تساهم وتختبر.
+- [SECURITY.md](SECURITY.md): الإبلاغ عن الثغرات ونموذج البيانات.
+- [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md): تراخيص المكتبات المستخدمة.
+- [docs/TEST_COVERAGE.md](docs/TEST_COVERAGE.md): ما اختُبر وأين، وما ينقصه جهاز حقيقي.
+- [docs/FSRS_INTEGRATION.md](docs/FSRS_INTEGRATION.md) و[docs/OPEN_SOURCE_MAP.md](docs/OPEN_SOURCE_MAP.md).
+- سجلات التنفيذ التاريخية في `docs/` (مثل `EXECUTION_2026-11-01.md`) توثّق لحظتها، وأرقامها ليست بالضرورة الحالية.
 
-## التثبيت الشخصي المجاني
+---
 
-IPA غير الموقع يحتاج توقيعًا شخصيًا، وملف المحاكي لا يعمل على iPhone. لا يمتلك CI اتصالًا أو pairing بهاتف المستخدم. المسارات الموثقة تحتاج كمبيوتر موثوقًا للإعداد الأولي؛ SideStore قد يسمح بالتجديد من الهاتف بعد ذلك. Personal Team المجاني ينتهي provisioning فيه خلال 7 أيام. اشتراك ChatGPT لا يمنح شهادة توقيع Apple.
+## English
 
-راجع [دليل التثبيت والمقارنة](docs/INSTALL_ON_IPHONE.md). كلمات المرور و2FA تدخل في الواجهة الآمنة للأداة فقط، ولا تُرسل للمحادثة أو المستودع. لم تُشترَ عضوية أو خدمة توقيع.
+**Rusukh** is a native SwiftUI iOS app for studying in Arabic: local notes with `[[wiki links]]` and a graph view, flashcards scheduled with [FSRS-6](https://github.com/open-spaced-repetition/swift-fsrs), JSON backup/restore, camera/voice/PDF attachments, and optional on-device AI (Apple Foundation Models, Qwen3-4B via MLX). No server, no account, no analytics.
+
+Status: early, single-maintainer project. Tested only on macOS and iOS Simulator in CI; not yet verified on a physical iPhone. **No license has been chosen yet**, so no reuse rights are granted at the moment.
+
+Build: `swift test` for the core library (53 of 58 tests also run on Linux with Swift 6.4.2; the other 5 need PDFKit or macOS and are compiled out), then `xcodegen generate --spec project.yml` and open `RusukhNative.xcodeproj` (iOS 26 SDK). See [CONTRIBUTING.md](CONTRIBUTING.md) and [ARCHITECTURE.md](ARCHITECTURE.md).
