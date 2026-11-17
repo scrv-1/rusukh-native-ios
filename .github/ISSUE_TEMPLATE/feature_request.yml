@@ -1,0 +1,24 @@
+name: Feature request · اقتراح ميزة
+description: Suggest an improvement.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem · المشكلة
+      description: What are you trying to do, and what gets in the way?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal · الاقتراح
+  - type: checkboxes
+    id: constraints
+    attributes:
+      label: Project constraints · قيود المشروع
+      description: See CONTRIBUTING.md.
+      options:
+        - label: Works offline, without accounts or analytics
+        - label: Works in Arabic, right to left
+        - label: Does not need a paid Apple Developer membership
