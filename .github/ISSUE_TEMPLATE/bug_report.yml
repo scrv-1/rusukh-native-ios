@@ -1,0 +1,36 @@
+name: Bug report
+description: Something in Rusukh does not work as expected
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting! Please **do not** include personal notes, backup files with private content, or security vulnerabilities here (see SECURITY.md).
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you expect, and what happened instead?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: "1. Open …\n2. Tap …\n3. See …"
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Commit / release
+      description: Git commit SHA or release tag you used
+  - type: input
+    id: device
+    attributes:
+      label: Device and iOS version (or "Linux core tests")
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or screenshots
+      description: Remove any private content first.
