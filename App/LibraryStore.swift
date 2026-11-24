@@ -18,7 +18,8 @@ final class LibraryStore: ObservableObject {
         if ProcessInfo.processInfo.arguments.contains("-ui-testing") {
             relativePath = "RusukhNativeUITests/study.json"
             if ProcessInfo.processInfo.arguments.contains("-reset-test-data") {
-                try? FileManager.default.removeItem(at: directory.appendingPathComponent(relativePath))
+                // Remove the whole test container so orphaned attachment files cannot leak across tours.
+                try? FileManager.default.removeItem(at: directory.appendingPathComponent("RusukhNativeUITests", isDirectory: true))
             }
         }
         #endif
@@ -124,9 +125,10 @@ final class LibraryStore: ObservableObject {
 
     func exportToTemporaryFile() -> URL? {
         do {
-            let data = try StudyRepository.encode(snapshot)
-            let location = FileManager.default.temporaryDirectory.appendingPathComponent("rusukh-native-backup-\(UUID().uuidString).json")
-            try data.write(to: location, options: .atomic)
+            let location = try StudyRepository.writeExport(snapshot: snapshot, into: FileManager.default.temporaryDirectory)
+            if location.hasDirectoryPath {
+                message = "صُدّرت حزمة تحتوي study.json والمرفقات لأن الحجم يتجاوز ملف JSON واحد."
+            }
             return location
         } catch {
             message = "تعذّر التصدير: \(error.localizedDescription)"
@@ -139,10 +141,18 @@ final class LibraryStore: ObservableObject {
         let access = url.startAccessingSecurityScopedResource()
         defer { if access { url.stopAccessingSecurityScopedResource() } }
         do {
-            let incoming = try StudyRepository.read(from: url)
+            var isDirectory: ObjCBool = false
+            let jsonURL: URL
+            if FileManager.default.fileExists(atPath: url.path, isDirectory: &isDirectory), isDirectory.boolValue {
+                jsonURL = url.appendingPathComponent("study.json")
+            } else {
+                jsonURL = url
+            }
+            let incoming = try StudyRepository.read(from: jsonURL)
             if mode == .replace {
+                // Only the confirmation dialog — also setting `message` presents a root alert
+                // at the same time and SwiftUI drops one or both sheets.
                 pendingImport = PendingImport(incoming: incoming, noteCount: incoming.notes.count, cardCount: incoming.cards.count)
-                message = "الملف صالح: \(ArabicPlurals.notes(incoming.notes.count)) و\(ArabicPlurals.cards(incoming.cards.count)). أكّد الاستبدال قبل أن يحل محل بياناتك."
                 return
             }
             let result = try StudyLibrary.applying(snapshot, incoming: incoming, mode: .merge)
@@ -159,7 +169,10 @@ final class LibraryStore: ObservableObject {
             let result = try repository.replace(snapshot, with: pending.incoming, confirmed: true)
             pendingImport = nil
             guard commit(result) else { return }
-            message = "استُبدلت البيانات. النسخة السابقة محفوظة على الجهاز."
+            // Defer so we do not publish an alert while the confirmation dialog is tearing down.
+            DispatchQueue.main.async { [weak self] in
+                self?.message = "استُبدلت البيانات. النسخة السابقة محفوظة على الجهاز."
+            }
         } catch {
             message = "لم يتم تغيير بياناتك؛ فشل الاستيراد: \(error.localizedDescription)"
         }

@@ -1,16 +1,18 @@
-"""Provision the pinned synthetic-test model in the CI simulator only."""
+"""Provision the pinned model on a host path that survives XCTest reinstalls."""
 import hashlib
 import json
+import os
+import tempfile
 from pathlib import Path
 import shutil
-import subprocess
 import urllib.request
 
 manifest = json.loads(Path('docs/qwen-model-manifest.json').read_text())
-simulator = Path('evidence/simulator-id.txt').read_text().strip()
-container = subprocess.check_output(['xcrun', 'simctl', 'get_app_container', simulator,
-                                     'com.scrv1.rusukhnative', 'data'], text=True).strip()
-folder = Path(container) / 'Library/Application Support/RusukhTestModels/Qwen3-Instruct-2507'
+# Keep files outside the Simulator app container. XCTest (and the warm install
+# in ui-tests.sh) reinstall the app and change the data-container UUID, which
+# previously left evidence/ai-simulator-model-directory.txt pointing at a dead path.
+host_root = Path(os.environ.get('RUNNER_TEMP') or tempfile.gettempdir()) / 'RusukhVerifiedModels'
+folder = host_root / 'Qwen3-Instruct-2507'
 folder.mkdir(parents=True, exist_ok=True)
 if shutil.disk_usage(folder).free < 5_000_000_000:
     raise RuntimeError('Insufficient disk for model test')
@@ -35,5 +37,4 @@ for item in manifest['files']:
     print('VERIFIED', name, count, digest.hexdigest(), flush=True)
 (folder / 'verified.txt').write_text(manifest['revision'])
 Path('evidence/ai-simulator-model.json').write_text(json.dumps(manifest, indent=2))
-
-Path("evidence/ai-simulator-model-directory.txt").write_text(str(folder))
+Path('evidence/ai-simulator-model-directory.txt').write_text(str(folder))

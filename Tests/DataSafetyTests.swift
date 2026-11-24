@@ -79,7 +79,57 @@ final class DataSafetyTests: XCTestCase {
         let replaced = try repository.replace(current, with: incoming, confirmed: true)
         try repository.save(replaced)
         XCTAssertEqual(try repository.load().notes.map(\.title), ["وارد"])
-        let backup = try StudyRepository.read(from: repository.backupURL)
+        let backup = try StudyRepository.read(from: repository.backupURL, hydrateSiblingAttachments: false)
         XCTAssertEqual(backup.notes.map(\.title), ["حالي"])
+    }
+
+    func testBackupAttachmentNamesSurviveGarbageCollectionAfterReplace() throws {
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let repository = StudyRepository(fileURL: directory.appendingPathComponent("study.json"))
+        let audio = Data([9, 8, 7, 6, 5])
+        let current = StudySnapshot(notes: [StudyNote(title: "صوت", body: "", audioM4A: audio)])
+        try repository.save(current)
+        let firstFiles = try FileManager.default.contentsOfDirectory(
+            at: repository.attachmentDirectory, includingPropertiesForKeys: nil, options: [.skipsHiddenFiles]
+        )
+        XCTAssertFalse(firstFiles.isEmpty)
+        let incoming = StudySnapshot(notes: [StudyNote(title: "بلا صوت", body: "")])
+        try repository.save(try repository.replace(current, with: incoming, confirmed: true))
+        // Previous media must remain while .bak still references it.
+        let after = try FileManager.default.contentsOfDirectory(
+            at: repository.attachmentDirectory, includingPropertiesForKeys: nil, options: [.skipsHiddenFiles]
+        )
+        XCTAssertFalse(after.isEmpty)
+        let backup = try StudyRepository.read(from: repository.backupURL, hydrateSiblingAttachments: false)
+        XCTAssertNotNil(backup.notes.first?.audioFile)
+    }
+
+    func testLargeExportWritesPackageAndImportRestoresAudio() throws {
+        let temporary = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: temporary, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: temporary) }
+        let audio = Data(count: 2_000_000)
+        let notes = (0..<30).map { StudyNote(title: "تسجيل \($0)", body: "مذكرة", audioM4A: audio) }
+        let snapshot = StudySnapshot(notes: notes)
+        XCTAssertThrowsError(try StudyRepository.encode(snapshot))
+        let exported = try StudyRepository.writeExport(snapshot: snapshot, into: temporary)
+        XCTAssertTrue(exported.hasDirectoryPath)
+        XCTAssertTrue(FileManager.default.fileExists(atPath: exported.appendingPathComponent("study.json").path))
+        let restored = try StudyRepository.read(from: exported.appendingPathComponent("study.json"))
+        XCTAssertEqual(restored.notes.count, 30)
+        XCTAssertEqual(restored.notes.first?.audioM4A?.count, audio.count)
+    }
+
+    func testSmallExportStaysSingleJSON() throws {
+        let temporary = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: temporary, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: temporary) }
+        let snapshot = StudySnapshot(notes: [StudyNote(title: "صغير", body: "س:؟\nج:!", audioM4A: Data([1, 2, 3]))])
+        let exported = try StudyRepository.writeExport(snapshot: snapshot, into: temporary)
+        XCTAssertFalse(exported.hasDirectoryPath)
+        XCTAssertEqual(exported.pathExtension, "json")
+        let restored = try StudyRepository.read(from: exported)
+        XCTAssertEqual(restored.notes.first?.audioM4A, Data([1, 2, 3]))
     }
 }
