@@ -1,5 +1,8 @@
 import Foundation
 import CryptoKit
+#if canImport(os)
+import os
+#endif
 
 /// Pinned anonymous downloads. Study text is never an input to this component.
 actor ArabicModelAssets {
@@ -28,11 +31,12 @@ actor ArabicModelAssets {
     private var busy = false
 
     enum Failure: LocalizedError {
-        case busy, insufficientSpace, invalidFile(String), response
+        case busy, insufficientSpace, insufficientMemory, invalidFile(String), response
         var errorDescription: String? {
             switch self {
             case .busy: return "توجد عملية نموذج قيد التنفيذ."
             case .insufficientSpace: return "يلزم توفر 5GB من المساحة قبل تنزيل النموذج."
+            case .insufficientMemory: return "الذاكرة المتاحة غير كافية لتنزيل وتحميل النموذج بأمان."
             case .invalidFile(let name): return "فشل التحقق من سلامة ملف النموذج: \(name)."
             case .response: return "تعذر تنزيل النموذج من مصدره. أعد المحاولة عبر Wi-Fi."
             }
@@ -72,6 +76,10 @@ actor ArabicModelAssets {
         #endif
         let available = try FileManager.default.attributesOfFileSystem(forPath: folder.path)[.systemFreeSize] as? NSNumber
         guard let available, available.int64Value >= 5_000_000_000 else { throw Failure.insufficientSpace }
+        #if canImport(os)
+        let mem = os_proc_available_memory()
+        guard mem >= 2_600_000_000 else { throw Failure.insufficientMemory }
+        #endif
         let configuration = URLSessionConfiguration.ephemeral
         configuration.allowsCellularAccess = false
         configuration.timeoutIntervalForRequest = 60
