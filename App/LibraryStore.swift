@@ -7,6 +7,7 @@ final class LibraryStore: ObservableObject {
     @Published var message: String?
     @Published private(set) var storageLocked = false
     private let repository: StudyRepository
+    private let ioQueue = DispatchQueue(label: "com.scrv1.rusukh.library-io", qos: .userInitiated)
 
     init(repository override: StudyRepository? = nil) {
         if let override {
@@ -38,13 +39,26 @@ final class LibraryStore: ObservableObject {
         var updated = updated
         if updated.cards.contains(where: { $0.fsrs != nil }) { updated.version = 2 }
         guard !storageLocked else { message = "البيانات مقفلة للحفاظ على نسخة الملف المعطوبة."; return false }
-        do {
-            try repository.save(updated)
+        let repo = repository
+        var success = false
+        var saveError: Error?
+        let semaphore = DispatchSemaphore(value: 0)
+        ioQueue.async {
+            do {
+                try repo.save(updated)
+                success = true
+            } catch {
+                saveError = error
+            }
+            semaphore.signal()
+        }
+        semaphore.wait()
+        if success {
             snapshot = updated
             message = nil
             return true
-        } catch {
-            message = "تعذّر الحفظ: \(error.localizedDescription)"
+        } else {
+            message = "تعذّر الحفظ: \(saveError?.localizedDescription ?? "خطأ غير معروف")"
             return false
         }
     }
