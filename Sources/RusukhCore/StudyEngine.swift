@@ -6,8 +6,17 @@ public enum StudyEngine {
             let withoutMarks = String(String.UnicodeScalarView(text.unicodeScalars.filter {
                 $0.properties.generalCategory != .nonspacingMark
             }))
-            return normalized(withoutMarks.folding(options: [.diacriticInsensitive, .caseInsensitive], locale: Locale(identifier: "ar"))
-                .replacingOccurrences(of: "ـ", with: ""))
+            let folded = withoutMarks.folding(options: [.diacriticInsensitive, .caseInsensitive], locale: Locale(identifier: "ar"))
+                .replacingOccurrences(of: "ـ", with: "")
+            // Fold common Arabic letter variants for search only. Link resolution stays exact.
+            let normalizedVariants = folded
+                .replacingOccurrences(of: "أ", with: "ا")
+                .replacingOccurrences(of: "إ", with: "ا")
+                .replacingOccurrences(of: "آ", with: "ا")
+                .replacingOccurrences(of: "ٱ", with: "ا")
+                .replacingOccurrences(of: "ى", with: "ي")
+                .replacingOccurrences(of: "ة", with: "ه")
+            return normalized(normalizedVariants)
         }
         let terms = searchText(query).split(separator: " ")
         let text = searchText(note.title + "\n" + note.body)
