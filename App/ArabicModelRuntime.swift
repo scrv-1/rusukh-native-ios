@@ -1,4 +1,7 @@
 import Foundation
+#if canImport(os)
+import os
+#endif
 
 #if canImport(MLXLLM)
 import MLX
@@ -23,13 +26,14 @@ actor ArabicModelRuntime {
     }
 
     enum Failure: LocalizedError {
-        case busy, promptTooLong, noOutput, unsupportedSimulator
+        case busy, promptTooLong, noOutput, unsupportedSimulator, insufficientMemory
         var errorDescription: String? {
             switch self {
             case .unsupportedSimulator: return "تشغيل النموذج غير متاح في محاكي iOS. يلزم جهاز فعلي متوافق."
             case .busy: return "انتظر انتهاء الطلب الحالي."
             case .promptTooLong: return "النص طويل لهذه التجربة. اختصره ثم أعد المحاولة."
             case .noOutput: return "لم ينتج النموذج إجابة قابلة للعرض."
+            case .insufficientMemory: return "الذاكرة المتاحة غير كافية لتحميل النموذج بأمان. أغلق تطبيقات أخرى أو أعد المحاولة لاحقًا."
             }
         }
     }
@@ -40,6 +44,12 @@ actor ArabicModelRuntime {
         #else
         guard !busy else { throw Failure.busy }
         guard prompt.count <= 4_000 else { throw Failure.promptTooLong }
+        // Conservative gate: refuse if available memory is below ~2.6 GB
+        // (Mac peak recorded ~2.56 GB + headroom). Does not guarantee success under iOS jetsam.
+        #if canImport(os)
+        let available = os_proc_available_memory()
+        guard available >= 2_600_000_000 else { throw Failure.insufficientMemory }
+        #endif
         busy = true
         defer { busy = false }
         try Task.checkCancellation()
