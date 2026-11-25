@@ -14,6 +14,7 @@ struct NotesView: View {
     @State private var search = ""
     @State private var choosingPDF = false
     @State private var importingPDF = false
+    @State private var noteToDelete: StudyNote?
 
     private var results: [StudyNote] {
         let query = search.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -41,7 +42,7 @@ struct NotesView: View {
                         }
                     }
                     .swipeActions {
-                        Button("حذف", role: .destructive) { library.delete(note) }
+                        Button("حذف", role: .destructive) { noteToDelete = note }
                     }
                 }
             }
@@ -65,6 +66,20 @@ struct NotesView: View {
                 switch result {
                 case .success(let url): importPDF(url)
                 case .failure(let error): library.message = error.localizedDescription
+                }
+            }
+            .alert("حذف الملاحظة؟", isPresented: Binding(
+                get: { noteToDelete != nil },
+                set: { if !$0 { noteToDelete = nil } }
+            )) {
+                Button("حذف", role: .destructive) {
+                    if let note = noteToDelete { library.delete(note) }
+                    noteToDelete = nil
+                }
+                Button("إلغاء", role: .cancel) { noteToDelete = nil }
+            } message: {
+                if let note = noteToDelete {
+                    Text("سيتم حذف \"\(note.title)\" وكل البطاقات وتاريخ المراجعات المرتبطة بها. لا يمكن التراجع.")
                 }
             }
         }
