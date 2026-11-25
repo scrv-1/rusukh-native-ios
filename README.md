@@ -26,13 +26,10 @@
 
 Actions يدوي: **iOS - SwiftUI build and simulator preview** → Run workflow → اختر الفرع. اترك خيار تقييم النموذج معطّلًا للبناء الكامل. افحص الحصة المجانية أولًا؛ لا تفعّل الإنفاق الإضافي. لا تُرفع الأوزان إلى Artifacts. الاحتفاظ بالملفات 7 أيام، وروابط المستودع الخاص تحتاج حسابًا مخولًا.
 
-مخرجات Run 18 الناجح:
+مخرجات Run 18 الناجح (الروابط تنتهي بعد 7 أيام؛ أعد تشغيل الـworkflow للحصول على ملفات حديثة):
 
-- [الأدلة و13 صورة UI + صورة الإطلاق وxcresult والسجلات، 9.74MB](https://github.com/scrv-1/rusukh-native-ios/actions/runs/41301469379/artifacts/13081833878)
-- [تطبيق المحاكي، 15.8MB](https://github.com/scrv-1/rusukh-native-ios/actions/runs/41301469379/artifacts/13081764139)
-- [IPA Xcode غير موقع، 8.86MB](https://github.com/scrv-1/rusukh-native-ios/actions/runs/41301469379/artifacts/13082212240)
-- [مشروع xtool، 288KB](https://github.com/scrv-1/rusukh-native-ios/actions/runs/41301469379/artifacts/13081938670)
-- [IPA xtool غير موقع، 550KB](https://github.com/scrv-1/rusukh-native-ios/actions/runs/41301469379/artifacts/13082227152)
+- الأدلة وصور UI وxcresult والسجلات متاحة في قسم Artifacts للـRun الناجح.
+- تطبيق المحاكي وIPA غير الموقع ومشروع xtool كذلك.
 
 بصمات SHA-256 للحاويات والملفات الداخلية في تقرير التنفيذ. صور المحاكي داخل حزمة الأدلة؛ لا معاينة تفاعلية من iPhone.
 
