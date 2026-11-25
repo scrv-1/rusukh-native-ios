@@ -109,4 +109,12 @@ final class StudyEngineTests: XCTestCase {
     func testReviewEventRequiresCard() {
         XCTAssertFalse(StudySnapshot(reviews: [ReviewEvent(cardID: UUID(), grade: .good)]).isValid())
     }
+
+    func testArabicSearchFoldsCommonLetterVariants() {
+        let note = StudyNote(title: "إملاء", body: "مكتبة القراءة والكتابة")
+        XCTAssertTrue(StudyEngine.matches(note, query: "املاء"))
+        XCTAssertTrue(StudyEngine.matches(note, query: "كتابه"))
+        XCTAssertTrue(StudyEngine.matches(note, query: "قرايه"))
+        XCTAssertFalse(StudyEngine.matches(note, query: "مكتبة غير موجودة"))
+    }
 }
